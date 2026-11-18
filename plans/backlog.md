@@ -25,7 +25,7 @@ up — this file is the index, not the plan.
       Peroxisome, Autophagy - animal, Lysosome biogenesis). Decide whether to exclude subcategory
       "Transport and catabolism" eukaryotic maps by id, then rebuild step 6.
 
-- [ ] **KEGG modules + per-organism module completeness (2026-11-18).** The KG carries only the
+- [x] **KEGG modules + per-organism module completeness (2026-11-18). DONE 2026-11-19 — see `docs/kg-changes/kegg-modules.md`; shape changed from this sketch (class tree is `KeggModule` levels 0–2, not a BRITE tree).** The KG carries only the
       `ko00001` tree (category → subcategory → pathway map → KO); a map mixes biosynthesis,
       degradation and side branches, so "has N of the map's KOs" says nothing about whether a
       route is there. spock_osnat `2026-11-04-aa_utilization_genomics` had to curate KO step lists

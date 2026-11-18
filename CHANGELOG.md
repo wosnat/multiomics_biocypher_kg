@@ -54,6 +54,10 @@ tag with nothing logged.
 
 ### Highlights
 
+- You can now ask which strains have a complete route for a function such as assimilatory
+  nitrate reduction, not just how many of a pathway map's KOs they carry. Every KEGG module is
+  scored per genome as complete, one or two steps short, or partial, with the missing steps
+  named. Modules also work as an ontology for browsing and enrichment.
 - Organisms now say how complete their genome assembly is: NCBI assembly level (complete genome,
   chromosome, scaffold or contig), RefSeq status and CheckM completeness and contamination. A gene
   missing from a closed genome is far more likely to be truly absent than one missing from a
@@ -112,6 +116,15 @@ tag with nothing logged.
 
 ### Added
 
+- KEGG modules (`docs/kg-changes/kegg-modules.md`): `KeggModule` nodes — 414 modules
+  (`kegg.module:M…`) plus the `ko00002` type / class / subclass tree above them (57 nodes) — with
+  `Kegg_module_is_a_kegg_module`, `Kegg_term_in_kegg_module` (KO → module, `steps`,
+  `component`) and `Kegg_module_in_kegg_pathway`. `Organism_has_kegg_module` (26,005 edges over
+  118 organisms) carries `status` (`complete` / `one_step_missing` / `two_steps_missing` /
+  `partial`), step counts, the missing steps and KOs, and the steps filled only through an EC
+  number with the gene that fills each (`ec_genes`). Post-import `gene_count`,
+  `organism_count`, `direct_gene_count`, `complete_organism_count`; `Schema_info.kegg_release`.
+  `Organism_has_kegg_module.status` is the second sanctioned R3 exception.
 - Assembly quality on `OrganismTaxon` (116 genome strains + 2 reference-proteome matches; absent
   on treatment organisms): `assembly_level`, `assembly_status`, `assembly_suppression_reason`,
   `assembly_current_accession`, `assembly_name`, `assembly_release_date`, `assembly_report_date`,

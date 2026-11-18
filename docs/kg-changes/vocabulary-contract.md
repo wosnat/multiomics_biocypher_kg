@@ -190,9 +190,10 @@ and binding for anything the KG adds from here on:
   that is only ever `some_count >= N` restates data the node already
   publishes and goes stale silently when the threshold is recalibrated.
   `TcdbFamily.is_promiscuous` and `InterproEntry.is_promiscuous` are deleted
-  under this rule — see the derivation recipes below. The one sanctioned
-  exception today is `Gene_has_tcdb_family.tcdb_gate` (2026-10-23; see the
-  TCDB cleanup addendum); the earlier `TcdbFamily.substrate_breadth`
+  under this rule — see the derivation recipes below. The two sanctioned
+  exceptions today are `Gene_has_tcdb_family.tcdb_gate` (2026-10-23; see the
+  TCDB cleanup addendum) and `Organism_has_kegg_module.status` (2026-11-19;
+  see the KEGG modules addendum); the earlier `TcdbFamily.substrate_breadth`
   exception is retired.
 - **R4 — one score name per concept, on one scale.** `evidence_score` is now
   a **float in `[0, 1]`** on every annotation edge — fired signals ÷ total
@@ -409,3 +410,18 @@ Design: `docs/superpowers/specs/2026-10-22-tcdb-cleanup-design.md` (§5.3, §6).
 - `ChemicalRole.tcdb_family_count` / `direct_tcdb_family_count` renamed to
   `tcdb_system_count` / `direct_tcdb_system_count`.
 - `controlled_vocabularies_hash` moves.
+
+## KEGG modules addendum (2026-11-19) — R3 exception #2
+
+- **`Organism_has_kegg_module.status` (`complete` | `one_step_missing` |
+  `two_steps_missing` | `partial`) is the second sanctioned R3 exception.** It is a band
+  over the edge's own `steps_total - steps_present` (0 / 1 / 2 / ≥ 3), the same shape as
+  `tcdb_gate`. **Reason:** these are KEGG Mapper's own bands, and LLM consumers read a named
+  band far more reliably than they compute one (explorer review, spec §10 answer 3). Scope:
+  this property only. The ratio `completeness` was not added — it restated two published
+  counts. `value_descriptions.complete` = "every step has an annotated gene; not shown to run".
+- New vocabularies: `KeggModule.module_type` (`pathway` | `signature`, dense),
+  `KeggModule.level_kind` (`kegg_module_type` | `kegg_module_class` | `kegg_module_subclass`
+  | `kegg_module`, R1b-namespaced), `Kegg_term_in_kegg_module.component` (`required` |
+  `optional`), and numeric `Organism_has_kegg_module.steps_total` (≥ 1) / `steps_present` /
+  `steps_present_via_ec` (≥ 0). See `docs/kg-changes/kegg-modules.md`.

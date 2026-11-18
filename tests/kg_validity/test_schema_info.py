@@ -209,3 +209,14 @@ def test_chebi_release_stamped(schema_info):
     if not cache.exists():
         pytest.skip("ChEBI cache not present in this checkout")
     assert schema_info.get("chebi_release") == json.loads(cache.read_text())["release"]
+
+
+def test_kegg_release_stamped(schema_info):
+    """Schema_info.kegg_release equals kegg_data.json's (module definitions change between releases)."""
+    import json
+    import pathlib
+    cache = pathlib.Path("cache/data/kegg/kegg_data.json")
+    if not cache.exists():
+        pytest.skip("kegg_data.json not present in this checkout")
+    expected = json.loads(cache.read_text()).get("kegg_release")
+    assert expected and schema_info.get("kegg_release") == expected
