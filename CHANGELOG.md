@@ -63,6 +63,13 @@ tag with nothing logged.
 
 ### Data
 
+- Pandhal 2007 (10.1021/pr060460c, MED4 iTRAQ proteomics, HL vs LL and ML vs LL): both
+  experiments' `table_scope_detail` now says that the KG `significant` call does not reproduce
+  the paper's. The paper calls ~15 proteins differentially expressed using ratio, p-value, error
+  factor, peptide count and a final ProQuant re-analysis; the KG applies only absolute
+  log2FC >= 0.322 and p < 0.05 to the collapsed values, and marks 6 (HL vs LL) and 10 (ML vs LL).
+  No edge or call changes.
+
 - Reference refresh (2026-11-11, `prepare_data.sh --rebuild --refetch-raw` + MNX resolver rebuilt;
   MNXref 4.5 and GO 2026-07-26 unchanged): InterPro 110.0 → 111.0 (54,922 → 72,944 entries;
   15 more scanned accessions are retired in 111, so `InterproEntry` 13,314 → 13,299 and
@@ -116,6 +123,18 @@ tag with nothing logged.
 
 ### Fixed
 
+- Pfam names: 1,871 of 8,479 Pfam nodes were named only by their accession (276 in the
+  alpha.9 release), among them PF31213 HliA, because the Pfam reference was built once in March
+  2026 and never refreshed while the InterProScan 6 rescan called Pfam 39.0 families. The
+  reference is now built by prepare_data step 9 (`build_pfam_reference.py`) from Pfam 39.0, and
+  every Pfam node has a name. Step 2 also stops treating short names that begin with "PF"
+  (`PFK`, `PFOR_II`) as accessions, zero-pads Cyanorak's 4-digit typos (`PF7969` = PF07969, in
+  91 strains), and forwards families Pfam killed to the family each was merged into (dropping
+  the ones killed with no successor). 2,650 genes change Pfam sets; gene-Pfam pairs
+  447,845 -> 445,095; Pfam nodes 8,479 -> 8,449; PfamClan nodes 540 -> 674 (Pfam 39 clan
+  assignments the March reference lacked; `Pfam_in_pfam_clan` 4,183 -> 4,837). 87 genes lost
+  their only Pfam (a family killed with no successor), and the TCDB / MEROPS Pfam bridges
+  lost 39 / 2 edges to killed families.
 - Post-import waits for every index to come online (`db.awaitIndexes`) before the aggregation
   group. The 2026-11-18 rebuild failed there with "Could not compile query due to insanely
   frequent schema changes" because the indexes just created were still populating.
