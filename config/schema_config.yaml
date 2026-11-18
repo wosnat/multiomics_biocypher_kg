@@ -722,6 +722,24 @@ organism taxon:
     reference_proteome: str   # e.g. "UP000262181" (reference_proteome_match only)
     name_synonyms: str[]  # sparse: other names the organism is known by (e.g. reclassified species); indexed by organismTaxonFullText
     taxonomy_note: str    # sparse: free-text taxonomy caveat (e.g. MruberA is M. taiwanensis in NCBI); indexed by organismTaxonFullText
+    # NCBI Datasets assembly report (step 0 sub-step 1 -> <strain dir>/assembly_report.json); sparse,
+    # absent on treatment organisms. Spec docs/superpowers/specs/2026-11-18-organism-assembly-quality-design.md
+    assembly_level: str              # complete_genome | chromosome | scaffold | contig
+    assembly_status: str             # current | suppressed | previous
+    assembly_suppression_reason: str # only when suppressed, e.g. "unverified source organism"
+    assembly_current_accession: str  # only when NCBI's current version differs (CB0101 -> GCF_000179235.2)
+    assembly_name: str
+    assembly_release_date: str       # ISO date
+    assembly_report_date: str        # ISO date the report was fetched
+    genome_length: int               # bp
+    contig_count: int
+    contig_n50: int                  # bp
+    gc_percent: float
+    checkm_completeness: float       # 0-100
+    checkm_contamination: float      # 0-100; 0.0 = NCBI omitted the field (zero)
+    checkm_marker_set: str
+    checkm_marker_set_rank: str
+    checkm_version: str
     clustering_analysis_count: int          # post-import: ClusteringAnalysis nodes reached
     cluster_count: int                      # post-import: GeneCluster nodes under those analyses
     cluster_types: str[]                    # post-import: distinct cluster_type of those analyses

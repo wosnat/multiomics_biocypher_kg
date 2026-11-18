@@ -186,7 +186,8 @@ def test_trust_slice_carries_value_descriptions():
                    "pfam_support", "detection_status",
                    "table_scope", "annotation_state", "identity_basis",
                    "structure_kind", "stereo_assignment",
-                   "tcdb_call", "tcdb_gate", "direction", "direction_basis"}
+                   "tcdb_call", "tcdb_gate", "direction", "direction_basis",
+                   "assembly_level", "assembly_status"}
     missing = [e.id for e in entries.values()
                if e.property in trust_props and e.closed and not e.value_descriptions]
     assert not missing, missing
@@ -377,3 +378,22 @@ Node.cls:
 ''')
     with pytest.raises(ValueError, match="separator"):
         load_vocabularies(p)
+
+
+def test_assembly_quality_entries():
+    vocab = load_vocabularies()
+    ids = ["assembly_level", "assembly_status", "checkm_marker_set_rank",
+           "checkm_completeness", "checkm_contamination", "gc_percent",
+           "genome_length", "contig_count", "contig_n50"]
+    missing = [i for i in ids if f"OrganismTaxon.{i}" not in vocab]
+    assert not missing, missing
+    lvl = vocab["OrganismTaxon.assembly_level"]
+    assert lvl.values == ["complete_genome", "chromosome", "scaffold", "contig"]
+    st = vocab["OrganismTaxon.assembly_status"]
+    assert st.values == ["current", "suppressed", "previous"]
+    for e in (lvl, st):
+        assert e.closed and e.sparse and e.value_descriptions, e.id
+    c = vocab["OrganismTaxon.checkm_completeness"]
+    assert (c.value_type, c.min_value, c.max_value) == ("float", 0, 100)
+    assert vocab["OrganismTaxon.contig_count"].min_value == 1
+    assert vocab["OrganismTaxon.checkm_marker_set_rank"].closed is False

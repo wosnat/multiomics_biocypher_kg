@@ -173,3 +173,9 @@ def test_interproscan_description_names_version_6(adapter):
     nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
     assert "InterProScan 6" in nodes["interproscan"]["description"]
     assert "InterProScan 5" not in nodes["interproscan"]["description"]
+
+
+def test_ncbi_info_types_include_assembly_quality(adapter):
+    adapter.download_data()
+    nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
+    assert "assembly_quality" in nodes["ncbi"]["info_types"]

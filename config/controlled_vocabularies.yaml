@@ -1147,6 +1147,136 @@ OrganismTaxon.organism_type:
     paper, no genome loaded), or reference_proteome_match (community
     proteomics attributed to a reference proteome such as MarRef).
 
+# ── Assembly quality (2026-11-18) ─────────────────────────────────────────────
+# provenance: NCBI Datasets v2 genome dataset_report, fetched per strain by step 0
+#   sub-step 1 into <strain dir>/assembly_report.json and mapped onto the organism node by
+#   cyanorak_ncbi_adapter. Spec docs/superpowers/specs/2026-11-18-organism-assembly-quality-design.md.
+
+OrganismTaxon.assembly_level:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: assembly_level
+  value_type: string
+  closed: true
+  sparse: true
+  values: [complete_genome, chromosome, scaffold, contig]
+  value_descriptions:
+    complete_genome: "the assembly is closed, so a missing gene is not an assembly gap; necessary for a confident absence call, but still check the annotation"
+    chromosome: "the chromosome sequence is assembled but may still contain gaps; a missing gene is probably, not certainly, absent"
+    scaffold: "contigs ordered into scaffolds with gaps between them; a missing gene may sit in a gap"
+    contig: "an unordered draft of separate contigs; a missing gene may sit between contigs, so treat absence as unconfirmed"
+  description: >
+    NCBI assembly level of the genome that the genes of this organism come from. The
+    primary signal for whether a gene missing from this organism is truly
+    absent: only complete_genome rules out assembly gaps. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.assembly_status:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: assembly_status
+  value_type: string
+  closed: true
+  sparse: true
+  values: [current, suppressed, previous]
+  value_descriptions:
+    current: "the assembly is the current NCBI record"
+    suppressed: "RefSeq removed the record (see assembly_suppression_reason); the genome and its genes remain valid KG content"
+    previous: "a newer version of this assembly exists (see assembly_current_accession)"
+  description: >
+    NCBI status of the assembly record as of assembly_report_date. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.checkm_marker_set_rank:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: checkm_marker_set_rank
+  value_type: string
+  closed: false
+  sparse: true
+  values: [species, genus, family, order, domain]
+  description: >
+    Taxonomic rank of the CheckM marker set NCBI used (checkm_marker_set names
+    the taxon). Kept verbatim from NCBI. A coarser rank (order, domain) means
+    fewer lineage-specific markers and a weaker completeness estimate. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.checkm_completeness:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: checkm_completeness
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0
+  max_value: 100
+  description: >
+    CheckM genome completeness (percent) reported by NCBI. Grades draft
+    assemblies; it under-scores streamlined genomes (MED4 99.45 and NS01 87.31
+    are both closed genomes), so use assembly_level, not this value, to judge
+    whether a missing gene is absent. Absent when NCBI ran no CheckM. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.checkm_contamination:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: checkm_contamination
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0
+  max_value: 100
+  description: >
+    CheckM contamination (percent) reported by NCBI. 0.0 = NCBI omitted the
+    field, which it does for a value of zero. Absent when NCBI ran no CheckM. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.gc_percent:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: gc_percent
+  value_type: float
+  closed: false
+  values: []
+  sparse: true
+  min_value: 0
+  max_value: 100
+  description: >
+    GC content of the assembly (percent), as rounded by NCBI. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.genome_length:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: genome_length
+  value_type: int
+  closed: false
+  values: []
+  sparse: true
+  min_value: 1
+  description: >
+    Total sequence length of the assembly in base pairs. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.contig_count:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: contig_count
+  value_type: int
+  closed: false
+  values: []
+  sparse: true
+  min_value: 1
+  description: >
+    Number of contigs in the assembly; 1 per replicon for a closed genome. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
+OrganismTaxon.contig_n50:
+  applies_to: OrganismTaxon
+  applies_to_kind: node
+  property: contig_n50
+  value_type: int
+  closed: false
+  values: []
+  sparse: true
+  min_value: 1
+  description: >
+    Contig N50 of the assembly in base pairs. For reference_proteome_match organisms the value describes the reference assembly the proteome match used, not the environmental sample (tell the cases apart by organism_type). Absent on treatment organisms, which have no assembly.
+
 Experiment.treatment_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   Harvested from CLAUDE.md's "treatment_type canonical values" bullet, per the controller
