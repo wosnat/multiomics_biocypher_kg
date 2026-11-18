@@ -2,6 +2,11 @@ from __future__ import annotations
 from pypath.share import curl
 
 from multiomics_kg.utils.curie_utils import normalize_curie
+from multiomics_kg.utils.assembly_report import (
+    ASSEMBLY_REPORT_FILENAME,
+    assembly_properties,
+    load_assembly_report,
+)
 from biocypher._logger import logger
 
 import collections
@@ -345,6 +350,14 @@ class CyanorakNcbi:
                 cache_dir=self.data_dir,
             )
 
+        # NCBI assembly report (step 0 sub-step 1) for the organism node
+        self.assembly_report = load_assembly_report(self.data_dir)
+        if self.assembly_report is None:
+            logger.warning(
+                f"No {ASSEMBLY_REPORT_FILENAME} for {self.strain_name} in {self.data_dir} — "
+                f"organism node gets no assembly properties (run prepare_data step 0)"
+            )
+
         # Load AA sequences keyed by RefSeq WP_ accession from protein.faa
         self._protein_id_to_sequence = _load_protein_sequences(
             os.path.join(self.data_dir, "protein.faa")
@@ -474,6 +487,12 @@ class CyanorakNcbi:
             properties['reference_database'] = self.reference_database
         if self.reference_proteome:
             properties['reference_proteome'] = self.reference_proteome
+
+        if getattr(self, "assembly_report", None):
+            for key, value in assembly_properties(
+                self.assembly_report, self.ncbi_accession
+            ).items():
+                properties[key] = self.clean_text(value) if isinstance(value, str) else value
 
         logger.info(f"Created organism node {node_id} (strain: {self.strain_name})")
         return [(node_id, "organism", properties)]

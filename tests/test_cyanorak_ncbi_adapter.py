@@ -1307,3 +1307,58 @@ class TestCyanorakSequenceFallback:
         nodes = self._gene_nodes(temp_data_dir, with_cyanorak_gff=False)
         assert "sequence" not in nodes["PMM0573"]
         assert nodes["PMM0001"]["sequence_source"] == "ncbi"
+
+
+# ---------------------------------------------------------------------------
+# Assembly quality on the organism node (spec 2026-11-18)
+# ---------------------------------------------------------------------------
+
+_ASM_FIX = os.path.join(os.path.dirname(__file__), "fixtures", "assembly_reports")
+
+
+class TestOrganismAssemblyProperties:
+    def _adapter(self, data_dir, merged_json_path):
+        a = CyanorakNcbi(data_dir=data_dir, strain_name="MED4",
+                         ncbi_accession="GCF_000011465.1")
+        a.download_data()
+        return a
+
+    def _write_report(self, data_dir, mutate=None):
+        with open(os.path.join(_ASM_FIX, "MED4.json")) as f:
+            wrapped = json.load(f)
+        if mutate:
+            mutate(wrapped)
+        with open(os.path.join(data_dir, "assembly_report.json"), "w") as f:
+            json.dump(wrapped, f)
+
+    def test_report_properties_on_node(self, temp_data_dir, merged_json_path):
+        self._write_report(temp_data_dir)
+        props = self._adapter(temp_data_dir, merged_json_path)._get_organism_node()[0][2]
+        assert props["assembly_level"] == "complete_genome"
+        assert props["checkm_contamination"] == 0.0
+        assert props["checkm_completeness"] == 99.45
+
+    def test_missing_report_file(self, temp_data_dir, merged_json_path, caplog):
+        a = self._adapter(temp_data_dir, merged_json_path)
+        props = a._get_organism_node()[0][2]
+        assert not [k for k in props if k.startswith(("assembly_", "checkm_"))]
+        assert "MED4" in caplog.text and "assembly_report.json" in caplog.text
+
+    def test_strings_are_cleaned(self, temp_data_dir, merged_json_path):
+        def mutate(w):
+            w["report"]["assembly_info"]["assembly_name"] = "ASM'1|v1"
+        self._write_report(temp_data_dir, mutate)
+        props = self._adapter(temp_data_dir, merged_json_path)._get_organism_node()[0][2]
+        assert "'" not in props["assembly_name"] and "|" not in props["assembly_name"]
+        assert "^" in props["assembly_name"]
+
+    def test_treatment_nodes_have_no_assembly_properties(self, tmp_path, multi_config_csv):
+        treat = tmp_path / "treatment.csv"
+        treat.write_text("ncbi_taxon_id,organism_name\n10239,Phage\n")
+        multi = MultiCyanorakNcbi(config_list_file=multi_config_csv,
+                                  treatment_organisms_file=str(treat))
+        with patch("multiomics_kg.adapters.cyanorak_ncbi_adapter._fetch_ncbi_taxonomy",
+                   return_value={}):
+            nodes = multi._get_treatment_organism_nodes()
+        assert nodes and not [k for _, _, p in nodes for k in p
+                              if k.startswith(("assembly_", "checkm_"))]
