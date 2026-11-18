@@ -289,7 +289,10 @@ def test_tolonen_med4_analysis(run_query):
 
 
 def test_tolonen_mit9313_analysis(run_query):
-    """Tolonen 2006 MIT9313 clustering analysis should have 7 clusters, 559 genes."""
+    """Tolonen 2006 MIT9313 clustering analysis: 7 clusters, 558 genes loaded.
+
+    The CSV has 559 clustered rows; one resolves to no Gene node, and since
+    2026-11-18 total_gene_count counts loaded genes, not CSV rows."""
     result = run_query("""
         MATCH (ca:ClusteringAnalysis)
         WHERE ca.name = 'MIT9313 K-means N-starvation clusters'
@@ -299,7 +302,7 @@ def test_tolonen_mit9313_analysis(run_query):
     assert len(result) == 1
     row = result[0]
     assert row["clusters"] == 7
-    assert row["genes"] == 559
+    assert row["genes"] == 558
     assert row["method"] == "K-means (K=7)"
 
 
