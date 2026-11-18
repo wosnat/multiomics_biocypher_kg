@@ -352,7 +352,14 @@ class CyanorakNcbi:
 
         # NCBI assembly report (step 0 sub-step 1) for the organism node
         self.assembly_report = load_assembly_report(self.data_dir)
-        if self.assembly_report is None:
+        report_acc = ((self.assembly_report or {}).get("report") or {}).get("accession")
+        if self.assembly_report is not None and report_acc != self.ncbi_accession:
+            logger.warning(
+                f"{ASSEMBLY_REPORT_FILENAME} for {self.strain_name} is for {report_acc}, not "
+                f"{self.ncbi_accession} — ignored (re-run prepare_data step 0 to refetch)"
+            )
+            self.assembly_report = None
+        elif self.assembly_report is None:
             logger.warning(
                 f"No {ASSEMBLY_REPORT_FILENAME} for {self.strain_name} in {self.data_dir} — "
                 f"organism node gets no assembly properties (run prepare_data step 0)"

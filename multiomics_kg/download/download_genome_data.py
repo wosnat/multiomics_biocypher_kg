@@ -205,6 +205,15 @@ _ASSEMBLY_REPORT_URL = (
 _ASSEMBLY_REPORT_CHUNK = 40  # a single 118-accession request returned HTTP 500 (2026-11-18)
 
 
+def _report_accession(path: str) -> str | None:
+    """Accession recorded in an existing report file, or None (missing / unreadable)."""
+    try:
+        with open(path) as f:
+            return (json.load(f).get("report") or {}).get("accession")
+    except (OSError, ValueError):
+        return None
+
+
 def _ncbi_fetch_assembly_reports(
     genomes: list[dict], force: bool, today: str | None = None
 ) -> dict[str, str]:
@@ -212,7 +221,7 @@ def _ncbi_fetch_assembly_reports(
 
     Runs independently of the genome download, so strains whose genome files
     are already cached still get a report. Without ``force`` only strains with
-    no report file are fetched. The report is matched on the exact requested
+    no report file, or a file written for a different accession, are fetched. The report is matched on the exact requested
     accession (``all_assemblies`` makes superseded versions such as CB0101's
     ``.1`` resolvable). Returns ``{accession: written | skipped | missing}``.
     """
@@ -229,10 +238,10 @@ def _ncbi_fetch_assembly_reports(
         if not acc.startswith("GC"):
             continue
         path = os.path.join(str(PROJECT_ROOT / g["data_dir"].rstrip("/")), ASSEMBLY_REPORT_FILENAME)
-        if not force and os.path.exists(path):
+        if not force and _report_accession(path) == acc:
             status[acc] = "skipped"
         else:
-            todo[acc] = path
+            todo[acc] = path  # missing, or written for another accession (strain re-versioned)
 
     accs = list(todo)
     for i in range(0, len(accs), _ASSEMBLY_REPORT_CHUNK):

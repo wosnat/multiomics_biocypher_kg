@@ -1344,6 +1344,14 @@ class TestOrganismAssemblyProperties:
         assert not [k for k in props if k.startswith(("assembly_", "checkm_"))]
         assert "MED4" in caplog.text and "assembly_report.json" in caplog.text
 
+    def test_report_for_other_accession_is_ignored(self, temp_data_dir, merged_json_path, caplog):
+        def mutate(w):
+            w["report"]["accession"] = "GCF_000011465.2"
+        self._write_report(temp_data_dir, mutate)
+        props = self._adapter(temp_data_dir, merged_json_path)._get_organism_node()[0][2]
+        assert not [k for k in props if k.startswith(("assembly_", "checkm_"))]
+        assert "GCF_000011465.2" in caplog.text
+
     def test_strings_are_cleaned(self, temp_data_dir, merged_json_path):
         def mutate(w):
             w["report"]["assembly_info"]["assembly_name"] = "ASM'1|v1"

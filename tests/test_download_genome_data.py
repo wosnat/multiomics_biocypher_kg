@@ -443,7 +443,7 @@ class TestFetchAssemblyReports:
         g = self._genome(tmp, "MED4", "GCF_000011465.1")
         path = self._report_path(tmp, "MED4")
         path.parent.mkdir(parents=True)
-        path.write_text('{"fetched_at": "2000-01-01", "report": {}}')
+        path.write_text('{"fetched_at": "2000-01-01", "report": {"accession": "GCF_000011465.1"}}')
         with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
             status = _ncbi_fetch_assembly_reports([g], force=False, today="2026-11-18")
         mock_get.assert_not_called()
@@ -452,6 +452,18 @@ class TestFetchAssemblyReports:
             _ncbi_fetch_assembly_reports([g], force=True, today="2026-11-18")
         mock_get.assert_called_once()
         assert json.loads(path.read_text())["fetched_at"] == "2026-11-18"
+
+    def test_refetches_when_file_accession_differs(self, tmp):
+        """A strain moved to a new assembly version must not keep the old report."""
+        g = self._genome(tmp, "CB0101", "GCF_000179235.2")
+        path = self._report_path(tmp, "CB0101")
+        path.parent.mkdir(parents=True)
+        path.write_text('{"fetched_at": "2000-01-01", "report": {"accession": "GCF_000179235.1"}}')
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
+            status = _ncbi_fetch_assembly_reports([g], force=False, today="2026-11-18")
+        mock_get.assert_called_once()
+        assert status == {"GCF_000179235.2": "written"}
+        assert json.loads(path.read_text())["report"]["accession"] == "GCF_000179235.2"
 
     def test_respects_genome_subset(self, tmp):
         med4 = self._genome(tmp, "MED4", "GCF_000011465.1")
