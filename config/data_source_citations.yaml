@@ -139,3 +139,63 @@ sources:
     - 10.1093/nar/gkaf1271
     url: https://www.ebi.ac.uk/chebi/aboutChebiForward.do
     license: CC BY 4.0
+  go:
+    name: Gene Ontology
+    description: 'Gene Ontology (go-basic + go-plus): BiologicalProcess / MolecularFunction / CellularComponent terms and hierarchy, and the transport-substrate logical definitions.'
+    version_from: go_release
+    citations:
+    - 'Ashburner M et al. 2000. Gene ontology: tool for the unification of biology. Nature Genetics 25:25-29.'
+    - The Gene Ontology Consortium. 2026. The Gene Ontology knowledgebase in 2026. Nucleic Acids Research 54:D1779-D1792.
+    dois:
+    - 10.1038/75556
+    - 10.1093/nar/gkaf1292
+    url: https://geneontology.org/docs/go-citation-policy/
+    license: CC BY 4.0
+  pfam:
+    name: Pfam
+    description: 'Pfam domain and clan reference data (Pfam-A.clans): Pfam and PfamClan node names and clan membership.'
+    version: ''
+    citations:
+    - 'Paysan-Lafosse T et al. 2025. The Pfam protein families database: embracing AI/ML. Nucleic Acids Research 53:D523-D534.'
+    dois:
+    - 10.1093/nar/gkae997
+    url: https://pfam-docs.readthedocs.io/en/latest/citing-pfam.html
+  cazy:
+    name: CAZy
+    description: 'CAZy carbohydrate-active enzyme classification: the CazyFamily class / family / subfamily nomenclature.'
+    version: ''
+    citations:
+    - 'Drula E et al. 2022. The carbohydrate-active enzyme database: functions and literature. Nucleic Acids Research 50:D571-D577.'
+    dois:
+    - 10.1093/nar/gkab1045
+    url: https://www.cazy.org/Citing-CAZy.html
+  expasy_enzyme:
+    name: Expasy ENZYME
+    description: 'Expasy ENZYME nomenclature database: EcNumber nodes, names and the EC hierarchy.'
+    version: ''
+    citations:
+    - Bairoch A. 2000. The ENZYME database in 2000. Nucleic Acids Research 28:304-305.
+    dois:
+    - 10.1093/nar/28.1.304
+    url: https://pubmed.ncbi.nlm.nih.gov/10592255/
+  metanetx:
+    name: MetaNetX
+    description: MetaNetX / MNXref cross-references used to resolve reactions and metabolites across namespaces (KEGG, ChEBI, HMDB).
+    version: '4.5'
+    citations:
+    - 'Moretti S et al. 2026. MetaNetX: a bridge between metabolic resources for enhanced curation and multi-omics data harmonization. Nucleic Acids Research 54:D617-D622.'
+    - 'Moretti S et al. 2021. MetaNetX/MNXref: unified namespace for metabolites and biochemical reactions in the context of metabolic models. Nucleic Acids Research 49:D570-D574.'
+    dois:
+    - 10.1093/nar/gkaf1286
+    - 10.1093/nar/gkaa992
+    url: https://www.metanetx.org/mnxdoc/cite.html
+    license: CC BY 4.0 (MNXref data; upstream-source terms may also apply)
+  ncbi_taxonomy:
+    name: NCBI Taxonomy
+    description: 'NCBI Taxonomy: organism lineages for OrganismTaxon nodes.'
+    version: ''
+    citations:
+    - 'Schoch CL et al. 2020. NCBI Taxonomy: a comprehensive update on curation, resources and tools. Database 2020:baaa062.'
+    dois:
+    - 10.1093/database/baaa062
+    url: https://pubmed.ncbi.nlm.nih.gov/32761142/

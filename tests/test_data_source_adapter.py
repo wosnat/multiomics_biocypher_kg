@@ -13,13 +13,16 @@ def adapter():
     return DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
 
 
-def test_emits_eleven_nodes(adapter):
-    """Eleven data sources: nine gene-level + the kegg / chebi reference sources."""
+REFERENCE_IDS = ("kegg", "chebi", "go", "pfam", "cazy", "expasy_enzyme", "metanetx", "ncbi_taxonomy")
+
+
+def test_emits_seventeen_nodes(adapter):
+    """Seventeen data sources: nine gene-level + eight global reference sources."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
     assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp",
-                   "interproscan", "tcdb_diamond", "merops_diamond", "kegg", "chebi"}
+                   "interproscan", "tcdb_diamond", "merops_diamond", *REFERENCE_IDS}
 
 
 def test_reference_sources_have_info_types_and_chebi_version(adapter):
@@ -27,7 +30,7 @@ def test_reference_sources_have_info_types_and_chebi_version(adapter):
     from pathlib import Path
     adapter.download_data()
     nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
-    for sid in ("kegg", "chebi"):
+    for sid in REFERENCE_IDS:
         assert nodes[sid]["info_types"], sid
         assert nodes[sid]["scope"] == "global"
         assert nodes[sid]["provenance"] == "download"
