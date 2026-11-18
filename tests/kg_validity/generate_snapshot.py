@@ -117,7 +117,7 @@ ANCHOR_NODES = {
     "GeneCluster": [
         "cluster:mSystems.00181-16:bp1_light_clusters:C",  # 929 members
     ],
-    # Provenance nodes (4 total, all stable)
+    # Provenance nodes (descriptions curated in config/data_source_citations.yaml)
     "DataSource": [
         "data_source:ncbi",
         "data_source:cyanorak",

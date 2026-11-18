@@ -13,13 +13,16 @@ def adapter():
     return DataSourceAdapter(config_path="config/gene_annotations_config.yaml")
 
 
-def test_emits_eleven_nodes(adapter):
-    """Eleven data sources: nine gene-level + the kegg / chebi reference sources."""
+REFERENCE_IDS = ("kegg", "chebi", "go", "pfam", "cazy", "expasy_enzyme", "metanetx", "ncbi_taxonomy")
+
+
+def test_emits_seventeen_nodes(adapter):
+    """Seventeen data sources: nine gene-level + eight global reference sources."""
     adapter.download_data()
     nodes = list(adapter.get_nodes())
     ids = {props["id"] for _, _, props in nodes}
     assert ids == {"ncbi", "cyanorak", "uniprot", "eggnog", "psortb", "signalp",
-                   "interproscan", "tcdb_diamond", "merops_diamond", "kegg", "chebi"}
+                   "interproscan", "tcdb_diamond", "merops_diamond", *REFERENCE_IDS}
 
 
 def test_reference_sources_have_info_types_and_chebi_version(adapter):
@@ -27,7 +30,7 @@ def test_reference_sources_have_info_types_and_chebi_version(adapter):
     from pathlib import Path
     adapter.download_data()
     nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
-    for sid in ("kegg", "chebi"):
+    for sid in REFERENCE_IDS:
         assert nodes[sid]["info_types"], sid
         assert nodes[sid]["scope"] == "global"
         assert nodes[sid]["provenance"] == "download"
@@ -36,7 +39,8 @@ def test_reference_sources_have_info_types_and_chebi_version(adapter):
     if not cache.exists():
         pytest.skip("ChEBI cache not present")
     assert nodes["chebi"]["version"] == str(json.loads(cache.read_text())["release"]) != ""
-    assert nodes["kegg"]["version"] == ""
+    from multiomics_kg.utils.data_source_citations import load_citations, resolve_version
+    assert nodes["kegg"]["version"] == resolve_version(load_citations()["sources"]["kegg"])
 
 
 def test_merops_diamond_is_tool_run_gene_level(adapter):
@@ -144,8 +148,28 @@ def test_tcdb_diamond_is_tool_run_gene_level(adapter):
 
 
 def test_chebi_version_independent_of_cwd(tmp_path, monkeypatch):
-    from multiomics_kg.adapters import data_source_adapter as dsa
-    expected = DataSourceAdapter._version_for("chebi")
+    from multiomics_kg.utils import data_source_citations as dsc
+    expected = dsc.resolve_version({"version_from": "chebi_cache"})
     monkeypatch.chdir(tmp_path)
-    assert dsa._CHEBI_CACHE.is_absolute()
-    assert DataSourceAdapter._version_for("chebi") == expected != ""
+    assert dsc.CHEBI_CACHE_PATH.is_absolute()
+    assert dsc.resolve_version({"version_from": "chebi_cache"}) == expected != ""
+
+
+def test_every_node_carries_citations_from_yaml(adapter):
+    from multiomics_kg.utils.data_source_citations import load_citations
+    adapter.download_data()
+    cites = load_citations()["sources"]
+    for _, _, props in adapter.get_nodes():
+        e = cites[props["id"]]
+        assert props["citations"] and len(props["dois"]) == len(props["citations"]), props["id"]
+        assert props["url"] == e["url"]
+        assert props["name"] == e["name"]
+        assert props["description"] == e["description"]
+        assert ("license" in props) == bool(e.get("license")), props["id"]
+
+
+def test_interproscan_description_names_version_6(adapter):
+    adapter.download_data()
+    nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
+    assert "InterProScan 6" in nodes["interproscan"]["description"]
+    assert "InterProScan 5" not in nodes["interproscan"]["description"]

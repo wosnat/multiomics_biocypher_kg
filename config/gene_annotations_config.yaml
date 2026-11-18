@@ -169,6 +169,30 @@ reference_sources:
     scope: global
     provenance: download
     info_types_extra: [metabolite_identity, stereo_relations, chemical_roles]
+  - id: go
+    scope: global
+    provenance: download
+    info_types_extra: [go_terms, go_hierarchy, go_transport_substrates]
+  - id: pfam
+    scope: global
+    provenance: download
+    info_types_extra: [pfam_domains, pfam_clans]
+  - id: cazy
+    scope: global
+    provenance: download
+    info_types_extra: [cazy_families]
+  - id: expasy_enzyme
+    scope: global
+    provenance: download
+    info_types_extra: [ec_numbers, ec_hierarchy]
+  - id: metanetx
+    scope: global
+    provenance: download
+    info_types_extra: [reaction_xrefs, metabolite_xrefs]
+  - id: ncbi_taxonomy
+    scope: global
+    provenance: download
+    info_types_extra: [organism_taxonomy]
 
 
 # ─── Field merge rules ────────────────────────────────────────────────────────

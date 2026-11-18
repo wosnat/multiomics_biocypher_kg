@@ -4078,7 +4078,7 @@
       "id": "data_source:ncbi",
       "label": "DataSource",
       "properties": {
-        "description": "NCBI RefSeq genome annotation (GFF + GenBank).",
+        "description": "NCBI RefSeq genome annotation (GFF + GenBank, PGAP gene calls and protein FASTA).",
         "provenance": "download",
         "scope": "gene_level"
       }
@@ -4088,7 +4088,7 @@
       "id": "data_source:cyanorak",
       "label": "DataSource",
       "properties": {
-        "description": "Cyanorak: curated cyanobacteria gene clusters and roles.",
+        "description": "Cyanorak v2.1: curated cyanobacteria gene clusters (CK clusters) and functional roles.",
         "provenance": "download",
         "scope": "organism_restricted"
       }
@@ -4098,7 +4098,7 @@
       "id": "data_source:eggnog",
       "label": "DataSource",
       "properties": {
-        "description": "EggNOG-mapper functional annotations (per-protein query against the eggNOG reference).",
+        "description": "EggNOG-mapper functional annotations (per-protein query against the eggNOG reference; source of KO, COG category, ortholog groups, and orthology-transferred GO/EC/Pfam/CAZy/TC).",
         "provenance": "tool_run",
         "scope": "gene_level"
       }
@@ -4128,7 +4128,7 @@
       "id": "data_source:interproscan",
       "label": "DataSource",
       "properties": {
-        "description": "InterProScan 5 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs).",
+        "description": "InterProScan 6 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs, incl. Pfam and NCBIfam), plus the InterPro, NCBIfam and frozen TIGRFAMs 15.0 role reference data.",
         "provenance": "tool_run",
         "scope": "gene_level"
       }
@@ -4138,7 +4138,7 @@
       "id": "data_source:kegg",
       "label": "DataSource",
       "properties": {
-        "description": "KEGG COMPOUND and its compound BRITE classification trees (br08001-br08021), via the KEGG REST API; source of MetaboliteClass memberships.",
+        "description": "KEGG via the KEGG REST API: KEGG Orthology, pathways, reactions, COMPOUND and the BRITE hierarchies (functional KO trees and compound classification trees br08001-br08021).",
         "provenance": "download",
         "scope": "global"
       }

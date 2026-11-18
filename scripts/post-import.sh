@@ -2120,6 +2120,19 @@ else
        "(checked flat and one-level-timestamped layouts). Schema_info.chebi_release will be left null."
 fi
 
+KG_BUILD_CITATIONS="[]"
+build_cit_file=$(ls -t /data/build2neo/build_citations.json \
+  /data/build2neo/*/build_citations.json 2>/dev/null | head -n 1 || true)
+if [ -n "$build_cit_file" ] && [ -r "$build_cit_file" ]; then
+  # Curated text carries no ' " | or backslash (tests/test_data_source_citations.py),
+  # so swapping JSON double quotes for Cypher single quotes is safe.
+  KG_BUILD_CITATIONS=$(tr -d '\n' < "$build_cit_file" | tr '"' "'")
+  echo "Found build_citations.json at $build_cit_file"
+else
+  echo "WARNING: build_citations.json not found under /data/build2neo" \
+       "(checked flat and one-level-timestamped layouts). Schema_info.build_citations will be []."
+fi
+
 KG_GO_EXCLUDED="[]"
 go_excl_file=$(ls -t /data/build2neo/go_transport_excluded_targets.json \
   /data/build2neo/*/go_transport_excluded_targets.json 2>/dev/null | head -n 1 || true)
@@ -2158,6 +2171,7 @@ time cypher-shell \
   -P "vocab_hash => '${KG_VOCAB_HASH}'" \
   -P "chebi_release => '${KG_CHEBI_RELEASE}'" \
   -P "go_excluded => ${KG_GO_EXCLUDED}" \
+  -P "build_citations => ${KG_BUILD_CITATIONS}" \
   -P "tcdb_excluded => ${KG_TCDB_EXCLUDED}" \
   <<'CYPHER'
 MATCH (s:Schema_info {id: 'schema_info'})
@@ -2179,7 +2193,8 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
                                           THEN null ELSE $vocab_hash END,
     s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END,
     s.go_transport_excluded_targets = coalesce($go_excluded, []),
-    s.tcdb_substrate_excluded_targets = coalesce($tcdb_excluded, [])
+    s.tcdb_substrate_excluded_targets = coalesce($tcdb_excluded, []),
+    s.build_citations = coalesce($build_citations, [])
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },

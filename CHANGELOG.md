@@ -98,6 +98,14 @@ tag with nothing logged.
 
 ### Added
 
+- Citations for every tool and database behind the KG. Each `DataSource` node now carries
+  `citations` (every reference the source asks you to cite), parallel `dois`, `url` (its
+  how-to-cite page) and, where stated, `license`; `Schema_info.build_citations` cites BioCypher.
+  Six reference databases join as `DataSource` nodes (`go`, `pfam`, `cazy`, `expasy_enzyme`,
+  `metanetx`, `ncbi_taxonomy`; 11 → 17), and `version` is filled where known (eggNOG 5.0.2,
+  InterPro 111.0, MEROPS 12.5, MetaNetX 4.5, GO release, ChEBI release). Curated in
+  `config/data_source_citations.yaml`.
+
 - Build warns when step 6 is stale for GO transport: `kegg_data.json` now records the KG GO
   terms with a go-plus transport axiom that step 6 considered (`go_transport_terms_considered`),
   and the GO adapter warns when a KG GO term carries an axiom step 6 never saw — the case after

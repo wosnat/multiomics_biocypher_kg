@@ -500,11 +500,15 @@ data source:
     id: str                       # join key (e.g., 'eggnog')
     name: str                     # human-readable name
     description: str
-    version: str                  # optional v1 - '' when not derivable
-    scope: str                    # 'gene_level' | 'organism_restricted'
+    version: str                  # '' when not derivable; config/data_source_citations.yaml
+    scope: str                    # 'gene_level' | 'organism_restricted' | 'global'
     provenance: str               # 'download' | 'tool_run'
     applies_to_organisms: str[]   # populated only for organism_restricted
     info_types: str[]             # auto-generated from gene_annotations_config.yaml
+    citations: str[]              # references to cite for this source (config/data_source_citations.yaml)
+    dois: str[]                   # bare DOIs, one per citation (parallel list)
+    url: str                      # the source's own how-to-cite page
+    license: str                  # sparse: licence / terms of use when the source states one
 
 # Controlled vocabularies published as data (spec 2026-08-16 §5). One node per
 # (label, property) pair. `evidence` and `sources` get one node PER EDGE TYPE
