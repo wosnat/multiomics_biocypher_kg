@@ -1,18 +1,18 @@
 {
-  "captured_at": "2026-11-18T11:48:07.626715+00:00",
+  "captured_at": "2026-11-18T13:57:22.123926+00:00",
   "neo4j_url": "bolt://localhost:7687",
   "total_genes": 330531,
   "annotation_state": {
     "no_evidence": 22380,
-    "catch_all_only": 33436,
-    "informative_single": 40090,
-    "informative_multi": 234625
+    "catch_all_only": 33439,
+    "informative_single": 40099,
+    "informative_multi": 234613
   },
   "annotation_quality": {
     "0": 22380,
-    "1": 33436,
-    "2": 40090,
-    "3": 234625
+    "1": 33439,
+    "2": 40099,
+    "3": 234613
   },
   "annotation_types": {
     "brite": 129356,
@@ -27,7 +27,7 @@
     "kegg": 163399,
     "merops": 689,
     "ncbifam": 115265,
-    "pfam": 264504,
+    "pfam": 264417,
     "tcdb": 36321,
     "tigr_role": 240689
   },
@@ -43,22 +43,22 @@
     "kegg": 158227,
     "merops": 689,
     "ncbifam": 112167,
-    "pfam": 264504,
+    "pfam": 264417,
     "reaction": 71030,
     "tigr_role": 162586,
     "transporter": 36321
   },
   "informative_annotation_types_size_histogram": {
-    "0": 55536,
-    "1": 38522,
-    "2": 20500,
-    "3": 13590,
-    "4": 16880,
+    "0": 55538,
+    "1": 38521,
+    "2": 20506,
+    "3": 13588,
+    "4": 16879,
     "5": 16109,
-    "6": 17974,
-    "7": 18756,
-    "8": 22217,
-    "9": 24050,
+    "6": 17973,
+    "7": 18753,
+    "8": 22278,
+    "9": 23989,
     "10": 31475,
     "11": 32043,
     "12": 20864,
@@ -182,14 +182,14 @@
     },
     "Prochlorococcus HNLC1": {
       "catch_all_only": 190,
-      "informative_multi": 1417,
-      "informative_single": 271,
+      "informative_multi": 1414,
+      "informative_single": 274,
       "no_evidence": 259
     },
     "Prochlorococcus HNLC2": {
       "catch_all_only": 157,
-      "informative_multi": 1306,
-      "informative_single": 243,
+      "informative_multi": 1303,
+      "informative_single": 246,
       "no_evidence": 180
     },
     "Prochlorococcus LG": {
@@ -259,9 +259,9 @@
       "no_evidence": 113
     },
     "Prochlorococcus MIT1327": {
-      "catch_all_only": 125,
+      "catch_all_only": 126,
       "informative_multi": 1826,
-      "informative_single": 288,
+      "informative_single": 287,
       "no_evidence": 213
     },
     "Prochlorococcus MIT9107": {
@@ -518,20 +518,20 @@
     },
     "Synechococcus BMK-MC-1": {
       "catch_all_only": 506,
-      "informative_multi": 2123,
-      "informative_single": 440,
+      "informative_multi": 2122,
+      "informative_single": 441,
       "no_evidence": 27
     },
     "Synechococcus BOUM118": {
-      "catch_all_only": 474,
+      "catch_all_only": 475,
       "informative_multi": 1910,
-      "informative_single": 383,
+      "informative_single": 382,
       "no_evidence": 22
     },
     "Synechococcus CB0101": {
       "catch_all_only": 221,
-      "informative_multi": 2119,
-      "informative_single": 437,
+      "informative_multi": 2118,
+      "informative_single": 438,
       "no_evidence": 279
     },
     "Synechococcus CB0205": {
@@ -626,8 +626,8 @@
     },
     "Synechococcus PROS-7-1": {
       "catch_all_only": 373,
-      "informative_multi": 2074,
-      "informative_single": 397,
+      "informative_multi": 2073,
+      "informative_single": 398,
       "no_evidence": 21
     },
     "Synechococcus PROS-9-1": {
@@ -668,8 +668,8 @@
     },
     "Synechococcus RS9909": {
       "catch_all_only": 352,
-      "informative_multi": 2102,
-      "informative_single": 383,
+      "informative_multi": 2101,
+      "informative_single": 384,
       "no_evidence": 12
     },
     "Synechococcus RS9915": {
@@ -686,8 +686,8 @@
     },
     "Synechococcus RS9917": {
       "catch_all_only": 281,
-      "informative_multi": 2088,
-      "informative_single": 379,
+      "informative_multi": 2087,
+      "informative_single": 380,
       "no_evidence": 51
     },
     "Synechococcus SYN20": {
@@ -728,8 +728,8 @@
     },
     "Synechococcus WH8101": {
       "catch_all_only": 418,
-      "informative_multi": 2119,
-      "informative_single": 384,
+      "informative_multi": 2118,
+      "informative_single": 385,
       "no_evidence": 17
     },
     "Synechococcus WH8102": {
@@ -739,9 +739,9 @@
       "no_evidence": 87
     },
     "Synechococcus WH8103": {
-      "catch_all_only": 552,
+      "catch_all_only": 553,
       "informative_multi": 1875,
-      "informative_single": 432,
+      "informative_single": 431,
       "no_evidence": 17
     },
     "Synechococcus WH8109": {

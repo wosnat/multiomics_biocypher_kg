@@ -123,6 +123,15 @@ tag with nothing logged.
 
 ### Fixed
 
+- Pfam names: 1,871 of 8,479 Pfam nodes were named only by their accession (276 in the
+  alpha.9 release), among them PF31213 HliA, because the Pfam reference was built once in March
+  2026 and never refreshed while the InterProScan 6 rescan called Pfam 39.0 families. The
+  reference is now built by prepare_data step 9 (`build_pfam_reference.py`) from Pfam 39.0, and
+  every Pfam node has a name. Step 2 also stops treating short names that begin with "PF"
+  (`PFK`, `PFOR_II`) as accessions, zero-pads Cyanorak's 4-digit typos (`PF7969` = PF07969, in
+  91 strains), and forwards families Pfam killed to the family each was merged into (dropping
+  the ones killed with no successor). 2,650 genes change Pfam sets; gene-Pfam pairs
+  447,845 -> 445,095; Pfam nodes 8,479 -> 8,449.
 - Post-import waits for every index to come online (`db.awaitIndexes`) before the aggregation
   group. The 2026-11-18 rebuild failed there with "Could not compile query due to insanely
   frequent schema changes" because the indexes just created were still populating.

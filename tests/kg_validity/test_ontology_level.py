@@ -86,18 +86,20 @@ def test_pfam_and_pfam_clan_fixed_levels(run_query):
     6604/533 -> 6874/540 with Ford 2021's 74 Cyanorak genomes (2026-10-28).
     6874 -> 8479 with the InterProScan 6 / InterPro 111.0 rescan (2026-11-18):
     InterProScan's direct Pfam hits now rival eggNOG's; every new domain has genes.
+    8479/540 -> 8449/674 with the Pfam 39.0 reference (2026-11-18): killed families
+    forwarded or dropped, and Pfam 39 clan assignments the March reference lacked.
     """
     rows = run_query(
         "MATCH (t:Pfam) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
     )
-    assert rows[0]["n"] == 8479, f"Pfam count {rows[0]['n']} != 8479"
+    assert rows[0]["n"] == 8449, f"Pfam count {rows[0]['n']} != 8449"
     assert rows[0]["mn"] == 1, f"Pfam min level {rows[0]['mn']} != 1"
     assert rows[0]["mx"] == 1, f"Pfam max level {rows[0]['mx']} != 1"
 
     rows = run_query(
         "MATCH (t:PfamClan) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
     )
-    assert rows[0]["n"] == 540, f"PfamClan count {rows[0]['n']} != 540"
+    assert rows[0]["n"] == 674, f"PfamClan count {rows[0]['n']} != 674"
     assert rows[0]["mn"] == 0, f"PfamClan min level {rows[0]['mn']} != 0"
     assert rows[0]["mx"] == 0, f"PfamClan max level {rows[0]['mx']} != 0"
 

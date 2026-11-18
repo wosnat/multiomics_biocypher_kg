@@ -189,6 +189,10 @@ cache/data/interpro/raw
 # sits one level up at cache/data/ncbifam/ and stays tracked.
 cache/data/ncbifam/raw
 
+# Pfam raw release files (clans, dead families, version, Pfam 33.1 clans) re-downloadable by
+# prepare_data step 9 (build_pfam_reference.py --refetch-raw); pfam_reference.json is committed.
+cache/data/pfam/raw
+
 # MEROPS raw reference files (family.txt, clan.txt) re-downloadable by
 # build_merops_reference.py (or already present under $MEROPS_DATA_DIR from
 # the /merops-diamond Phase-1 install). The committed output

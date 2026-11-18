@@ -55,7 +55,7 @@ from multiomics_kg.download.utils.ortholog_group_utils import (
     extract_ortholog_groups,
     organism_group_from_path,
 )
-from multiomics_kg.utils.pfam_utils import PfamData, load_pfam_data
+from multiomics_kg.utils.pfam_utils import PfamData, load_pfam_data, normalize_pfam_token
 from multiomics_kg.utils.tcdb_diamond import best_hit_tier
 from multiomics_kg.utils.tcdb_utils import tcdb_display_name
 from multiomics_kg.utils.tigr_roles import inferred_roles, load_tigr_roles, role_name
@@ -222,9 +222,13 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
     pfam_ids at this point is a raw union of all tokens from Cyanorak protein_domains,
     eggNOG PFAMs, and UniProt pfam_ids -- a mix of PF* IDs, shortnames, TIGR*, IPR*.
 
-    For each token:
-    - PF* -> keep as-is (already a valid Pfam accession)
+    For each token (``normalize_pfam_token`` + ``PfamData.resolve_accession``):
+    - "PF" + digits -> that accession (a 4-digit Cyanorak typo like PF7969 is
+      zero-padded when PF07969 exists); a short name that merely starts with
+      "PF" (PFK, PFOR_II) is looked up as a short name
     - Found in pfam_data.by_shortname -> resolve to PF* ID
+    - A family Pfam killed -> the live family it was merged into, or dropped
+      when it was killed with no successor
     - Otherwise -> drop (TIGR*, IPR*, or unresolved shortname)
 
     Side effects on gene dict:
@@ -250,17 +254,16 @@ def enrich_pfam_fields(gene: dict, pfam_data: PfamData) -> list[str]:
         token = str(token).strip()
         if not token:
             continue
-        if token.startswith("PF"):
-            resolved = token
-        elif token in pfam_data.by_shortname:
-            resolved = pfam_data.by_shortname[token]
-        else:
-            # TIGR*, IPR*, or unresolved shortname -- drop
+        accession = normalize_pfam_token(token, pfam_data)
+        resolved_ids = pfam_data.resolve_accession(accession) if accession else []
+        if not resolved_ids:
+            # TIGR*, IPR*, unresolved shortname, or a family killed without successor -- drop
             unresolved.append(token)
             continue
-        clean_ids[resolved] = None
-        if raw_source_map.get(token):
-            new_source_map.setdefault(resolved, set()).update(raw_source_map[token])
+        for resolved in resolved_ids:
+            clean_ids[resolved] = None
+            if raw_source_map.get(token):
+                new_source_map.setdefault(resolved, set()).update(raw_source_map[token])
 
     result = list(clean_ids.keys())
     if result:
