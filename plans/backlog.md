@@ -30,16 +30,6 @@ up — this file is the index, not the plan.
       called onto them. Re-run `/tcdb-diamond --refresh-tcdb --force` + steps 2 6 once
       `last-modified` moves.
 
-- [ ] **Step 6 `--force` is not reproducible on a checkout without its raw caches (found
-      2026-11-11).** CLAUDE.md says `--force` rebuilds "from already-cached raw inputs (~1 min, no
-      network)", but on a checkout whose gitignored raws (`cache/data/chebi/raw/chebi.obo`, the
-      TCDB TSVs, `cache/data/kegg/raw/br_br08*.json`) are missing or stale, it silently downloads
-      the current upstream release: a run here moved ChEBI 256 → 257, rewrote ~4.5K lines of
-      `tcdb_hierarchy.json` (e.g. family 1.A.123 gone upstream) and shifted KEGG pathway lists —
-      a data refresh nobody asked for (reverted). Options: fail (or require `--refetch-raw`) when a
-      raw input is missing, or pin each raw to the release recorded in its committed output.
-      → `multiomics_kg/download/build_kegg_metabolism_xrefs.py` (`_load_chebi`, TCDB step 1, BRITE)
-
 - [ ] **Re-scan all strains with InterProScan 110 (2026-10-31).** The calls.json
       artifacts come from InterProScan 5.78-109.0, but the reference was refreshed
       to InterPro 110.0. The adapter now drops the 38 accessions 110.0 retired
@@ -124,20 +114,21 @@ up — this file is the index, not the plan.
       `enrich_interpro_fields` uses `ncbifam_reference.json` for naming only). NCBIfam
       **EC** propagation was never measured; do that first if this is revisited.
 
-- [ ] **MIT9313 — `MIT9313_genbank.tsv` `PMTid` column is stale for ~13 genes.**
-      The resource table (an older RefSeq build of the same assembly) gives
-      e.g. `PMT_0166 → AKG35_RS12635` and `PMT_0956/0959/0962 → AKG35_RS05225`,
-      where the current GFF has `PMT_0166` on `AKG35_RS13725` and RS05225 as
-      `PMT0983`; typed `old_locus_tag` (Tier 1) these surface as the Tier-1
-      conflicts left on MIT9313 after 2026-08-29. The other 49 conflicts (the
-      `PMT_nnnn`/`PMTnnnn` "two locus-tag families") were one gene each with a
-      re-called start codon and are gone — fixed in `_position_fallback_merge`
-      (stop-codon/reading-frame criterion + per-contig offsets, see
-      `docs/methods_position_fallback_merge.md`). Options: drop `PMTid` from the
-      TSV's `id_columns` (the GFF already carries every `PMT_` tag) or demote it
-      to a lower tier. Low value; the conflict mechanism already refuses them.
-      → `data/Prochlorococcus/papers_and_supp/MIT9313_resources/paperconfig.yaml`,
-      `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping.json` `conflicts`
+- [ ] **MIT9313 — 17 Tier-1 conflicts left after the stale-RS fix (2026-11-11).**
+      The 8 rows of `MIT9313_genbank.tsv` whose RS `locus_tag` named a paralog
+      are blanked in `MIT9313_genbank_modified.tsv` (33 → 17 conflicts; the
+      `PMTid` column was *not* the stale one — genome position sides with it in
+      every disagreeing row). The 17 left, in
+      `cache/data/Prochlorococcus/genomes/MIT9313/gene_id_mapping.json` `conflicts`:
+      (a) `PMT_nnnn`/`PMTnnnn` twins the position merge did not pair —
+      `PMT_0637`/`PMT0637`, `PMT_0849`/`PMT0849`, `PMT_2063`/`PMT2063` (same
+      start 2171875), likely position-fallback misses worth checking against
+      `docs/methods_position_fallback_merge.md`; (b) a `P9313name` or `PMT_`
+      tag claimed by two genes (`PMT_0166`/`PMT_2291`, `PMT0837`/`PMT1609`,
+      `PMT1389`/`PMT1390`, `PMT_2023`/`PMT_2022`, `PMT2133`/`PMT1611`, …),
+      needing the same position arbitration row by row. Low value; the conflict
+      mechanism already refuses them. Experiment harness: rerun steps 3+4 with
+      `--strains MIT9313 --force --no-ipg` and diff the resolved CSVs.
 
 - [ ] **InterPro MetaCyc pathway xrefs — measured 2026-08-18, benefit is thin;
       revisit only with a concrete use case.** Populated in
@@ -295,10 +286,7 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       collision (analysis, gene, the rows' identifiers, log2FC, significance, how many disagree) and
       `validate_paperconfig.py` warns on duplicate `resolved_locus_tag`s per table. Still open: decide
       per paper — a real duplicate row, two paralogs one ID resolves to both, or two probes per gene
-      (needs an explicit rule, e.g. keep the larger |log2FC| or mark the edge). Related step-4 bug
-      (review, 2026-11-11): `resolve_paper_ids` resolves a footnote row to a gene (Beliaev 2014
-      `supp_table_s6`/`s8` row 1342 "1 RPKM is defined as …" → `Sputw3181_2756` via `multi: Locus
-      tag`); harmless today (no logFC, the adapter skips it) but resolution should skip such rows.
+      (needs an explicit rule, e.g. keep the larger |log2FC| or mark the edge).
       → `multiomics_kg/adapters/omics_adapter.py`,
       `<table>_resolved.csv` (`locus_tag`, `resolution_method`)
 
@@ -349,8 +337,6 @@ the committed caches, not taken from the log. Ordered by proposed priority.
         - ~20 abstract KEGG compounds with no formula and no ChEBI class term (`C00028` Acceptor,
           Quinone, …) are `structure_kind = defined` by default; consider a curated list or a
           KEGG-name rule.
-        - Isotope detection misses position-labelled forms (`[1-13C]acetate`, `L-[U-13C]glutamine`,
-          `15N-urea`).
         - `member_basis` records the first link that touched a member, not the link that attached
           it to the canonical node (manual-first ordering can misattribute); a manual merge
           blocked transitively by `keep_separate` is silent (no report entry).
@@ -361,17 +347,11 @@ the committed caches, not taken from the log. Ordered by proposed priority.
           (raw obo unavailable) could relabel 3–4 remap rows.
         - `identifier_tokens` includes bare ChEBI numbers, so digit-only full-text queries match
           them — document in the explorer contract.
-      - *Robustness.* Classes parser drops a compound leaf at a tree root silently; a substrate
-        equal to the role root `CHEBI:50906` would crash `_level`; MNXM lexical tie-break
-        (`MNXM10` < `MNXM9`) in substrate resolution.
       - *Test gaps.* `download_chebi_obo` / `download_compound_brite` / `metabolite_identity_tsvs.py`
         edge cases; stale `keep_separate`, 3+-member union, `member_basis`, tie-breaks;
         first-block-mismatch stereo link; boolean assay-edge `ValueError`; validator non-str key /
         missing `id` / cross-file `name_key` conflicts; ChemicalRole multi-parent is_a; the
         `tests/kg_validity/snapshot_data.json` re-sample dropped `data_source:merops_diamond`.
-      - *Docs.* paperconfig SKILL: a single stereo-unspecified match with no ≥ 2× winner is also
-        ambiguous; the direct-id path wording; prepare_data.sh step-6 `run_step` label understates
-        its outputs.
 
 **P3 — large or blocked on researcher input**
 
@@ -470,7 +450,17 @@ Smaller ID follow-ups from the same batch (not concepts, just mapping work):
       YP_ accessions skipped (paralog ambiguity).
 - [ ] IPG legacy-accession bridge gaps: WH8102 NP_ maps only to the GCA `CAE` accession
       (`find_assembly_match` vs the GCF returns None) and `ZP_` is not matched by
-      `looks_like_legacy_protein_acc` — Oleza 2015b used diamond instead.
+      `looks_like_legacy_protein_acc` — Oleza 2015b used diamond instead. **The two are one fix**
+      (measured 2026-11-11): IPG returns retired `ZP_` accessions with only an INSDC row on the
+      paired GenBank assembly (`ZP_01467679.1` → `EAU71572.1` on `GCA_000153805.1`, which
+      `genomic_gca.gff` anchors to `BL107_12230`, the gene diamond chose), so adding `ZP_` to the
+      regex alone does nothing. Accepting the same-number `GCA_` as the target assembly is not
+      small: over the cached IPG bodies it would newly match up to ~3.7K accessions on 34
+      strains (WH7803 1,161, DSS-3 861, BS11 137; upper bound — the cache is not keyed by
+      strain), re-resolving paper rows through each strain's GenBank annotation. Needs a
+      measured step 3 + 4 run (`/omics-edge-snapshot` before/after). No paperconfig types a
+      `ZP_` column `protein_id_refseq` today.
+      → `multiomics_kg/utils/ncbi_protein_xref.py` (`LEGACY_PROTEIN_ACC_RE`, `find_assembly_match`)
 - [ ] Oleza 2015b and Oleza 2017: PatternLab TFold raw p-values are mapped to
       `adjusted_p_value_col` (open policy item).
 

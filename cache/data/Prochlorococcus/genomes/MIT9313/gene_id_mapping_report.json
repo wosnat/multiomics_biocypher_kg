@@ -1,9 +1,9 @@
 {
   "per_id_type": {
     "alternative_locus_tag": {
-      "conflict": 16,
+      "conflict": 8,
       "multi": 0,
-      "unique": 2776
+      "unique": 2784
     },
     "cds_fna_id": {
       "conflict": 0,
@@ -12,13 +12,13 @@
     },
     "gene_name": {
       "conflict": 0,
-      "multi": 218,
+      "multi": 217,
       "unique": 1466
     },
     "gene_synonym": {
       "conflict": 0,
-      "multi": 89,
-      "unique": 8707
+      "multi": 88,
+      "unique": 8708
     },
     "gff_gene_id": {
       "conflict": 0,
@@ -41,9 +41,9 @@
       "unique": 2407
     },
     "old_locus_tag": {
-      "conflict": 10,
+      "conflict": 4,
       "multi": 0,
-      "unique": 6526
+      "unique": 6532
     },
     "other": {
       "conflict": 0,
@@ -74,7 +74,7 @@
   "unresolved_rows_per_source": {
     "Aharonovich 2016/supp_table_2": 1,
     "Aharonovich 2016/supp_table_3": 1,
-    "Biller 2022/s3_mit9313_abundance": 17,
+    "Biller 2022/s3_mit9313_abundance": 18,
     "Biller 2022/s4_mit9313_enrichment": 3,
     "Capovilla 2023/de_genes_mit9313": 8,
     "Fang 2019/supp_table_2": 237,
@@ -90,8 +90,8 @@
     "genomic_gcf/MIT9313": 60
   },
   "warnings": [
-    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 10 data conflicts \u2014 check annotation quality.",
-    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 16 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'old_locus_tag' has 4 data conflicts \u2014 check annotation quality.",
+    "[CONFLICT] Tier 1 id_type 'alternative_locus_tag' has 8 data conflicts \u2014 check annotation quality.",
     "[CONFLICT] Tier 1 id_type 'locus_tag_ncbi' has 3 data conflicts \u2014 check annotation quality."
   ]
 }

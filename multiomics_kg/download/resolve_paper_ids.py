@@ -65,6 +65,20 @@ def get_report_path(resolved_path: Path) -> Path:
     return resolved_path.parent / f"{resolved_path.stem}_report.txt"
 
 
+def is_note_row(row: pd.Series, name_col: str) -> bool:
+    """True for a footnote or note a supplementary table carries below its data rows
+    ("1 RPKM is defined as ..."): the ID cell holds prose (3+ words) and every other cell
+    is empty. Such a row is not resolved -- its prose can land on a real gene by a stray
+    token. A lone ID with empty value cells (a derived-metric gene whose flag is blank) is
+    still a data row."""
+    if len(row) < 2 or len(str(row.get(name_col, "")).split()) < 3:
+        return False
+    for col, val in row.items():
+        if col != name_col and not pd.isna(val) and str(val).strip() != "":
+            return False
+    return True
+
+
 # ─── Table resolution ─────────────────────────────────────────────────────────
 
 
@@ -180,6 +194,11 @@ def resolve_gene_clusters_table(
             locus_tag_col.append(None)
             method_col.append("empty")
             method_counts["empty"] += 1
+            continue
+        if is_note_row(row, gene_id_col):
+            locus_tag_col.append(None)
+            method_col.append("note_row")
+            method_counts["note_row"] += 1
             continue
 
         total += 1
@@ -345,6 +364,11 @@ def resolve_derived_metrics_entry(
             locus_tag_col.append(None)
             method_col.append("empty")
             method_counts["empty"] += 1
+            continue
+        if is_note_row(row, name_col):
+            locus_tag_col.append(None)
+            method_col.append("note_row")
+            method_counts["note_row"] += 1
             continue
 
         total += 1
@@ -525,6 +549,11 @@ def resolve_table(
             locus_tag_col.append(None)
             method_col.append("empty")
             method_counts["empty"] += 1
+            continue
+        if is_note_row(row, name_col):
+            locus_tag_col.append(None)
+            method_col.append("note_row")
+            method_counts["note_row"] += 1
             continue
 
         total += 1

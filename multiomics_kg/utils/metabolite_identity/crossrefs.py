@@ -21,10 +21,17 @@ def _entity_rank(chebi: ChebiIndex):
 
 # Isotopologue names (spec §1.1 B1b): "succinic acid-d4", "UREA C 14", "calcium-43(2+)", "[13C]…", "(15N)…".
 # Deliberately narrow: must NOT match "1H-indole", "Vitamin B12", "(2E)-hexenal", "(3S)-…",
-# "(25S)-…" / "(20S)-…" stereo locants (the bracketed element is upper-case C/N/O/H only, case-
+# "(25S)-…" / "(20S)-…" stereo locants (the bracketed element is upper-case C/N/O only, case-
 # sensitive) or "Vitamin C 12" (only the labelling isotopes 13C, 14C, 15N, 17O, 18O spelled apart).
+# Position-labelled forms count too: "[1-13C]acetate", "L-[U-13C]glutamine", "[1,2-13C2]glucose",
+# ChEBI's "((13)C)urea" / "D-(1-(13)C)glucitol", and the bare prefix "15N-urea". H is not in the
+# bracketed-mass class: no H isotope has a two-digit mass, so "(10H)" is indicated hydrogen
+# ("anthracen-9(10H)-one"); deuterium / tritium are "[2H]" / "[3H]".
+_ISO_MASS = r"(?:\d{2,3}|\(\d{2,3}\))[CNO]\d*"
 _ISOTOPE = re.compile(
-    r"(?-i:-d\d+\b)|isotop|deuter|(?-i:[\[(]\d{2,3}[CNOH][\])])|\[[23]H\]"
+    r"(?-i:-d\d+\b)|isotop|deuter|\[[23]H\]"
+    r"|(?-i:[\[(](?:[\w,']+-)?" + _ISO_MASS + r"[\])])"
+    r"|(?-i:(?<![\w)])(?:1[34]C|15N|1[78]O|\(1[34]\)C|\(15\)N|\(1[78]\)O)\d*-)"
     r"|\b(?:C 1[34]|N 15|O 1[78])\b|[a-z]+-\d{2,3}\(\d?[+-]\)", re.I)
 
 

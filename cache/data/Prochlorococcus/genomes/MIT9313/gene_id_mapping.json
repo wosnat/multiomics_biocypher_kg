@@ -4,10 +4,6 @@
       "PMT_0166",
       "PMT_2291"
     ],
-    "P9313_02701": [
-      "PMT0236",
-      "PMT2127"
-    ],
     "P9313_02891": [
       "PMT2126",
       "PMT0248"
@@ -16,21 +12,9 @@
       "PMT0298",
       "PMT0279"
     ],
-    "P9313_04431": [
-      "PMT_0372",
-      "PMT_1878"
-    ],
-    "P9313_04931": [
-      "PMT0419",
-      "PMT1532"
-    ],
     "P9313_07591": [
       "PMT_0637",
       "PMT0637"
-    ],
-    "P9313_09681": [
-      "PMT0827",
-      "PMT_0829"
     ],
     "P9313_09821": [
       "PMT0837",
@@ -39,22 +23,6 @@
     "P9313_10021": [
       "PMT_0849",
       "PMT0849"
-    ],
-    "P9313_11121": [
-      "PMT_0923",
-      "PMT_0928"
-    ],
-    "P9313_11751": [
-      "PMT0956",
-      "PMT0983"
-    ],
-    "P9313_11791": [
-      "PMT0959",
-      "PMT0983"
-    ],
-    "P9313_11841": [
-      "PMT0962",
-      "PMT0983"
     ],
     "P9313_13211": [
       "PMT1033",
@@ -84,41 +52,9 @@
       "PMT_0166",
       "PMT_2291"
     ],
-    "PMT_0236": [
-      "PMT0236",
-      "PMT2127"
-    ],
-    "PMT_0372": [
-      "PMT_0372",
-      "PMT_1878"
-    ],
-    "PMT_0419": [
-      "PMT0419",
-      "PMT1532"
-    ],
-    "PMT_0827": [
-      "PMT0827",
-      "PMT_0829"
-    ],
     "PMT_0837": [
       "PMT0837",
       "PMT1609"
-    ],
-    "PMT_0923": [
-      "PMT_0923",
-      "PMT_0928"
-    ],
-    "PMT_0956": [
-      "PMT0956",
-      "PMT0983"
-    ],
-    "PMT_0959": [
-      "PMT0959",
-      "PMT0983"
-    ],
-    "PMT_0962": [
-      "PMT0962",
-      "PMT0983"
     ],
     "PMT_1389": [
       "PMT1389",
@@ -26928,6 +26864,13 @@
             "genomic_gca/MIT9313"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V8U1",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -44277,6 +44220,13 @@
             "genomic_gca/MIT9313"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TTH6",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -44295,6 +44245,10 @@
         {
           "id": "RG24_RS02240",
           "type": "gene_synonym"
+        },
+        {
+          "id": "psbA1",
+          "type": "gene_name"
         }
       ]
     },
@@ -157921,13 +157875,6 @@
             "genomic_gca/MIT9313"
           ],
           "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q7TTH6",
-          "sources": [
-            "MIT9313_resources/mit9313_id_translation"
-          ],
-          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -157946,10 +157893,6 @@
         {
           "id": "RG24_RS08185",
           "type": "gene_synonym"
-        },
-        {
-          "id": "psbA1",
-          "type": "gene_name"
         }
       ]
     },
@@ -219628,13 +219571,6 @@
           "type": "protein_id_refseq"
         },
         {
-          "id": "Q7V8U1",
-          "sources": [
-            "MIT9313_resources/mit9313_id_translation"
-          ],
-          "type": "uniprot_accession"
-        },
-        {
           "id": "Q7TUK3",
           "sources": [
             "MIT9313_resources/mit9313_id_translation"
@@ -238655,6 +238591,13 @@
             "genomic_gca/MIT9313"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7V8H5",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -240830,13 +240773,6 @@
             "genomic_gca/MIT9313"
           ],
           "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q7V7C2",
-          "sources": [
-            "MIT9313_resources/mit9313_id_translation"
-          ],
-          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -242427,6 +242363,13 @@
             "genomic_gca/MIT9313"
           ],
           "type": "protein_id_refseq"
+        },
+        {
+          "id": "Q7TTK3",
+          "sources": [
+            "MIT9313_resources/mit9313_id_translation"
+          ],
+          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -242557,10 +242500,6 @@
         {
           "id": "RG24_RS04910",
           "type": "gene_synonym"
-        },
-        {
-          "id": "PMT_0923",
-          "type": "gene_name"
         },
         {
           "id": "MIT9313_01065",
@@ -247032,13 +246971,6 @@
             "genomic_gca/MIT9313"
           ],
           "type": "protein_id_refseq"
-        },
-        {
-          "id": "Q7V8H5",
-          "sources": [
-            "MIT9313_resources/mit9313_id_translation"
-          ],
-          "type": "uniprot_accession"
         }
       ],
       "tier3_ids": [
@@ -302226,8 +302158,7 @@
       "PMT_0922"
     ],
     "PMT_0923": [
-      "PMT_0923",
-      "PMT_0928"
+      "PMT_0923"
     ],
     "PMT_0924": [
       "PMT0924"
@@ -306581,7 +306512,7 @@
       "PMT0960"
     ],
     "Q7TTH6": [
-      "PMT1532"
+      "PMT0419"
     ],
     "Q7TTH9": [
       "PMT0956",
@@ -306590,6 +306521,7 @@
       "PMT0983"
     ],
     "Q7TTK3": [
+      "PMT_0923",
       "PMT_0928"
     ],
     "Q7TTQ5": [
@@ -310976,8 +310908,7 @@
       "PMT0828"
     ],
     "Q7V7C2": [
-      "PMT0827",
-      "PMT_0829"
+      "PMT0827"
     ],
     "Q7V7C3": [
       "PMT0826"
@@ -312144,7 +312075,7 @@
       "PMT0373"
     ],
     "Q7V8H5": [
-      "PMT_1878"
+      "PMT_0372"
     ],
     "Q7V8H6": [
       "PMT_0371"
@@ -312471,7 +312402,7 @@
       "PMT0237"
     ],
     "Q7V8U1": [
-      "PMT2127"
+      "PMT0236"
     ],
     "Q7V8U2": [
       "AKG35_RS12655"
@@ -329918,7 +329849,7 @@
       "PMT1532"
     ],
     "psbA1": [
-      "PMT1532"
+      "PMT0419"
     ],
     "psbB": [
       "PMT1665"
@@ -354811,7 +354742,7 @@
     "lcl|NC_005071.1_cds_WP_419177156.1_1655": "PMT1546"
   },
   "stats": {
-    "n_conflicts": 33,
+    "n_conflicts": 17,
     "n_genes": 2906,
     "n_multi": 17931,
     "n_specific": 22823,

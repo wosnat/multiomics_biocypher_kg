@@ -1,9 +1,12 @@
 """Stage C: role-typed TCDB substrates → ChemicalRole hierarchy (spec §3.4)."""
 from __future__ import annotations
 
+import logging
 from collections import deque
 
 from multiomics_kg.utils.chebi_utils import ROLE_BRANCHES, ROLE_ROOT, ChebiIndex
+
+log = logging.getLogger(__name__)
 
 
 def role_node_id(primary: str) -> str:
@@ -19,10 +22,15 @@ def _primary_of_string(s: str, chebi: ChebiIndex) -> str | None:
 
 
 def partition_role_strings(strings, chebi):
+    """Substrate strings → (molecule strings, {role string: ChemicalRole id}). A string naming
+    the role root itself ("role") is neither: it says nothing about what is moved, and the root
+    has no branch to give it a level, so it is dropped with a warning."""
     molecules, roles = set(), {}
     for s in sorted(strings):
         p = _primary_of_string(s, chebi)
-        if p is not None and chebi.is_role(p):
+        if p == ROLE_ROOT:
+            log.warning(f"  substrate {s!r} is the ChEBI role root; dropped")
+        elif p is not None and chebi.is_role(p):
             roles[s] = role_node_id(p)
         else:
             molecules.add(s)

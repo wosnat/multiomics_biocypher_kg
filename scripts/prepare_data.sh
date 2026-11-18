@@ -256,7 +256,7 @@ for step in $STEPS; do
             ;;
         6)
             run_step 6 \
-                "Build pruned KEGG + TCDB hierarchy caches (kegg_data.json + tcdb_hierarchy.json)" \
+                "Build metabolism caches: KEGG, TCDB, GO transport, metabolite identity + classes (kegg_data.json, tcdb_pruned.json, paper metabolite _resolved.csv, ...)" \
                 "$LOG_DIR/prepare_data_step6.log" \
                 uv run python -m multiomics_kg.download.build_kegg_metabolism_xrefs \
                     $FORCE \
@@ -281,7 +281,7 @@ for step in $STEPS; do
                     $REFETCH_RAW
 
             RUN_STEP_APPEND=1 run_step 9 \
-                "Build NCBIfam reference cache (ncbifam_reference.json)" \
+                "Build NCBIfam reference + TIGR role caches (ncbifam_reference.json + tigr_roles.json)" \
                 "$LOG_DIR/prepare_data_step9.log" \
                 uv run python -m multiomics_kg.download.build_ncbifam_reference \
                     $FORCE \

@@ -194,6 +194,22 @@ def test_more_isotopologue_names(name):
     assert is_isotopologue_name(name)
 
 
+@pytest.mark.parametrize("name", ["[1-13C]acetate", "L-[U-13C]glutamine", "[U-13C6]glucose",
+                                  "[1,2-13C2]glucose", "[methyl-14C]choline", "15N-urea",
+                                  "13C6-glucose", "((13)C)urea", "D-(1-(13)C)glucitol",
+                                  "(14)C-labelled compound", "Uracil-(2-13C)"])
+def test_position_labelled_isotopologue_names(name):
+    assert is_isotopologue_name(name)
+
+
+@pytest.mark.parametrize("name", ["anthracen-9(10H)-one", "acridin-9(10H)-one",
+                                  "pyrimido[4,5-b]quinoline-2,4(3H,10H)-dione",
+                                  "Eburnamenin-14(15H)-one", "3-oxo-C14-HSL", "2H-pyran",
+                                  "17-O-methyl-estradiol"])
+def test_indicated_hydrogen_and_locants_not_isotopologue_names(name):
+    assert not is_isotopologue_name(name)
+
+
 # ── one chebi_id pick for stages G and H (classes only as a last resort) ──────
 
 CLS = make_chebi(

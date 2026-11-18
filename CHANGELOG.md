@@ -64,6 +64,12 @@ tag with nothing logged.
   (`family_inferred`, single-EC InterPro families; genes with an EC +90), one gene loses one
   InterPro-derived GO term per BP/MF; `annotation_state` unchanged for every gene; expression
   edges identical (358,913).
+- MIT9313 ID bridge: 8 rows of `MIT9313_resources/MIT9313_genbank.tsv` named a paralog in their
+  RS `locus_tag` cell (e.g. psbA1 P9313_04931 / PMT_0419 carried psbA2's AKG35_RS08155); the
+  genome-ordered `P9313name` numbering and UniProt side with the row's `PMTid`, so those cells
+  are blanked in `MIT9313_genbank_modified.tsv` (`scripts/build_modified_csv/build_mit9313_genbank_modified.py`).
+  MIT9313 Tier-1 conflicts 33 → 17. One paper row moves: Biller 2022 Table S3 psbA1 (Q7TTH6)
+  was on PMT1532 (psbA2) and is now on PMT0419 (psbA1).
 
 ### Added
 
@@ -86,6 +92,20 @@ tag with nothing logged.
 
 ### Fixed
 
+- Step 6 `--force` no longer moves the committed metabolism data to another upstream release
+  unasked. Without `--refetch-raw` it now checks its gitignored raw inputs (KEGG REST, KEGG
+  compound BRITE, TCDB tables and Pfam/GO maps, ChEBI obo) before writing anything, and fails
+  when one is missing (it used to download the current release in its place), differs from the
+  sha256 in the new committed `cache/data/step6_raw_inputs.json` (written by every successful
+  run), or, until that manifest exists, when the raw ChEBI release differs from the committed
+  one. A run on a checkout with stale raws had moved ChEBI 256 → 257 and rewritten
+  `tcdb_hierarchy.json`.
+- Step 4 (`resolve_paper_ids`) no longer resolves a supplementary table's footnote to a gene. A
+  row whose ID cell holds prose (3+ words) and whose other cells are all empty is now marked
+  `note_row` and left unresolved; before, a stray token in the text could match a real gene
+  (Beliaev 2014's "1 RPKM is defined as …" → `Sputw3181_2756` in 3 tables, Wang 2014's "a New CDS
+  genes …" → `PMM1275`). 10 rows over 7 tables change; none carried a value, so the graph does
+  not change.
 - MNX / TCDB reference downloads no longer save an HTML error page as data. MetaNetX answers a
   busy server with HTTP 200 and a "Server mnxget too busy" page; `download_metabolism_reference`
   wrote it over `chem_xref.tsv`, `build_mnx_resolver` built a resolver with zero compound aliases,
@@ -99,6 +119,19 @@ tag with nothing logged.
 - The `DataSource` chebi node's `version` no longer depends on the working directory (the ChEBI
   cache path was cwd-relative), and a missing ChEBI cache is now a warning in the adapter and in
   `create_knowledge_graph.py` (no `chebi_release.txt`) instead of a silent skip.
+- Metabolite identity: the isotopologue name check now recognises position-labelled forms
+  (`[1-13C]acetate`, `L-[U-13C]glutamine`, ChEBI's `((13)C)urea` / `D-(1-(13)C)glucitol`,
+  `15N-urea`) and no longer reads indicated hydrogen (`anthracen-9(10H)-one`) as an isotope.
+  Measured over every ChEBI 256 name and synonym plus the KG's compound and paper names: +96 /
+  −61 matches, all ChEBI-only; every KG-referenced term that changed was already caught by the
+  structural ChEBI check, so no metabolite node or identifier changes.
+- Step 6 picks the lowest MNX compound id by number (`MNXM9` before `MNXM10`), not as a string,
+  when a substrate's ChEBI id and its primary hit different MNX entries. Never triggered on the
+  current MNX release (each ChEBI id maps to one MNX id); no data change.
+- Step 6 guards (neither case occurs in current data): a KEGG compound listed at the root of a
+  compound BRITE tree, outside any class, is now reported with a warning instead of skipped
+  silently, and a TCDB / GO substrate that is the ChEBI role root ("role") is dropped with a
+  warning instead of crashing the ChemicalRole hierarchy build.
 
 ## [0.1.0-alpha.9] - 2026-11-01
 

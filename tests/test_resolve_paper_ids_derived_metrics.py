@@ -136,3 +136,45 @@ def test_resolve_derived_metrics_entry_resolves_non_canonical_locus_tag_column(t
     assert out.loc[out["locus_tag"] == "TX50_RS05485", "resolved_locus_tag"].iloc[0] == "PMM1943"
     assert out.loc[out["locus_tag"] == "PMM0869", "resolved_locus_tag"].iloc[0] == "PMM0869"
     assert pd.isna(out.loc[out["locus_tag"] == "BOGUS", "resolved_locus_tag"].iloc[0])
+
+
+def test_is_note_row():
+    row = lambda **kw: pd.Series(kw)
+    note = "1 RPKM is defined as a number of reads per kilobase"
+    assert rpi.is_note_row(row(gene=note, logfc=None, padj=float("nan")), "gene")
+    # a lone ID with blank value cells is a data row
+    assert not rpi.is_note_row(row(gene="PMN2A_RS00020", flag=None), "gene")
+    assert not rpi.is_note_row(row(gene="dnaA P9301_05911", flag=""), "gene")
+    # prose with a value is a data row (a long composite ID cell)
+    assert not rpi.is_note_row(row(gene=note, logfc=1.5), "gene")
+    # a single-column table has nothing to tell a note from
+    assert not rpi.is_note_row(row(gene=note), "gene")
+
+
+def test_resolve_derived_metrics_entry_skips_footnote_row(tmp_path, monkeypatch):
+    src = tmp_path / "s4a.csv"
+    # the footnote names a gene ID; resolving it would attach the note to that gene
+    src.write_text(
+        "NCBI ID_2,flag\n"
+        "PMN2A_RS00015,Y\n"
+        "PMN2A_RS00020,\n"
+        "a See PMN2A_RS00015 for details,\n"
+    )
+    genome_dir = tmp_path / "cache/data/Prochlorococcus/genomes/NATL2A"
+    _seed_mapping(genome_dir)
+    monkeypatch.setattr(rpi, "get_genome_dir",
+                        lambda organism, project_root=None: str(genome_dir))
+    monkeypatch.setattr(rpi, "PROJECT_ROOT", tmp_path)
+    entry = {
+        "type": "derived_metrics_table",
+        "filename": "s4a.csv",
+        "organism": "Prochlorococcus NATL2A",
+        "name_col": "NCBI ID_2",
+        "id_columns": [{"column": "NCBI ID_2", "id_type": "locus_tag_ncbi"}],
+    }
+    result = rpi.resolve_derived_metrics_entry("Biller 2018", "dm_s4a", entry, force=True)
+    assert result["total"] == 2 and result["method_counts"]["note_row"] == 1
+    out = pd.read_csv(tmp_path / "s4a_resolved.csv")
+    assert out["resolution_method"].tolist()[2] == "note_row"
+    assert pd.isna(out["resolved_locus_tag"].iloc[2])
+    assert out["resolved_locus_tag"].iloc[1] == "PMN2A_RS00020"
