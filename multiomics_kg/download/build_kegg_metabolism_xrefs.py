@@ -2112,8 +2112,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
 
     inp = Step6Inputs(
         table=table,
-        kegg_rest={k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions",
-                                             "excluded_pathways", "deleted_kos", "deleted_reactions")},
+        kegg_rest={**{k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions",
+                                                "excluded_pathways")},
+                   **{k: kegg_data.get(k, []) for k in ("deleted_kos", "deleted_reactions")}},
         system_substrates=system_substrates, chemical_roles=chemical_roles, system_roles=system_roles,
         rekeys=rekeys, role_of_old=role_of_old, tables=tables, paper_overrides=paper_overrides,
         name_candidates=paper.name_candidates, lock=lock,

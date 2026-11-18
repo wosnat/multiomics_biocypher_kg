@@ -1,21 +1,21 @@
 {
-  "captured_at": "2026-11-18T13:57:22.123926+00:00",
+  "captured_at": "2026-11-18T15:57:44.865719+00:00",
   "neo4j_url": "bolt://localhost:7687",
   "total_genes": 330531,
   "annotation_state": {
     "no_evidence": 22380,
     "catch_all_only": 33439,
-    "informative_single": 40099,
-    "informative_multi": 234613
+    "informative_single": 40146,
+    "informative_multi": 234566
   },
   "annotation_quality": {
     "0": 22380,
     "1": 33439,
-    "2": 40099,
-    "3": 234613
+    "2": 40146,
+    "3": 234566
   },
   "annotation_types": {
-    "brite": 129356,
+    "brite": 129354,
     "cazy": 5141,
     "cog_category": 259515,
     "cyanorak_role": 167501,
@@ -24,7 +24,7 @@
     "go_cc": 108011,
     "go_mf": 186250,
     "interpro": 260829,
-    "kegg": 163399,
+    "kegg": 162782,
     "merops": 689,
     "ncbifam": 115265,
     "pfam": 264417,
@@ -32,7 +32,7 @@
     "tigr_role": 240689
   },
   "informative_annotation_types": {
-    "brite": 129356,
+    "brite": 129354,
     "cazy": 5141,
     "cog_category": 187241,
     "cyanorak_role": 135619,
@@ -40,28 +40,28 @@
     "go_bp": 164027,
     "go_cc": 107517,
     "go_mf": 185762,
-    "kegg": 158227,
+    "kegg": 157610,
     "merops": 689,
     "ncbifam": 112167,
     "pfam": 264417,
-    "reaction": 71030,
+    "reaction": 70769,
     "tigr_role": 162586,
     "transporter": 36321
   },
   "informative_annotation_types_size_histogram": {
     "0": 55538,
-    "1": 38521,
-    "2": 20506,
-    "3": 13588,
-    "4": 16879,
-    "5": 16109,
-    "6": 17973,
-    "7": 18753,
-    "8": 22278,
-    "9": 23989,
-    "10": 31475,
-    "11": 32043,
-    "12": 20864,
+    "1": 38567,
+    "2": 20467,
+    "3": 13632,
+    "4": 16856,
+    "5": 16266,
+    "6": 17865,
+    "7": 18746,
+    "8": 22363,
+    "9": 23889,
+    "10": 31624,
+    "11": 31841,
+    "12": 20862,
     "13": 1925,
     "14": 90
   },
@@ -452,8 +452,8 @@
     },
     "Synechococcus A15-127": {
       "catch_all_only": 484,
-      "informative_multi": 1973,
-      "informative_single": 388,
+      "informative_multi": 1972,
+      "informative_single": 389,
       "no_evidence": 31
     },
     "Synechococcus A15-24": {
@@ -464,134 +464,134 @@
     },
     "Synechococcus A15-28": {
       "catch_all_only": 454,
-      "informative_multi": 1965,
-      "informative_single": 370,
+      "informative_multi": 1964,
+      "informative_single": 371,
       "no_evidence": 25
     },
     "Synechococcus A15-44": {
       "catch_all_only": 626,
-      "informative_multi": 2114,
-      "informative_single": 443,
+      "informative_multi": 2113,
+      "informative_single": 444,
       "no_evidence": 26
     },
     "Synechococcus A15-60": {
       "catch_all_only": 645,
-      "informative_multi": 2033,
-      "informative_single": 381,
+      "informative_multi": 2032,
+      "informative_single": 382,
       "no_evidence": 25
     },
     "Synechococcus A15-62": {
       "catch_all_only": 520,
-      "informative_multi": 1899,
-      "informative_single": 386,
+      "informative_multi": 1898,
+      "informative_single": 387,
       "no_evidence": 21
     },
     "Synechococcus A18-25c": {
       "catch_all_only": 621,
-      "informative_multi": 2014,
-      "informative_single": 384,
+      "informative_multi": 2013,
+      "informative_single": 385,
       "no_evidence": 32
     },
     "Synechococcus A18-40": {
       "catch_all_only": 471,
-      "informative_multi": 1959,
-      "informative_single": 375,
+      "informative_multi": 1958,
+      "informative_single": 376,
       "no_evidence": 26
     },
     "Synechococcus A18-46.1": {
       "catch_all_only": 556,
-      "informative_multi": 1989,
-      "informative_single": 382,
+      "informative_multi": 1988,
+      "informative_single": 383,
       "no_evidence": 29
     },
     "Synechococcus BIOS-E4-1": {
       "catch_all_only": 1488,
-      "informative_multi": 2433,
-      "informative_single": 471,
+      "informative_multi": 2432,
+      "informative_single": 472,
       "no_evidence": 64
     },
     "Synechococcus BIOS-U3-1": {
       "catch_all_only": 929,
-      "informative_multi": 2081,
-      "informative_single": 407,
+      "informative_multi": 2080,
+      "informative_single": 408,
       "no_evidence": 43
     },
     "Synechococcus BMK-MC-1": {
       "catch_all_only": 506,
-      "informative_multi": 2122,
-      "informative_single": 441,
+      "informative_multi": 2121,
+      "informative_single": 442,
       "no_evidence": 27
     },
     "Synechococcus BOUM118": {
       "catch_all_only": 475,
-      "informative_multi": 1910,
-      "informative_single": 382,
+      "informative_multi": 1909,
+      "informative_single": 383,
       "no_evidence": 22
     },
     "Synechococcus CB0101": {
       "catch_all_only": 221,
-      "informative_multi": 2118,
-      "informative_single": 438,
+      "informative_multi": 2116,
+      "informative_single": 440,
       "no_evidence": 279
     },
     "Synechococcus CB0205": {
       "catch_all_only": 187,
-      "informative_multi": 2020,
-      "informative_single": 348,
+      "informative_multi": 2019,
+      "informative_single": 349,
       "no_evidence": 244
     },
     "Synechococcus CC9311": {
       "catch_all_only": 285,
-      "informative_multi": 2000,
-      "informative_single": 381,
+      "informative_multi": 1999,
+      "informative_single": 382,
       "no_evidence": 372
     },
     "Synechococcus CC9605": {
       "catch_all_only": 340,
-      "informative_multi": 1932,
-      "informative_single": 424,
+      "informative_multi": 1931,
+      "informative_single": 425,
       "no_evidence": 223
     },
     "Synechococcus CC9616": {
       "catch_all_only": 774,
-      "informative_multi": 2067,
-      "informative_single": 391,
+      "informative_multi": 2066,
+      "informative_single": 392,
       "no_evidence": 40
     },
     "Synechococcus CC9902": {
       "catch_all_only": 210,
-      "informative_multi": 1805,
-      "informative_single": 343,
+      "informative_multi": 1804,
+      "informative_single": 344,
       "no_evidence": 105
     },
     "Synechococcus KORDI-100": {
       "catch_all_only": 323,
-      "informative_multi": 2099,
-      "informative_single": 415,
+      "informative_multi": 2098,
+      "informative_single": 416,
       "no_evidence": 279
     },
     "Synechococcus KORDI-49": {
       "catch_all_only": 274,
-      "informative_multi": 1956,
-      "informative_single": 379,
+      "informative_multi": 1955,
+      "informative_single": 380,
       "no_evidence": 113
     },
     "Synechococcus KORDI-52": {
       "catch_all_only": 301,
-      "informative_multi": 1969,
-      "informative_single": 394,
+      "informative_multi": 1968,
+      "informative_single": 395,
       "no_evidence": 232
     },
     "Synechococcus M16.1": {
       "catch_all_only": 399,
-      "informative_multi": 1772,
-      "informative_single": 351,
+      "informative_multi": 1771,
+      "informative_single": 352,
       "no_evidence": 21
     },
     "Synechococcus MEDNS5": {
       "catch_all_only": 396,
-      "informative_multi": 1952,
-      "informative_single": 384,
+      "informative_multi": 1951,
+      "informative_single": 385,
       "no_evidence": 18
     },
     "Synechococcus MINOS11": {
@@ -602,20 +602,20 @@
     },
     "Synechococcus MITS9220": {
       "catch_all_only": 755,
-      "informative_multi": 1920,
-      "informative_single": 372,
+      "informative_multi": 1919,
+      "informative_single": 373,
       "no_evidence": 33
     },
     "Synechococcus MVIR-18-1": {
       "catch_all_only": 680,
-      "informative_multi": 1957,
-      "informative_single": 381,
+      "informative_multi": 1956,
+      "informative_single": 382,
       "no_evidence": 29
     },
     "Synechococcus NOUM97013": {
       "catch_all_only": 519,
-      "informative_multi": 2023,
-      "informative_single": 388,
+      "informative_multi": 2022,
+      "informative_single": 389,
       "no_evidence": 19
     },
     "Synechococcus PCC 7002": {
@@ -626,8 +626,8 @@
     },
     "Synechococcus PROS-7-1": {
       "catch_all_only": 373,
-      "informative_multi": 2073,
-      "informative_single": 398,
+      "informative_multi": 2072,
+      "informative_single": 399,
       "no_evidence": 21
     },
     "Synechococcus PROS-9-1": {
@@ -638,116 +638,116 @@
     },
     "Synechococcus PROS-U-1": {
       "catch_all_only": 700,
-      "informative_multi": 2012,
-      "informative_single": 408,
+      "informative_multi": 2011,
+      "informative_single": 409,
       "no_evidence": 27
     },
     "Synechococcus RCC307": {
       "catch_all_only": 352,
-      "informative_multi": 1788,
-      "informative_single": 355,
+      "informative_multi": 1787,
+      "informative_single": 356,
       "no_evidence": 80
     },
     "Synechococcus ROS8604": {
       "catch_all_only": 1030,
-      "informative_multi": 2224,
-      "informative_single": 490,
+      "informative_multi": 2223,
+      "informative_single": 491,
       "no_evidence": 43
     },
     "Synechococcus RS9902": {
       "catch_all_only": 636,
-      "informative_multi": 1936,
-      "informative_single": 391,
+      "informative_multi": 1935,
+      "informative_single": 392,
       "no_evidence": 20
     },
     "Synechococcus RS9907": {
       "catch_all_only": 587,
-      "informative_multi": 1980,
-      "informative_single": 405,
+      "informative_multi": 1979,
+      "informative_single": 406,
       "no_evidence": 32
     },
     "Synechococcus RS9909": {
       "catch_all_only": 352,
-      "informative_multi": 2101,
-      "informative_single": 384,
+      "informative_multi": 2100,
+      "informative_single": 385,
       "no_evidence": 12
     },
     "Synechococcus RS9915": {
       "catch_all_only": 544,
-      "informative_multi": 1954,
-      "informative_single": 381,
+      "informative_multi": 1953,
+      "informative_single": 382,
       "no_evidence": 23
     },
     "Synechococcus RS9916": {
       "catch_all_only": 277,
-      "informative_multi": 1996,
-      "informative_single": 402,
+      "informative_multi": 1995,
+      "informative_single": 403,
       "no_evidence": 251
     },
     "Synechococcus RS9917": {
       "catch_all_only": 281,
-      "informative_multi": 2087,
-      "informative_single": 380,
+      "informative_multi": 2086,
+      "informative_single": 381,
       "no_evidence": 51
     },
     "Synechococcus SYN20": {
       "catch_all_only": 932,
-      "informative_multi": 2057,
-      "informative_single": 392,
+      "informative_multi": 2056,
+      "informative_single": 393,
       "no_evidence": 35
     },
     "Synechococcus TAK9802": {
       "catch_all_only": 486,
-      "informative_multi": 1818,
-      "informative_single": 373,
+      "informative_multi": 1817,
+      "informative_single": 374,
       "no_evidence": 23
     },
     "Synechococcus WH5701": {
       "catch_all_only": 155,
-      "informative_multi": 2511,
-      "informative_single": 439,
+      "informative_multi": 2510,
+      "informative_single": 440,
       "no_evidence": 248
     },
     "Synechococcus WH7803": {
       "catch_all_only": 296,
-      "informative_multi": 1850,
-      "informative_single": 402,
+      "informative_multi": 1849,
+      "informative_single": 403,
       "no_evidence": 42
     },
     "Synechococcus WH7805": {
       "catch_all_only": 277,
-      "informative_multi": 2037,
-      "informative_single": 385,
+      "informative_multi": 2036,
+      "informative_single": 386,
       "no_evidence": 210
     },
     "Synechococcus WH8016": {
       "catch_all_only": 350,
-      "informative_multi": 2046,
-      "informative_single": 411,
+      "informative_multi": 2045,
+      "informative_single": 412,
       "no_evidence": 260
     },
     "Synechococcus WH8101": {
       "catch_all_only": 418,
-      "informative_multi": 2118,
-      "informative_single": 385,
+      "informative_multi": 2117,
+      "informative_single": 386,
       "no_evidence": 17
     },
     "Synechococcus WH8102": {
       "catch_all_only": 396,
-      "informative_multi": 1974,
-      "informative_single": 373,
+      "informative_multi": 1973,
+      "informative_single": 374,
       "no_evidence": 87
     },
     "Synechococcus WH8103": {
       "catch_all_only": 553,
-      "informative_multi": 1875,
-      "informative_single": 431,
+      "informative_multi": 1874,
+      "informative_single": 432,
       "no_evidence": 17
     },
     "Synechococcus WH8109": {
       "catch_all_only": 391,
-      "informative_multi": 1743,
-      "informative_single": 349,
+      "informative_multi": 1742,
+      "informative_single": 350,
       "no_evidence": 198
     },
     "Synechococcus elongatus PCC 7942": {
