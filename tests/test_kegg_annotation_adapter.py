@@ -401,3 +401,11 @@ def test_multi_kegg_drops_kos_deleted_from_kegg(tmp_path, kegg_cache):
     assert ko_nodes == {"kegg.orthology:K02338"}
     gene_edges = [e for e in a.get_edges() if e[3] == "gene_has_kegg_ko"]
     assert [e[2] for e in gene_edges] == ["kegg.orthology:K02338"]
+
+
+def test_multi_kegg_all_pathway_ids_match_pathway_nodes(multi_kegg):
+    """all_pathway_ids() is the bare-id set behind the emitted pathway KeggTerm nodes
+    (KeggModule's module → map edges are pruned to it)."""
+    ids = multi_kegg.all_pathway_ids()
+    nodes = {n[0] for n in multi_kegg.get_nodes() if n[2]["level_kind"] == "pathway"}
+    assert ids and nodes == {f"kegg.pathway:{p}" for p in ids}

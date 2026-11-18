@@ -721,6 +721,11 @@ class MultiKeggAnnotationAdapter:
         """
         return self._cited_ko_ids() & set(self.kegg_data.get("kos", {}))
 
+    def all_pathway_ids(self) -> set[str]:
+        """Bare ``ko…`` ids of the pathway ``KeggTerm`` nodes ``get_nodes`` emits (every
+        pathway in the pre-pruned cache); downstream adapters prune pathway edges to it."""
+        return set(self.kegg_data.get("pathways", {}))
+
     def _cited_ko_ids(self) -> set[str]:
         """Every KO a gene cites, including ones KEGG has deleted (absent from the cache)."""
         ids: set[str] = set()
