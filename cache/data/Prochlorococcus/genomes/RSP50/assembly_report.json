@@ -1,0 +1,184 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_001989415.1",
+  "current_accession": "GCF_001989415.1",
+  "paired_accession": "GCA_001989415.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 1924285,
+   "organism_name": "Prochlorococcus sp. RSP50",
+   "infraspecific_names": {
+    "strain": "RSP50"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Chromosome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_001989415.1",
+    "status": "current",
+    "annotation_name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)"
+   },
+   "assembly_name": "ASM198941v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA355059",
+       "title": "Isolation and genomic characterization of the abundant Prochlorococcus species from the Red Sea"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA355059",
+   "release_date": "2017-02-07",
+   "submitter": "King Abdullah University of Science and Technology (KAUST)",
+   "sequencing_tech": "Illumina MiSeq",
+   "assembly_method": "SPAdes v. 3.1.1",
+   "biosample": {
+    "accession": "SAMN06061931",
+    "last_updated": "2025-04-08T06:54:02.640",
+    "publication_date": "2017-01-31T00:00:00.000",
+    "submission_date": "2016-11-28T03:04:03.110",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "Prochlorococcus_RS50"
+     }
+    ],
+    "description": {
+     "title": "Prochlorococcus sp. RS50 isolated from central Red Sea",
+     "organism": {
+      "tax_id": 1924285,
+      "organism_name": "Prochlorococcus sp. RSP50"
+     }
+    },
+    "owner": {
+     "name": "King Abdullah University of Science and Technology (KAUST)",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "Microbe, viral or environmental"
+    ],
+    "package": "Microbe.1.0",
+    "attributes": [
+     {
+      "name": "isolation_source",
+      "value": "Surface water sample from the central Red Sea"
+     },
+     {
+      "name": "collection_date",
+      "value": "2014-12"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Saudi Arabia: central Red Sea"
+     },
+     {
+      "name": "sample_type",
+      "value": "whole genome"
+     },
+     {
+      "name": "collected_by",
+      "value": "Ahmed Shibl"
+     },
+     {
+      "name": "depth",
+      "value": "10 m"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "Marine"
+     },
+     {
+      "name": "temp",
+      "value": "28.4 degrees celcius"
+     },
+     {
+      "name": "salinity",
+      "value": "39.5 PSU"
+     },
+     {
+      "name": "strain",
+      "value": "RSP50"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2017-01-31T00:51:10.050"
+    },
+    "collected_by": "Ahmed Shibl",
+    "collection_date": "2014-12",
+    "geo_loc_name": "Saudi Arabia: central Red Sea",
+    "isolation_source": "Surface water sample from the central Red Sea",
+    "strain": "RSP50"
+   },
+   "comments": "Bacteria and source DNA available from Prof. Ulrich Stingl (Red Sea Research Center, KAUST); chromosome not circularized and may have gap between last and first base\nThe annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "1656133",
+   "total_ungapped_length": "1656033",
+   "number_of_contigs": 1,
+   "contig_n50": 1656033,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1656133,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "1656033",
+   "gc_count": "519327",
+   "gc_percent": 31.5,
+   "genome_coverage": "20"
+  },
+  "annotation_info": {
+   "name": "GCF_001989415.1-RS_2025_04_14",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-04-14",
+   "stats": {
+    "gene_counts": {
+     "total": 1915,
+     "protein_coding": 1870,
+     "non_coding": 44,
+     "pseudogene": 1
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus",
+   "checkm_species_tax_id": 1924285,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.65,
+   "contamination": 0.1
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "genus_match",
+   "submitted_organism": "Prochlorococcus sp. RSP50",
+   "submitted_species": "Prochlorococcus sp. RSP50",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 79.93,
+    "assembly_coverage": 66.93,
+    "type_assembly_coverage": 66.84
+   },
+   "comment": "na"
+  }
+ }
+}

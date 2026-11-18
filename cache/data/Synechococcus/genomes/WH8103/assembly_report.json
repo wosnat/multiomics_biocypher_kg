@@ -1,0 +1,253 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_001182765.1",
+  "current_accession": "GCF_001182765.1",
+  "paired_accession": "GCA_001182765.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 29410,
+   "organism_name": "Synechococcus sp. WH 8103",
+   "infraspecific_names": {
+    "isolate": "WH 8103"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "suppressed",
+   "paired_assembly": {
+    "accession": "GCA_001182765.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by STATION BIOLOGIQUE DE ROSCOFF (CNRS - UPMC) - UMR7144 - MAPP TEAM"
+   },
+   "assembly_name": "WH8103.1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJEB8389",
+       "title": "Complete genome of the marine Synechococcus sp. WH8103 strain sequenced using Illumina technology"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJEB8389",
+   "release_date": "2015-07-10",
+   "submitter": "STATION BIOLOGIQUE DE ROSCOFF (CNRS - UPMC) - UMR7144 - MAPP TEAM",
+   "atypical": {
+    "is_atypical": true,
+    "warnings": [
+     "unverified source organism"
+    ]
+   },
+   "genome_notes": [
+    "unverified source organism"
+   ],
+   "sequencing_tech": "Illumina",
+   "assembly_method": "CLC_AssemblyCell v4.1",
+   "biosample": {
+    "accession": "SAMEA3233744",
+    "last_updated": "2021-08-21T04:18:44.000",
+    "publication_date": "2015-02-12T00:00:00.000",
+    "submission_date": "2015-02-14T08:08:27.643",
+    "sample_ids": [
+     {
+      "db": "SRA",
+      "value": "ERS655124"
+     }
+    ],
+    "description": {
+     "title": "Synechococcus sp. WH8103 annotated genome",
+     "organism": {
+      "tax_id": 29410,
+      "organism_name": "Synechococcus sp. WH 8103"
+     }
+    },
+    "owner": {
+     "name": "EBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "ENA first public",
+      "value": "2015-02-12"
+     },
+     {
+      "name": "ENA last update",
+      "value": "2016-10-21"
+     },
+     {
+      "name": "ENA-CHECKLIST",
+      "value": "ERC000024"
+     },
+     {
+      "name": "External Id",
+      "value": "SAMEA3233744"
+     },
+     {
+      "name": "INSDC center alias",
+      "value": "STATION BIOLOGIQUE DE ROSCOFF (CNRS - UPMC) - UMR7144 - MAPP TEAM"
+     },
+     {
+      "name": "INSDC center name",
+      "value": "STATION BIOLOGIQUE DE ROSCOFF (CNRS - UPMC) - UMR7144 - MAPP TEAM"
+     },
+     {
+      "name": "INSDC first public",
+      "value": "2015-02-12T17:06:48Z"
+     },
+     {
+      "name": "INSDC last update",
+      "value": "2016-10-21T09:44:01Z"
+     },
+     {
+      "name": "INSDC status",
+      "value": "public"
+     },
+     {
+      "name": "Submitter Id",
+      "value": "WH8103"
+     },
+     {
+      "name": "collection_date",
+      "value": "1981-03-17"
+     },
+     {
+      "name": "culture_collection",
+      "value": "RCC:2366"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "Aquatic"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "ocean"
+     },
+     {
+      "name": "env_medium",
+      "value": "water"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Atlantic Ocean"
+     },
+     {
+      "name": "geographic location (depth)",
+      "value": "0"
+     },
+     {
+      "name": "geographic location (latitude)",
+      "value": "28.5"
+     },
+     {
+      "name": "geographic location (longitude)",
+      "value": "-67.3917"
+     },
+     {
+      "name": "investigation_type",
+      "value": "mimarks-survey"
+     },
+     {
+      "name": "isolate",
+      "value": "WH 8103"
+     },
+     {
+      "name": "project_name",
+      "value": "METASYN"
+     },
+     {
+      "name": "sample_name",
+      "value": "WH8103"
+     },
+     {
+      "name": "sequencing method",
+      "value": "Illumina"
+     },
+     {
+      "name": "subspecf_gen_lin",
+      "value": "clade III"
+     },
+     {
+      "name": "water environmental package",
+      "value": "water"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2016-10-22T09:35:47"
+    },
+    "collection_date": "1981-03-17",
+    "geo_loc_name": "Atlantic Ocean",
+    "isolate": "WH 8103",
+    "project_name": "METASYN",
+    "sample_name": "WH8103"
+   },
+   "suppression_reason": "This record was removed by RefSeq staff. Please contact info@ncbi.nlm.nih.gov for further details. Reason: unverified source organism"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2429688",
+   "total_ungapped_length": "2429688",
+   "number_of_contigs": 1,
+   "contig_n50": 2429688,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2429688,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2429688",
+   "gc_count": "1445025",
+   "gc_percent": 59.5,
+   "genome_coverage": "1100"
+  },
+  "annotation_info": {
+   "name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "provider": "NCBI RefSeq",
+   "release_date": "2021-12-14",
+   "stats": {
+    "gene_counts": {
+     "total": 2654,
+     "protein_coding": 2568,
+     "non_coding": 54,
+     "pseudogene": 32
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "5.3"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 29410,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.2",
+   "completeness": 99.29
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "mismatch",
+   "submitted_organism": "Synechococcus sp. WH 8103",
+   "submitted_species": "Synechococcus sp. WH 8103",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000195975.1",
+    "organism_name": "Parasynechococcus marenigrum",
+    "category": "type",
+    "ani": 99.22,
+    "assembly_coverage": 93.23,
+    "type_assembly_coverage": 93.04
+   },
+   "comment": "best matching type assembly is from a genus where ANI analysis is not suitable or reliable for taxonomic classification"
+  }
+ }
+}

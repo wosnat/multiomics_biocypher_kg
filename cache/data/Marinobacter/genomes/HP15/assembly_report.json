@@ -1,0 +1,221 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000166295.1",
+  "current_accession": "GCF_000166295.1",
+  "paired_accession": "GCA_000166295.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 225937,
+   "organism_name": "Marinobacter adhaerens HP15",
+   "infraspecific_names": {
+    "strain": "HP15"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000166295.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Jacobs University gGmbH"
+   },
+   "assembly_name": "ASM16629v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA46089",
+       "title": "marine bacterium HP15 genome sequencing"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA46089",
+   "release_date": "2010-11-09",
+   "submitter": "Jacobs University gGmbH",
+   "biosample": {
+    "accession": "SAMN00713638",
+    "last_updated": "2015-12-09T10:04:00.260",
+    "publication_date": "2011-08-24T12:57:29.677",
+    "submission_date": "2011-08-24T12:57:29.670",
+    "sample_ids": [
+     {
+      "db": "SRA",
+      "value": "SRS258475"
+     }
+    ],
+    "description": {
+     "title": "Marinobacter adhaerens HP15 plasmid pHP-187, complete sequence.",
+     "organism": {
+      "tax_id": 225937,
+      "organism_name": "Marinobacter adhaerens HP15"
+     },
+     "comment": "Keywords: GSC:MIGS:2.1"
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "biotic_relationship",
+      "value": "free living"
+     },
+     {
+      "name": "habitat",
+      "value": "temperate shelf and sea biome (ENVO:00000895), tidal mudflat (ENVO:00000241), coastal water (ENVO:00002150)"
+     },
+     {
+      "name": "isol_growth_condt",
+      "value": "-> PMID: 19712327; DOI: 10.1016/S0168-6496(03)00305-2; Marinobacter adhaerens HP15 grows optimally at a range of 34-38 degrees Celsius, a pH of 7.0-8.5 and is able to withstand salt concentrations between 0.4-20% (w/v) NaCl; culture media: Marine Broth"
+     },
+     {
+      "name": "lat_lon",
+      "value": "53.722222 N 7.722222 E"
+     },
+     {
+      "name": "collection_date",
+      "value": "10-Oct-2000"
+     },
+     {
+      "name": "investigation_type",
+      "value": "bacteria_archaea"
+     },
+     {
+      "name": "environment",
+      "value": "marine water"
+     },
+     {
+      "name": "rel_to_oxygen",
+      "value": "aerobe"
+     },
+     {
+      "name": "project_name",
+      "value": "Marinobacter adhaerens HP15 genome project"
+     },
+     {
+      "name": "ref_biomaterial",
+      "value": "PMID: 19712327; DOI: 10.1016/S0168-6496(03)00305-2"
+     },
+     {
+      "name": "alt_elev",
+      "value": "0 m"
+     },
+     {
+      "name": "num_replicons",
+      "value": "3"
+     },
+     {
+      "name": "isolation_source",
+      "value": "German Wadden Sea"
+     },
+     {
+      "name": "trophic_level",
+      "value": "heterotroph"
+     },
+     {
+      "name": "temp",
+      "value": "15 deg C"
+     },
+     {
+      "name": "strain",
+      "value": "HP15"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Germany"
+     },
+     {
+      "name": "collected_by",
+      "value": "Hans Peter Grossart"
+     },
+     {
+      "name": "depth",
+      "value": "1 m"
+     },
+     {
+      "name": "sample-material",
+      "value": "water"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2013-09-19T09:22:10"
+    },
+    "collected_by": "Hans Peter Grossart",
+    "collection_date": "10-Oct-2000",
+    "geo_loc_name": "Germany",
+    "isolation_source": "German Wadden Sea",
+    "lat_lon": "53.722222 N 7.722222 E",
+    "project_name": "Marinobacter adhaerens HP15 genome project",
+    "strain": "HP15"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 3,
+   "total_sequence_length": "4651725",
+   "total_ungapped_length": "4651725",
+   "number_of_contigs": 3,
+   "contig_n50": 4421911,
+   "contig_l50": 1,
+   "number_of_scaffolds": 3,
+   "scaffold_n50": 4421911,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 3,
+   "atgc_count": "4651725",
+   "gc_count": "2644964",
+   "gc_percent": 57
+  },
+  "annotation_info": {
+   "name": "GCF_000166295.1-RS_2025_12_05",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-12-05",
+   "stats": {
+    "gene_counts": {
+     "total": 4371,
+     "protein_coding": 4240,
+     "non_coding": 66,
+     "pseudogene": 65
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Marinobacter",
+   "checkm_species_tax_id": 1033846,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.4",
+   "completeness": 98.67,
+   "contamination": 0.09,
+   "completeness_percentile": 33.3333
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "mismatch",
+   "submitted_organism": "Marinobacter adhaerens HP15",
+   "submitted_species": "Marinobacter adhaerens",
+   "category": "type",
+   "best_ani_match": {
+    "assembly": "GCA_003363485.1",
+    "organism_name": "Marinobacter flavimaris",
+    "category": "type",
+    "ani": 96.58,
+    "assembly_coverage": 76.47,
+    "type_assembly_coverage": 79.7
+   },
+   "comment": "Assembly is the type_strain, mismatch is within genus and expected"
+  }
+ }
+}

@@ -1,0 +1,147 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000012465.1",
+  "current_accession": "GCF_000012465.1",
+  "paired_accession": "GCA_000012465.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 59920,
+   "organism_name": "Prochlorococcus marinus str. NATL2A",
+   "infraspecific_names": {
+    "strain": "NATL2A"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000012465.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by DOE Joint Genome Institute"
+   },
+   "assembly_name": "ASM1246v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13911",
+       "title": "Low light-adapted strain"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13911",
+   "release_date": "2007-08-09",
+   "submitter": "DOE Joint Genome Institute",
+   "biosample": {
+    "accession": "SAMN00623057",
+    "last_updated": "2015-11-25T12:22:13.213",
+    "publication_date": "2011-06-09T09:15:43.553",
+    "submission_date": "2011-06-09T08:58:12.167",
+    "sample_ids": [
+     {
+      "db": "DOE Joint Genome Institute",
+      "label": "Sample name",
+      "value": "Sample FBHS"
+     },
+     {
+      "db": "SRA",
+      "value": "SRS211725"
+     }
+    ],
+    "description": {
+     "title": "Sample of PROCHLOROCOCCUS SP. NATL2A",
+     "organism": {
+      "tax_id": 59920,
+      "organism_name": "Prochlorococcus marinus str. NATL2A"
+     },
+     "comment": "454 sequencing of PROCHLOROCOCCUS SP. NATL2A"
+    },
+    "owner": {
+     "name": "Joint Genome Institute, U.S. Department of Energy"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "NATL2A"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2011-06-09T09:16:40.073"
+    },
+    "strain": "NATL2A"
+   }
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "1842899",
+   "total_ungapped_length": "1842899",
+   "number_of_contigs": 1,
+   "contig_n50": 1842899,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1842899,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "1842899",
+   "gc_count": "647282",
+   "gc_percent": 35
+  },
+  "annotation_info": {
+   "name": "GCF_000012465.1-RS_2025_05_23",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-05-23",
+   "stats": {
+    "gene_counts": {
+     "total": 2108,
+     "protein_coding": 2058,
+     "non_coding": 45,
+     "pseudogene": 5
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus marinus",
+   "checkm_species_tax_id": 1219,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.8,
+   "contamination": 0.06,
+   "completeness_percentile": 62.766
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Prochlorococcus marinus str. NATL2A",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+    "category": "type",
+    "ani": 86.67,
+    "assembly_coverage": 0.59,
+    "type_assembly_coverage": 0.66
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 86.67,
+    "assembly_coverage": 0.59,
+    "type_assembly_coverage": 0.66
+   },
+   "comment": "na"
+  }
+ }
+}

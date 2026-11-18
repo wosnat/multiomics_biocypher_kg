@@ -336,3 +336,54 @@ def test_phage_has_zero_genes(run_query):
     assert result[0]["gc"] == 0, (
         f"Phage should have 0 genes, got {result[0]['gc']}"
     )
+
+
+# ── Assembly quality (spec 2026-11-18-organism-assembly-quality-design.md) ────
+
+def test_assembly_properties_on_genome_organisms(run_query):
+    """Every genome-backed organism carries assembly_level / status / report date."""
+    result = run_query("""
+        MATCH (o:OrganismTaxon)
+        WHERE o.organism_type IN ['genome_strain', 'reference_proteome_match']
+          AND (o.assembly_level IS NULL OR o.assembly_status IS NULL
+               OR o.assembly_report_date IS NULL)
+        RETURN o.preferred_name AS name
+    """)
+    assert not result, [r["name"] for r in result]
+
+
+def test_no_assembly_properties_on_treatment(run_query):
+    result = run_query("""
+        MATCH (o:OrganismTaxon {organism_type: 'treatment'})
+        WHERE o.assembly_level IS NOT NULL OR o.checkm_completeness IS NOT NULL
+        RETURN o.preferred_name AS name
+    """)
+    assert not result, [r["name"] for r in result]
+
+
+def test_assembly_spot_checks(run_query):
+    rows = {r["strain"]: r for r in run_query("""
+        MATCH (o:OrganismTaxon)
+        WHERE o.strain_name IN ['MED4', 'WH7803', 'CB0101']
+        RETURN o.strain_name AS strain, o.assembly_level AS level,
+               o.assembly_status AS status, o.checkm_completeness AS comp,
+               o.checkm_contamination AS contam,
+               o.assembly_current_accession AS current
+    """)}
+    med4 = rows["MED4"]
+    assert (med4["level"], med4["status"], med4["comp"], med4["contam"]) == \
+        ("complete_genome", "current", 99.45, 0.0)
+    assert rows["WH7803"]["status"] == "suppressed"
+    cb = rows["CB0101"]
+    assert (cb["level"], cb["status"], cb["current"]) == \
+        ("contig", "previous", "GCF_000179235.2")
+
+
+def test_assembly_level_distribution(run_query):
+    rows = run_query("""
+        MATCH (o:OrganismTaxon) WHERE o.assembly_level IS NOT NULL
+        RETURN o.assembly_level AS level, count(*) AS n
+    """)
+    counts = {r["level"]: r["n"] for r in rows}
+    assert sum(counts.values()) == 118, counts
+    assert counts.get("complete_genome", 0) >= 70, counts

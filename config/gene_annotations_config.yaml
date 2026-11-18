@@ -33,6 +33,9 @@ sources:
       - id: ncbi
         scope: gene_level
         provenance: download
+        # Organism-level assembly report (step 0 sub-step 1, assembly_report.json),
+        # read by cyanorak_ncbi_adapter, not via a fields rule.
+        info_types_extra: [assembly_quality]
       - id: cyanorak
         scope: organism_restricted
         provenance: download

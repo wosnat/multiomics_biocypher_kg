@@ -1,0 +1,236 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_901446615.2",
+  "current_accession": "GCF_901446615.2",
+  "paired_accession": "GCA_901446615.2",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 28108,
+   "organism_name": "Alteromonas macleodii",
+   "infraspecific_names": {
+    "isolate": "Alteromonas macleodii BGP6"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_901446615.2",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Institute for Chemistry and Biology of the Marine Environment"
+   },
+   "assembly_name": "ASM90144661v2",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJEB32335",
+       "title": "Pangenomics of the marine bacterium Alteromonas macleodii"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJEB32335",
+   "release_date": "2022-10-27",
+   "submitter": "Institute for Chemistry and Biology of the Marine Environment",
+   "sequencing_tech": "PacBio RSII",
+   "assembly_method": "RS_HGAP_Assembly.3 | SMRT Portal v2.3",
+   "biosample": {
+    "accession": "SAMEA5587610",
+    "last_updated": "2024-02-06T16:07:16.000",
+    "publication_date": "2019-10-27T00:00:00.000",
+    "submission_date": "2019-10-28T09:09:38.340",
+    "sample_ids": [
+     {
+      "db": "SRA",
+      "value": "ERS3391831"
+     }
+    ],
+    "description": {
+     "title": "Pangenomics of Alteromonas macleodii",
+     "organism": {
+      "tax_id": 28108,
+      "organism_name": "Alteromonas macleodii"
+     }
+    },
+    "owner": {
+     "name": "EBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "ENA-CHECKLIST",
+      "value": "ERC000024"
+     },
+     {
+      "name": "ENA-FIRST-PUBLIC",
+      "value": "2019-10-27T17:03:47Z"
+     },
+     {
+      "name": "ENA-LAST-UPDATE",
+      "value": "2019-05-02T11:17:06Z"
+     },
+     {
+      "name": "External Id",
+      "value": "SAMEA5587610"
+     },
+     {
+      "name": "INSDC center name",
+      "value": "Institute for Chemistry and Biology of the Marine Environment"
+     },
+     {
+      "name": "INSDC first public",
+      "value": "2019-10-27T17:03:47Z"
+     },
+     {
+      "name": "INSDC last update",
+      "value": "2019-05-02T11:17:06Z"
+     },
+     {
+      "name": "INSDC status",
+      "value": "public"
+     },
+     {
+      "name": "Submitter Id",
+      "value": "Alteromonas macleodii BGP6"
+     },
+     {
+      "name": "collection_date",
+      "value": "2016-05"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "southern Pacific"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "seawater"
+     },
+     {
+      "name": "env_medium",
+      "value": "alginate-supplemented microcosm"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "Pacific Ocean"
+     },
+     {
+      "name": "geographic location (depth)",
+      "value": "20"
+     },
+     {
+      "name": "geographic location (latitude)",
+      "value": "-26.983333"
+     },
+     {
+      "name": "geographic location (longitude)",
+      "value": "178.2"
+     },
+     {
+      "name": "investigation_type",
+      "value": "bacteria_archaea"
+     },
+     {
+      "name": "project_name",
+      "value": "Pangenomics of Alteromonas macleodii"
+     },
+     {
+      "name": "sample_name",
+      "value": "Alteromonas macleodii BGP6"
+     },
+     {
+      "name": "scientific_name",
+      "value": "Alteromonas macleodii"
+     },
+     {
+      "name": "sequencing method",
+      "value": "PacBio II"
+     },
+     {
+      "name": "water environmental package",
+      "value": "water"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2019-10-28T12:06:58.693"
+    },
+    "collection_date": "2016-05",
+    "geo_loc_name": "Pacific Ocean",
+    "project_name": "Pangenomics of Alteromonas macleodii",
+    "sample_name": "Alteromonas macleodii BGP6"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 2,
+   "total_sequence_length": "4819231",
+   "total_ungapped_length": "4819231",
+   "number_of_contigs": 2,
+   "contig_n50": 4673923,
+   "contig_l50": 1,
+   "number_of_scaffolds": 2,
+   "scaffold_n50": 4673923,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 2,
+   "atgc_count": "4819231",
+   "gc_count": "2148975",
+   "gc_percent": 44.5,
+   "genome_coverage": "100"
+  },
+  "annotation_info": {
+   "name": "GCF_901446615.2-RS_2025_12_03",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-12-03",
+   "stats": {
+    "gene_counts": {
+     "total": 4182,
+     "protein_coding": 4063,
+     "non_coding": 90,
+     "pseudogene": 29
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Alteromonas macleodii",
+   "checkm_species_tax_id": 28108,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.4",
+   "completeness": 99.16,
+   "contamination": 0.74,
+   "completeness_percentile": 87.8788
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "species_match",
+   "submitted_organism": "Alteromonas macleodii",
+   "submitted_species": "Alteromonas macleodii",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_050500325.1",
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "category": "type",
+    "ani": 98.08,
+    "assembly_coverage": 87.59,
+    "type_assembly_coverage": 91.15
+   },
+   "best_ani_match": {
+    "assembly": "GCA_050500325.1",
+    "organism_name": "Alteromonas macleodii",
+    "category": "type",
+    "ani": 98.08,
+    "assembly_coverage": 87.59,
+    "type_assembly_coverage": 91.15
+   },
+   "comment": "na"
+  }
+ }
+}

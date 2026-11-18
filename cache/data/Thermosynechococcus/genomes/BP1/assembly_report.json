@@ -1,0 +1,159 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000011345.1",
+  "current_accession": "GCF_000011345.1",
+  "paired_accession": "GCA_000011345.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 197221,
+   "organism_name": "Thermosynechococcus vestitus BP-1",
+   "infraspecific_names": {
+    "strain": "BP-1"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000011345.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Kazusa"
+   },
+   "assembly_name": "ASM1134v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA308",
+       "title": "Thermophilic cyanobacterium that contains an unusual number of type II introns",
+       "parent_accessions": [
+        "PRJDB20515"
+       ]
+      },
+      {
+       "accession": "PRJDB20515",
+       "title": "Kazusa Genome Project: genome sequencing and assembly of Viridiplantae",
+       "parent_accessions": [
+        "PRJNA533106"
+       ]
+      },
+      {
+       "accession": "PRJNA533106",
+       "title": "Earth BioGenome Project (EBP)"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA308",
+   "release_date": "2004-05-11",
+   "submitter": "Kazusa",
+   "refseq_category": "reference genome",
+   "biosample": {
+    "accession": "SAMD00061106",
+    "last_updated": "2020-08-20T20:44:27.000",
+    "publication_date": "2016-09-27T00:00:00.000",
+    "submission_date": "2016-09-28T01:02:53.300",
+    "description": {
+     "title": "Generic sample from Thermosynechococcus elongatus BP-1",
+     "organism": {
+      "tax_id": 197221,
+      "organism_name": "Thermosynechococcus vestitus BP-1"
+     }
+    },
+    "owner": {
+     "name": "DDBJ"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA308"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "sample_name",
+      "value": "BA000039"
+     },
+     {
+      "name": "strain",
+      "value": "BP-1"
+     },
+     {
+      "name": "type-material",
+      "value": "reference strain of Thermosynechococcus vestitus"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2016-09-28T01:02:53.303"
+    },
+    "sample_name": "BA000039",
+    "strain": "BP-1"
+   }
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2593857",
+   "total_ungapped_length": "2593857",
+   "number_of_contigs": 1,
+   "contig_n50": 2593857,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2593857,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2593857",
+   "gc_count": "1398554",
+   "gc_percent": 54
+  },
+  "annotation_info": {
+   "name": "GCF_000011345.1-RS_2025_04_07",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-04-07",
+   "stats": {
+    "gene_counts": {
+     "total": 2547,
+     "protein_coding": 2449,
+     "non_coding": 47,
+     "pseudogene": 51
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Bacteria",
+   "checkm_species_tax_id": 146786,
+   "checkm_marker_set_rank": "domain",
+   "checkm_version": "v1.2.5",
+   "completeness": 100,
+   "contamination": 0.16
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "below_threshold_mismatch",
+   "submitted_organism": "Thermosynechococcus vestitus BP-1",
+   "submitted_species": "Thermosynechococcus vestitus",
+   "category": "type",
+   "best_ani_match": {
+    "assembly": "GCA_003555505.2",
+    "organism_name": "Thermosynechococcus sichuanensis",
+    "category": "type",
+    "ani": 87.88,
+    "assembly_coverage": 85.26,
+    "type_assembly_coverage": 83.45
+   },
+   "comment": "Assembly is the type_strain, no match is expected"
+  }
+ }
+}

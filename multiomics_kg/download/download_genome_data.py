@@ -198,6 +198,77 @@ def _ncbi_download_genome(ncbi_accession: str, data_dir: str, force: bool) -> bo
     return True
 
 
+_ASSEMBLY_REPORT_URL = (
+    "https://api.ncbi.nlm.nih.gov/datasets/v2/genome/accession/{accessions}/dataset_report"
+    "?filters.assembly_version=all_assemblies&page_size=100"
+)
+_ASSEMBLY_REPORT_CHUNK = 40  # a single 118-accession request returned HTTP 500 (2026-11-18)
+
+
+def _report_accession(path: str) -> str | None:
+    """Accession recorded in an existing report file, or None (missing / unreadable)."""
+    try:
+        with open(path) as f:
+            return (json.load(f).get("report") or {}).get("accession")
+    except (OSError, ValueError):
+        return None
+
+
+def _ncbi_fetch_assembly_reports(
+    genomes: list[dict], force: bool, today: str | None = None
+) -> dict[str, str]:
+    """Fetch each strain's NCBI assembly report into ``<data_dir>/assembly_report.json``.
+
+    Runs independently of the genome download, so strains whose genome files
+    are already cached still get a report. Without ``force`` only strains with
+    no report file, or a file written for a different accession, are fetched. The report is matched on the exact requested
+    accession (``all_assemblies`` makes superseded versions such as CB0101's
+    ``.1`` resolvable). Returns ``{accession: written | skipped | missing}``.
+    """
+    import datetime
+    import requests
+
+    from multiomics_kg.utils.assembly_report import ASSEMBLY_REPORT_FILENAME
+
+    today = today or datetime.date.today().isoformat()
+    status: dict[str, str] = {}
+    todo: dict[str, str] = {}  # accession -> report path
+    for g in genomes:
+        acc = (g.get("ncbi_accession") or "").strip()
+        if not acc.startswith("GC"):
+            continue
+        path = os.path.join(str(PROJECT_ROOT / g["data_dir"].rstrip("/")), ASSEMBLY_REPORT_FILENAME)
+        if not force and _report_accession(path) == acc:
+            status[acc] = "skipped"
+        else:
+            todo[acc] = path  # missing, or written for another accession (strain re-versioned)
+
+    accs = list(todo)
+    for i in range(0, len(accs), _ASSEMBLY_REPORT_CHUNK):
+        chunk = accs[i:i + _ASSEMBLY_REPORT_CHUNK]
+        url = _ASSEMBLY_REPORT_URL.format(accessions=",".join(chunk))
+        try:
+            resp = requests.get(url, timeout=120)
+            resp.raise_for_status()
+            reports = {r.get("accession"): r for r in resp.json().get("reports", [])}
+        except Exception as e:  # network / HTTP / JSON — warn, keep going
+            log.warning(f"  Assembly report fetch failed for {len(chunk)} accessions: {e}")
+            reports = {}
+        for acc in chunk:
+            report = reports.get(acc)
+            if report is None:
+                log.warning(f"  No NCBI assembly report for {acc}")
+                status[acc] = "missing"
+                continue
+            path = todo[acc]
+            os.makedirs(os.path.dirname(path), exist_ok=True)
+            with open(path, "w") as f:
+                json.dump({"fetched_at": today, "report": report}, f, indent=1)
+                f.write("\n")
+            status[acc] = "written"
+    return status
+
+
 def _cyanorak_download_file(
     cyanorak_organism: str, data_dir: str, ext: str, force: bool
 ) -> bool:
@@ -250,6 +321,9 @@ def step1_ncbi(genomes: list[dict], force: bool) -> None:
             log.info(f"  OK: {strain}")
         else:
             log.info(f"  [SKIP] {strain} — NCBI files already cached")
+    status = _ncbi_fetch_assembly_reports(genomes, force)
+    counts = {k: list(status.values()).count(k) for k in ("written", "skipped", "missing")}
+    log.info(f"  Assembly reports: {counts}")
 
 
 # ── step 2: Cyanorak ─────────────────────────────────────────────────────────

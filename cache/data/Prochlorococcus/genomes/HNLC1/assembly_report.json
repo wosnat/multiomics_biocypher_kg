@@ -1,0 +1,167 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000218705.1",
+  "current_accession": "GCF_000218705.1",
+  "paired_accession": "GCA_000218705.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 1041938,
+   "organism_name": "Prochlorococcus marinus bv. HNLC1"
+  },
+  "assembly_info": {
+   "assembly_level": "Scaffold",
+   "assembly_status": "suppressed",
+   "paired_assembly": {
+    "accession": "GCA_000218705.1",
+    "status": "current"
+   },
+   "assembly_name": "HNLC1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA67829",
+       "title": "Prochlorococcus marinus bv. HNLC1 Metagenomic Assembly Project",
+       "parent_accessions": [
+        "PRJNA208465"
+       ]
+      },
+      {
+       "accession": "PRJNA208465",
+       "title": "Metagenomes obtained during the Global Ocean Sampling Expedition",
+       "parent_accessions": [
+        "PRJNA208472"
+       ]
+      },
+      {
+       "accession": "PRJNA208472",
+       "title": "Global Ocean Sampling Expedition Overall Project"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA67829",
+   "release_date": "2011-06-17",
+   "submitter": "J. Craig Venter Institute",
+   "genome_notes": [
+    "derived from metagenome"
+   ],
+   "sequencing_tech": "ABI 3730; 454 XLR",
+   "assembly_method": "Celera Assembler v. 2009",
+   "biosample": {
+    "accession": "SAMN02954344",
+    "last_updated": "2014-08-07T12:59:37.797",
+    "publication_date": "2014-08-07T12:59:37.797",
+    "submission_date": "2014-08-07T12:59:37.797",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "ADHP"
+     }
+    ],
+    "description": {
+     "title": "MIMS Environmental/Metagenome sample from marine metagenome",
+     "organism": {
+      "tax_id": 408172,
+      "organism_name": "marine metagenome"
+     },
+     "comment": "Keywords: GSC:MIxS;MIMS:6.0"
+    },
+    "owner": {
+     "name": "ncbi_backfill"
+    },
+    "models": [
+     "MIMS.me",
+     "MIGS/MIMS/MIMARKS.water"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA13694"
+     }
+    ],
+    "package": "MIMS.me.water.6.0",
+    "attributes": [
+     {
+      "name": "collection_date",
+      "value": "missing"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "aquatic"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "ocean"
+     },
+     {
+      "name": "env_medium",
+      "value": "water"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "missing"
+     },
+     {
+      "name": "lat_lon",
+      "value": "missing"
+     },
+     {
+      "name": "isolation_source",
+      "value": "Pacific and Indian Oceans"
+     },
+     {
+      "name": "depth",
+      "value": "missing"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-08-07T12:59:37.797"
+    },
+    "collection_date": "missing",
+    "geo_loc_name": "missing",
+    "isolation_source": "Pacific and Indian Oceans",
+    "lat_lon": "missing"
+   },
+   "comments": "This scaffold is of a Procholorcoccus genome assembled from Global Ocean Survey samples GS40-47 and GS111-112, from the Pacific and Indian Oceans.",
+   "suppression_reason": "This record was removed by RefSeq staff. Please contact info@ncbi.nlm.nih.gov for further details."
+  },
+  "assembly_stats": {
+   "total_sequence_length": "1569623",
+   "total_ungapped_length": "1566123",
+   "number_of_contigs": 36,
+   "contig_n50": 118040,
+   "contig_l50": 5,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1569623,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 36
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "below_threshold_match",
+   "submitted_organism": "Prochlorococcus marinus bv. HNLC1",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+    "category": "type",
+    "ani": 77.37,
+    "assembly_coverage": 12.63,
+    "type_assembly_coverage": 11.93
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 77.37,
+    "assembly_coverage": 12.63,
+    "type_assembly_coverage": 11.93
+   },
+   "comment": "na"
+  }
+ }
+}

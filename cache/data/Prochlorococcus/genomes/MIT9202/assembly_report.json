@@ -1,0 +1,150 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000158595.1",
+  "current_accession": "GCF_000158595.1",
+  "paired_accession": "GCA_000158595.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 93058,
+   "organism_name": "Prochlorococcus marinus str. MIT 9202",
+   "infraspecific_names": {
+    "strain": "MIT 9202"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Scaffold",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000158595.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by The Gordon and Betty Moore Foundation Microbial Genome Sequencing project"
+   },
+   "assembly_name": "ASM15859v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA19343",
+       "title": "Cyanobacterium from the South Pacific Ocean"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA19343",
+   "release_date": "2009-01-26",
+   "submitter": "The Gordon and Betty Moore Foundation Microbial Genome Sequencing project",
+   "biosample": {
+    "accession": "SAMN02436267",
+    "last_updated": "2015-05-18T12:16:19.103",
+    "publication_date": "2013-12-04T14:26:37.393",
+    "submission_date": "2013-12-04T14:22:58.943",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "ACDW"
+     }
+    ],
+    "description": {
+     "title": "Generic sample from Prochlorococcus marinus str. MIT 9202",
+     "organism": {
+      "tax_id": 93058,
+      "organism_name": "Prochlorococcus marinus str. MIT 9202"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA19343"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "MIT 9202"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2013-12-04T14:26:37.393"
+    },
+    "strain": "MIT 9202"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/\nWith funding from the Gordon and Betty Moore Foundation (www.moore.org), the J. Craig Venter Institute (www.jcvi.org) is sequencing, assembling, and auto-annotating the genomes of approximately 165 marine microbes. These microbes were contributed by collaborators worldwide, and embody an array of physiological diversity, including carbon fixers, photoautotrophs, photoheterotrophs, nitrifiers, and methanotrophs. This work was designed to complement other ongoing research at JCVI and elsewhere to characterize the microbial biodiversity of marine and terrestrial environments through metagenomics profiling of environmental samples.\nPlease be aware that the annotation is done automatically with little or no manual curation."
+  },
+  "assembly_stats": {
+   "total_sequence_length": "1691453",
+   "total_ungapped_length": "1690387",
+   "number_of_contigs": 6,
+   "contig_n50": 1025927,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1691453,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 6,
+   "atgc_count": "1690387",
+   "gc_count": "525653",
+   "gc_percent": 31
+  },
+  "annotation_info": {
+   "name": "GCF_000158595.1-RS_2025_01_28",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-01-28",
+   "stats": {
+    "gene_counts": {
+     "total": 1940,
+     "protein_coding": 1881,
+     "non_coding": 43,
+     "pseudogene": 16
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.9"
+  },
+  "wgs_info": {
+   "wgs_project_accession": "ACDW01",
+   "master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/ACDW00000000.1",
+   "wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/ACDW01"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus marinus",
+   "checkm_species_tax_id": 1219,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.3",
+   "completeness": 98.83,
+   "completeness_percentile": 10.6383
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "derived_species_match",
+   "submitted_organism": "Prochlorococcus marinus str. MIT 9202",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+    "category": "type",
+    "ani": 79.91,
+    "assembly_coverage": 55.43,
+    "type_assembly_coverage": 56.51
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 79.91,
+    "assembly_coverage": 55.43,
+    "type_assembly_coverage": 56.51
+   },
+   "comment": "na"
+  }
+ }
+}

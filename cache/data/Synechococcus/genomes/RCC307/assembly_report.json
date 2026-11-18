@@ -1,0 +1,170 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000063525.1",
+  "current_accession": "GCF_000063525.1",
+  "paired_accession": "GCA_000063525.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 316278,
+   "organism_name": "Synechococcus sp. RCC307"
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "suppressed",
+   "paired_assembly": {
+    "accession": "GCA_000063525.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by Genoscope"
+   },
+   "assembly_name": "ASM6352v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13654",
+       "title": "Marine cyanobacterium"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13654",
+   "release_date": "2007-05-19",
+   "submitter": "Genoscope",
+   "genome_notes": [
+    "missing strain identifier"
+   ],
+   "biosample": {
+    "accession": "SAMEA3138265",
+    "last_updated": "2019-04-18T11:06:24.343",
+    "publication_date": "2014-11-20T00:00:00.000",
+    "submission_date": "2014-11-21T08:58:27.690",
+    "sample_ids": [
+     {
+      "db": "SRA",
+      "value": "ERS610200"
+     }
+    ],
+    "description": {
+     "title": "GCA_000063525",
+     "organism": {
+      "tax_id": 316278,
+      "organism_name": "Synechococcus sp. RCC307"
+     }
+    },
+    "owner": {
+     "name": "EBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "Alias",
+      "value": "GCA_000063525"
+     },
+     {
+      "name": "Broker name",
+      "value": "European Nucleotide Archive"
+     },
+     {
+      "name": "ENA checklist",
+      "value": "ERC000011"
+     },
+     {
+      "name": "INSDC center alias",
+      "value": "EBI"
+     },
+     {
+      "name": "INSDC center name",
+      "value": "European Bioinformatics Institute"
+     },
+     {
+      "name": "INSDC first public",
+      "value": "2014-11-20T12:20:15Z"
+     },
+     {
+      "name": "INSDC last update",
+      "value": "2014-11-20T11:47:19Z"
+     },
+     {
+      "name": "INSDC status",
+      "value": "public"
+     },
+     {
+      "name": "SRA accession",
+      "value": "ERS610200"
+     },
+     {
+      "name": "sample_name",
+      "value": "ERS610200"
+     },
+     {
+      "name": "Title",
+      "value": "BioSample entry for genome collection GCA_000063525"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-11-21T08:58:27.690"
+    },
+    "sample_name": "ERS610200"
+   },
+   "suppression_reason": "This record was removed by RefSeq staff. Please contact info@ncbi.nlm.nih.gov for further details. Reason: missing strain identifier"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2224914",
+   "total_ungapped_length": "2224914",
+   "number_of_contigs": 1,
+   "contig_n50": 2224914,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2224914,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2224913",
+   "gc_count": "1353715",
+   "gc_percent": 61
+  },
+  "annotation_info": {
+   "name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "provider": "NCBI RefSeq",
+   "release_date": "2017-04-15",
+   "stats": {
+    "gene_counts": {
+     "total": 2457,
+     "protein_coding": 2388,
+     "non_coding": 48,
+     "pseudogene": 21
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "4.1"
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Synechococcus sp. RCC307",
+   "submitted_species": "Synechococcus sp. RCC307",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000316515.1",
+    "organism_name": "Cyanobium gracile",
+    "category": "type",
+    "ani": 82.4,
+    "assembly_coverage": 6.11,
+    "type_assembly_coverage": 4.07
+   },
+   "comment": "na"
+  }
+ }
+}

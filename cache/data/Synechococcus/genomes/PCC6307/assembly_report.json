@@ -1,0 +1,263 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000316515.1",
+  "current_accession": "GCF_000316515.1",
+  "paired_accession": "GCA_000316515.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 292564,
+   "organism_name": "Cyanobium gracile PCC 6307",
+   "infraspecific_names": {
+    "strain": "PCC 6307"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000316515.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by JGI"
+   },
+   "assembly_name": "ASM31651v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA158695",
+       "title": "Cyanobium gracile PCC 6307 Genome sequencing",
+       "parent_accessions": [
+        "PRJNA166933"
+       ]
+      },
+      {
+       "accession": "PRJNA166933",
+       "title": "CyanoGEBA Sequencing Project"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA158695",
+   "release_date": "2012-12-04",
+   "submitter": "JGI",
+   "refseq_category": "reference genome",
+   "sequencing_tech": "454/Illumina",
+   "assembly_method": "Newbler v. 2.3 (pre-release), VELVET v. 1.0.13, Parallel phrap v. 4.24 SPS",
+   "biosample": {
+    "accession": "SAMN02261330",
+    "last_updated": "2026-08-30T02:09:00.554",
+    "publication_date": "2013-07-19T00:00:00.000",
+    "submission_date": "2013-07-19T14:58:23.636",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP003495"
+     },
+     {
+      "db": "SRA",
+      "value": "SRS664494"
+     }
+    ],
+    "description": {
+     "title": "MIGS Cultured Bacterial/Archaeal sample from Cyanobium gracile PCC 6307",
+     "organism": {
+      "tax_id": 292564,
+      "organism_name": "Cyanobium gracile PCC 6307"
+     },
+     "comment": "Keywords: GSC:MIxS;MIGS:6.0"
+    },
+    "owner": {
+     "name": "Joint Genome Institute",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "MIGS.ba"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA158695"
+     }
+    ],
+    "package": "MIGS.ba.6.0",
+    "attributes": [
+     {
+      "name": "biotic_relationship",
+      "value": "free living"
+     },
+     {
+      "name": "isolation_source",
+      "value": "Water, lake, Wisconsin, USA, 1949"
+     },
+     {
+      "name": "strain",
+      "value": "PCC 6307"
+     },
+     {
+      "name": "Motility",
+      "value": "Nonmotile"
+     },
+     {
+      "name": "lat_lon",
+      "value": "missing"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "not provided; submitted under MIGS 2.1"
+     },
+     {
+      "name": "disease",
+      "value": "missing"
+     },
+     {
+      "name": "collection_date",
+      "value": "1949"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "not provided; submitted under MIGS 2.1"
+     },
+     {
+      "name": "investigation_type",
+      "value": "bacteria_archaea"
+     },
+     {
+      "name": "Temperature Range",
+      "value": "Mesophile"
+     },
+     {
+      "name": "rel_to_oxygen",
+      "value": "aerobe"
+     },
+     {
+      "name": "project_name",
+      "value": "Cyanobium gracile PCC 6307"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "USA"
+     },
+     {
+      "name": "env_medium",
+      "value": "not provided; submitted under MIGS 2.1"
+     },
+     {
+      "name": "ref_biomaterial",
+      "value": "PCC 6307"
+     },
+     {
+      "name": "alt_elev",
+      "value": "missing"
+     },
+     {
+      "name": "num_replicons",
+      "value": "1"
+     },
+     {
+      "name": "environment",
+      "value": "Fresh water"
+     },
+     {
+      "name": "trophic_level",
+      "value": "autotroph"
+     },
+     {
+      "name": "isol_growth_condt",
+      "value": "missing"
+     },
+     {
+      "name": "env_package",
+      "value": "missing"
+     },
+     {
+      "name": "GOLD Stamp ID",
+      "value": "Gi05616"
+     },
+     {
+      "name": "depth",
+      "value": "missing"
+     },
+     {
+      "name": "type-material",
+      "value": "reference strain of Cyanobium gracile"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2013-09-19T09:29:32"
+    },
+    "collection_date": "1949",
+    "geo_loc_name": "USA",
+    "isolation_source": "Water, lake, Wisconsin, USA, 1949",
+    "lat_lon": "missing",
+    "project_name": "Cyanobium gracile PCC 6307",
+    "strain": "PCC 6307"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/\nURL -- http://www.jgi.doe.gov\nJGI Project ID: 4088893\nSource DNA and organism available from Cheryl A. Kerfeld (CKerfeld@lbl.gov)\nContacts: Cheryl A. Kerfeld (CKerfeld@lbl.gov)\nTanja Woyke (microbe@cuba.jgi-psf.org)\nAnnotation done by JGI-ORNL and JGI-PGF\nFinishing done by JGI-LANL\nThe JGI and collaborators endorse the principles for the distribution and use of large scale sequencing data adopted by the larger genome sequencing community and urge users of this data to follow them. it is our intention to publish the work of this project in a timely fashion and we welcome collaborative interaction on the project and analysis.\n(http://www.genome.gov/page.cfm?pageID=10506376)"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "3342364",
+   "total_ungapped_length": "3342364",
+   "number_of_contigs": 1,
+   "contig_n50": 3342364,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 3342364,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "3342364",
+   "gc_count": "2296444",
+   "gc_percent": 68.5,
+   "genome_coverage": "30"
+  },
+  "annotation_info": {
+   "name": "GCF_000316515.1-RS_2026_05_02",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-05-02",
+   "stats": {
+    "gene_counts": {
+     "total": 3429,
+     "protein_coding": 3329,
+     "non_coding": 54,
+     "pseudogene": 46
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.11"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Cyanobium",
+   "checkm_species_tax_id": 59930,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.5",
+   "completeness": 97.37,
+   "contamination": 1.3,
+   "completeness_percentile": 66.6667
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "below_threshold_mismatch",
+   "submitted_organism": "Cyanobium gracile PCC 6307",
+   "submitted_species": "Cyanobium gracile",
+   "category": "type",
+   "best_ani_match": {
+    "assembly": "GCA_002252705.1",
+    "organism_name": "Vulcanococcus limneticus",
+    "category": "type",
+    "ani": 82.94,
+    "assembly_coverage": 24.1,
+    "type_assembly_coverage": 22.7
+   },
+   "comment": "Assembly is the type_strain, no match is expected"
+  }
+ }
+}

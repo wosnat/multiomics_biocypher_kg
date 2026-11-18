@@ -1,0 +1,193 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000011465.1",
+  "current_accession": "GCF_000011465.1",
+  "paired_accession": "GCA_000011465.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 59919,
+   "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+   "infraspecific_names": {
+    "strain": "MED4"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000011465.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by DOE Joint Genome Institute"
+   },
+   "assembly_name": "ASM1146v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA213",
+       "title": "Smallest and most abundant bacterium that has unique photosynthesizing components"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA213",
+   "release_date": "2003-08-18",
+   "submitter": "DOE Joint Genome Institute",
+   "biosample": {
+    "accession": "SAMEA3138209",
+    "last_updated": "2026-07-26T08:36:50.583",
+    "publication_date": "2014-11-20T00:00:00.000",
+    "submission_date": "2014-11-21T08:58:20.990",
+    "sample_ids": [
+     {
+      "db": "SRA",
+      "value": "ERS610144"
+     }
+    ],
+    "description": {
+     "title": "GCA_000011465",
+     "organism": {
+      "tax_id": 59919,
+      "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986"
+     }
+    },
+    "owner": {
+     "name": "EBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "Alias",
+      "value": "GCA_000011465"
+     },
+     {
+      "name": "Broker name",
+      "value": "European Nucleotide Archive"
+     },
+     {
+      "name": "ENA checklist",
+      "value": "ERC000011"
+     },
+     {
+      "name": "INSDC center alias",
+      "value": "EBI"
+     },
+     {
+      "name": "INSDC center name",
+      "value": "European Bioinformatics Institute"
+     },
+     {
+      "name": "INSDC first public",
+      "value": "2014-11-20T12:20:15Z"
+     },
+     {
+      "name": "INSDC last update",
+      "value": "2014-11-20T11:47:18Z"
+     },
+     {
+      "name": "INSDC status",
+      "value": "public"
+     },
+     {
+      "name": "SRA accession",
+      "value": "ERS610144"
+     },
+     {
+      "name": "sample_name",
+      "value": "ERS610144"
+     },
+     {
+      "name": "Title",
+      "value": "BioSample entry for genome collection GCA_000011465"
+     },
+     {
+      "name": "strain",
+      "value": "MED4"
+     },
+     {
+      "name": "type-material",
+      "value": "type strain of Prochlorococcus marinus subsp. pastoris"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-11-21T08:58:20.990"
+    },
+    "sample_name": "ERS610144",
+    "strain": "MED4"
+   }
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "1657990",
+   "total_ungapped_length": "1657990",
+   "number_of_contigs": 1,
+   "contig_n50": 1657990,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1657990,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "1657990",
+   "gc_count": "510647",
+   "gc_percent": 31
+  },
+  "annotation_info": {
+   "name": "GCF_000011465.1-RS_2025_01_23",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-01-23",
+   "stats": {
+    "gene_counts": {
+     "total": 1924,
+     "protein_coding": 1877,
+     "non_coding": 43,
+     "pseudogene": 4
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.9"
+  },
+  "type_material": {
+   "type_label": "TYPE_MATERIAL",
+   "type_display_text": "assembly from type material"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus marinus",
+   "checkm_species_tax_id": 1219,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.4",
+   "completeness": 99.45,
+   "completeness_percentile": 36.1702
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "type",
+   "submitted_ani_match": {
+    "assembly": "GCA_000007925.1",
+    "organism_name": "Prochlorococcus marinus subsp. marinus str. CCMP1375",
+    "category": "type",
+    "ani": 89.11,
+    "assembly_coverage": 0.53,
+    "type_assembly_coverage": 0.5
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000007925.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 89.11,
+    "assembly_coverage": 0.53,
+    "type_assembly_coverage": 0.5
+   },
+   "comment": "Assembly is type_strain, failed to match other type_strains on its species"
+  }
+ }
+}

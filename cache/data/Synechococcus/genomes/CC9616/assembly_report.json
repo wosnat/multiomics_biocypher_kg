@@ -1,0 +1,220 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000515235.1",
+  "current_accession": "GCF_000515235.1",
+  "paired_accession": "GCA_000515235.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 110663,
+   "organism_name": "Synechococcus sp. CC9616",
+   "infraspecific_names": {
+    "strain": "CC9616"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Scaffold",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000515235.1",
+    "status": "current"
+   },
+   "assembly_name": "ASM51523v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA89559",
+       "title": "Synechococcus sp. CC9616 Genome sequencing and assembly"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA89559",
+   "release_date": "2014-01-07",
+   "submitter": "JGI",
+   "sequencing_tech": "Illumina",
+   "assembly_method": "ALLPATHS v. R37654",
+   "biosample": {
+    "accession": "SAMN02597268",
+    "last_updated": "2016-07-17T07:14:15.140",
+    "publication_date": "2014-01-27T12:23:48.950",
+    "submission_date": "2014-01-27T12:23:48.950",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "AZXL"
+     },
+     {
+      "db": "SRA",
+      "value": "SRS1567481"
+     }
+    ],
+    "description": {
+     "title": "MIGS Cultured Bacterial/Archaeal sample from Synechococcus sp. CC9616",
+     "organism": {
+      "tax_id": 110663,
+      "organism_name": "Synechococcus sp. CC9616"
+     },
+     "comment": "Keywords: GSC:MIxS;MIGS:6.0"
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "MIGS.ba"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA89559"
+     }
+    ],
+    "package": "MIGS.ba.6.0",
+    "attributes": [
+     {
+      "name": "env_package",
+      "value": "missing"
+     },
+     {
+      "name": "investigation_type",
+      "value": "bacteria_archaea"
+     },
+     {
+      "name": "strain",
+      "value": "CC9616"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "missing"
+     },
+     {
+      "name": "collection_date",
+      "value": "missing"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "not provided; submitted under MIGS 2.1"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "not provided; submitted under MIGS 2.1"
+     },
+     {
+      "name": "env_medium",
+      "value": "not provided; submitted under MIGS 2.1"
+     },
+     {
+      "name": "project_name",
+      "value": "Synechococcus sp. CC9616"
+     },
+     {
+      "name": "sequencing_meth",
+      "value": "WGS"
+     },
+     {
+      "name": "GOLD Stamp ID",
+      "value": "Gi14787"
+     },
+     {
+      "name": "Gram Staining",
+      "value": "Gram-"
+     },
+     {
+      "name": "isol_growth_condt",
+      "value": "missing"
+     },
+     {
+      "name": "ref_biomaterial",
+      "value": "missing"
+     },
+     {
+      "name": "assembly",
+      "value": "ALLPATHS v. R37654"
+     },
+     {
+      "name": "lat_lon",
+      "value": "missing"
+     },
+     {
+      "name": "num_replicons",
+      "value": "missing"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-27T12:23:48.950"
+    },
+    "collection_date": "missing",
+    "geo_loc_name": "missing",
+    "lat_lon": "missing",
+    "project_name": "Synechococcus sp. CC9616",
+    "strain": "CC9616"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/\nURL -- http://www.jgi.doe.gov\nJGI Project ID: 403115\nSource DNA and Organism available from Brian Palenik (bpalenik@ucsd.edu)\nSource DNA available from Brian Palenik (bpalenik@ucsd.edu)\nOrganism available from Brian Palenik (bpalenik@ucsd.edu)\nContacts: Brian Palenik (bpalenik@ucsd.edu)\nTanja Woyke (microbe@cuba.jgi-psf.org)\nWhole genome sequencing and draft assembly at JGI-PGF\nAnnotation by JGI-ORNL\nThe JGI and collaborators endorse the principles for the distribution and use of large scale sequencing data adopted by the larger genome sequencing community and urge users of this data to follow them. It is our intention to publish the work of this project in a timely fashion and we welcome collaborative interaction on the project and analysis.\n(http://www.genome.gov/page.cfm?pageID=10506376)\nFull annotations are available from IMG"
+  },
+  "assembly_stats": {
+   "total_sequence_length": "2645910",
+   "total_ungapped_length": "2644310",
+   "number_of_contigs": 17,
+   "contig_n50": 256700,
+   "contig_l50": 3,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2645910,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 17,
+   "atgc_count": "2644310",
+   "gc_count": "1495450",
+   "gc_percent": 56.5
+  },
+  "annotation_info": {
+   "name": "GCF_000515235.1-RS_2024_08_13",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-08-13",
+   "stats": {
+    "gene_counts": {
+     "total": 2874,
+     "protein_coding": 2802,
+     "non_coding": 49,
+     "pseudogene": 23
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "wgs_info": {
+   "wgs_project_accession": "AZXL01",
+   "master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/AZXL00000000.1",
+   "wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/AZXL01"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 110663,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.41
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "below_threshold_mismatch",
+   "submitted_organism": "Synechococcus sp. CC9616",
+   "submitted_species": "Synechococcus sp. CC9616",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000195975.1",
+    "organism_name": "Parasynechococcus marenigrum",
+    "category": "type",
+    "ani": 80.18,
+    "assembly_coverage": 14.32,
+    "type_assembly_coverage": 15.56
+   },
+   "comment": "na"
+  }
+ }
+}

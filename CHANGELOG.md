@@ -52,6 +52,13 @@ tag with nothing logged.
 
 ## [Unreleased]
 
+### Highlights
+
+- Organisms now say how complete their genome assembly is: NCBI assembly level (complete genome,
+  chromosome, scaffold or contig), RefSeq status and CheckM completeness and contamination. A gene
+  missing from a closed genome is far more likely to be truly absent than one missing from a
+  draft, and you can now tell which case you are in, or limit a comparison to complete genomes.
+
 ### Breaking
 
 - A gene annotated with an EC number Expasy later split across several numbers now carries
@@ -105,6 +112,18 @@ tag with nothing logged.
 
 ### Added
 
+- Assembly quality on `OrganismTaxon` (116 genome strains + 2 reference-proteome matches; absent
+  on treatment organisms): `assembly_level`, `assembly_status`, `assembly_suppression_reason`,
+  `assembly_current_accession`, `assembly_name`, `assembly_release_date`, `assembly_report_date`,
+  `genome_length`, `contig_count`, `contig_n50`, `gc_percent`, `checkm_completeness`,
+  `checkm_contamination`, `checkm_marker_set`, `checkm_marker_set_rank`, `checkm_version`, from
+  NCBI Datasets reports fetched 2026-11-18. Levels: complete genome 71, contig 31, scaffold 11,
+  chromosome 5. RefSeq has suppressed 10 of the assemblies (BS11, WH7803, HNLC1, HNLC2,
+  A18-46.1, WH8103, A18-40, RCC307, RS9915, BOUM118); their genes stay in the KG. CB0101 is on
+  a superseded version (`assembly_current_accession` = GCF_000179235.2). `checkm_contamination`
+  is 0.0 where NCBI omits the field (it omits zeros). Nine new `ControlledVocabulary` entries;
+  `controlled_vocabularies_hash` changes. Prepare-data step 0 now fetches the report for every
+  strain, including a newly added one, into `<strain dir>/assembly_report.json`.
 - Citations for every tool and database behind the KG. Each `DataSource` node now carries
   `citations` (every reference the source asks you to cite), parallel `dois`, `url` (its
   how-to-cite page) and, where stated, `license`; `Schema_info.build_citations` cites BioCypher.

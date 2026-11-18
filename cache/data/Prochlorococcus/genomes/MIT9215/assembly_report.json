@@ -1,0 +1,146 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000018065.1",
+  "current_accession": "GCF_000018065.1",
+  "paired_accession": "GCA_000018065.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 93060,
+   "organism_name": "Prochlorococcus marinus str. MIT 9215",
+   "infraspecific_names": {
+    "strain": "MIT 9215"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000018065.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by US DOE Joint Genome Institute"
+   },
+   "assembly_name": "ASM1806v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA18633",
+       "title": "Photosynthesizing marine bacterium"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA18633",
+   "release_date": "2007-09-20",
+   "submitter": "US DOE Joint Genome Institute",
+   "biosample": {
+    "accession": "SAMN02598410",
+    "last_updated": "2015-05-18T13:17:43.897",
+    "publication_date": "2014-01-28T10:41:08.240",
+    "submission_date": "2014-01-28T10:41:08.240",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP000825"
+     }
+    ],
+    "description": {
+     "title": "Sample from Prochlorococcus marinus str. MIT 9215",
+     "organism": {
+      "tax_id": 93060,
+      "organism_name": "Prochlorococcus marinus str. MIT 9215"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA18633"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "MIT 9215"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-28T10:41:08.240"
+    },
+    "strain": "MIT 9215"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/\nURL -- http://www.jgi.doe.gov\nJGI Project ID: 4001067\nSource DNA and bacteria available from Sallie W. Chisholm (chisholm@mit.edu)\nContacts: Sallie W. Chisholm (chisholm@mit.edu)\nPaul Richardson (microbes@cuba.jgi-psf.org)\nQuality assurance done by JGI-Stanford\nAnnotation done by JGI-ORNL and JGI-PGF\nFinishing done by JGI-PGF\nFinished microbial genomes have been curated to close all gaps with greater than 98% coverage of at least two independent clones. Each base pair has a minimum q (quality) value of 30 and the total error rate is less than one per 50000.\nThe JGI and collaborators endorse the principles for the distribution and use of large scale sequencing data adopted by the larger genome sequencing community and urge users of this data to follow them. It is our intention to publish the work of this project in a timely fashion and we welcome collaborative interaction on the project and analysis.\n(http://www.genome.gov/page.cfm?pageID=10506376)"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "1738790",
+   "total_ungapped_length": "1738790",
+   "number_of_contigs": 1,
+   "contig_n50": 1738790,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 1738790,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "1738790",
+   "gc_count": "541547",
+   "gc_percent": 31
+  },
+  "annotation_info": {
+   "name": "GCF_000018065.1-RS_2025_05_22",
+   "provider": "NCBI RefSeq",
+   "release_date": "2025-05-22",
+   "stats": {
+    "gene_counts": {
+     "total": 1984,
+     "protein_coding": 1930,
+     "non_coding": 46,
+     "pseudogene": 8
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Prochlorococcus marinus",
+   "checkm_species_tax_id": 1219,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.95,
+   "completeness_percentile": 92.5532
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "derived_species_match",
+   "submitted_organism": "Prochlorococcus marinus str. MIT 9215",
+   "submitted_species": "Prochlorococcus marinus",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus subsp. pastoris str. CCMP1986",
+    "category": "type",
+    "ani": 79.83,
+    "assembly_coverage": 54.69,
+    "type_assembly_coverage": 57.36
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000011465.1",
+    "organism_name": "Prochlorococcus marinus",
+    "category": "type",
+    "ani": 79.83,
+    "assembly_coverage": 54.69,
+    "type_assembly_coverage": 57.36
+   },
+   "comment": "na"
+  }
+ }
+}

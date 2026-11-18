@@ -1,0 +1,148 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000014585.1",
+  "current_accession": "GCF_000014585.1",
+  "paired_accession": "GCA_000014585.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 64471,
+   "organism_name": "Synechococcus sp. CC9311",
+   "infraspecific_names": {
+    "strain": "CC9311"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000014585.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by TIGR"
+   },
+   "assembly_name": "ASM1458v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA12530",
+       "title": "Unicellular prototrophic cyanobacterium"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA12530",
+   "release_date": "2006-09-01",
+   "submitter": "TIGR",
+   "biosample": {
+    "accession": "SAMN02604031",
+    "last_updated": "2015-05-18T13:20:01.800",
+    "publication_date": "2014-01-30T14:54:17.370",
+    "submission_date": "2014-01-30T14:54:17.370",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "CP000435"
+     }
+    ],
+    "description": {
+     "title": "Sample from Synechococcus sp. CC9311",
+     "organism": {
+      "tax_id": 64471,
+      "organism_name": "Synechococcus sp. CC9311"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA12530"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "CC9311"
+     },
+     {
+      "name": "isolation_source",
+      "value": "edge of California current after nitrate enrichment and low light incubation"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2014-01-30T14:54:17.370"
+    },
+    "isolation_source": "edge of California current after nitrate enrichment and low light incubation",
+    "strain": "CC9311"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 1,
+   "total_sequence_length": "2606748",
+   "total_ungapped_length": "2606748",
+   "number_of_contigs": 1,
+   "contig_n50": 2606748,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2606748,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 1,
+   "atgc_count": "2606748",
+   "gc_count": "1367170",
+   "gc_percent": 52.5
+  },
+  "annotation_info": {
+   "name": "GCF_000014585.1-RS_2024_08_13",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-08-13",
+   "stats": {
+    "gene_counts": {
+     "total": 2771,
+     "protein_coding": 2699,
+     "non_coding": 53,
+     "pseudogene": 19
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 64471,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.53,
+   "contamination": 0.12
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Synechococcus sp. CC9311",
+   "submitted_species": "Synechococcus sp. CC9311",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_000316515.1",
+    "organism_name": "Cyanobium gracile",
+    "category": "type",
+    "ani": 84.49,
+    "assembly_coverage": 1.2,
+    "type_assembly_coverage": 0.93
+   },
+   "comment": "na"
+  }
+ }
+}

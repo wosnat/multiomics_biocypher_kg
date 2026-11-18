@@ -1,0 +1,146 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_000153825.1",
+  "current_accession": "GCF_000153825.1",
+  "paired_accession": "GCA_000153825.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 221359,
+   "organism_name": "Synechococcus sp. RS9916",
+   "infraspecific_names": {
+    "strain": "RS9916"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Scaffold",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_000153825.1",
+    "status": "current",
+    "annotation_name": "Annotation submitted by The Gordon and Betty Moore Foundation Marine Microbiology Initiative"
+   },
+   "assembly_name": "ASM15382v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA13557",
+       "title": "This cyanobacterium was collected in the Red Sea."
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA13557",
+   "release_date": "2006-10-23",
+   "submitter": "The Gordon and Betty Moore Foundation Marine Microbiology Initiative",
+   "biosample": {
+    "accession": "SAMN02436107",
+    "last_updated": "2015-05-18T12:16:09.837",
+    "publication_date": "2013-12-04T14:26:37.590",
+    "submission_date": "2013-12-04T14:22:49.600",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "AAUA"
+     }
+    ],
+    "description": {
+     "title": "Generic sample from Synechococcus sp. RS9916",
+     "organism": {
+      "tax_id": 221359,
+      "organism_name": "Synechococcus sp. RS9916"
+     }
+    },
+    "owner": {
+     "name": "NCBI"
+    },
+    "models": [
+     "Generic"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA13557"
+     }
+    ],
+    "package": "Generic.1.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "RS9916"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2013-12-04T14:26:37.590"
+    },
+    "strain": "RS9916"
+   },
+   "comments": "The annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_sequence_length": "2664873",
+   "total_ungapped_length": "2664465",
+   "number_of_contigs": 4,
+   "contig_n50": 1516738,
+   "contig_l50": 1,
+   "number_of_scaffolds": 1,
+   "scaffold_n50": 2664873,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 4,
+   "atgc_count": "2664465",
+   "gc_count": "1593543",
+   "gc_percent": 60
+  },
+  "annotation_info": {
+   "name": "GCF_000153825.1-RS_2024_08_13",
+   "provider": "NCBI RefSeq",
+   "release_date": "2024-08-13",
+   "stats": {
+    "gene_counts": {
+     "total": 2808,
+     "protein_coding": 2733,
+     "non_coding": 53,
+     "pseudogene": 22
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.8"
+  },
+  "wgs_info": {
+   "wgs_project_accession": "AAUA01",
+   "master_wgs_url": "https://www.ncbi.nlm.nih.gov/nuccore/AAUA00000000.1",
+   "wgs_contigs_url": "https://www.ncbi.nlm.nih.gov/Traces/wgs/AAUA01"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Synechococcus",
+   "checkm_species_tax_id": 221359,
+   "checkm_marker_set_rank": "genus",
+   "checkm_version": "v1.2.3",
+   "completeness": 99.29
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "Inconclusive",
+   "match_status": "low_coverage",
+   "submitted_organism": "Synechococcus sp. RS9916",
+   "submitted_species": "Synechococcus sp. RS9916",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "no-type",
+    "organism_name": "na",
+    "category": "no_type"
+   },
+   "best_ani_match": {
+    "assembly": "GCA_002252705.1",
+    "organism_name": "Vulcanococcus limneticus",
+    "category": "type",
+    "ani": 82.82,
+    "assembly_coverage": 6.04,
+    "type_assembly_coverage": 4.53
+   },
+   "comment": "na"
+  }
+ }
+}

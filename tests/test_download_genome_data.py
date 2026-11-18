@@ -42,6 +42,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from multiomics_kg.download.download_genome_data import (
     _cyanorak_download_file,
     _get_org_group,
+    _ncbi_fetch_assembly_reports,
     _ncbi_download_genome,
     _read_genomes_csv,
     step1_ncbi,
@@ -90,6 +91,7 @@ _REQUESTS_GET = "requests.get"
 _NCBI_DL     = "multiomics_kg.download.download_genome_data._ncbi_download_genome"
 _CYANORAK_DL = "multiomics_kg.download.download_genome_data._cyanorak_download_file"
 _UNIPROT_DL  = "multiomics_kg.download.download_uniprot.download_uniprot"
+_ASM_FETCH   = "multiomics_kg.download.download_genome_data._ncbi_fetch_assembly_reports"
 
 
 # ── _read_genomes_csv ─────────────────────────────────────────────────────────
@@ -327,6 +329,12 @@ class TestCyanorakDownloadFile:
 # ── step1_ncbi ────────────────────────────────────────────────────────────────
 
 class TestStep1Ncbi:
+    @pytest.fixture(autouse=True)
+    def _no_report_fetch(self):
+        with patch(_ASM_FETCH, return_value={}) as m:
+            self.fetch = m
+            yield
+
     def _genome(self, tmp, strain="MED4", accession="GCF_000011465.1"):
         return {"strain_name": strain, "ncbi_accession": accession,
                 "data_dir": str(tmp / "genomes" / strain)}
@@ -369,6 +377,123 @@ class TestStep1Ncbi:
         with patch(_NCBI_DL, return_value=True):
             step1_ncbi([genome], force=False)
         assert "OK" in caplog.text
+
+    def test_fetches_assembly_reports_for_the_same_genomes(self, tmp):
+        genomes = [self._genome(tmp)]
+        with patch(_NCBI_DL, return_value=False):
+            step1_ncbi(genomes, force=True)
+        self.fetch.assert_called_once_with(genomes, True)
+
+
+# ── _ncbi_fetch_assembly_reports ──────────────────────────────────────────────
+
+class TestFetchAssemblyReports:
+    def _genome(self, tmp, strain, accession):
+        return {"strain_name": strain, "ncbi_accession": accession,
+                "data_dir": str(tmp / "genomes" / strain)}
+
+    @staticmethod
+    def _response(accessions):
+        resp = MagicMock()
+        resp.json.return_value = {"reports": [
+            {"accession": a, "assembly_info": {"assembly_level": "Complete Genome"}}
+            for a in accessions]}
+        resp.raise_for_status.return_value = None
+        return resp
+
+    def _fake_get(self, served=None):
+        """requests.get stub: serves a report for every requested accession
+        (or only those in ``served``)."""
+        def get(url, timeout=None):
+            requested = url.split("/accession/")[1].split("/")[0].split(",")
+            keep = [a for a in requested if served is None or a in served]
+            return self._response(keep)
+        return get
+
+    def _report_path(self, tmp, strain):
+        return tmp / "genomes" / strain / "assembly_report.json"
+
+    def test_writes_wrapped_report(self, tmp):
+        g = self._genome(tmp, "MED4", "GCF_000011465.1")
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()):
+            status = _ncbi_fetch_assembly_reports([g], force=False, today="2026-11-18")
+        data = json.loads(self._report_path(tmp, "MED4").read_text())
+        assert data["fetched_at"] == "2026-11-18"
+        assert data["report"]["accession"] == "GCF_000011465.1"
+        assert status == {"GCF_000011465.1": "written"}
+
+    def test_url_has_all_assemblies_filter_and_chunks(self, tmp):
+        genomes = [self._genome(tmp, f"S{i}", f"GCF_{i:09d}.1") for i in range(45)]
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
+            _ncbi_fetch_assembly_reports(genomes, force=False, today="2026-11-18")
+        assert mock_get.call_count == 2
+        first_url = mock_get.call_args_list[0][0][0]
+        assert len(first_url.split("/accession/")[1].split("/")[0].split(",")) == 40
+        assert "filters.assembly_version=all_assemblies" in first_url
+
+    def test_no_exact_accession_match(self, tmp, caplog):
+        g = self._genome(tmp, "CB0101", "GCF_000179235.1")
+        with patch(_REQUESTS_GET, return_value=self._response(["GCF_000179235.2"])):
+            status = _ncbi_fetch_assembly_reports([g], force=False, today="2026-11-18")
+        assert not self._report_path(tmp, "CB0101").exists()
+        assert status == {"GCF_000179235.1": "missing"}
+        assert "GCF_000179235.1" in caplog.text
+
+    def test_skips_existing_without_force(self, tmp):
+        g = self._genome(tmp, "MED4", "GCF_000011465.1")
+        path = self._report_path(tmp, "MED4")
+        path.parent.mkdir(parents=True)
+        path.write_text('{"fetched_at": "2000-01-01", "report": {"accession": "GCF_000011465.1"}}')
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
+            status = _ncbi_fetch_assembly_reports([g], force=False, today="2026-11-18")
+        mock_get.assert_not_called()
+        assert status == {"GCF_000011465.1": "skipped"}
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
+            _ncbi_fetch_assembly_reports([g], force=True, today="2026-11-18")
+        mock_get.assert_called_once()
+        assert json.loads(path.read_text())["fetched_at"] == "2026-11-18"
+
+    def test_refetches_when_file_accession_differs(self, tmp):
+        """A strain moved to a new assembly version must not keep the old report."""
+        g = self._genome(tmp, "CB0101", "GCF_000179235.2")
+        path = self._report_path(tmp, "CB0101")
+        path.parent.mkdir(parents=True)
+        path.write_text('{"fetched_at": "2000-01-01", "report": {"accession": "GCF_000179235.1"}}')
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
+            status = _ncbi_fetch_assembly_reports([g], force=False, today="2026-11-18")
+        mock_get.assert_called_once()
+        assert status == {"GCF_000179235.2": "written"}
+        assert json.loads(path.read_text())["report"]["accession"] == "GCF_000179235.2"
+
+    def test_respects_genome_subset(self, tmp):
+        med4 = self._genome(tmp, "MED4", "GCF_000011465.1")
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
+            _ncbi_fetch_assembly_reports([med4], force=False, today="2026-11-18")
+        url = mock_get.call_args[0][0]
+        assert url.split("/accession/")[1].split("/")[0] == "GCF_000011465.1"
+        assert sorted(p.name for p in (tmp / "genomes").iterdir()) == ["MED4"]
+
+    def test_ignores_non_gc_accessions(self, tmp):
+        genomes = [self._genome(tmp, "MED4", "GCF_000011465.1"),
+                   self._genome(tmp, "X", "# comment")]
+        with patch(_REQUESTS_GET, side_effect=self._fake_get()) as mock_get:
+            status = _ncbi_fetch_assembly_reports(genomes, force=False, today="2026-11-18")
+        assert "comment" not in mock_get.call_args[0][0]
+        assert status == {"GCF_000011465.1": "written"}
+
+    def test_http_error_warns_and_continues(self, tmp, caplog):
+        genomes = [self._genome(tmp, f"S{i}", f"GCF_{i:09d}.1") for i in range(45)]
+        bad = MagicMock()
+        bad.raise_for_status.side_effect = Exception("HTTP 500")
+        good = self._fake_get()
+        calls = iter([bad])
+        def get(url, timeout=None):
+            return next(calls, None) or good(url)
+        with patch(_REQUESTS_GET, side_effect=get):
+            status = _ncbi_fetch_assembly_reports(genomes, force=False, today="2026-11-18")
+        assert sum(v == "missing" for v in status.values()) == 40
+        assert sum(v == "written" for v in status.values()) == 5
+        assert "HTTP 500" in caplog.text
 
 
 # ── step2_cyanorak ────────────────────────────────────────────────────────────

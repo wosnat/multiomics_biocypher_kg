@@ -1,0 +1,202 @@
+{
+ "fetched_at": "2026-11-18",
+ "report": {
+  "accession": "GCF_001578515.1",
+  "current_accession": "GCF_001578515.1",
+  "paired_accession": "GCA_001578515.1",
+  "source_database": "SOURCE_DATABASE_REFSEQ",
+  "organism": {
+   "tax_id": 28108,
+   "organism_name": "Alteromonas macleodii",
+   "infraspecific_names": {
+    "strain": "HOT1A3"
+   }
+  },
+  "assembly_info": {
+   "assembly_level": "Complete Genome",
+   "assembly_status": "current",
+   "paired_assembly": {
+    "accession": "GCA_001578515.1",
+    "status": "current",
+    "annotation_name": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)"
+   },
+   "assembly_name": "ASM157851v1",
+   "assembly_type": "haploid",
+   "bioproject_lineage": [
+    {
+     "bioprojects": [
+      {
+       "accession": "PRJNA288688",
+       "title": "Alteromonas macleodii strain:HOT1A3 Genome sequencing and assembly"
+      }
+     ]
+    }
+   ],
+   "bioproject_accession": "PRJNA288688",
+   "release_date": "2016-03-02",
+   "submitter": "University of Haifa",
+   "sequencing_tech": "PacBio RS II",
+   "assembly_method": "SMRTpipe v. 1.87.139483",
+   "biosample": {
+    "accession": "SAMN03835502",
+    "last_updated": "2021-02-28T02:46:21.135",
+    "publication_date": "2016-01-01T00:00:00.000",
+    "submission_date": "2015-07-01T11:28:05.000",
+    "sample_ids": [
+     {
+      "label": "Sample name",
+      "value": "HOT1A3"
+     },
+     {
+      "db": "SRA",
+      "value": "SRS977266"
+     }
+    ],
+    "description": {
+     "title": "Alteromonas macleodii str. HOT1A3 isolated on station ALOHA",
+     "organism": {
+      "tax_id": 28108,
+      "organism_name": "Alteromonas macleodii"
+     },
+     "comment": "Keywords: GSC:MIxS;MIGS:6.0"
+    },
+    "owner": {
+     "name": "University of Haifa",
+     "contacts": [
+      {}
+     ]
+    },
+    "models": [
+     "MIGS.ba",
+     "MIGS/MIMS/MIMARKS.water"
+    ],
+    "bioprojects": [
+     {
+      "accession": "PRJNA288688"
+     }
+    ],
+    "package": "MIGS.ba.water.6.0",
+    "attributes": [
+     {
+      "name": "strain",
+      "value": "HOT1A3"
+     },
+     {
+      "name": "collection_date",
+      "value": "2007-08-18"
+     },
+     {
+      "name": "depth",
+      "value": "10"
+     },
+     {
+      "name": "env_broad_scale",
+      "value": "Ocean biome(ENVO:01000048)"
+     },
+     {
+      "name": "env_local_scale",
+      "value": "ocean(ENVO:00000015)"
+     },
+     {
+      "name": "env_medium",
+      "value": "water(ENVO:00002006)"
+     },
+     {
+      "name": "geo_loc_name",
+      "value": "USA: Hawaii, station ALOHA"
+     },
+     {
+      "name": "isol_growth_condt",
+      "value": "PMID: 21326334"
+     },
+     {
+      "name": "lat_lon",
+      "value": "22.45 N 158 W"
+     },
+     {
+      "name": "num_replicons",
+      "value": "1"
+     },
+     {
+      "name": "ref_biomaterial",
+      "value": "PMID: 21326334"
+     }
+    ],
+    "status": {
+     "status": "live",
+     "when": "2016-01-01T00:51:39.817"
+    },
+    "collection_date": "2007-08-18",
+    "geo_loc_name": "USA: Hawaii, station ALOHA",
+    "lat_lon": "22.45 N 158 W",
+    "strain": "HOT1A3"
+   },
+   "comments": "Source DNA is available MCE lab, University of Haifa (Daniel Sher - dsher@univ.haifa.ac.il).\nThe annotation was added by the NCBI Prokaryotic Genome Annotation Pipeline (PGAP). Information about PGAP can be found here: https://www.ncbi.nlm.nih.gov/genome/annotation_prok/"
+  },
+  "assembly_stats": {
+   "total_number_of_chromosomes": 2,
+   "total_sequence_length": "4801807",
+   "total_ungapped_length": "4801807",
+   "number_of_contigs": 2,
+   "contig_n50": 4652873,
+   "contig_l50": 1,
+   "number_of_scaffolds": 2,
+   "scaffold_n50": 4652873,
+   "scaffold_l50": 1,
+   "number_of_component_sequences": 2,
+   "atgc_count": "4801803",
+   "gc_count": "2145033",
+   "gc_percent": 44.5,
+   "genome_coverage": "199"
+  },
+  "annotation_info": {
+   "name": "GCF_001578515.1-RS_2026_04_02",
+   "provider": "NCBI RefSeq",
+   "release_date": "2026-04-02",
+   "stats": {
+    "gene_counts": {
+     "total": 4175,
+     "protein_coding": 4028,
+     "non_coding": 91,
+     "pseudogene": 56
+    }
+   },
+   "method": "Best-placed reference protein set; GeneMarkS-2+",
+   "pipeline": "NCBI Prokaryotic Genome Annotation Pipeline (PGAP)",
+   "software_version": "6.10"
+  },
+  "checkm_info": {
+   "checkm_marker_set": "Alteromonas macleodii",
+   "checkm_species_tax_id": 28108,
+   "checkm_marker_set_rank": "species",
+   "checkm_version": "v1.2.5",
+   "completeness": 98.71,
+   "contamination": 1.66,
+   "completeness_percentile": 68.1818
+  },
+  "average_nucleotide_identity": {
+   "taxonomy_check_status": "OK",
+   "match_status": "species_match",
+   "submitted_organism": "Alteromonas macleodii",
+   "submitted_species": "Alteromonas macleodii",
+   "category": "category_na",
+   "submitted_ani_match": {
+    "assembly": "GCA_050500325.1",
+    "organism_name": "Alteromonas macleodii ATCC 27126",
+    "category": "type",
+    "ani": 97.88,
+    "assembly_coverage": 86.12,
+    "type_assembly_coverage": 89.29
+   },
+   "best_ani_match": {
+    "assembly": "GCA_050500325.1",
+    "organism_name": "Alteromonas macleodii",
+    "category": "type",
+    "ani": 97.88,
+    "assembly_coverage": 86.12,
+    "type_assembly_coverage": 89.29
+   },
+   "comment": "na"
+  }
+ }
+}

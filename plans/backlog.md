@@ -43,22 +43,18 @@ up — this file is the index, not the plan.
       Caveat for the docs: completeness is as good as the KO calls (mostly eggNOG
       `family_inferred`) — "complete" means the genes are there, not that the route runs.
 
-- [ ] **Assembly level + CheckM completeness on OrganismTaxon (2026-11-18).** OrganismTaxon
-      carries no assembly-quality field, so every "gene absent across genomes" comparison needs an
-      outside source (spock_osnat `2026-11-04-aa_utilization_genomics`). Not in the GFF or GBFF
-      (GBFF has only `KEYWORDS ... complete genome` + PGAP counts); NCBI publishes it in the
-      Datasets v2 `genome/dataset_report` (`assembly_info.assembly_level`, `assembly_stats`,
-      `checkm_info`), the API step 0 already downloads from. Measured 2026-11-18 over the 118
-      registry accessions: 117 reports (1 returned none — find which); levels Complete Genome 71 /
-      Chromosome 5 / Scaffold 11 / Contig 30; `completeness` on 112 (missing: GCF_000063505.1,
-      GCF_000063525.1, GCF_000218705.1, GCF_000218745.1, GCA_003513035.1), `contamination` on
-      only 73 (absent ≠ 0). Plan: step 0 sub-step 1 saves each strain's report JSON (one batched
-      POST); `cyanorak_ncbi_adapter` sets `assembly_level`, `contig_count`, `contig_n50`,
-      `genome_length`, `checkm_completeness`, sparse `checkm_contamination`, `checkm_marker_set`,
-      `checkm_version`; schema + `assembly_level` controlled vocabulary + KG test. Caveat for the
-      property descriptions: CheckM under-scores streamlined genomes (MED4 99.45, NS01 87.31, both
-      Complete Genome), so `assembly_level` is the gene-absence signal and completeness grades
-      the drafts.
+- [ ] **Migrate CB0101 to GCF_000179235.2 (2026-11-18).** The registry pins the 2010
+      contig-level `GCF_000179235.1`; NCBI's current record is `.2` (Complete Genome, 2019, PacBio,
+      same sequence per `revision_history`). The organism node says so
+      (`assembly_status = previous`, `assembly_current_accession`). Re-onboard via `/add-a-strain`
+      (new GFF/protein ids, Cyanorak bridge, gene-ID mapping, paper re-resolution); may also place
+      some of its 17 unplaced Cyanorak genes. → `docs/superpowers/specs/2026-11-18-organism-assembly-quality-design.md` finding 2
+
+- [ ] **Review the 10 RefSeq-suppressed assemblies (2026-11-18).** BS11, WH7803, HNLC1, HNLC2,
+      A18-46.1, WH8103, A18-40, RCC307, RS9915, BOUM118 read `assembly_status = suppressed`
+      ("unverified source organism" ×6, "missing strain identifier" ×2, unstated ×2). The genes
+      are still valid KG content; decide per strain whether a current replacement assembly exists
+      (WH7803 and BS11 carry paper data) or the status note is enough.
 
 - [ ] **TCDB FASTA lags the TCDB tables (2026-11-01).** `/public/tcdb` was still the 2025-08-04
       build, so systems TCDB added since then are in the hierarchy (range-only) but no gene can be
