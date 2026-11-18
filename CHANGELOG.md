@@ -131,7 +131,10 @@ tag with nothing logged.
   (`PFK`, `PFOR_II`) as accessions, zero-pads Cyanorak's 4-digit typos (`PF7969` = PF07969, in
   91 strains), and forwards families Pfam killed to the family each was merged into (dropping
   the ones killed with no successor). 2,650 genes change Pfam sets; gene-Pfam pairs
-  447,845 -> 445,095; Pfam nodes 8,479 -> 8,449.
+  447,845 -> 445,095; Pfam nodes 8,479 -> 8,449; PfamClan nodes 540 -> 674 (Pfam 39 clan
+  assignments the March reference lacked; `Pfam_in_pfam_clan` 4,183 -> 4,837). 87 genes lost
+  their only Pfam (a family killed with no successor), and the TCDB / MEROPS Pfam bridges
+  lost 39 / 2 edges to killed families.
 - Post-import waits for every index to come online (`db.awaitIndexes`) before the aggregation
   group. The 2026-11-18 rebuild failed there with "Could not compile query due to insanely
   frequent schema changes" because the indexes just created were still populating.
