@@ -237,6 +237,14 @@ OPTIONAL MATCH (gc)-[r:Gene_in_gene_cluster]->()
 WITH gc, count(r) AS actual_count
 SET gc.member_count = actual_count;
 
+// ClusteringAnalysis total_gene_count: distinct genes loaded into its clusters.
+// The adapter's value counts every clustered CSV row, including rows that
+// resolve to no Gene node (Zinser 2009: 59 RNA probes, 1756 -> 1697).
+MATCH (ca:ClusteringAnalysis)
+OPTIONAL MATCH (ca)-[:ClusteringAnalysisHasGeneCluster]->(:GeneCluster)-[:Gene_in_gene_cluster]->(g:Gene)
+WITH ca, count(DISTINCT g) AS n
+SET ca.total_gene_count = n;
+
 // Dense list properties on experiment-shaped nodes. The adapters emit [] for
 // treatment_type / background_factors, but neo4j-admin import materializes an
 // empty string[] cell as NO property. Re-materialize [] so every consumer can

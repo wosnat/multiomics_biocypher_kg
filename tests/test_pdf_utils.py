@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from multiomics_kg.extraction.pdf_utils import find_references_page
+from multiomics_kg.extraction.pdf_utils import decode_pdf_glyphs, find_references_page
 
 PROJECT_ROOT = Path(__file__).parent.parent
 
@@ -52,3 +52,24 @@ def test_find_references_page_logs_nothing_on_success(caplog):
         "pdf_utils logged a scan failure; the PDF parser raised and the error "
         "was swallowed into a None return."
     )
+
+
+@pytest.mark.parametrize("raw, decoded", [
+    # Steglich 2006 title: the glyph before the dagger prints as nothing.
+    ("Light Sensing in Prochlorococcus/H17188†", "Light Sensing in Prochlorococcus†"),
+    # Dominguez 2017 abstract.
+    ("P value of /H110210.05", "P value of <0.05"),
+    # A 5-digit code running into a number: "m-2 s-1".
+    ("m /H110022/H18528s/H110021", "m −2·s−1"),
+    # A 4-digit code running into a number.
+    ("0.1/H9262m", "0.1μm"),
+    ("/H92621", "μ1"),
+    # PNAS header separator never becomes the KG's "|" array delimiter.
+    ("12557 /H20841PNAS", "12557  PNAS"),
+])
+def test_decode_pdf_glyphs(raw, decoded):
+    assert decode_pdf_glyphs(raw) == decoded
+
+
+def test_decode_pdf_glyphs_drops_unknown_codes():
+    assert decode_pdf_glyphs("sort /H20888x and /H99991") == "sort x and 1"

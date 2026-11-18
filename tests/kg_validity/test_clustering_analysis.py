@@ -188,19 +188,24 @@ def test_member_count_matches_actual(run_query):
     assert len(result) == 0, f"member_count mismatch: {result}"
 
 
-def test_total_gene_count_gte_member_sum(run_query):
-    """ClusteringAnalysis.total_gene_count (from CSV) must be >= sum of member_count (actual edges).
+def test_total_gene_count_matches_loaded_genes(run_query):
+    """ClusteringAnalysis.total_gene_count = distinct genes loaded into its clusters.
 
-    total_gene_count counts CSV rows; member_count counts resolved Gene edges.
-    Some CSV gene IDs may not resolve, so total_gene_count >= sum(member_count).
+    Post-import sets it from Gene_in_gene_cluster edges, so CSV rows that resolve
+    to no Gene node (RNA probes, intergenic regions) are not counted. A gene in
+    two clusters of one analysis counts once, so it is <= sum(member_count).
     """
     result = run_query("""
-        MATCH (ca:ClusteringAnalysis)-[:ClusteringAnalysisHasGeneCluster]->(gc:GeneCluster)
-        WITH ca, ca.total_gene_count AS declared, sum(gc.member_count) AS actual
-        WHERE declared < actual
-        RETURN ca.name, declared, actual
+        MATCH (ca:ClusteringAnalysis)
+        OPTIONAL MATCH (ca)-[:ClusteringAnalysisHasGeneCluster]->(:GeneCluster)
+                       -[:Gene_in_gene_cluster]->(g:Gene)
+        WITH ca, count(DISTINCT g) AS distinct_genes
+        OPTIONAL MATCH (ca)-[:ClusteringAnalysisHasGeneCluster]->(gc:GeneCluster)
+        WITH ca, distinct_genes, sum(gc.member_count) AS member_sum
+        WHERE ca.total_gene_count <> distinct_genes OR ca.total_gene_count > member_sum
+        RETURN ca.name, ca.total_gene_count AS declared, distinct_genes, member_sum
     """)
-    assert len(result) == 0, f"total_gene_count < sum(member_count), unexpected: {result}"
+    assert len(result) == 0, f"total_gene_count != distinct loaded genes: {result}"
 
 
 def test_every_gene_cluster_has_analysis_parent(run_query):

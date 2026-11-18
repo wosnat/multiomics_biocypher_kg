@@ -4,11 +4,11 @@ Gene Cluster Adapter
 Reads gene_clusters entries from paperconfig.yaml files and emits:
 - ClusteringAnalysis nodes (one per gene_clusters entry)
 - GeneCluster nodes (one per unique cluster value in the CSV)
-- Gene_in_gene_cluster membership edges
-- Publication_has_clustering_analysis edges
-- Clustering_analysis_has_gene_cluster edges
-- Clusteringanalysis_belongs_to_organism edges
-- Experiment_has_clustering_analysis edges
+- Gene_in_gene_cluster membership edges (GeneCluster → Gene)
+- PublicationHasClusteringAnalysis edges
+- ClusteringAnalysisHasGeneCluster edges
+- ClusteringanalysisBelongsToOrganism edges
+- ExperimentHasClusteringAnalysis edges
 """
 import json
 import logging
