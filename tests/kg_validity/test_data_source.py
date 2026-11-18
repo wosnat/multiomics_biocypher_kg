@@ -5,22 +5,29 @@ import pytest
 pytestmark = pytest.mark.kg
 
 
-def test_eleven_data_source_nodes(run_query):
-    """Deployment has exactly 11 DataSource nodes (9 gene-level sources
-    + the kegg / chebi reference sources).
+def test_seventeen_data_source_nodes(run_query):
+    """Deployment has exactly 17 DataSource nodes: 9 gene-level sources
+    + 8 reference sources (kegg, chebi, go, pfam, cazy, expasy_enzyme,
+    metanetx, ncbi_taxonomy).
 
     BioCypher prepends the `data_source:` CURIE prefix per schema_config.
     """
     result = run_query("MATCH (d:DataSource) RETURN d.id AS id ORDER BY d.id")
     ids = [row["id"] for row in result]
     assert ids == [
+        "data_source:cazy",
         "data_source:chebi",
         "data_source:cyanorak",
         "data_source:eggnog",
+        "data_source:expasy_enzyme",
+        "data_source:go",
         "data_source:interproscan",
         "data_source:kegg",
         "data_source:merops_diamond",
+        "data_source:metanetx",
         "data_source:ncbi",
+        "data_source:ncbi_taxonomy",
+        "data_source:pfam",
         "data_source:psortb",
         "data_source:signalp",
         "data_source:tcdb_diamond",
