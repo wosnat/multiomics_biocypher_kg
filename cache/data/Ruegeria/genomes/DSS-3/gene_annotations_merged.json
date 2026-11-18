@@ -924,7 +924,7 @@
       "[interpro] ParB, C-terminal dimerisation domain",
       "[pfam] ParB_N: ParB N-terminal domain",
       "[pfam] HTH_ParB: ParB HTH domain",
-      "[pfam] ParB_C: ParB dimerisation domain"
+      "[pfam] ParB_dimer_C: ParB dimerisation domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS00020",
@@ -6778,7 +6778,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyl transferase family 2",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS00180",
@@ -6896,7 +6896,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyl transferase family 2",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS00185",
@@ -10072,7 +10072,8 @@
       "[interpro] PBP domain",
       "[interpro] Phosphate-binding ABC transporter substrate-binding",
       "[pfam] OmpA: OmpA family",
-      "[pfam] PBP_like_2: PBP superfamily domain"
+      "[pfam] PBP_like_2: PBP superfamily domain",
+      "[pfam] SH3_PBP_N: PBP-associated N-terminal SH3-like domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS00280",
@@ -12048,7 +12049,7 @@
       "[interpro] Transcription factor NusA, bacteria",
       "[hamap] Transcription termination/antitermination protein NusA [nusA]",
       "[ncbifam] transcription termination factor NusA, C-terminal duplication",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
       "[pfam] KH_NusA_1st: NusA-like first KH domain",
       "[pfam] NusA_N: NusA N-terminal domain",
       "[pfam] S1: S1 RNA binding domain",
@@ -12263,7 +12264,7 @@
       "[interpro] Ribosome maturation factor RimP, C-terminal",
       "[hamap] Ribosome maturation factor RimP [rimP]",
       "[pfam] RimP_N: RimP N-terminal domain",
-      "[pfam] DUF150_C: RimP C-terminal SH3 domain"
+      "[pfam] RimP_C: RimP C-terminal Sm-like domain"
     ],
     "alternative_locus_tags": [
       "SPO0064"
@@ -15027,8 +15028,7 @@
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of surface polysaccharides and lipopolysaccharides",
       "[tcdb_best_hit] Lipopolysaccharide transporter that exports LPS from the external surface of the cytoplasmic membrane to the outer membrane, LptB2FG. [3.A.1.152.9]",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO0079"
@@ -15184,8 +15184,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -15194,10 +15193,6 @@
       "PF00005": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -16037,7 +16032,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9222"
+      "[interpro] Domain of unknown function DUF9222",
+      "[pfam] DUF9222: Domain of unknown function (DUF9222)"
     ],
     "alternative_locus_tags": [
       "SPO_RS00430",
@@ -18115,7 +18111,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS00500",
@@ -18284,7 +18280,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS00505",
@@ -24716,7 +24712,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] membrane protein",
       "[eggnog] membrane",
-      "[pfam] GATase1_like: Putative glutamine amidotransferase"
+      "[pfam] GATase1_like: Putative glutamine amidotransferase",
+      "[pfam] Ig_GATase: Glutamine amidotransferase-associated N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS00695",
@@ -24827,7 +24824,8 @@
       "[interpro] Domain of unknown function DUF12105",
       "[ncbifam] N-terminal double-transmembrane domain",
       "[pfam] BatA: Aerotolerance regulator N-terminal",
-      "[pfam] DUF4159: Domain of unknown function (DUF4159)"
+      "[pfam] DUF4159: Domain of unknown function (DUF4159)",
+      "[pfam] DUF12105: Domain of unknown function (DUF12105)"
     ],
     "alternative_locus_tags": [
       "SPO_RS00700",
@@ -25675,7 +25673,7 @@
       "[interpro] Reductive dehalogenase domain",
       "[pfam] Fer4: 4Fe-4S binding domain",
       "[pfam] Fer4_7: 4Fe-4S dicluster domain",
-      "[pfam] Dehalogenase: Reductive dehalogenase subunit"
+      "[pfam] Dehalogenase: Reductive dehalogenase domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS00735",
@@ -25801,7 +25799,7 @@
       "[interpro] UbiB protein kinase-like",
       "[tigr_role_inferred] Biosynthesis of cofactors, prosthetic groups, and carriers / Menaquinone and ubiquinone",
       "[pfam] ABC1: ABC1 atypical kinase-like domain",
-      "[pfam] UbiB_N: UbiB N-terminal domain"
+      "[pfam] UbiB_helical: UbiB helical domain"
     ],
     "alternative_locus_tags": [
       "SPO0144"
@@ -25956,7 +25954,7 @@
       "[interpro] UbiE/COQ5 methyltransferase",
       "[hamap] Ubiquinone/menaquinone biosynthesis C-methyltransferase UbiE [ubiE]",
       "[ncbifam] ubiquinone/menaquinone biosynthesis methyltransferase",
-      "[pfam] Ubie_methyltran: ubiE/COQ5 methyltransferase family"
+      "[pfam] Ubie_methyltran: UbiE/COQ5 methyltransferase Domain"
     ],
     "alternative_locus_tags": [
       "SPO0145"
@@ -28186,7 +28184,8 @@
       "[interpro] RtcR, C-terminal DNA-binding domain",
       "[interpro] Anaerobic nitric oxide reductase transcription regulator NorR-like",
       "[pfam] RtcR: Regulator of RNA terminal phosphate cyclase",
-      "[pfam] Sigma54_activat: Sigma-54 interaction domain"
+      "[pfam] Sigma54_activat: Sigma-54 interaction domain",
+      "[pfam] RtcR_C: RtcR C-terminal DNA-binding domain"
     ],
     "alternative_locus_tags": [
       "SPO0156"
@@ -28911,7 +28910,8 @@
       "[pfam] Hpt: Hpt domain",
       "[pfam] PAS: PAS fold",
       "[pfam] PAS_9: PAS domain",
-      "[pfam] Response_reg: Response regulator receiver domain"
+      "[pfam] Response_reg: Response regulator receiver domain",
+      "[pfam] AtsR_N: AtsR sensor histidine kinase N-terminal four-helix bundle"
     ],
     "alternative_locus_tags": [
       "SPO_RS00835",
@@ -29746,7 +29746,8 @@
       "[eggnog] Bacterial regulatory proteins, tetR family",
       "[interpro] DNA-binding HTH domain, TetR-type",
       "[interpro] HTH-type, TetR-like transcriptional regulator",
-      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family"
+      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family",
+      "[pfam] TetR_C_47: TetR C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS00860",
@@ -34326,7 +34327,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[eggnog] Flagellar biosynthesis type III secretory pathway protein"
+      "[eggnog] Flagellar biosynthesis type III secretory pathway protein",
+      "[pfam] FliH_like: FliH-like protein"
     ],
     "alternative_locus_tags": [
       "SPO_RS01010",
@@ -34455,8 +34457,9 @@
       "[interpro] Lipoprotein YscJ/Flagellar M-ring protein",
       "[interpro] FliF, N-terminal domain",
       "[tigr_role_inferred] Cellular processes / Chemotaxis and motility",
-      "[pfam] YscJ_FliF: Secretory protein of YscJ/FliF family",
-      "[pfam] YscJ_FliF_C: Flagellar M-ring protein C-terminal"
+      "[pfam] YscJ_FliF: Secretory protein of YscJ/FliF RBM domain",
+      "[pfam] YscJ_FliF_C: Flagellar M-ring protein C-terminal",
+      "[pfam] FliF_N: FliF N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO0199"
@@ -36608,7 +36611,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9819"
+      "[interpro] Domain of unknown function DUF9819",
+      "[pfam] DUF9819: Domain of unknown function (DUF9819)"
     ],
     "alternative_locus_tags": [
       "SPO_RS01090",
@@ -42597,7 +42601,8 @@
       "[interpro] OsmC/Ohr conserved domain",
       "[interpro] Organic hydroperoxide resistance protein famiy",
       "[ncbifam] Ohr family peroxiredoxin",
-      "[pfam] OsmC: OsmC-like protein"
+      "[pfam] OsmC: OsmC-like protein C-terminal domain",
+      "[pfam] OhrL_N: OhrL N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS01295",
@@ -46115,7 +46120,7 @@
       "[ncbifam] MiaB/RimO family radical SAM methylthiotransferase",
       "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
       "[pfam] Radical_SAM: Radical SAM superfamily",
-      "[pfam] UPF0004: Uncharacterized protein family UPF0004"
+      "[pfam] UPF0004: tRNA methylthiotransferase MiaB, N-terminal"
     ],
     "alternative_locus_tags": [
       "SPO0277"
@@ -46618,7 +46623,8 @@
       "[ncbi] YHS domain-containing (seleno)protein",
       "[eggnog] YHS domain protein",
       "[interpro] YHS domain",
-      "[pfam] YHS: YHS domain"
+      "[pfam] YHS: YHS domain",
+      "[pfam] VCA0647_C: VCA0647 C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS01425",
@@ -46730,7 +46736,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] Has an important function as a repair enzyme for proteins that have been inactivated by oxidation. Catalyzes the reversible oxidation-reduction of methionine sulfoxide in proteins to methionine",
-      "[interpro] Domain of unknown function DUF10366"
+      "[interpro] Domain of unknown function DUF10366",
+      "[pfam] DUF10366: Domain of unknown function (DUF10366)"
     ],
     "alternative_locus_tags": [
       "SPO_RS01430",
@@ -47310,7 +47317,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10033"
+      "[interpro] Domain of unknown function DUF10033",
+      "[pfam] DUF10033: Domain of unknown function (DUF10033)"
     ],
     "alternative_locus_tags": [
       "SPO_RS01450",
@@ -50244,7 +50252,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10869"
+      "[interpro] Domain of unknown function DUF10869",
+      "[pfam] DUF10869: Domain of unknown function (DUF10869)"
     ],
     "alternative_locus_tags": [
       "SPO_RS01535",
@@ -50436,7 +50445,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9547"
+      "[interpro] Domain of unknown function DUF9547",
+      "[pfam] DUF9547: Domain of unknown function (DUF9547)"
     ],
     "alternative_locus_tags": [
       "SPO_RS01545",
@@ -51254,7 +51264,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] 'Molybdopterin",
-      "[interpro] Domain of unknown function DUF9548"
+      "[interpro] Domain of unknown function DUF9548",
+      "[pfam] DUF9548: Domain of unknown function (DUF9548)"
     ],
     "alternative_locus_tags": [
       "SPO_RS01580",
@@ -51554,7 +51565,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[pfam] GPR_C: GPR C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS01590",
@@ -57428,7 +57440,8 @@
       "[pfam] 2-oxogl_dehyd_N: 2-oxoglutarate dehydrogenase N-terminus",
       "[pfam] E1_dh: Dehydrogenase E1 component",
       "[pfam] OxoGdeHyase_C: 2-oxoglutarate dehydrogenase C-terminal",
-      "[pfam] Transket_pyr: Transketolase, pyrimidine binding domain"
+      "[pfam] Transket_pyr: Transketolase, pyrimidine binding domain",
+      "[pfam] OdhA_helical: 2-oxoglutarate dehydrogenase E1 helical domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS01745",
@@ -58510,7 +58523,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyl transferase family 2",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS22090",
@@ -59091,7 +59104,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9397"
+      "[interpro] Domain of unknown function DUF9397",
+      "[pfam] DUF9397: Domain of unknown function (DUF9397)"
     ],
     "alternative_locus_tags": [
       "SPO_RS01785",
@@ -61736,7 +61750,8 @@
       "[eggnog] DNA-binding protein, H-NS",
       "[protein_family] Histone-like protein H-NS family",
       "[interpro] DNA-binding protein H-NS-like, C-terminal domain",
-      "[pfam] Histone_HNS: H-NS histone C-terminal domain"
+      "[pfam] Histone_HNS: H-NS histone C-terminal domain",
+      "[pfam] HvrA_N: HvrA N-terminal oligomerisation domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS01860",
@@ -66612,7 +66627,8 @@
       "[pfam] HD: HD domain",
       "[pfam] NTP_transf_2: Nucleotidyltransferase domain",
       "[pfam] ACT_ACR9_3rd: ACR9-like, ACT-like domain",
-      "[pfam] GlnD_3rd: Uridylyltransferase GlnD third domain"
+      "[pfam] GlnD_3rd: Uridylyltransferase GlnD third domain",
+      "[pfam] GlnD_hel: GlnD, small helical domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02010",
@@ -70650,7 +70666,7 @@
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[tigr_role_inferred] Cellular processes / Cell division",
       "[tcdb_best_hit] Rod shape determining protein, RodA. [2.A.103.1.2] :: [tcdb_substrates] alpha-D-FucNAc4-(1->4)-beta-D-ManNAcA-(1->4)-D-GlcNAc-undecaprenyl diphosphate(3-)",
-      "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
+      "[pfam] FTSW_RODA_SPOVE: Probable peptidoglycan glycosyltransferase FtsW/RodA"
     ],
     "alternative_locus_tags": [
       "SPO0416"
@@ -71165,7 +71181,8 @@
       "[interpro] Rod shape-determining protein MreC",
       "[interpro] Rod shape-determining protein MreC, beta-barrel core",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
-      "[pfam] MreC: Rod shape-determining protein MreC, barrel core"
+      "[pfam] MreC: Rod shape-determining protein MreC, barrel core",
+      "[pfam] MreC_N: Cell shape-determining protein MreC N-terminal region"
     ],
     "alternative_locus_tags": [
       "SPO0419"
@@ -73601,7 +73618,8 @@
       "[interpro] ABC3 transporter permease, C-terminal",
       "[interpro] Membrane component of ABC transporter, predicted",
       "[pfam] FtsX: FtsX-like permease C-terminal",
-      "[pfam] MacB_PCD: MacB-like periplasmic core domain"
+      "[pfam] MacB_PCD: MacB-like periplasmic core domain",
+      "[pfam] YbbP_MacB: YbbP MacB-like periplasmic domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02190",
@@ -75761,7 +75779,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF15108"
+      "[interpro] Domain of unknown function DUF15108",
+      "[pfam] DUF15108: Domain of unknown function (DUF15108)"
     ],
     "alternative_locus_tags": [
       "SPO_RS02260",
@@ -77240,7 +77259,8 @@
       "[interpro] Glycosyl_Hydrolase_28_Enzymes",
       "[interpro] Domain of unknown function DUF9186",
       "[pfam] Beta_helix: Right handed beta helix region",
-      "[pfam] Pect-lyase_RHGA_epim: Rhamnogalacturonase A/epimerase, pectate lyase-like"
+      "[pfam] Pect-lyase_RHGA_epim: Rhamnogalacturonase A/epimerase, pectate lyase-like",
+      "[pfam] DUF9186: Domain of unknown function (DUF9186)"
     ],
     "alternative_locus_tags": [
       "SPO_RS02315",
@@ -80408,7 +80428,8 @@
       "[interpro] IS1016-like transposase",
       "[ncbifam] IS1595 family transposase",
       "[pfam] DDE_Tnp_IS1595: ISXO2-like transposase domain",
-      "[pfam] Zn_ribbon_IS1595: Transposase zinc-ribbon domain"
+      "[pfam] Zn_ribbon_IS1595: Transposase zinc-ribbon domain",
+      "[pfam] HTH_Tnp_IS1595: IS1595-family transposase HTH domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02415",
@@ -86806,7 +86827,8 @@
       "[interpro] Ribosomal protein uL15, N-terminal region",
       "[hamap] Large ribosomal subunit protein uL15 [rplO]",
       "[tigr_role_inferred] Protein synthesis / Ribosomal proteins: synthesis and modification",
-      "[pfam] Ribosomal_L27A: Ribosomal proteins 50S-L15, 50S-L18e, 60S-L27A"
+      "[pfam] Ribosomal_L27A: Ribosomal proteins 50S-L15, 50S-L18e, 60S-L27A",
+      "[pfam] Ribosomal_uL15_N: Ribosomal protein uL15, N-terminal region"
     ],
     "alternative_locus_tags": [
       "SPO0505"
@@ -89714,7 +89736,8 @@
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] AAA_assoc_2: AAA C-terminal domain",
       "[pfam] MgsA_C: MgsA AAA+ ATPase C terminal",
-      "[pfam] RuvB_N: Holliday junction DNA helicase RuvB P-loop domain"
+      "[pfam] RuvB_N: Holliday junction DNA helicase RuvB P-loop domain",
+      "[pfam] MgsA_3rd: MgsA AAA+ ATPase third domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02600",
@@ -91153,7 +91176,8 @@
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
       "[tcdb_best_hit] Glutamate/glutamine/aspartate/asparagine porter [3.A.1.3.7] :: [tcdb_substrates] Asparagine, Aspartate, Glutamate, Glutamine",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] ABC_tran_CTD_2: ABC transporter ATP-binding protein C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02635",
@@ -94926,7 +94950,6 @@
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
       "[pfam] ResIII: Type III restriction enzyme, res subunit",
       "[pfam] UVR: UvrB/uvrC motif",
-      "[pfam] UvrB: Ultra-violet resistance protein B",
       "[pfam] UvrB_inter: UvrB interaction domain",
       "[pfam] UvrB_3rd: UvrB third helical domain"
     ],
@@ -95099,7 +95122,6 @@
       "PF00271",
       "PF04851",
       "PF02151",
-      "PF12344",
       "PF17757",
       "PF27431"
     ],
@@ -95124,10 +95146,6 @@
       "PF04851": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12344": [
-        "eggnog",
         "uniprot"
       ],
       "PF17757": [
@@ -96456,7 +96474,8 @@
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
       "[pfam] MS_channel_1st: Mechanosensitive ion channel, transmembrane helices 2/3",
-      "[pfam] MS_channel_3rd: Mechanosensitive ion channel MscS, C-terminal"
+      "[pfam] MS_channel_3rd: Mechanosensitive ion channel MscS, C-terminal",
+      "[pfam] YbiO_N: Mechanosensitive channel YbiO, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02810",
@@ -96647,7 +96666,8 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[tcdb_best_hit] Probable rhamnose oligosaccharide porter. [3.A.1.5.12] :: [tcdb_substrates] rhamnose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like",
+      "[pfam] Permease_beta_N: Permease beta-strand insertion"
     ],
     "alternative_locus_tags": [
       "SPO_RS02815",
@@ -96831,7 +96851,7 @@
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[tcdb_best_hit] Probable rhamnose oligosaccharide porter. [3.A.1.5.12] :: [tcdb_substrates] rhamnose",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS02820",
@@ -98030,7 +98050,8 @@
       "[ncbi] TetR/AcrR family transcriptional regulator",
       "[eggnog] Transcriptional regulator, TetR family",
       "[interpro] DNA-binding HTH domain, TetR-type",
-      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family"
+      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family",
+      "[pfam] TetR_C_47: TetR C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02855",
@@ -98288,7 +98309,8 @@
       "[interpro] Indolepyruvate oxidoreductase subunit IorA, second domain",
       "[pfam] POR: Pyruvate ferredoxin/flavodoxin oxidoreductase",
       "[pfam] TPP_enzyme_C: Thiamine pyrophosphate enzyme, C-terminal TPP binding domain",
-      "[pfam] DUF6537: Family of unknown function (DUF6537)"
+      "[pfam] DUF6537: Family of unknown function (DUF6537)",
+      "[pfam] IOR_2: Indolepyruvate oxidoreductase domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS02865",
@@ -98612,7 +98634,7 @@
       "[eggnog] FecR protein",
       "[interpro] FecR protein",
       "[interpro] LysM domain",
-      "[pfam] FecR: FecR protein",
+      "[pfam] FecR: FecR domain",
       "[pfam] LysM: LysM domain",
       "[pfam] Glucodextran_B: Glucodextranase, domain B"
     ],
@@ -101515,7 +101537,7 @@
       "[interpro] FAD-binding domain, ferredoxin reductase-type",
       "[interpro] Reductive dehalogenase domain",
       "[interpro] Multicomponent Reductase Electron Transfer",
-      "[pfam] Dehalogenase: Reductive dehalogenase subunit",
+      "[pfam] Dehalogenase: Reductive dehalogenase domain",
       "[pfam] Fer2: 2Fe-2S iron-sulfur cluster binding domain",
       "[pfam] Fer4_16: 4Fe-4S double cluster binding domain",
       "[pfam] Fer4_7: 4Fe-4S dicluster domain",
@@ -107194,7 +107216,8 @@
       "[interpro] IS1016-like transposase",
       "[ncbifam] IS1595 family transposase",
       "[pfam] DDE_Tnp_IS1595: ISXO2-like transposase domain",
-      "[pfam] Zn_ribbon_IS1595: Transposase zinc-ribbon domain"
+      "[pfam] Zn_ribbon_IS1595: Transposase zinc-ribbon domain",
+      "[pfam] HTH_Tnp_IS1595: IS1595-family transposase HTH domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS03185",
@@ -109664,7 +109687,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10558"
+      "[interpro] Domain of unknown function DUF10558",
+      "[pfam] DUF10558: Domain of unknown function (DUF10558)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22115",
@@ -111197,7 +111221,8 @@
       "[pfam] HHH_6: Helix-hairpin-helix motif",
       "[pfam] PHP: PHP domain",
       "[pfam] tRNA_anti-codon: OB-fold nucleic acid binding domain",
-      "[pfam] DNA_pol3_finger: Bacterial DNA polymerase III alpha subunit finger domain"
+      "[pfam] DNA_pol3_finger: Bacterial DNA polymerase III alpha subunit finger domain",
+      "[pfam] DnaE1_C: DNA polymerase III subunit alpha DnaE1, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO0656"
@@ -112036,7 +112061,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS03340",
@@ -112183,7 +112208,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS03345",
@@ -114197,7 +114222,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] ImuA family protein",
       "[eggnog] SOS response",
-      "[interpro] Inducible mutagenesis protein A"
+      "[interpro] Inducible mutagenesis protein A",
+      "[pfam] ImuA: ImuA damage-inducible mutagenesis protein"
     ],
     "alternative_locus_tags": [
       "SPO_RS03395",
@@ -117709,7 +117735,8 @@
       "[interpro] Acyl-CoA dehydrogenase/oxidase, N-terminal",
       "[pfam] Acyl-CoA_dh_1: Acyl-CoA dehydrogenase, C-terminal domain",
       "[pfam] Acyl-CoA_dh_M: Acyl-CoA dehydrogenase, middle domain",
-      "[pfam] Acyl-CoA_dh_N: Acyl-CoA dehydrogenase, N-terminal domain"
+      "[pfam] Acyl-CoA_dh_N: Acyl-CoA dehydrogenase, N-terminal domain",
+      "[pfam] Mcd_N: (2S)-methylsuccinyl-CoA dehydrogenase N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS03500",
@@ -119627,7 +119654,8 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like",
+      "[pfam] Permease_beta_N: Permease beta-strand insertion"
     ],
     "alternative_locus_tags": [
       "SPO_RS03555",
@@ -119814,7 +119842,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS03560",
@@ -123600,7 +123628,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9951"
+      "[interpro] Domain of unknown function DUF9951",
+      "[pfam] DUF9951: Domain of unknown function (DUF9951)"
     ],
     "alternative_locus_tags": [
       "SPO_RS03670",
@@ -131809,7 +131838,8 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter, permease PhnE/PtxC",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
-      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
+      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
+      "[pfam] ABC_transp_p69: ABC transport system permease protein p69"
     ],
     "alternative_locus_tags": [
       "SPO0782"
@@ -132009,7 +132039,9 @@
       "[interpro] ABC transporter, permease PhnE/PtxC",
       "[interpro] Domain of unknown function DUF17771",
       "[tigr_role_inferred] Transport and binding proteins / Anions",
-      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
+      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
+      "[pfam] ABC_transp_p69: ABC transport system permease protein p69",
+      "[pfam] DUF17771: Domain of unknown function (DUF17771)"
     ],
     "alternative_locus_tags": [
       "SPO0783"
@@ -132211,7 +132243,8 @@
       "[interpro] Phosphonate metabolism protein, transferase hexapeptide repeat family",
       "[interpro] Transferase hexapeptide repeat",
       "[ncbifam] phosphonate metabolim protein, transferase hexapeptide repeat family",
-      "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)"
+      "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)",
+      "[pfam] CatB_C: Chloramphenicol acetyltransferase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS03955",
@@ -133095,7 +133128,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9656"
+      "[interpro] Domain of unknown function DUF9656",
+      "[pfam] DUF9656: Domain of unknown function (DUF9656)"
     ],
     "alternative_locus_tags": [
       "SPO_RS03985",
@@ -133723,7 +133757,8 @@
       "[tcdb_best_hit] The gold (Au2+) resistance ATPase, GolT regulated by GolS in response to Au2+; it may function with a cytoplasmic metal binding protein, GolB. [3.A.3.5.20]",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] HMA: Heavy-metal-associated domain",
-      "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase"
+      "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase",
+      "[pfam] CopB_TM: CopB transmembrane domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS04005",
@@ -138607,8 +138642,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS04150",
@@ -138752,8 +138786,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -138762,10 +138795,6 @@
       "PF00005": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -139473,7 +139502,10 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] COG1180 Pyruvate-formate lyase-activating enzyme",
-      "[interpro] Domain of unknown function DUF9014"
+      "[interpro] Domain of unknown function DUF9014",
+      "[pfam] DUF9014: Domain of unknown function (DUF9014)",
+      "[pfam] MJ0808_N: MJ0808-like, N-terminal domain",
+      "[pfam] HNR_3rd: 6-hydroxynicotinate reductase, third domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS04180",
@@ -141740,7 +141772,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] Short-chain dehydrogenase reductase Sdr",
-      "[interpro] Domain of unknown function DUF19054"
+      "[interpro] Domain of unknown function DUF19054",
+      "[pfam] DUF19054: Domain of unknown function (DUF19054)"
     ],
     "alternative_locus_tags": [
       "SPO_RS04255",
@@ -156217,7 +156250,7 @@
       "[interpro] UPF0235 protein YggU-like",
       "[hamap] UPF0235 protein YggU [yggU]",
       "[ncbifam] DUF167 family protein",
-      "[pfam] DUF167: Uncharacterised ACR, YggU family COG1872"
+      "[pfam] PF1765-like: PF1765 protein family"
     ],
     "alternative_locus_tags": [
       "SPO_RS04705",
@@ -156331,7 +156364,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF8831"
+      "[interpro] Domain of unknown function DUF8831",
+      "[pfam] DUF8831: Domain of unknown function (DUF8831)"
     ],
     "alternative_locus_tags": [
       "SPO_RS04710",
@@ -157018,7 +157052,7 @@
       "[tigr_role_inferred] Protein synthesis / Ribosomal proteins: synthesis and modification",
       "[pfam] Radical_SAM: Radical SAM superfamily",
       "[pfam] TRAM: TRAM domain",
-      "[pfam] UPF0004: Uncharacterized protein family UPF0004",
+      "[pfam] UPF0004: tRNA methylthiotransferase MiaB, N-terminal",
       "[pfam] TRAM_2: TRAM domain"
     ],
     "alternative_locus_tags": [
@@ -158470,7 +158504,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] YHS domain-containing (seleno)protein",
       "[eggnog] YHS domain protein",
-      "[pfam] YHS: YHS domain"
+      "[pfam] YHS: YHS domain",
+      "[pfam] VCA0647_C: VCA0647 C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS04790",
@@ -161228,7 +161263,8 @@
       "[pfam] DEAD: DEAD/DEAH box helicase",
       "[pfam] WHD_HA2: Helicase associated domain (HA2), winged-helix",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
-      "[pfam] HrpB_C: ATP-dependent helicase C-terminal"
+      "[pfam] HrpB_C: ATP-dependent helicase C-terminal",
+      "[pfam] HrpB_mid: HrpB middle domain"
     ],
     "alternative_locus_tags": [
       "SPO0972"
@@ -167446,7 +167482,8 @@
       "[interpro] Leucyl/phenylalanyl-tRNA protein transferase, N-terminal domain",
       "[hamap] Leucyl/phenylalanyl-tRNA--protein transferase [aat]",
       "[tigr_role_inferred] Protein fate / Degradation of proteins, peptides, and glycopeptides",
-      "[pfam] Leu_Phe_trans: Leucyl/phenylalanyl-tRNA protein transferase"
+      "[pfam] Leu_Phe_trans: Leucyl/phenylalanyl-tRNA protein transferase",
+      "[pfam] Leu_Phe_trans_N: Leucyl/phenylalanyl-tRNA protein transferase N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO1009"
@@ -169203,7 +169240,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] arylsulfatase activity",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS05115",
@@ -169474,8 +169511,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS05125",
@@ -169591,8 +169627,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -169601,10 +169636,6 @@
       "PF00005": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -170524,7 +170555,8 @@
       "[pfam] HisKA: His Kinase A (phospho-acceptor) domain",
       "[pfam] PAS_7: PAS fold",
       "[pfam] Response_reg: Response regulator receiver domain",
-      "[pfam] SSF: Sodium:solute symporter family"
+      "[pfam] SSF: Sodium:solute symporter family",
+      "[pfam] DUF9141: Domain of unknown function (DUF9141)"
     ],
     "alternative_locus_tags": [
       "SPO_RS05160",
@@ -171365,7 +171397,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9564"
+      "[interpro] Domain of unknown function DUF9564",
+      "[pfam] DUF9564: Domain of unknown function (DUF9564)"
     ],
     "alternative_locus_tags": [
       "SPO_RS05195",
@@ -172144,7 +172177,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF13435"
+      "[interpro] Domain of unknown function DUF13435",
+      "[pfam] DUF13435: Domain of unknown function (DUF13435)"
     ],
     "alternative_locus_tags": [
       "SPO_RS05250",
@@ -174872,7 +174906,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[pfam] Roadblock_2: Roadblock/LC7 domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS05415",
@@ -179065,7 +179100,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9021"
+      "[interpro] Domain of unknown function DUF9021",
+      "[pfam] DUF9021: Domain of unknown function (DUF9021)"
     ],
     "alternative_locus_tags": [
       "SPO_RS05570",
@@ -186836,7 +186872,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] YHS domain-containing (seleno)protein",
-      "[eggnog] YHS domain protein"
+      "[eggnog] YHS domain protein",
+      "[pfam] VCA0647_C: VCA0647 C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS05840",
@@ -187088,7 +187125,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] major outer membrane lipoprotein",
-      "[interpro] Domain of unknown function DUF10386"
+      "[interpro] Domain of unknown function DUF10386",
+      "[pfam] DUF10386: Domain of unknown function (DUF10386)"
     ],
     "alternative_locus_tags": [
       "SPO_RS05850",
@@ -189387,7 +189425,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF13874"
+      "[interpro] Domain of unknown function DUF13874",
+      "[pfam] DUF13874: Domain of unknown function (DUF13874)"
     ],
     "alternative_locus_tags": [
       "SPO_RS05920",
@@ -191973,7 +192012,8 @@
       "[hamap] Phospho-N-acetylmuramoyl-pentapeptide-transferase [mraY]",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[pfam] Glycos_transf_4: Glycosyl transferase family 4",
-      "[pfam] MraY_sig1: Phospho-N-acetylmuramoyl-pentapeptide-transferase signature 1"
+      "[pfam] MraY_sig1: Phospho-N-acetylmuramoyl-pentapeptide-transferase signature 1",
+      "[pfam] MraY_insert: Inserted domain of MraY phospho-MurNAc-pentapeptide transferase"
     ],
     "alternative_locus_tags": [
       "SPO1184"
@@ -193532,7 +193572,7 @@
       "[interpro] Probable peptidoglycan glycosyltransferase FtsW",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
       "[tigr_role_inferred] Cellular processes / Cell division",
-      "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
+      "[pfam] FTSW_RODA_SPOVE: Probable peptidoglycan glycosyltransferase FtsW/RodA"
     ],
     "alternative_locus_tags": [
       "SPO1194"
@@ -194953,7 +194993,8 @@
       "[interpro] POTRA domain",
       "[hamap] Cell division protein FtsQ [ftsQ]",
       "[pfam] FtsQ_DivIB_C: Cell division protein FtsQ/DivIB, C-terminal",
-      "[pfam] POTRA_1: POTRA domain, FtsQ-type"
+      "[pfam] POTRA_1: POTRA domain, FtsQ-type",
+      "[pfam] FtsQ_N: Cell division protein FtsQ N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS06100",
@@ -195798,7 +195839,8 @@
       "[interpro] Rad50/SbcC-type AAA domain",
       "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
       "[pfam] SMC_N: RecF/RecN/SMC N terminal domain",
-      "[pfam] AAA_23: AAA domain"
+      "[pfam] AAA_23: AAA domain",
+      "[pfam] HTH_RecN: RecN C-terminal HTH domain"
     ],
     "alternative_locus_tags": [
       "SPO1207"
@@ -196444,7 +196486,7 @@
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[tcdb_best_hit] Glutathione porter, YliABCD or GsiABCD. [3.A.1.5.11] :: [tcdb_substrates] Glutathione",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS06145",
@@ -196613,7 +196655,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS06150",
@@ -198676,7 +198718,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF13375"
+      "[interpro] Domain of unknown function DUF13375",
+      "[pfam] DUF13375: Domain of unknown function (DUF13375)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06250",
@@ -198973,7 +199016,8 @@
       "[eggnog] DNA-binding protein, H-NS",
       "[protein_family] Histone-like protein H-NS family",
       "[interpro] DNA-binding protein H-NS-like, C-terminal domain",
-      "[pfam] Histone_HNS: H-NS histone C-terminal domain"
+      "[pfam] Histone_HNS: H-NS histone C-terminal domain",
+      "[pfam] HvrA_N: HvrA N-terminal oligomerisation domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS06265",
@@ -199446,7 +199490,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF23926"
+      "[interpro] Domain of unknown function DUF23926",
+      "[pfam] DUF23926: Domain of unknown function (DUF23926)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06290",
@@ -200904,7 +200949,8 @@
       "[eggnog] MlaD protein",
       "[interpro] Mce/MlaD",
       "[interpro] Intermembrane Transport Protein PqiA/PqiB",
-      "[pfam] MlaD: MlaD protein"
+      "[pfam] MlaD: MlaD protein",
+      "[pfam] PqiB_C: PqiB C-terminal region"
     ],
     "alternative_locus_tags": [
       "SPO_RS06365",
@@ -202869,7 +202915,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Protein of unknown function DUF14139"
+      "[interpro] Protein of unknown function DUF14139",
+      "[pfam] DUF14139: Family of unknown function (DUF14139)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06435",
@@ -204097,7 +204144,8 @@
       "[interpro] Thymidylate synthase ThyX",
       "[hamap] Flavin-dependent thymidylate synthase [thyX]",
       "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
-      "[pfam] Thy1: Thymidylate synthase complementing protein"
+      "[pfam] Thy1: Thymidylate synthase complementing protein",
+      "[pfam] ThyX_C_Alphaprot: Flavin-dependent thymidylate synthase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO1273"
@@ -204611,7 +204659,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10501"
+      "[interpro] Domain of unknown function DUF10501",
+      "[pfam] DUF10501: Domain of unknown function (DUF10501)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06505",
@@ -204831,7 +204880,7 @@
       "[ncbi] HvfC/BufC N-terminal domain-containing protein",
       "[eggnog] Putative DNA-binding domain",
       "[interpro] HvfC, N-terminal domain",
-      "[pfam] DUF2063: Putative DNA-binding domain"
+      "[pfam] HvfC_N: HvfC C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS06515",
@@ -207599,7 +207648,8 @@
       "[eggnog] Belongs to the glutamine synthetase family",
       "[protein_family] Glutamine synthetase family",
       "[interpro] Glutamine synthetase, catalytic domain",
-      "[pfam] Gln-synt_C: Glutamine synthetase, catalytic domain"
+      "[pfam] Gln-synt_C: Glutamine synthetase, catalytic domain",
+      "[pfam] PuuA_N: PuuA-like, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS06635",
@@ -210767,7 +210817,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9190"
+      "[interpro] Domain of unknown function DUF9190",
+      "[pfam] DUF9190: Domain of unknown function (DUF9190)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06730",
@@ -211604,7 +211655,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] Is involved in NO detoxification in an aerobic process, termed nitric oxide dioxygenase (NOD) reaction that utilizes O(2) and NAD(P)H to convert NO to nitrate, which protects the bacterium from various noxious nitrogen compounds. Therefore, plays a central role in the inducible response to nitrosative stress",
       "[interpro] Domain of unknown function DUF10021",
-      "[pfam] NAD_binding_1: Oxidoreductase NAD-binding domain"
+      "[pfam] NAD_binding_1: Oxidoreductase NAD-binding domain",
+      "[pfam] DUF10021: Domain of unknown function (DUF10021)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06755",
@@ -212660,7 +212712,8 @@
       "[protein_family] Band 7/mec-2 family, HflC subfamily",
       "[interpro] Band 7 domain",
       "[interpro] HflC",
-      "[pfam] Band_7: SPFH domain / Band 7 family"
+      "[pfam] Band_7: SPFH domain / Band 7 family",
+      "[pfam] HflC_C: HflC C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO1330"
@@ -214401,7 +214454,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9571"
+      "[interpro] Domain of unknown function DUF9571",
+      "[pfam] DUF9571: Domain of unknown function (DUF9571)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06840",
@@ -216428,7 +216482,8 @@
       "[interpro] Domain of unknown function DUF14021",
       "[pfam] PG_binding_1: Putative peptidoglycan binding domain",
       "[pfam] SPOR: SPOR domain",
-      "[pfam] Trypsin_2: Trypsin-like peptidase domain"
+      "[pfam] Trypsin_2: Trypsin-like peptidase domain",
+      "[pfam] DUF14021: Domain of unknown function (DUF14021)"
     ],
     "alternative_locus_tags": [
       "SPO_RS06900",
@@ -220163,6 +220218,7 @@
       "[ncbifam] cyclic di-GMP-binding domain-containing protein, MshE-related",
       "[pfam] Glyco_tranf_2_3: Glycosyltransferase like family 2",
       "[pfam] Glyco_trans_2_3: Glycosyl transferase family group 2",
+      "[pfam] T2SSE_N: Type II secretion system protein E, N-terminal domain",
       "[pfam] MshEN: MshEN domain"
     ],
     "alternative_locus_tags": [
@@ -220260,6 +220316,7 @@
     "pfam_ids": [
       "PF13641",
       "PF13632",
+      "PF30792",
       "PF05157"
     ],
     "pfam_ids_evidence": {
@@ -220268,7 +220325,6 @@
     },
     "pfam_ids_source": {
       "PF05157": [
-        "eggnog",
         "interproscan",
         "uniprot"
       ],
@@ -220278,6 +220334,9 @@
         "uniprot"
       ],
       "PF13641": [
+        "eggnog"
+      ],
+      "PF30792": [
         "eggnog"
       ]
     },
@@ -221005,7 +221064,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF11807"
+      "[interpro] Domain of unknown function DUF11807",
+      "[pfam] DUF11807: Domain of unknown function (DUF11807)"
     ],
     "alternative_locus_tags": [
       "SPO_RS07045",
@@ -221197,7 +221257,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyl transferase family 2",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS07055",
@@ -226651,7 +226711,10 @@
       "[interpro] ATP-dependent RNA helicase SUPV3-like",
       "[interpro] ATP-dependent RNA helicase SUV3, DEXQ-box helicase domain",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
-      "[pfam] DEXQc_Suv3: DEXQ-box helicase domain of Suv3"
+      "[pfam] DEXQc_Suv3: DEXQ-box helicase domain of Suv3",
+      "[pfam] MgpS_M: MgpS helicase central domain",
+      "[pfam] MgpS_C: MgpS RNA helicase C-terminal HTH-like domain",
+      "[pfam] MgpS_4th: MgpS fourth domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS07230",
@@ -228590,7 +228653,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF14041"
+      "[interpro] Domain of unknown function DUF14041",
+      "[pfam] DUF14041: Domain of unknown function (DUF14041)"
     ],
     "alternative_locus_tags": [
       "SPO_RS07280",
@@ -230346,7 +230410,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10514"
+      "[interpro] Domain of unknown function DUF10514",
+      "[pfam] DUF10514: Domain of unknown function (DUF10514)"
     ],
     "alternative_locus_tags": [
       "SPO_RS07330",
@@ -231112,7 +231177,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyl transferase family 2",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS07360",
@@ -233282,7 +233347,8 @@
       "[interpro] 4Fe-4S ferredoxin-type, iron-sulphur binding domain",
       "[interpro] TPP-binding domain containing protein HACL1-like",
       "[interpro] Indolepyruvate oxidoreductase subunit IorA, second domain",
-      "[pfam] TPP_enzyme_C: Thiamine pyrophosphate enzyme, C-terminal TPP binding domain"
+      "[pfam] TPP_enzyme_C: Thiamine pyrophosphate enzyme, C-terminal TPP binding domain",
+      "[pfam] IOR_2: Indolepyruvate oxidoreductase domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS07435",
@@ -237264,7 +237330,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] TSPO-like domain"
+      "[interpro] TSPO-like domain",
+      "[pfam] TSPO_2: TSPO-like protein"
     ],
     "alternative_locus_tags": [
       "SPO_RS07575",
@@ -237921,7 +237988,6 @@
       "[interpro] High-affinity branched-chain amino acid transport system permease protein LivM-like",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -238057,7 +238123,6 @@
     ],
     "pfam_ids": [
       "PF00005",
-      "PF12399",
       "PF02653"
     ],
     "pfam_ids_evidence": {
@@ -238071,9 +238136,6 @@
       ],
       "PF02653": [
         "interproscan"
-      ],
-      "PF12399": [
-        "eggnog"
       ]
     },
     "product": "branched-chain amino acid ABC transporter ATP-binding protein/permease",
@@ -241087,7 +241149,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[pfam] Cupredoxin_like: Cupredoxin-like domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS07695",
@@ -242261,7 +242324,8 @@
       "[interpro] NosR/NirI-like, C-terminal domain",
       "[pfam] FMN_bind: FMN-binding domain",
       "[pfam] Fer4_5: 4Fe-4S binding domain",
-      "[pfam] NosR: NosR"
+      "[pfam] NosR: NosR",
+      "[pfam] NosR_b-sand: NosR-like beta-sandwich domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS07740",
@@ -245621,7 +245685,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[tcdb_best_hit] The putative D-alanyl-D-alanyl dipeptide permease, DdpABCDF; encoded within an operon that includes the D-ala-D-ala peptidase, DdpX (VanX, YddT). [3.A.1.5.38] :: [tcdb_substrates] L-alanyl-L-alanine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS07860",
@@ -245814,7 +245878,7 @@
       "[interpro] ABC_transport_system_permease",
       "[tcdb_best_hit] The putative D-alanyl-D-alanyl dipeptide permease, DdpABCDF; encoded within an operon that includes the D-ala-D-ala peptidase, DdpX (VanX, YddT). [3.A.1.5.38] :: [tcdb_substrates] L-alanyl-L-alanine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO1545"
@@ -251298,7 +251362,8 @@
       "[eggnog] Glutamine amidotransferase domain",
       "[interpro] Glutamine amidotransferase type 2 domain",
       "[pfam] GATase_6: Glutamine amidotransferase domain",
-      "[pfam] GATase_7: Glutamine amidotransferase domain"
+      "[pfam] GATase_7: Glutamine amidotransferase domain",
+      "[pfam] GlxB_ins: GlxB glutamine amidotransferase, insertion domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS08020",
@@ -252707,7 +252772,8 @@
       "[pfam] GCV_T: GCVT N-terminal domain",
       "[pfam] GCV_T_C: Glycine cleavage T-protein C-terminal barrel domain",
       "[pfam] Pyr_redox_2: Pyridine nucleotide-disulphide oxidoreductase",
-      "[pfam] SO_alpha_A3: Sarcosine oxidase A3 domain"
+      "[pfam] SO_alpha_A3: Sarcosine oxidase A3 domain",
+      "[pfam] SoxA_2nd: SoxA second domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS08070",
@@ -258624,7 +258690,8 @@
       "[interpro] RTX toxin and mannuronan C5-epimerase",
       "[interpro] Domain of unknown function DUF24317",
       "[pfam] HemolysinCabind: RTX calcium-binding nonapeptide repeat (4 copies)",
-      "[pfam] Hint_2: Hint domain"
+      "[pfam] Hint_2: Hint domain",
+      "[pfam] DUF24317: Domain of unknown function (DUF24317)"
     ],
     "alternative_locus_tags": [
       "SPO_RS08270",
@@ -259670,7 +259737,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF17784"
+      "[interpro] Domain of unknown function DUF17784",
+      "[pfam] DUF17784: Domain of unknown function (DUF17784)"
     ],
     "alternative_locus_tags": [
       "SPO_RS08305",
@@ -261242,7 +261310,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[pfam] MarC_related: MarC-related membrane protein"
     ],
     "alternative_locus_tags": [
       "SPO_RS08350",
@@ -261664,7 +261733,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS08365",
@@ -261835,7 +261904,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS08370",
@@ -262905,7 +262974,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS08420",
@@ -263081,7 +263150,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS08425",
@@ -270890,7 +270959,7 @@
       "[interpro] Endonuclease GajA/Old nuclease/RecF-like, AAA domain",
       "[interpro] Bacterial Antiviral Defense Nuclease",
       "[pfam] AAA_15: AAA ATPase domain",
-      "[pfam] DUF3696: Protein of unknown function (DUF3696)"
+      "[pfam] NsnB_BrxC_C: Defence system component NsnB/BrxC-like, C-terminal region"
     ],
     "alternative_locus_tags": [
       "SPO_RS22480",
@@ -272757,8 +272826,7 @@
       "[interpro] ABC transporter, urea, ATP-binding protein, UrtD",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tigr_role_inferred] Transport and binding proteins / Amino acids, peptides and amines",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "bacteria_cog_og": "COG4674",
     "cog_category": [
@@ -272886,8 +272954,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -272897,9 +272964,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF12399": [
-        "eggnog"
       ]
     },
     "product": "urea ABC transporter ATP-binding protein UrtD",
@@ -277756,7 +277820,7 @@
       "[eggnog] Reductive dehalogenase subunit",
       "[interpro] 4Fe-4S ferredoxin-type, iron-sulphur binding domain",
       "[interpro] Reductive dehalogenase domain",
-      "[pfam] Dehalogenase: Reductive dehalogenase subunit",
+      "[pfam] Dehalogenase: Reductive dehalogenase domain",
       "[pfam] Fer4_16: 4Fe-4S double cluster binding domain"
     ],
     "alternative_locus_tags": [
@@ -278815,7 +278879,8 @@
       "[pfam] GCV_T: GCVT N-terminal domain",
       "[pfam] GCV_T_C: Glycine cleavage T-protein C-terminal barrel domain",
       "[pfam] Pyr_redox_2: Pyridine nucleotide-disulphide oxidoreductase",
-      "[pfam] SO_alpha_A3: Sarcosine oxidase A3 domain"
+      "[pfam] SO_alpha_A3: Sarcosine oxidase A3 domain",
+      "[pfam] SoxA_2nd: SoxA second domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS08885",
@@ -279144,7 +279209,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10585"
+      "[interpro] Domain of unknown function DUF10585",
+      "[pfam] DUF10585: Domain of unknown function (DUF10585)"
     ],
     "alternative_locus_tags": [
       "SPO_RS08895",
@@ -279252,7 +279318,8 @@
       "[pfam] Toprim_2: Toprim-like",
       "[pfam] Toprim_4: Toprim domain",
       "[pfam] DNAG_N: DNA primase catalytic core, N-terminal domain",
-      "[pfam] Zn_ribbon_DnaG: CHC2 zinc finger"
+      "[pfam] Zn_ribbon_DnaG: DnaG zinc beta ribbon domain",
+      "[pfam] DUF13326: Domain of unknown function (DUF13326)"
     ],
     "alternative_locus_tags": [
       "SPO1749"
@@ -279703,7 +279770,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10127"
+      "[interpro] Domain of unknown function DUF10127",
+      "[pfam] DUF10127: Domain of unknown function (DUF10127)"
     ],
     "alternative_locus_tags": [
       "SPO_RS08910",
@@ -281036,7 +281104,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10575"
+      "[interpro] Domain of unknown function DUF10575",
+      "[pfam] DUF10575: Domain of unknown function (DUF10575)"
     ],
     "alternative_locus_tags": [
       "SPO_RS08950",
@@ -281957,7 +282026,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9647"
+      "[interpro] Domain of unknown function DUF9647",
+      "[pfam] DUF9647: Domain of unknown function (DUF9647)"
     ],
     "alternative_locus_tags": [
       "SPO_RS08975",
@@ -282279,7 +282349,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Putative glycosyltransferase domain"
+      "[interpro] Putative glycosyltransferase domain",
+      "[pfam] Rhodo_GlycoT: Rhodobacterales glycosyltransferase domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS09000",
@@ -282371,7 +282442,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] Peptidase C14 caspase catalytic subunit p20",
       "[interpro] Domain of unknown function DUF10267",
-      "[pfam] Peptidase_C14: Caspase domain"
+      "[pfam] Peptidase_C14: Caspase domain",
+      "[pfam] DUF10267: Domain of unknown function (DUF10267)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09005",
@@ -283845,7 +283917,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10119"
+      "[interpro] Domain of unknown function DUF10119",
+      "[pfam] DUF10119: Domain of unknown function (DUF10119)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09045",
@@ -284637,7 +284710,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF12245"
+      "[interpro] Domain of unknown function DUF12245",
+      "[pfam] DUF12245: Domain of unknown function (DUF12245)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09065",
@@ -287429,7 +287503,8 @@
       "[interpro] Domain of unknown function DUF13747",
       "[pfam] Fer4: 4Fe-4S binding domain",
       "[pfam] Fer4_7: 4Fe-4S dicluster domain",
-      "[pfam] Fer4_9: 4Fe-4S dicluster domain"
+      "[pfam] Fer4_9: 4Fe-4S dicluster domain",
+      "[pfam] DUF13747: Domain of unknown function (DUF13747)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09160",
@@ -291718,7 +291793,6 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter",
       "[pfam] BPD_transp_2: Branched-chain amino acid transport system / permease component"
     ],
     "alternative_locus_tags": [
@@ -291865,7 +291939,6 @@
     ],
     "pfam_ids": [
       "PF00005",
-      "PF12399",
       "PF02653"
     ],
     "pfam_ids_evidence": {
@@ -291879,10 +291952,6 @@
       ],
       "PF02653": [
         "eggnog"
-      ],
-      "PF12399": [
-        "eggnog",
-        "uniprot"
       ]
     },
     "product": "ABC transporter ATP-binding protein",
@@ -295295,8 +295364,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] Branched chain amino acid uptake transporter. [3.A.1.4.8] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS09405",
@@ -295412,8 +295480,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -295422,10 +295489,6 @@
       "PF00005": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -296103,7 +296166,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9703"
+      "[interpro] Domain of unknown function DUF9703",
+      "[pfam] DUF9703: Domain of unknown function (DUF9703)"
     ],
     "alternative_locus_tags": [
       "SPO_RS23160",
@@ -297265,7 +297329,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF11763"
+      "[interpro] Domain of unknown function DUF11763",
+      "[pfam] DUF11763: Domain of unknown function (DUF11763)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09475",
@@ -298569,7 +298634,8 @@
       "[interpro] Indolepyruvate oxidoreductase subunit IorA, second domain",
       "[pfam] POR: Pyruvate ferredoxin/flavodoxin oxidoreductase",
       "[pfam] TPP_enzyme_C: Thiamine pyrophosphate enzyme, C-terminal TPP binding domain",
-      "[pfam] DUF6537: Family of unknown function (DUF6537)"
+      "[pfam] DUF6537: Family of unknown function (DUF6537)",
+      "[pfam] IOR_2: Indolepyruvate oxidoreductase domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS09520",
@@ -299640,7 +299706,7 @@
       "[interpro] Cytochrome c-type biogenesis protein CcmF",
       "[interpro] CcmF, C-terminal beta-sandwich",
       "[ncbifam] heme lyase NrfEFG subunit NrfE",
-      "[pfam] CcmF_C: Cytochrome c-type biogenesis protein CcmF C-terminal",
+      "[pfam] CcmF_C: CcmF C-terminal beta-sandwich",
       "[pfam] Cytochrom_C_asm: Cytochrome C assembly protein"
     ],
     "alternative_locus_tags": [
@@ -303672,7 +303738,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF11494"
+      "[interpro] Domain of unknown function DUF11494",
+      "[pfam] DUF11494: Domain of unknown function (DUF11494)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09680",
@@ -304147,7 +304214,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10119"
+      "[interpro] Domain of unknown function DUF10119",
+      "[pfam] DUF10119: Domain of unknown function (DUF10119)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09700",
@@ -306263,7 +306331,8 @@
       "[ncbi] TrgA family protein",
       "[eggnog] resistance) protein",
       "[interpro] TrgA",
-      "[interpro] Domain of unknown function DUF9739"
+      "[interpro] Domain of unknown function DUF9739",
+      "[pfam] DUF9739: Domain of unknown function (DUF9739)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09740",
@@ -309638,8 +309707,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] The neutral amino acid permease, N-1 (transports pro, phe, leu, gly, ala, ser, gln and his, but gln and his are not transported via NatB) [3.A.1.4.6] :: [tcdb_substrates] Amino acid",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS09840",
@@ -309760,8 +309828,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -309770,10 +309837,6 @@
       "PF00005": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -319242,8 +319305,9 @@
       "[interpro] RS2/RL21/YNQ2, HHH domain",
       "[hamap] Large ribosomal subunit protein bL21 [rplU]",
       "[tigr_role_inferred] Protein synthesis / Ribosomal proteins: synthesis and modification",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
-      "[pfam] Ribosomal_L21p: Ribosomal prokaryotic L21 protein"
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
+      "[pfam] Ribosomal_L21p: Ribosomal prokaryotic L21 protein",
+      "[pfam] HHH_RS2-RL21-YNQ2: RS2/RL21/YNQ2 HHH domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS10095",
@@ -324439,7 +324503,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9849"
+      "[interpro] Domain of unknown function DUF9849",
+      "[pfam] DUF9849: Domain of unknown function (DUF9849)"
     ],
     "alternative_locus_tags": [
       "SPO_RS10285",
@@ -326562,7 +326627,8 @@
       "[interpro] Ribosomal RNA small subunit methyltransferase B-like, ferredoxin-like domain",
       "[interpro] Domain of unknown function DUF8981",
       "[pfam] Methyltr_RsmB-F: 16S rRNA methyltransferase RsmB/F",
-      "[pfam] RsmF-B_ferredox: Methyltr_RsmF/B-like, ferredoxin-like domain"
+      "[pfam] RsmF-B_ferredox: Methyltr_RsmF/B-like, ferredoxin-like domain",
+      "[pfam] DUF8981: Domain of unknown function (DUF8981)"
     ],
     "alternative_locus_tags": [
       "SPO_RS10335",
@@ -327815,7 +327881,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10117"
+      "[interpro] Domain of unknown function DUF10117",
+      "[pfam] DUF10117: Domain of unknown function (DUF10117)"
     ],
     "alternative_locus_tags": [
       "SPO_RS10370",
@@ -329729,7 +329796,8 @@
       "[interpro] tRNA methyltransferase TrmJ, C-terminal domain",
       "[ncbifam] TrmJ/YjtD family RNA methyltransferase",
       "[pfam] DUF559: Protein of unknown function (DUF559)",
-      "[pfam] SpoU_methylase: SpoU rRNA Methylase family"
+      "[pfam] SpoU_methylase: SpoU rRNA Methylase family",
+      "[pfam] TrmJ_C: tRNA methyltransferase TrmJ, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS10425",
@@ -330275,7 +330343,8 @@
       "[eggnog] Glutathione S-transferase, N-terminal domain",
       "[interpro] Glutathione S-transferase, N-terminal",
       "[interpro] Glutathione S-transferase Omega-like",
-      "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain"
+      "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain",
+      "[pfam] LigG_C: LigG glutathione lyase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS10445",
@@ -332557,7 +332626,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] Component of SufBCD complex",
-      "[interpro] Domain of unknown function DUF9572"
+      "[interpro] Domain of unknown function DUF9572",
+      "[pfam] DUF9572: Domain of unknown function (DUF9572)"
     ],
     "alternative_locus_tags": [
       "SPO_RS10525",
@@ -336286,7 +336356,7 @@
       "[interpro] CinA, C-terminal",
       "[interpro] Competence-damage inducible protein CinA",
       "[ncbifam] nicotinamide-nucleotide amidohydrolase family protein",
-      "[pfam] CinA: Competence-damaged protein"
+      "[pfam] CinA: CinA C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS10610",
@@ -341084,7 +341154,8 @@
       "[interpro] HNH nuclease",
       "[interpro] HNH endonuclease-associated, N-terminal domain",
       "[pfam] HNH: HNH endonuclease",
-      "[pfam] HNH_5: HNH endonuclease"
+      "[pfam] HNH_5: HNH endonuclease",
+      "[pfam] HNH_assoc_N: HNH endonuclease-associated, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS10765",
@@ -343474,7 +343545,8 @@
       "[tigr_role_inferred] Purines, pyrimidines, nucleosides, and nucleotides / 2'-Deoxyribonucleotide metabolism",
       "[pfam] Ribonuc_red_2_N: Class II vitamin B12-dependent ribonucleotide reductase",
       "[pfam] Ribonuc_red_lgC: Ribonucleotide reductase, barrel domain",
-      "[pfam] TSCPD: TSCPD domain"
+      "[pfam] TSCPD: TSCPD domain",
+      "[pfam] NrdJ_C: Vitamin B12-dependent ribonucleotide reductase, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS10830",
@@ -345111,7 +345183,6 @@
       "[interpro] Anthranilate synthase-like domain",
       "[interpro] Anthranilate synthase component I-like",
       "[tigr_role_inferred] Amino acid biosynthesis / Aromatic amino acid family",
-      "[pfam] Anth_synt_I_N: Anthranilate synthase component I, N terminal region",
       "[pfam] Chorismate_bind: chorismate binding enzyme"
     ],
     "alternative_locus_tags": [
@@ -345253,7 +345324,6 @@
       }
     ],
     "pfam_ids": [
-      "PF04715",
       "PF00425"
     ],
     "pfam_ids_evidence": {
@@ -345263,10 +345333,6 @@
       "PF00425": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF04715": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -347220,7 +347286,8 @@
       "[interpro] Domain of unknown function DUF9350",
       "[ncbifam] ComEC/Rec2-related protein",
       "[pfam] Competence: Competence protein",
-      "[pfam] DUF4131: Domain of unknown function (DUF4131)"
+      "[pfam] ComEC_N: ComEC-like, N-terminal domain",
+      "[pfam] DUF9350: Domain of unknown function (DUF9350)"
     ],
     "alternative_locus_tags": [
       "SPO_RS10925",
@@ -347630,7 +347697,8 @@
       "[interpro] Citrate synthase, type I",
       "[interpro] Citrate synthase, bacterial-type",
       "[tigr_role_inferred] Energy metabolism / TCA cycle",
-      "[pfam] Citrate_synt: Citrate synthase, C-terminal domain"
+      "[pfam] Citrate_synt: Citrate synthase, C-terminal domain",
+      "[pfam] Citrate_synt_N: Citrate synthase N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS10935",
@@ -347831,7 +347899,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] calcium- and calmodulin-responsive adenylate cyclase activity",
-      "[interpro] Domain of unknown function DUF15108"
+      "[interpro] Domain of unknown function DUF15108",
+      "[pfam] DUF15108: Domain of unknown function (DUF15108)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22210",
@@ -348879,7 +348948,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9613"
+      "[interpro] Domain of unknown function DUF9613",
+      "[pfam] DUF9613: Domain of unknown function (DUF9613)"
     ],
     "alternative_locus_tags": [
       "SPO_RS10980",
@@ -349913,7 +349983,8 @@
       "[interpro] Domain of unknown function DUF12121",
       "[pfam] HAMP: HAMP domain",
       "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
-      "[pfam] HisKA: His Kinase A (phospho-acceptor) domain"
+      "[pfam] HisKA: His Kinase A (phospho-acceptor) domain",
+      "[pfam] DUF12121: Domain of unknown function (DUF12121)"
     ],
     "alternative_locus_tags": [
       "SPO_RS11015",
@@ -350567,7 +350638,7 @@
       "[interpro] Phospholipase D/Transphosphatidylase",
       "[interpro] Cardiolipin synthase",
       "[interpro] Cardiolipin synthase-like, phospholipase D-like domain",
-      "[pfam] PLDc_2: PLD-like domain",
+      "[pfam] PLDc_2: Cardiolipin synthase, PLD-like domain",
       "[pfam] PLDc_N: Phospholipase_D-nuclease N-terminal"
     ],
     "alternative_locus_tags": [
@@ -351264,8 +351335,8 @@
       "[ncbi] lipocalin-like domain-containing protein",
       "[eggnog] Lipocalin-like domain",
       "[interpro] AttH domain",
-      "[pfam] CrtC: CrtC N-terminal lipocalin domain",
-      "[pfam] Lipocalin_9: Lipocalin-like domain"
+      "[pfam] CrtC: Carotenoid hydratase CrtC",
+      "[pfam] AttH: AttH-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS11065",
@@ -351330,21 +351401,19 @@
       }
     ],
     "pfam_ids": [
-      "PF07143",
-      "PF17186"
+      "PF27123",
+      "PF07143"
     ],
     "pfam_ids_evidence": {
       "PF07143": "curated"
     },
     "pfam_ids_source": {
       "PF07143": [
-        "eggnog",
         "interproscan",
         "uniprot"
       ],
-      "PF17186": [
-        "eggnog",
-        "uniprot"
+      "PF27123": [
+        "eggnog"
       ]
     },
     "product": "lipocalin-like domain-containing protein",
@@ -354062,7 +354131,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9932"
+      "[interpro] Domain of unknown function DUF9932",
+      "[pfam] DUF9932: Domain of unknown function (DUF9932)"
     ],
     "alternative_locus_tags": [
       "SPO_RS23205",
@@ -356827,7 +356897,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10408"
+      "[interpro] Domain of unknown function DUF10408",
+      "[pfam] DUF10408: Domain of unknown function (DUF10408)"
     ],
     "alternative_locus_tags": [
       "SPO_RS11245",
@@ -358734,7 +358805,7 @@
       "[eggnog] Protein of unknown function (DUF455)",
       "[interpro] Protein of unknown function DUF455",
       "[interpro] Uncharacterised conserved protein UCP012318",
-      "[pfam] DUF455: Protein of unknown function (DUF455)"
+      "[pfam] DUF455: Domain of unknown function (DUF455)"
     ],
     "alternative_locus_tags": [
       "SPO_RS11305",
@@ -362326,7 +362397,9 @@
       "[interpro] Domain of unknown function DUF9482",
       "[pfam] GTA_TIM: GTA TIM-barrel-like domain",
       "[pfam] Phage-tail_3: Putative phage tail protein",
-      "[pfam] Rcc01698_C: Rcc01698-like, C-terminal"
+      "[pfam] Rcc01698_C: Rcc01698-like, C-terminal",
+      "[pfam] DUF9482: Domain of unknown function (DUF9482)",
+      "[pfam] Phage_tail_N_4: Phage tail tip N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS11415",
@@ -363842,7 +363915,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] GTA head formation protein, RCAP_rcc01685 family",
       "[eggnog] -",
-      "[interpro] Gene transfer agent protein-like"
+      "[interpro] Gene transfer agent protein-like",
+      "[pfam] GTA: Gene transfer agent protein"
     ],
     "alternative_locus_tags": [
       "SPO_RS11480",
@@ -364317,7 +364391,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9632"
+      "[interpro] Domain of unknown function DUF9632",
+      "[pfam] DUF9632: Domain of unknown function (DUF9632)"
     ],
     "alternative_locus_tags": [
       "SPO_RS11505",
@@ -370257,7 +370332,7 @@
       "[interpro] Alpha/beta hydrolase fold-1",
       "[interpro] OsmC/Ohr conserved domain",
       "[pfam] Hydrolase_4: Serine aminopeptidase, S33",
-      "[pfam] OsmC: OsmC-like protein",
+      "[pfam] OsmC: OsmC-like protein C-terminal domain",
       "[pfam] Abhydrolase_6: Alpha/beta hydrolase family"
     ],
     "alternative_locus_tags": [
@@ -372584,7 +372659,7 @@
       "[interpro] Cytochrome c-type biogenesis protein CcmC",
       "[interpro] Cytochrome c-type biogenesis protein CcsA/CcmC",
       "[pfam] Cytochrom_C_asm: Cytochrome C assembly protein",
-      "[pfam] HelC: Heme exporter protein C"
+      "[pfam] CcmC: Heme exporter protein C"
     ],
     "alternative_locus_tags": [
       "SPO2315"
@@ -374026,7 +374101,8 @@
       "[pfam] SecD_SecF_C: Protein export membrane protein SecD/SecF, C-terminal",
       "[pfam] Sec_GG: SecD/SecF GG Motif",
       "[pfam] SecD_1st: Protein translocase subunit SecDF, P1 domain, N-terminal",
-      "[pfam] SecDF_P1_head: SecDF, P1 head subdomain"
+      "[pfam] SecDF_P1_head: SecDF, P1 head subdomain",
+      "[pfam] SecD_2nd: SecD periplasmic domain 2"
     ],
     "alternative_locus_tags": [
       "SPO2321"
@@ -374422,7 +374498,8 @@
       "[interpro] Mechanosensitive ion channel MscS, C-terminal domain",
       "[interpro] Domain of unknown function DUF8459",
       "[pfam] MS_channel_2nd: Mechanosensitive ion channel, beta-domain",
-      "[pfam] MS_channel_3rd: Mechanosensitive ion channel MscS, C-terminal"
+      "[pfam] MS_channel_3rd: Mechanosensitive ion channel MscS, C-terminal",
+      "[pfam] DUF8459: Domain of unknown function (DUF8459)"
     ],
     "alternative_locus_tags": [
       "SPO_RS11775",
@@ -374939,7 +375016,7 @@
       "[eggnog] Helix-hairpin-helix domain",
       "[interpro] Helix-hairpin-helix DNA-binding motif, class 1",
       "[interpro] SAM-like helix-hairpin-helix tandem",
-      "[pfam] HHH_5: Helix-hairpin-helix domain"
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem"
     ],
     "alternative_locus_tags": [
       "SPO_RS11790",
@@ -375562,7 +375639,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] tetratricopeptide repeat protein",
       "[eggnog] protein conserved in bacteria",
-      "[pfam] TPR_21: Tetratricopeptide repeat-like domain"
+      "[pfam] TPR_21: SecYEG/CpoB, TPR domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS11810",
@@ -378188,7 +378265,8 @@
       "[pfam] GCV_T: GCVT N-terminal domain",
       "[pfam] GCV_T_C: Glycine cleavage T-protein C-terminal barrel domain",
       "[pfam] Pyr_redox_2: Pyridine nucleotide-disulphide oxidoreductase",
-      "[pfam] SO_alpha_A3: Sarcosine oxidase A3 domain"
+      "[pfam] SO_alpha_A3: Sarcosine oxidase A3 domain",
+      "[pfam] SoxA_2nd: SoxA second domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS11895",
@@ -381503,7 +381581,8 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] ABC_tran_CTD_2: ABC transporter ATP-binding protein C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS12010",
@@ -384973,7 +385052,8 @@
       "[interpro] Regulatory protein ViaA-like, vWA domain",
       "[interpro] Uncharacterised conserved protein UCP010256",
       "[interpro] CoxE-like, N-terminal helical bundle domain",
-      "[pfam] VWA_CoxE: VWA domain containing CoxE-like protein"
+      "[pfam] VWA_CoxE: VWA domain containing CoxE-like protein",
+      "[pfam] CoxE_N: CoxE N-terminal helical bundle domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS12160",
@@ -389488,7 +389568,8 @@
       "[interpro] UxaA family altronate/galactarate dehydratases",
       "[pfam] GD_AH_C: D-galactarate/Altronate dehydratase, C-terminal",
       "[pfam] SAF: SAF domain",
-      "[pfam] GD_AH_second: D-galactarate dehydratase/Altronate hydrolase, second domain"
+      "[pfam] GD_AH_second: D-galactarate dehydratase/Altronate hydrolase, second domain",
+      "[pfam] SAF_GD_AH: Altronate/galactarate dehydratase SAF domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS12345",
@@ -390201,7 +390282,8 @@
       "[protein_family] FAH family",
       "[interpro] Fumarylacetoacetase-like, C-terminal",
       "[interpro] Fumarylacetoacetate hydrolase",
-      "[pfam] FAA_hydrolase: Fumarylacetoacetate (FAA) hydrolase C-terminal"
+      "[pfam] FAA_hydrolase: Fumarylacetoacetate (FAA) hydrolase C-terminal",
+      "[pfam] LRA6_N: LRA6 N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS12370",
@@ -393899,7 +393981,7 @@
       "[interpro] LPS-assembly protein LptD",
       "[interpro] Lipopolysaccharide Assembly Protein LptD",
       "[hamap] LPS-assembly protein LptD [lptD]",
-      "[pfam] LptD: LPS transport system D"
+      "[pfam] LptD: LPS transport system D, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS12470",
@@ -394069,7 +394151,8 @@
       "[interpro] Domain of unknown function DUF13992",
       "[pfam] Rotamase: PPIC-type PPIASE domain",
       "[pfam] SurA_N: SurA N-terminal domain",
-      "[pfam] SurA_N_3: SurA-like N-terminal domain"
+      "[pfam] SurA_N_3: SurA-like N-terminal domain",
+      "[pfam] DUF13992: Domain of unknown function (DUF13992)"
     ],
     "alternative_locus_tags": [
       "SPO_RS12475",
@@ -395418,7 +395501,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9983"
+      "[interpro] Domain of unknown function DUF9983",
+      "[pfam] DUF9983: Domain of unknown function (DUF9983)"
     ],
     "alternative_locus_tags": [
       "SPO_RS12505",
@@ -403760,7 +403844,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9692"
+      "[interpro] Domain of unknown function DUF9692",
+      "[pfam] DUF9692: Domain of unknown function (DUF9692)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22570",
@@ -403864,7 +403949,8 @@
       "[eggnog] VWA domain containing CoxE-like protein",
       "[interpro] Regulatory protein ViaA-like, vWA domain",
       "[interpro] CoxE-like, N-terminal helical bundle domain",
-      "[pfam] VWA_CoxE: VWA domain containing CoxE-like protein"
+      "[pfam] VWA_CoxE: VWA domain containing CoxE-like protein",
+      "[pfam] CoxE_N: CoxE N-terminal helical bundle domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS12765",
@@ -404740,7 +404826,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9024"
+      "[interpro] Domain of unknown function DUF9024",
+      "[pfam] DUF9024: Domain of unknown function (DUF9024)"
     ],
     "alternative_locus_tags": [
       "SPO_RS12800",
@@ -404834,7 +404921,8 @@
       "[interpro] PII-uridylyltransferase/Glutamine-synthetase adenylyltransferase",
       "[interpro] Bifunctional glutamine synthetase adenylyltransferase/adenylyl-removing enzyme",
       "[pfam] GlnD_UR_UTase: GlnD PII-uridylyltransferase",
-      "[pfam] GlnE: Glutamate-ammonia ligase adenylyltransferase"
+      "[pfam] GlnE: Glutamate-ammonia ligase adenylyltransferase",
+      "[pfam] GlnE_M: Glutamine synthetase adenylyltransferase middle domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS12805",
@@ -408915,7 +409003,7 @@
       "[ncbifam] oligopeptide/dipeptide ABC transporter ATP-binding protein",
       "[pfam] ABC_tran: ABC transporter",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C",
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like",
       "[pfam] oligo_HPY: Oligopeptide/dipeptide transporter, C-terminal region"
     ],
     "alternative_locus_tags": [
@@ -409159,7 +409247,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS12950",
@@ -413261,7 +413349,8 @@
       "[eggnog] Cro/C1-type HTH DNA-binding domain",
       "[interpro] Cro/C1-type, helix-turn-helix domain",
       "[interpro] Domain of unknown function DUF18556",
-      "[pfam] HTH_26: Cro/C1-type HTH DNA-binding domain"
+      "[pfam] HTH_26: Cro/C1-type HTH DNA-binding domain",
+      "[pfam] DUF18556: Domain of unknown function (DUF18556)"
     ],
     "alternative_locus_tags": [
       "SPO_RS13095",
@@ -413903,7 +413992,8 @@
       "[interpro] RTX toxin and mannuronan C5-epimerase",
       "[pfam] HemolysinCabind: RTX calcium-binding nonapeptide repeat (4 copies)",
       "[pfam] Hint_2: Hint domain",
-      "[pfam] PA14: PA14 domain"
+      "[pfam] PA14: PA14 domain",
+      "[pfam] ADEPT: ADEPT domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13120",
@@ -415942,7 +416032,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] arylsulfatase activity",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13180",
@@ -418469,7 +418559,8 @@
       "[ncbi] NfeD family protein",
       "[eggnog] COG1585 Membrane protein implicated in regulation of membrane protease activity",
       "[interpro] RP252-like, transmembrane domain",
-      "[pfam] NfeD: NfeD-like C-terminal, partner-binding domain"
+      "[pfam] NfeD: NfeD-like C-terminal, partner-binding domain",
+      "[pfam] RP252: RP252-like transmembrane domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13280",
@@ -422345,7 +422436,9 @@
       "[interpro] MoaB/Mog domain",
       "[interpro] Domain of unknown function DUF8806",
       "[interpro] Domain of unknown function DUF9221",
-      "[pfam] MoCF_biosynth: Probable molybdopterin binding domain"
+      "[pfam] MoCF_biosynth: Probable molybdopterin binding domain",
+      "[pfam] DUF8806: Domain of unknown function (DUF8806)",
+      "[pfam] DUF9221: Domain of unknown function (DUF9221)"
     ],
     "alternative_locus_tags": [
       "SPO_RS13385",
@@ -422896,7 +422989,8 @@
       "[interpro] Regulatory protein ViaA-like, vWA domain",
       "[interpro] Uncharacterised conserved protein UCP010256",
       "[interpro] CoxE-like, N-terminal helical bundle domain",
-      "[pfam] VWA_CoxE: VWA domain containing CoxE-like protein"
+      "[pfam] VWA_CoxE: VWA domain containing CoxE-like protein",
+      "[pfam] CoxE_N: CoxE N-terminal helical bundle domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13410",
@@ -423303,7 +423397,7 @@
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyltransferase family 92",
       "[interpro] Glycosyltransferase family 92",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal",
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain",
       "[pfam] Glyco_transf_92: Glycosyltransferase family 92"
     ],
     "alternative_locus_tags": [
@@ -423550,7 +423644,7 @@
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyltransferase family 92",
       "[interpro] Glycosyltransferase family 92",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal",
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain",
       "[pfam] Glyco_transf_92: Glycosyltransferase family 92"
     ],
     "alternative_locus_tags": [
@@ -423819,7 +423913,7 @@
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyltransferase family 92",
       "[interpro] Glycosyltransferase family 92",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal",
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain",
       "[pfam] Glyco_transf_92: Glycosyltransferase family 92"
     ],
     "alternative_locus_tags": [
@@ -425774,7 +425868,8 @@
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
       "[tcdb_best_hit] Glutamate/aspartate porter. [3.A.1.3.4] :: [tcdb_substrates] Glutamate",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] ABC_tran_CTD_2: ABC transporter ATP-binding protein C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13500",
@@ -426345,7 +426440,8 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] ABC_tran_CTD_2: ABC transporter ATP-binding protein C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13515",
@@ -429199,7 +429295,8 @@
       "[interpro] Sec-independent protein translocase protein TatB",
       "[hamap] Sec-independent protein translocase protein TatB [tatB]",
       "[tigr_role_inferred] Protein fate / Protein and peptide secretion and trafficking",
-      "[pfam] TatA_B_E: mttA/Hcf106 family"
+      "[pfam] TatA_B_E: mttA/Hcf106 family",
+      "[pfam] TatB_C_Rhod: TatB C-terminal charged helix"
     ],
     "alternative_locus_tags": [
       "SPO2682"
@@ -430516,7 +430613,8 @@
       "[interpro] Arsenite methyltransferase-like",
       "[interpro] Arsenite methyltransferase, C-terminal domain",
       "[pfam] Methyltransf_11: Methyltransferase domain",
-      "[pfam] Methyltransf_31: Methyltransferase domain"
+      "[pfam] Methyltransf_31: Methyltransferase domain",
+      "[pfam] AS3MT_C: Arsenite methyltransferase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13645",
@@ -430665,7 +430763,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] COG4335 DNA alkylation repair enzyme",
       "[interpro] Uncharacterised protein YhaZ, C-terminal Ig-like domain",
-      "[pfam] DNA_alkylation: DNA alkylation repair enzyme"
+      "[pfam] DNA_alkylation: DNA alkylation repair enzyme",
+      "[pfam] YhaZ_C: Uncharacterised protein YhaZ, C-terminal Ig-like domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13650",
@@ -434129,7 +434228,8 @@
       "[eggnog] Peptidase, M50 family",
       "[interpro] Membrane-bound transcription factor site-2 protease",
       "[interpro] Domain of unknown function DUF8925",
-      "[pfam] PqqD: Coenzyme PQQ synthesis protein D (PqqD)"
+      "[pfam] PqqD: Coenzyme PQQ synthesis protein D (PqqD)",
+      "[pfam] DUF8925: Domain of unknown function (DUF8925)"
     ],
     "alternative_locus_tags": [
       "SPO_RS13765",
@@ -434415,7 +434515,8 @@
       "[pfam] DUF4347: Domain of unknown function (DUF4347)",
       "[pfam] He_PIG: Putative Ig domain",
       "[pfam] HemolysinCabind: RTX calcium-binding nonapeptide repeat (4 copies)",
-      "[pfam] DUF7507: Domain of unknown function (DUF7507)"
+      "[pfam] CLIPPER_2: CLIPPER 2 domain",
+      "[pfam] LktA_rpt: LktA-like tandem repeat"
     ],
     "alternative_locus_tags": [
       "SPO_RS13775",
@@ -434798,7 +434899,8 @@
       "[eggnog] Domain of unknown function (DUF3883)",
       "[interpro] Protein NO VEIN, C-terminal",
       "[interpro] Domain of unknown function DUF16812",
-      "[pfam] NOV_C: Protein NO VEIN, C-terminal"
+      "[pfam] NOV_C: Protein NO VEIN, C-terminal",
+      "[pfam] DUF16812: Domain of unknown function (DUF16812)"
     ],
     "alternative_locus_tags": [
       "SPO_RS13790",
@@ -435356,7 +435458,8 @@
       "[interpro] N6 adenine-specific DNA methyltransferase, N-terminal domain",
       "[interpro] DNA Adenine N(4)/N(6)-Methyltransferase",
       "[pfam] HsdM_N: HsdM N-terminal domain",
-      "[pfam] N6_Mtase: N-6 DNA Methylase"
+      "[pfam] N6_Mtase: N-6 DNA Methylase",
+      "[pfam] HsdM_C_2: Type I restriction-modification methyltransferase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13880",
@@ -435953,7 +436056,8 @@
       "[eggnog] Sporulation related domain",
       "[interpro] Sporulation-like domain",
       "[interpro] Bacterial cell division SPOR domain-containing protein",
-      "[pfam] SPOR: SPOR domain"
+      "[pfam] SPOR: SPOR domain",
+      "[pfam] SPOR_N: SPOR domain-containing protein N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13910",
@@ -436805,7 +436909,8 @@
       "[eggnog] DNA polymerase III, delta subunit",
       "[interpro] AAA+ ATPase domain",
       "[interpro] DNA Replication and Repair Clamp Loader Complex",
-      "[pfam] DNA_pol3_delta2: DNA polymerase III, delta subunit"
+      "[pfam] DNA_pol3_delta2: DNA polymerase III, delta subunit",
+      "[pfam] DNA_pol_put_C: Putative DNA polymerase subunit, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS13925",
@@ -437928,7 +438033,8 @@
       "[ncbi] DUF4153 domain-containing protein",
       "[eggnog] Domain of unknown function (DUF4153)",
       "[interpro] Domain of unknown function DUF21971",
-      "[pfam] DUF4153: Domain of unknown function (DUF4153)"
+      "[pfam] DUF4153: Domain of unknown function (DUF4153)",
+      "[pfam] DUF21971: Domain of unknown function (DUF21971)"
     ],
     "alternative_locus_tags": [
       "SPO_RS13965",
@@ -441341,7 +441447,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] Specifically methylates the guanine in position",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS14065",
@@ -441438,7 +441544,8 @@
       "[ncbifam] NADH-quinone oxidoreductase, chain I",
       "[tcdb_best_hit] NADH dehydrogenase I [3.D.1.2.1]",
       "[pfam] Fer4: 4Fe-4S binding domain",
-      "[pfam] Fer4_7: 4Fe-4S dicluster domain"
+      "[pfam] Fer4_7: 4Fe-4S dicluster domain",
+      "[pfam] NDUFS8_TM: Complex I 23 kDa iron-sulfur subunit (NDUFS8/NuoI) N-terminal helix"
     ],
     "alternative_locus_tags": [
       "SPO2770"
@@ -442001,7 +442108,7 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[interpro] URF4, C-terminal domain",
-      "[pfam] YNQ4_C: YNQ4 C-terminal domain"
+      "[pfam] URF4_C: URF4 C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS14085",
@@ -442423,7 +442530,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10245"
+      "[interpro] Domain of unknown function DUF10245",
+      "[pfam] DUF10245: Domain of unknown function (DUF10245)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14100",
@@ -442911,7 +443019,8 @@
       "[interpro] NuoE domain",
       "[interpro] RS2/RL21/YNQ2, HHH domain",
       "[ncbifam] NADH-quinone oxidoreductase subunit NuoE",
-      "[pfam] 2Fe-2S_thioredx: Thioredoxin-like [2Fe-2S] ferredoxin"
+      "[pfam] 2Fe-2S_thioredx: Thioredoxin-like [2Fe-2S] ferredoxin",
+      "[pfam] HHH_RS2-RL21-YNQ2: RS2/RL21/YNQ2 HHH domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS14120",
@@ -443150,7 +443259,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10798"
+      "[interpro] Domain of unknown function DUF10798",
+      "[pfam] DUF10798: Domain of unknown function (DUF10798)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14125",
@@ -443249,7 +443359,8 @@
       "[hamap] NAD(P)H-quinone oxidoreductase subunit H, chloroplastic [ndhH]",
       "[ncbifam] NADH dehydrogenase (quinone) subunit D",
       "[tcdb_best_hit] NADH dehydrogenase I [3.D.1.2.1]",
-      "[pfam] Complex1_49kDa: Respiratory-chain NADH dehydrogenase, 49 Kd subunit"
+      "[pfam] Complex1_49kDa: Respiratory-chain NADH dehydrogenase, 49 Kd subunit",
+      "[pfam] NuoB_N: NuoB N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS14130",
@@ -448899,7 +449010,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS14300",
@@ -449066,7 +449177,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS14305",
@@ -450489,7 +450600,8 @@
       "[interpro] DNA-binding HTH domain, TetR-type",
       "[interpro] HTH-type, TetR-like transcriptional regulator",
       "[interpro] Domain of unknown function DUF19070",
-      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family"
+      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family",
+      "[pfam] DUF19070: Domain of unknown function (DUF19070)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14350",
@@ -450943,7 +451055,8 @@
       "[interpro] Domain of unknown function DUF24317",
       "[pfam] HemolysinCabind: RTX calcium-binding nonapeptide repeat (4 copies)",
       "[pfam] Hint_2: Hint domain",
-      "[pfam] PA14: PA14 domain"
+      "[pfam] PA14: PA14 domain",
+      "[pfam] DUF24317: Domain of unknown function (DUF24317)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14365",
@@ -451759,7 +451872,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS14390",
@@ -451914,7 +452027,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS14395",
@@ -452256,7 +452369,8 @@
       "[eggnog] transcriptional regulators",
       "[interpro] Domain of unknown function DUF17226",
       "[pfam] HTH_26: Cro/C1-type HTH DNA-binding domain",
-      "[pfam] HTH_3: Helix-turn-helix"
+      "[pfam] HTH_3: Helix-turn-helix",
+      "[pfam] DUF17226: Domain of unknown function (DUF17226)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14405",
@@ -454379,7 +454493,8 @@
       "[eggnog] DnaJ domain protein",
       "[interpro] DnaJ domain",
       "[interpro] Domain of unknown function DUF9019",
-      "[pfam] DnaJ: DnaJ domain"
+      "[pfam] DnaJ: DnaJ domain",
+      "[pfam] DUF9019: Domain of unknown function (DUF9019)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14470",
@@ -457187,7 +457302,8 @@
       "[ncbifam] precorrin-6y C5,15-methyltransferase (decarboxylating) subunit CbiE",
       "[ncbifam] precorrin-6Y C5,15-methyltransferase (decarboxylating) subunit CbiT",
       "[pfam] PCMT: Protein-L-isoaspartate(D-aspartate) O-methyltransferase (PCMT)",
-      "[pfam] TP_methylase: Tetrapyrrole (Corrin/Porphyrin) Methylases"
+      "[pfam] TP_methylase: Tetrapyrrole (Corrin/Porphyrin) Methylases",
+      "[pfam] Methyltransf_37: Precorrin methyltransferase domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS14565",
@@ -458491,7 +458607,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9612"
+      "[interpro] Domain of unknown function DUF9612",
+      "[pfam] DUF9612: Domain of unknown function (DUF9612)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14600",
@@ -459358,7 +459475,8 @@
       "[interpro] Thiamine pyrophosphate enzyme, N-terminal TPP-binding domain",
       "[interpro] Thiamine pyrophosphate enzyme",
       "[pfam] TPP_enzyme_C: Thiamine pyrophosphate enzyme, C-terminal TPP binding domain",
-      "[pfam] TPP_enzyme_N: Thiamine pyrophosphate enzyme, N-terminal TPP binding domain"
+      "[pfam] TPP_enzyme_N: Thiamine pyrophosphate enzyme, N-terminal TPP binding domain",
+      "[pfam] AHAS_M: Acetolactate synthase TPP-binding middle domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS14630",
@@ -465096,7 +465214,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9876"
+      "[interpro] Domain of unknown function DUF9876",
+      "[pfam] DUF9876: Domain of unknown function (DUF9876)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14790",
@@ -468511,7 +468630,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF19084"
+      "[interpro] Domain of unknown function DUF19084",
+      "[pfam] DUF19084: Domain of unknown function (DUF19084)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14885",
@@ -469645,7 +469765,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Protein of unknown function DUF9478"
+      "[interpro] Protein of unknown function DUF9478",
+      "[pfam] DUF9478: Family of unknown function (DUF9478)"
     ],
     "alternative_locus_tags": [
       "SPO_RS14930",
@@ -470385,7 +470506,9 @@
       "[eggnog] COG1512 Beta-propeller domains of methanol dehydrogenase type",
       "[interpro] TPM domain",
       "[interpro] Domain of unknown function DUF19064",
-      "[pfam] TPM_phosphatase: TPM domain"
+      "[pfam] TPM_phosphatase: TPM domain",
+      "[pfam] DUF19064: Domain of unknown function (DUF19064)",
+      "[pfam] TPM_C: TPM phosphatase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS22285",
@@ -473804,7 +473927,8 @@
       "[ncbi] YHS domain-containing (seleno)protein",
       "[eggnog] monooxygenase activity",
       "[interpro] YHS domain",
-      "[pfam] YHS: YHS domain"
+      "[pfam] YHS: YHS domain",
+      "[pfam] VCA0647_C: VCA0647 C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS15065",
@@ -474861,7 +474985,8 @@
       "[interpro] Endonuclease GajA/Old nuclease/RecF-like, AAA domain",
       "[interpro] Bacterial Antiviral Defense Nuclease",
       "[interpro] Domain of unknown function DUF15612",
-      "[pfam] AAA_15: AAA ATPase domain"
+      "[pfam] AAA_15: AAA ATPase domain",
+      "[pfam] DUF15612: Domain of unknown function (DUF15612)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22295",
@@ -476091,7 +476216,8 @@
       "[ncbi] TFIIB-type zinc finger domain-containing protein",
       "[eggnog] Zinc-finger of RNA-polymerase I-specific TFIIB, Rrn7",
       "[interpro] Transcription initiation factor Rrn7, Zinc-finger",
-      "[pfam] Zn_ribbon_RRN7: Zinc-finger of RNA-polymerase I-specific TFIIB, Rrn7"
+      "[pfam] Zn_ribbon_RRN7: Zinc-finger of RNA-polymerase I-specific TFIIB, Rrn7",
+      "[pfam] YdjG_C: PspA localisation factor YdjG C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS15155",
@@ -477025,7 +477151,7 @@
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[tcdb_best_hit] The proline betaine uptake porter [3.A.1.5.17] :: [tcdb_substrates] Stachydrine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS15190",
@@ -477193,7 +477319,7 @@
       "[interpro] Binding-protein-dependent transport system permease",
       "[tcdb_best_hit] The proline betaine uptake porter [3.A.1.5.17] :: [tcdb_substrates] Stachydrine",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS15195",
@@ -484728,7 +484854,8 @@
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
       "[tcdb_best_hit] Putative uptake system for arginine, YqiXYZ [3.A.1.3.15] :: [tcdb_substrates] Amino acid(Arg-)",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] ABC_tran_CTD_2: ABC transporter ATP-binding protein C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS15425",
@@ -485427,7 +485554,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS15445",
@@ -485610,7 +485737,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS15450",
@@ -486674,7 +486801,8 @@
       "[eggnog] Bacterial transferase hexapeptide (six repeats)",
       "[protein_family] Transferase hexapeptide repeat family",
       "[interpro] Transferase hexapeptide repeat",
-      "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)"
+      "[pfam] Hexapep: Bacterial transferase hexapeptide (six repeats)",
+      "[pfam] CatB_C: Chloramphenicol acetyltransferase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS15490",
@@ -491325,7 +491453,7 @@
       "[interpro] Pilus formation protein, N-terminal",
       "[interpro] Bacterial Secretion System Channel Protein",
       "[pfam] BON: BON domain",
-      "[pfam] Secretin: Bacterial type II and III secretion system protein",
+      "[pfam] Secretin: Type II/III secretion system, secretin-like domain",
       "[pfam] T2SS-T3SS_pil_N: Pilus formation protein N terminal region"
     ],
     "alternative_locus_tags": [
@@ -492586,7 +492714,9 @@
       "[eggnog] ATPase with chaperone activity",
       "[interpro] 26S Proteasome Regulatory ATPase",
       "[interpro] Domain of unknown function DUF8689",
-      "[interpro] Domain of unknown function DUF9148"
+      "[interpro] Domain of unknown function DUF9148",
+      "[pfam] DUF8689: Domain of unknown function (DUF8689)",
+      "[pfam] DUF9148: Domain of unknown function (DUF9148)"
     ],
     "alternative_locus_tags": [
       "SPO_RS15690",
@@ -494299,7 +494429,8 @@
       "[interpro] tRNA(Ile)-lysidine synthase",
       "[interpro] tRNA(Ile)-lysidine synthase, N-terminal",
       "[hamap] tRNA(Ile)-lysidine synthase [tilS]",
-      "[pfam] ATP_bind_3: PP-loop domain"
+      "[pfam] ATP_bind_3: PP-loop domain",
+      "[pfam] TilS_C_2: tRNA(Ile)-lysidine synthase C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO3106"
@@ -494818,7 +494949,7 @@
       "[hamap] Tol-Pal system protein TolB [tolB]",
       "[tigr_role_inferred] Transport and binding proteins / Other",
       "[tigr_role_inferred] Cellular processes / Pathogenesis",
-      "[pfam] PD40: WD40-like Beta Propeller Repeat",
+      "[pfam] PD40: TolB beta propeller domain",
       "[pfam] TolB_N: TolB amino-terminal domain"
     ],
     "alternative_locus_tags": [
@@ -496068,7 +496199,7 @@
       "[interpro] SAM-like helix-hairpin-helix tandem",
       "[hamap] Holliday junction branch migration complex subunit RuvA [ruvA]",
       "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
       "[pfam] RuvA_C: RuvA, C-terminal domain",
       "[pfam] RuvA_N: RuvA N terminal domain"
     ],
@@ -497786,7 +497917,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] anti-sigma factor family protein",
       "[eggnog] transmembrane transcriptional regulator (Anti-sigma factor)",
-      "[pfam] zf-HC2: Putative zinc-finger"
+      "[pfam] zf-HC2: Putative zinc-finger",
+      "[pfam] Rmet_0596_C: Rmet_0596 C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS15840",
@@ -500059,7 +500191,8 @@
       "[interpro] Uncharacterised protein family UPF0283",
       "[interpro] Domain of unknown function DUF697",
       "[ncbifam] TIGR01620 family protein",
-      "[pfam] DUF697: Domain of unknown function (DUF697)"
+      "[pfam] DUF697: Domain of unknown function (DUF697)",
+      "[pfam] YcjF_N: UPF0283 membrane protein YcjF, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS15910",
@@ -503190,7 +503323,8 @@
       "[ncbifam] ATP synthase F1 subunit epsilon",
       "[tigr_role_inferred] Energy metabolism / ATP-proton motive force interconversion",
       "[tcdb_best_hit] F-type ATPase. [3.A.2.1.7]",
-      "[pfam] ATP-synt_DE_N: ATP synthase, Delta/Epsilon chain, beta-sandwich domain"
+      "[pfam] ATP-synt_DE_N: ATP synthase, Delta/Epsilon chain, beta-sandwich domain",
+      "[pfam] ATP-synt_DE_C: ATP synthase epsilon chain C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS16015",
@@ -505473,7 +505607,8 @@
       "[interpro] M23ase, beta-sheet core domain",
       "[interpro] Bacterial cell wall metabolism enzyme",
       "[interpro] Domain of unknown function DUF19057",
-      "[pfam] Peptidase_M23: Peptidase family M23"
+      "[pfam] Peptidase_M23: Peptidase family M23",
+      "[pfam] DUF19057: Domain of unknown function (DUF19057)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16060",
@@ -505613,7 +505748,8 @@
       "[interpro] OmpA-like domain",
       "[interpro] Bacterial Outer Membrane Structural/Functional",
       "[interpro] Domain of unknown function DUF18058",
-      "[pfam] OmpA: OmpA family"
+      "[pfam] OmpA: OmpA family",
+      "[pfam] DUF18058: Domain of unknown function (DUF18058)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16065",
@@ -507729,7 +507865,8 @@
       "[eggnog] Hint domain",
       "[interpro] Hedgehog/Intein (Hint) domain",
       "[interpro] Domain of unknown function DUF17767",
-      "[pfam] Hint_2: Hint domain"
+      "[pfam] Hint_2: Hint domain",
+      "[pfam] DUF17767: Domain of unknown function (DUF17767)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16120",
@@ -508740,7 +508877,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] negative regulation of transcription, DNA-templated",
-      "[interpro] Domain of unknown function DUF14102"
+      "[interpro] Domain of unknown function DUF14102",
+      "[pfam] DUF14102: Domain of unknown function (DUF14102)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16155",
@@ -514413,7 +514551,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9852"
+      "[interpro] Domain of unknown function DUF9852",
+      "[pfam] DUF9852: Domain of unknown function (DUF9852)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16315",
@@ -515415,7 +515554,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF11425"
+      "[interpro] Domain of unknown function DUF11425",
+      "[pfam] DUF11425: Domain of unknown function (DUF11425)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16345",
@@ -515685,7 +515825,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9978"
+      "[interpro] Domain of unknown function DUF9978",
+      "[pfam] DUF9978: Domain of unknown function (DUF9978)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16355",
@@ -522355,7 +522496,8 @@
       "[protein_family] Glutamate synthase family",
       "[interpro] Glutamate synthase domain",
       "[interpro] Glutamate synthase large subunit-like protein",
-      "[pfam] Glu_synthase: Conserved region in glutamate synthase"
+      "[pfam] Glu_synthase: Conserved region in glutamate synthase",
+      "[pfam] YerD_N: YerD N-terminal transmembrane region"
     ],
     "alternative_locus_tags": [
       "SPO_RS16570",
@@ -522603,7 +522745,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10127"
+      "[interpro] Domain of unknown function DUF10127",
+      "[pfam] DUF10127: Domain of unknown function (DUF10127)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16580",
@@ -525410,7 +525553,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10530"
+      "[interpro] Domain of unknown function DUF10530",
+      "[pfam] DUF10530: Domain of unknown function (DUF10530)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16675",
@@ -525692,8 +525836,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] The branched chain hydrophobic amino acid transporter, LivJFGHM. [3.A.1.4.10] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS16685",
@@ -525812,8 +525955,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -525822,10 +525964,6 @@
       "PF00005": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -529200,7 +529338,8 @@
       "[eggnog] transcriptional regulator",
       "[interpro] DNA-binding HTH domain, TetR-type",
       "[interpro] HTH-type, TetR-like transcriptional regulator",
-      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family"
+      "[pfam] TetR_N: Bacterial regulatory proteins, tetR family",
+      "[pfam] TetR_C_47: TetR C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS16800",
@@ -529739,7 +529878,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9756"
+      "[interpro] Domain of unknown function DUF9756",
+      "[pfam] DUF9756: Domain of unknown function (DUF9756)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16820",
@@ -529928,7 +530068,9 @@
       "[interpro] ATPase, AAA-type, core",
       "[interpro] Domain of unknown function DUF14092",
       "[interpro] Domain of unknown function DUF16823",
-      "[pfam] AAA: ATPase family associated with various cellular activities (AAA)"
+      "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
+      "[pfam] DUF14092: Domain of unknown function (DUF14092)",
+      "[pfam] DUF16823: Domain of unknown function (DUF16823)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16835",
@@ -530059,7 +530201,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF16434"
+      "[interpro] Domain of unknown function DUF16434",
+      "[pfam] DUF16434: Domain of unknown function (DUF16434)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16840",
@@ -530149,7 +530292,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF14034"
+      "[interpro] Domain of unknown function DUF14034",
+      "[pfam] DUF14034: Domain of unknown function (DUF14034)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16845",
@@ -532088,7 +532232,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF8846"
+      "[interpro] Domain of unknown function DUF8846",
+      "[pfam] DUF8846: Domain of unknown function (DUF8846)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16900",
@@ -533214,7 +533359,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10725"
+      "[interpro] Domain of unknown function DUF10725",
+      "[pfam] DUF10725: Domain of unknown function (DUF10725)"
     ],
     "alternative_locus_tags": [
       "SPO_RS16935",
@@ -543648,7 +543794,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF12377"
+      "[interpro] Domain of unknown function DUF12377",
+      "[pfam] DUF12377: Domain of unknown function (DUF12377)"
     ],
     "alternative_locus_tags": [
       "SPO_RS17250",
@@ -546666,7 +546813,8 @@
       "[interpro] Domain of unknown function DUF13336",
       "[hamap] GTP cyclohydrolase-2 [ribA]",
       "[ncbifam] GTP cyclohydrolase II RibA",
-      "[pfam] GTP_cyclohydro2: GTP cyclohydrolase II"
+      "[pfam] GTP_cyclohydro2: GTP cyclohydrolase II",
+      "[pfam] DUF13336: Domain of unknown function (DUF13336)"
     ],
     "alternative_locus_tags": [
       "SPO3427"
@@ -551485,7 +551633,8 @@
       "[eggnog] Consisting of a CheY-like receiver domain and a winged-helix DNA-binding domain",
       "[interpro] OmpR/PhoB-type DNA-binding domain",
       "[interpro] Domain of unknown function DUF9207",
-      "[pfam] Trans_reg_C: Transcriptional regulatory protein, C terminal"
+      "[pfam] Trans_reg_C: Transcriptional regulatory protein, C terminal",
+      "[pfam] DUF9207: Domain of unknown function (DUF9207)"
     ],
     "alternative_locus_tags": [
       "SPO_RS17490",
@@ -554695,7 +554844,8 @@
       "[protein_family] Binding-protein-dependent transport system permease family, CysTW subfamily",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] Domain of unknown function DUF12137",
-      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
+      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
+      "[pfam] DUF12137: Domain of unknown function (DUF12137)"
     ],
     "alternative_locus_tags": [
       "SPO_RS17595",
@@ -555036,7 +555186,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9496"
+      "[interpro] Domain of unknown function DUF9496",
+      "[pfam] DUF9496: Domain of unknown function (DUF9496)"
     ],
     "alternative_locus_tags": [
       "SPO_RS17605",
@@ -555563,7 +555714,8 @@
       "[interpro] 4Fe-4S ferredoxin-type, iron-sulphur binding domain",
       "[pfam] CCG: Cysteine-rich domain",
       "[pfam] Fer4_7: 4Fe-4S dicluster domain",
-      "[pfam] Fer4_8: 4Fe-4S dicluster domain"
+      "[pfam] Fer4_8: 4Fe-4S dicluster domain",
+      "[pfam] GlcF_linker_2: GlcF two-alpha-helix linker region"
     ],
     "alternative_locus_tags": [
       "SPO3480"
@@ -560440,7 +560592,8 @@
       "[pfam] RNA_pol_Rpb1_2: RNA polymerase Rpb1, domain 2",
       "[pfam] RNA_pol_Rpb1_3: RNA polymerase Rpb1, domain 3",
       "[pfam] RNA_pol_Rpb1_4: RNA polymerase Rpb1, domain 4",
-      "[pfam] RNA_pol_Rpb1_5: RNA polymerase Rpb1, domain 5"
+      "[pfam] RNA_pol_Rpb1_5: RNA polymerase Rpb1, domain 5",
+      "[pfam] RpoC_C: DNA-directed RNA polymerase subunit beta'-like, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO3507"
@@ -561525,7 +561678,7 @@
     "alternate_functional_descriptions": [
       "[ncbi] glycosyltransferase family 2 protein",
       "[eggnog] Glycosyl transferase family 2",
-      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal"
+      "[pfam] Glyco_tranf_2_4: Glycosyltransferase family 25, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS17785",
@@ -563605,7 +563758,8 @@
       "[ncbifam] cadmium family heavy metal-translocating P-type ATPase",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] HMA: Heavy-metal-associated domain",
-      "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase"
+      "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase",
+      "[pfam] CopB_TM: CopB transmembrane domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS17835",
@@ -566665,7 +566819,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[tcdb_best_hit] YejABEF with four subunits as indicated with YejA, a periplasmic peptide binding protein of 610 aas and 1 N-terminal TMS, YejB, a membrane protein\u2026 [3.A.1.5.49] :: [tcdb_substrates] Peptide",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS17910",
@@ -571941,7 +572095,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF13874"
+      "[interpro] Domain of unknown function DUF13874",
+      "[pfam] DUF13874: Domain of unknown function (DUF13874)"
     ],
     "alternative_locus_tags": [
       "SPO_RS18075",
@@ -574830,7 +574985,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF15652"
+      "[interpro] Domain of unknown function DUF15652",
+      "[pfam] DUF15652: Domain of unknown function (DUF15652)"
     ],
     "alternative_locus_tags": [
       "SPO_RS18170",
@@ -577411,7 +577567,7 @@
       "[ncbi] DUF1244 domain-containing protein",
       "[eggnog] Protein of unknown function (DUF1244)",
       "[interpro] SMc04008-like domain",
-      "[pfam] DUF1244: Protein of unknown function (DUF1244)"
+      "[pfam] DUF1244: Domain of unknown function (DUF1244)"
     ],
     "alternative_locus_tags": [
       "SPO_RS18250",
@@ -580864,7 +581020,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[eggnog] -"
+      "[eggnog] -",
+      "[pfam] bPH_14: Bacterial PH-like domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS18375",
@@ -580960,7 +581117,8 @@
       "[interpro] Domain of unknown function DUF15075",
       "[pfam] Acetyltransf_1: Acetyltransferase (GNAT) family",
       "[pfam] Acetyltransf_9: Acetyltransferase (GNAT) domain",
-      "[pfam] FR47: FR47-like protein"
+      "[pfam] FR47: FR47-like protein",
+      "[pfam] DUF15075: Domain of unknown function (DUF15075)"
     ],
     "alternative_locus_tags": [
       "SPO_RS18380",
@@ -582387,11 +582545,12 @@
       "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
       "[pfam] GIY-YIG: GIY-YIG catalytic domain",
       "[pfam] HHH_2: Helix-hairpin-helix motif",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
       "[pfam] UVR: UvrB/uvrC motif",
       "[pfam] UvrC_RNaseH_dom: UvrC RNAse H endonuclease domain",
       "[pfam] UvrC_RNaseH: UvrC Ribonuclease H-like domain",
-      "[pfam] UvrC_M: UvrC/Cho excinuclease, middle domain"
+      "[pfam] UvrC_M: UvrC/Cho excinuclease, middle domain",
+      "[pfam] GIY-YIG_UvrC: UvrC-like GIY-YIG domain"
     ],
     "alternative_locus_tags": [
       "SPO3637"
@@ -585097,7 +585256,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10127"
+      "[interpro] Domain of unknown function DUF10127",
+      "[pfam] DUF10127: Domain of unknown function (DUF10127)"
     ],
     "alternative_locus_tags": [
       "SPO_RS18510",
@@ -592616,8 +592776,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] ABC transporter for benzoate and phenyl proponoids with 6 subunits, one receptor for benzoate and one receptor for phenyl proponoids derived from\u2026 [3.A.1.4.15] :: [tcdb_substrates] Benzoate, hydratropic acid",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS18800",
@@ -592734,8 +592893,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -592745,9 +592903,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF12399": [
-        "eggnog"
       ]
     },
     "product": "ABC transporter ATP-binding protein",
@@ -601509,7 +601664,7 @@
       "[interpro] 4Fe-4S ferredoxin-type, iron-sulphur binding domain",
       "[hamap] Epoxyqueuosine reductase [queG]",
       "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
-      "[pfam] QueG_DUF1730: Epoxyqueuosine reductase QueG, DUF1730",
+      "[pfam] QueG_Cbl-bind: Epoxyqueuosine reductase QueG, Cbl-binding domain",
       "[pfam] Fer4_16: 4Fe-4S double cluster binding domain",
       "[pfam] HEAT_2: HEAT repeats"
     ],
@@ -603617,7 +603772,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[interpro] ABC transporter type 1, GsiC-like, N-terminal domain",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS19160",
@@ -603783,7 +603938,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "SPO_RS19165",
@@ -606610,7 +606765,8 @@
       "[interpro] AcoX-like",
       "[interpro] Acetoin catabolism protein X, C-terminal domain",
       "[interpro] ATP-NAD kinase, N-terminal domain",
-      "[pfam] NAD_kinase: ATP-NAD kinase N-terminal domain"
+      "[pfam] NAD_kinase: ATP-NAD kinase N-terminal domain",
+      "[pfam] AcoX_C: Acetoin catabolism protein X C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS19250",
@@ -606749,7 +606905,7 @@
       "[ncbi] DUF779 domain-containing protein",
       "[eggnog] Protein of unknown function (DUF779)",
       "[interpro] Protein of unknown function DUF779",
-      "[pfam] DUF779: Protein of unknown function (DUF779)"
+      "[pfam] DUF779: Domain of unknown function (DUF779)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22635",
@@ -608063,7 +608219,8 @@
       "[interpro] ArsR-like helix-turn-helix domain",
       "[interpro] HTH-type Metal-responsive Transcriptional Regulator",
       "[pfam] HTH_20: Helix-turn-helix domain",
-      "[pfam] HTH_24: Winged helix-turn-helix DNA-binding"
+      "[pfam] HTH_24: Winged helix-turn-helix DNA-binding",
+      "[pfam] YdfF_C: YdfF C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS23235",
@@ -608222,7 +608379,7 @@
       "[tigr_role_inferred] Energy metabolism / Glycolysis/gluconeogenesis",
       "[pfam] Metalloenzyme: Metalloenzyme superfamily",
       "[pfam] Phosphodiest: Type I phosphodiesterase / nucleotide pyrophosphatase",
-      "[pfam] iPGM_N: BPG-independent PGAM N-terminus (iPGM_N)"
+      "[pfam] iPGM_core: BPG-independent PGAM, core domain"
     ],
     "alternative_locus_tags": [
       "SPO3810"
@@ -613003,7 +613160,8 @@
       "[interpro] Domain of unknown function DUF20291",
       "[pfam] DEAD: DEAD/DEAH box helicase",
       "[pfam] DbpA: DbpA RNA binding domain",
-      "[pfam] Helicase_C: Helicase conserved C-terminal domain"
+      "[pfam] Helicase_C: Helicase conserved C-terminal domain",
+      "[pfam] DUF20291: Domain of unknown function (DUF20291)"
     ],
     "alternative_locus_tags": [
       "SPO_RS19450",
@@ -618180,7 +618338,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] K COG5665 CCR4-NOT transcriptional regulation complex, NOT5 subunit",
-      "[interpro] Domain of unknown function DUF9397"
+      "[interpro] Domain of unknown function DUF9397",
+      "[pfam] DUF9397: Domain of unknown function (DUF9397)"
     ],
     "alternative_locus_tags": [
       "SPO_RS19600",
@@ -619677,7 +619836,8 @@
       "[interpro] Double-strand break repair protein AddB",
       "[interpro] PD-(D/E)XK endonuclease-like domain, AddAB-type",
       "[tigr_role_inferred] DNA metabolism / DNA replication, recombination, and repair",
-      "[pfam] PDDEXK_1: PD-(D/E)XK nuclease superfamily"
+      "[pfam] PDDEXK_1: PD-(D/E)XK nuclease superfamily",
+      "[pfam] RT0391_N: RT0391 N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO3872"
@@ -623360,7 +623520,7 @@
       "[protein_family] HemJ family",
       "[interpro] Protoporphyrinogen oxidase HemJ-like",
       "[hamap] Protoporphyrinogen IX oxidase",
-      "[pfam] UPF0093: Uncharacterised protein family (UPF0093)"
+      "[pfam] UPF0093: Protoporphyrinogen oxidase HemJ"
     ],
     "alternative_locus_tags": [
       "SPO_RS19760",
@@ -625823,7 +625983,7 @@
       "[tigr_role_inferred] Protein synthesis / tRNA and rRNA base modification",
       "[pfam] Radical_SAM: Radical SAM superfamily",
       "[pfam] TRAM: TRAM domain",
-      "[pfam] UPF0004: Uncharacterized protein family UPF0004"
+      "[pfam] UPF0004: tRNA methylthiotransferase MiaB, N-terminal"
     ],
     "alternative_locus_tags": [
       "SPOA0002"
@@ -626054,7 +626214,8 @@
       "[interpro] OmpA-like domain",
       "[interpro] Bacterial Outer Membrane Structural/Functional",
       "[interpro] Domain of unknown function DUF9468",
-      "[pfam] OmpA: OmpA family"
+      "[pfam] OmpA: OmpA family",
+      "[pfam] DUF9468: Domain of unknown function (DUF9468)"
     ],
     "alternative_locus_tags": [
       "SPO_RS19800",
@@ -626189,7 +626350,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] chlorophyll binding",
-      "[interpro] Domain of unknown function DUF9468"
+      "[interpro] Domain of unknown function DUF9468",
+      "[pfam] DUF9468: Domain of unknown function (DUF9468)"
     ],
     "alternative_locus_tags": [
       "SPO_RS19805",
@@ -626292,7 +626454,8 @@
       "[interpro] PhoH-like protein",
       "[interpro] PhoH2-like",
       "[tcdb_best_hit] To interact with other cells, bacteria use contractile machines that function similarly to membrane-puncturing bacteriophages. [3.A.23.6.1]",
-      "[pfam] PhoH: PhoH-like protein"
+      "[pfam] PhoH: PhoH-like protein",
+      "[pfam] KH_PhoH-like: PhoH-like N-terminal KH domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS19810",
@@ -626433,7 +626596,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9581"
+      "[interpro] Domain of unknown function DUF9581",
+      "[pfam] DUF9581: Domain of unknown function (DUF9581)"
     ],
     "alternative_locus_tags": [
       "SPO_RS19815",
@@ -627318,7 +627482,8 @@
       "[ncbi] DNA topology modulation kinase FlaR",
       "[eggnog] AAA domain",
       "[interpro] Cytidylate Kinase Type 2",
-      "[pfam] AAA_18: AAA domain"
+      "[pfam] AAA_18: AAA domain",
+      "[pfam] YqaC: YqaC domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS19840",
@@ -628666,7 +628831,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] YHS domain-containing (seleno)protein",
       "[eggnog] monooxygenase activity",
-      "[pfam] YHS: YHS domain"
+      "[pfam] YHS: YHS domain",
+      "[pfam] VCA0647_C: VCA0647 C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS19865",
@@ -630110,7 +630276,8 @@
       "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
       "[pfam] NQRA_N: NqrA N-terminal barrel-sandwich hybrid domain",
       "[pfam] NQRA_SLBB: NQRA C-terminal domain",
-      "[pfam] NQRA_2nd: NqrA second alpha/beta domain"
+      "[pfam] NQRA_2nd: NqrA second alpha/beta domain",
+      "[pfam] Fer4-S4_NqrA: NqrA 4Fe-4S ferredoxin domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS19915",
@@ -630304,7 +630471,8 @@
       "[hamap] Na(+)-translocating NADH-quinone reductase subunit B [nqrB]",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
       "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
-      "[pfam] NQR2_RnfD_RnfE: NQR2, RnfD, RnfE family"
+      "[pfam] NQR2_RnfD_RnfE: NQR2, RnfD, RnfE family",
+      "[pfam] NqrB_N: NqrB N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS19920",
@@ -630526,7 +630694,8 @@
       "[ncbifam] NADH:ubiquinone reductase (Na(+)-transporting) subunit C",
       "[tigr_role_inferred] Transport and binding proteins / Cations and iron carrying compounds",
       "[tcdb_best_hit] Na+-translocating NADH-quinone oxidoreductase, NqrABCDEF. [3.D.5.1.1]",
-      "[pfam] FMN_bind: FMN-binding domain"
+      "[pfam] FMN_bind: FMN-binding domain",
+      "[pfam] NqrC_N: Na(+)-translocating NADH-quinone reductase subunit C N-terminus"
     ],
     "alternative_locus_tags": [
       "SPO_RS19925",
@@ -631134,7 +631303,8 @@
       "[pfam] FAD_binding_6: Oxidoreductase FAD-binding domain",
       "[pfam] Fer2: 2Fe-2S iron-sulfur cluster binding domain",
       "[pfam] NAD_binding_1: Oxidoreductase NAD-binding domain",
-      "[pfam] PepSY_TM: PepSY-associated TM region"
+      "[pfam] PepSY_TM: PepSY-associated TM region",
+      "[pfam] NqrF_N: NqrF N-terminal transmembrane helix"
     ],
     "alternative_locus_tags": [
       "SPOA0033"
@@ -633625,7 +633795,8 @@
       "[interpro] NosR/NirI-like, C-terminal domain",
       "[pfam] FMN_bind: FMN-binding domain",
       "[pfam] Fer4_5: 4Fe-4S binding domain",
-      "[pfam] NosR: NosR"
+      "[pfam] NosR: NosR",
+      "[pfam] NosR_b-sand: NosR-like beta-sandwich domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS20020",
@@ -634182,7 +634353,8 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter Superfamily, Various Functions",
       "[tcdb_best_hit] The NosDFY Copper ABC transporter [3.A.1.132.2] :: [tcdb_substrates] Cu2+",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] NosF_C: NosF C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS20035",
@@ -636984,7 +637156,8 @@
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
       "[tcdb_best_hit] Arginine/ornithine (but not lysine) porter. [3.A.1.3.11] :: [tcdb_substrates] Amino acid(Arg-), Ornithine",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] ABC_tran_CTD_2: ABC transporter ATP-binding protein C-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS20115",
@@ -639148,7 +639321,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF12649"
+      "[interpro] Domain of unknown function DUF12649",
+      "[pfam] DUF12649: Domain of unknown function (DUF12649)"
     ],
     "alternative_locus_tags": [
       "SPO_RS20195",
@@ -640168,7 +640342,9 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[interpro] Domain of unknown function DUF20665",
-      "[interpro] Domain of unknown function DUF20666"
+      "[interpro] Domain of unknown function DUF20666",
+      "[pfam] DUF20665: Domain of unknown function (DUF20665)",
+      "[pfam] DUF20666: Domain of unknown function (DUF20666)"
     ],
     "alternative_locus_tags": [
       "SPO_RS20290",
@@ -640900,8 +641076,7 @@
       "[interpro] ABC transporter-like, ATP-binding domain",
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS20315",
@@ -641044,8 +641219,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -641055,9 +641229,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF12399": [
-        "eggnog"
       ]
     },
     "product": "ABC transporter ATP-binding protein",
@@ -642475,7 +642646,8 @@
       "[interpro] 4Fe-4S ferredoxin-type, iron-sulphur binding domain",
       "[interpro] TPP-binding domain containing protein HACL1-like",
       "[interpro] Indolepyruvate oxidoreductase subunit IorA, second domain",
-      "[pfam] TPP_enzyme_C: Thiamine pyrophosphate enzyme, C-terminal TPP binding domain"
+      "[pfam] TPP_enzyme_C: Thiamine pyrophosphate enzyme, C-terminal TPP binding domain",
+      "[pfam] IOR_2: Indolepyruvate oxidoreductase domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS20385",
@@ -651011,7 +651183,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10073"
+      "[interpro] Domain of unknown function DUF10073",
+      "[pfam] DUF10073: Domain of unknown function (DUF10073)"
     ],
     "alternative_locus_tags": [
       "SPO_RS20695",
@@ -654690,7 +654863,7 @@
       "[interpro] Cytochrome c-type biogenesis protein CcmF",
       "[interpro] CcmF, C-terminal beta-sandwich",
       "[ncbifam] heme lyase NrfEFG subunit NrfE",
-      "[pfam] CcmF_C: Cytochrome c-type biogenesis protein CcmF C-terminal",
+      "[pfam] CcmF_C: CcmF C-terminal beta-sandwich",
       "[pfam] Cytochrom_C_asm: Cytochrome C assembly protein"
     ],
     "alternative_locus_tags": [
@@ -657305,7 +657478,8 @@
       "[interpro] NorD/CobT",
       "[tcdb_best_hit] Nitric oxide reductase (EC #1.7.99.7) (NorBC) [reaction catalyzed by Nor: 2 nitric oxide (NO) + 2e- + 2H+ \u2192 nitrous oxide (N20) + H2O]. [3.D.4.10.1]",
       "[pfam] VWA: von Willebrand factor type A domain",
-      "[pfam] VWA_2: von Willebrand factor type A domain"
+      "[pfam] VWA_2: von Willebrand factor type A domain",
+      "[pfam] NorD_N: NorD N-terminal domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS20905",
@@ -657817,7 +657991,8 @@
       "[interpro] Cytochrome c-like domain",
       "[interpro] Cytochrome c550/c551-like",
       "[tcdb_best_hit] Nitric oxide reductase (EC #1.7.99.7) (NorBC) [reaction catalyzed by Nor: 2 nitric oxide (NO) + 2e- + 2H+ \u2192 nitrous oxide (N20) + H2O]. [3.D.4.10.1]",
-      "[pfam] Cytochrom_C: Cytochrome c"
+      "[pfam] Cytochrom_C: Cytochrome c",
+      "[pfam] NorC_N: NorC N-terminal transmembrane region"
     ],
     "alternative_locus_tags": [
       "SPO_RS20920",
@@ -659737,7 +659912,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF13704"
+      "[interpro] Domain of unknown function DUF13704",
+      "[pfam] DUF13704: Domain of unknown function (DUF13704)"
     ],
     "alternative_locus_tags": [
       "SPO_RS20980",
@@ -670577,8 +670753,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] Branched-Chain Amino Acid Transport ATP-binding Protein LivF",
       "[tcdb_best_hit] Branched chain amino acid uptake transporter. [3.A.1.4.8] :: [tcdb_substrates] Alanine, L-Isoleucine, L-Threonine, Leucine, Serine, Valine",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS21320",
@@ -670687,8 +670862,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "signature"
@@ -670697,9 +670871,6 @@
       "PF00005": [
         "eggnog",
         "interproscan"
-      ],
-      "PF12399": [
-        "eggnog"
       ]
     },
     "product": "ABC transporter ATP-binding protein",
@@ -670744,8 +670915,7 @@
       "[interpro] AAA+ ATPase domain",
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[tcdb_best_hit] ABC-type uptake porter for pyruvate and monocarboxylate 2-oxo acids. [3.A.1.4.12] :: [tcdb_substrates] 2-Oxobutanoate, 2-Oxopentanoic acid, 3-Methyl-2-oxopentanoate, Pyruvate",
-      "[pfam] ABC_tran: ABC transporter",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter"
+      "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
       "SPO_RS21325",
@@ -670863,8 +671033,7 @@
       }
     ],
     "pfam_ids": [
-      "PF00005",
-      "PF12399"
+      "PF00005"
     ],
     "pfam_ids_evidence": {
       "PF00005": "curated"
@@ -670873,10 +671042,6 @@
       "PF00005": [
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "eggnog",
         "uniprot"
       ]
     },
@@ -671558,7 +671723,8 @@
       "[interpro] Integrase, catalytic domain",
       "[interpro] Tyrosine recombinase XerC/XerD-like",
       "[interpro] Domain of unknown function DUF17751",
-      "[pfam] Phage_integrase: Phage integrase family"
+      "[pfam] Phage_integrase: Phage integrase family",
+      "[pfam] DUF17751: Domain of unknown function (DUF17751)"
     ],
     "alternative_locus_tags": [
       "SPO_RS21350",
@@ -671829,7 +671995,8 @@
       "[interpro] AAA domain",
       "[interpro] DNA Partitioning ATPase",
       "[interpro] Domain of unknown function DUF8979",
-      "[pfam] AAA_31: AAA domain"
+      "[pfam] AAA_31: AAA domain",
+      "[pfam] DUF8979: Domain of unknown function (DUF8979)"
     ],
     "alternative_locus_tags": [
       "SPO_RS21360",
@@ -680189,7 +680356,8 @@
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
       "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase",
       "[pfam] YHS: YHS domain",
-      "[pfam] HMBD: Heavy metal binding domain"
+      "[pfam] HMBD: Heavy metal binding domain",
+      "[pfam] CopB_TM: CopB transmembrane domain"
     ],
     "alternative_locus_tags": [
       "SPO_RS21685",
@@ -687002,7 +687170,7 @@
       "[ncbi] hypothetical protein",
       "[eggnog] cell wall organization",
       "[interpro] Collagen and Collagen-like Structural Proteins",
-      "[pfam] DUF11: Domain of unknown function DUF11",
+      "[pfam] CLIPPER: CLIPPER domain",
       "[pfam] Gram_pos_anchor: LPXTG cell wall anchor motif",
       "[pfam] PA: PA domain",
       "[pfam] Peptidase_S8: Subtilase family",
@@ -694295,7 +694463,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF11136"
+      "[interpro] Domain of unknown function DUF11136",
+      "[pfam] DUF11136: Domain of unknown function (DUF11136)"
     ],
     "alternative_locus_tags": [
       "SPO_RS02980"
@@ -694422,7 +694591,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9599"
+      "[interpro] Domain of unknown function DUF9599",
+      "[pfam] DUF9599: Domain of unknown function (DUF9599)"
     ],
     "alternative_locus_tags": [
       "SPO_RS04935"
@@ -694509,7 +694679,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10028"
+      "[interpro] Domain of unknown function DUF10028",
+      "[pfam] DUF10028: Domain of unknown function (DUF10028)"
     ],
     "alternative_locus_tags": [
       "SPO_RS05190"
@@ -696748,7 +696919,9 @@
       "[ncbi] hypothetical protein",
       "[eggnog] transcription initiation from RNA polymerase II promoter",
       "[interpro] Domain of unknown function DUF16866",
-      "[interpro] Domain of unknown function DUF18010"
+      "[interpro] Domain of unknown function DUF18010",
+      "[pfam] DUF16866: Domain of unknown function (DUF16866)",
+      "[pfam] DUF18010: Domain of unknown function (DUF18010)"
     ],
     "alternative_locus_tags": [
       "SPO_RS09780"
@@ -696843,7 +697016,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9814"
+      "[interpro] Domain of unknown function DUF9814",
+      "[pfam] DUF9814: Domain of unknown function (DUF9814)"
     ],
     "alternative_locus_tags": [
       "SPO_RS11495"
@@ -697561,7 +697735,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] Evidence 3 Function proposed based on presence of conserved amino acid motif, structural feature or limited homology",
-      "[interpro] Domain of unknown function DUF8926"
+      "[interpro] Domain of unknown function DUF8926",
+      "[pfam] DUF8926: Domain of unknown function (DUF8926)"
     ],
     "alternative_locus_tags": [
       "SPO_RS13875"
@@ -698011,7 +698186,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9728"
+      "[interpro] Domain of unknown function DUF9728",
+      "[pfam] DUF9728: Domain of unknown function (DUF9728)"
     ],
     "alternative_locus_tags": [
       "SPO_RS17485"
@@ -698134,7 +698310,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9731"
+      "[interpro] Domain of unknown function DUF9731",
+      "[pfam] DUF9731: Domain of unknown function (DUF9731)"
     ],
     "alternative_locus_tags": [
       "SPO_RS18235"
@@ -700058,7 +700235,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10206"
+      "[interpro] Domain of unknown function DUF10206",
+      "[pfam] DUF10206: Domain of unknown function (DUF10206)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22740"
@@ -701265,7 +701443,8 @@
     ],
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
-      "[interpro] Domain of unknown function DUF26303"
+      "[interpro] Domain of unknown function DUF26303",
+      "[pfam] DUF26303: Domain of unknown function (DUF26303)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22955"
@@ -701428,7 +701607,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF11769"
+      "[interpro] Domain of unknown function DUF11769",
+      "[pfam] DUF11769: Domain of unknown function (DUF11769)"
     ],
     "alternative_locus_tags": [
       "SPO_RS22980"
@@ -701914,7 +702094,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9722"
+      "[interpro] Domain of unknown function DUF9722",
+      "[pfam] DUF9722: Domain of unknown function (DUF9722)"
     ],
     "alternative_locus_tags": [
       "SPO_RS23115"
@@ -702440,7 +702621,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF10016"
+      "[interpro] Domain of unknown function DUF10016",
+      "[pfam] DUF10016: Domain of unknown function (DUF10016)"
     ],
     "alternative_locus_tags": [
       "SPO_RS23215"
@@ -703243,7 +703425,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] Translation initiation factor 2",
-      "[interpro] Domain of unknown function DUF10136"
+      "[interpro] Domain of unknown function DUF10136",
+      "[pfam] DUF10136: Domain of unknown function (DUF10136)"
     ],
     "alternative_locus_tags": [
       "SPO_RS23400"

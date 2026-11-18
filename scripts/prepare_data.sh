@@ -54,9 +54,11 @@
 #           topics_resolved.json + resolution_report.txt. Deterministic; mirrors
 #           step 4. Papers without a topics.json are skipped.
 #           Requires step 3 (gene_id_mapping.json) + step 6 (kegg_data.json).
-# Step 9 — Build the central reference caches (interpro_reference.json + ncbifam_reference.json)
+# Step 9 — Build the central reference caches (interpro_reference.json + ncbifam_reference.json
+#           + pfam_reference.json)
 #           calls: multiomics_kg/download/build_interpro_reference.py
 #                  multiomics_kg/download/build_ncbifam_reference.py
+#                  multiomics_kg/download/build_pfam_reference.py
 #           Downloads InterPro current_release entry.list + ParentChildTreeFile.txt
 #           (+ interpro2go + interpro.xml.gz) and NCBI's hmm_PGAP.tsv, writing
 #           cache/data/interpro/interpro_reference.json ({IPR: name/type/parent/level/...})
@@ -284,6 +286,13 @@ for step in $STEPS; do
                 "Build NCBIfam reference + TIGR role caches (ncbifam_reference.json + tigr_roles.json)" \
                 "$LOG_DIR/prepare_data_step9.log" \
                 uv run python -m multiomics_kg.download.build_ncbifam_reference \
+                    $FORCE \
+                    $REFETCH_RAW
+
+            RUN_STEP_APPEND=1 run_step 9 \
+                "Build Pfam reference cache (pfam_reference.json: families, clans, killed families)" \
+                "$LOG_DIR/prepare_data_step9.log" \
+                uv run python -m multiomics_kg.download.build_pfam_reference \
                     $FORCE \
                     $REFETCH_RAW
             ;;

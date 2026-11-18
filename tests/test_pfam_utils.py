@@ -19,6 +19,9 @@ from multiomics_kg.utils.pfam_utils import (
     parse_clans_tsv,
     _pfam_data_to_json,
     _pfam_data_from_json,
+    parse_dead_families,
+    normalize_pfam_token,
+    parse_release,
 )
 
 
@@ -227,3 +230,117 @@ class TestJsonRoundTrip:
         restored = _pfam_data_from_json(json_dict)
         for entry in restored.by_accession.values():
             assert isinstance(entry, PfamEntry)
+
+
+# ===========================================================================
+# Pfam 39 reference: killed families, token normalization, release
+# ===========================================================================
+
+MINI_DEAD = """\
+# STOCKHOLM 1.0
+#=GF ID   MR_MLE
+#=GF AC   PF01188
+#=GF KL   This family has been killed
+#=GF FW   PF13378
+#=GF CC   now covered by PF13378.
+//
+# STOCKHOLM 1.0
+#=GF ID   Spurious
+#=GF AC   PF13659
+#=GF KL   This family has been killed
+#=GF FW   
+#=GF CC   Not what it seems; adds nothing real
+//
+# STOCKHOLM 1.0
+#=GF ID   Old_split
+#=GF AC   PF00065
+#=GF KL   This family has been killed
+#=GF FW   PF02931 PF02932
+#=GF CC   This family has been killed and split into two
+//
+"""
+
+
+@pytest.fixture
+def dead_gz(tmp_path):
+    p = tmp_path / "Pfam-A.dead.gz"
+    with gzip.open(p, "wt", encoding="utf-8") as fh:
+        fh.write(MINI_DEAD)
+    return p
+
+
+def _pfam_with_dead(pfam_data, dead):
+    pfam_data.dead = dead
+    for acc, sn in [("PF13378", "MR_MLE_C"), ("PF02931", "Neur_chan_LBD"), ("PF02932", "Neur_chan_memb"),
+                    ("PF07969", "Amidohydro_3")]:
+        pfam_data.by_accession[acc] = PfamEntry(acc, sn, sn, "", "")
+        pfam_data.by_shortname[sn] = acc
+    pfam_data.by_shortname["PFK"] = "PF00365"
+    pfam_data.by_accession["PF00365"] = PfamEntry("PF00365", "PFK", "Phosphofructokinase", "", "")
+    return pfam_data
+
+
+class TestDeadFamilies:
+    def test_parse(self, dead_gz):
+        dead = parse_dead_families(dead_gz)
+        assert set(dead) == {"PF01188", "PF13659", "PF00065"}
+        assert dead["PF01188"] == {"shortname": "MR_MLE", "forward_to": ["PF13378"],
+                                   "comment": "now covered by PF13378."}
+        assert dead["PF13659"]["forward_to"] == []
+        assert dead["PF00065"]["forward_to"] == ["PF02931", "PF02932"]
+
+    def test_resolve_forwards_killed_family(self, pfam_data, dead_gz):
+        pd_ = _pfam_with_dead(pfam_data, parse_dead_families(dead_gz))
+        assert pd_.resolve_accession("PF01188") == ["PF13378"]
+        assert pd_.resolve_accession("PF00065") == ["PF02931", "PF02932"]
+        assert pd_.resolve_accession("PF13659") == []          # killed, no successor
+        assert pd_.resolve_accession("PF00712") == ["PF00712"]  # live
+        assert pd_.resolve_accession("PF55555") == ["PF55555"]  # unknown: kept
+
+    def test_resolve_follows_chains_and_survives_cycles(self, pfam_data):
+        pfam_data.dead = {"PF00010": {"forward_to": ["PF00011"]},
+                          "PF00011": {"forward_to": ["PF00712"]},
+                          "PF00020": {"forward_to": ["PF00021"]},
+                          "PF00021": {"forward_to": ["PF00020"]}}
+        assert pfam_data.resolve_accession("PF00010") == ["PF00712"]
+        assert pfam_data.resolve_accession("PF00020") == []
+
+
+class TestNormalizePfamToken:
+    @pytest.fixture
+    def pd_(self, pfam_data, dead_gz):
+        return _pfam_with_dead(pfam_data, parse_dead_families(dead_gz))
+
+    @pytest.mark.parametrize("token, expected", [
+        ("PF00712", "PF00712"),
+        ("PF00712.24", "PF00712"),      # versioned accession
+        ("PF7969", "PF07969"),          # Cyanorak typo, padded accession exists
+        ("PF1234", None),               # padded accession unknown: not guessed
+        ("PFK", "PF00365"),             # a short name that starts with PF
+        ("PFOR_II", None),              # unknown short name
+        ("DNA_pol3_beta", "PF00712"),
+        ("TIGR00663", None),
+        ("PF01188", "PF01188"),         # killed family: normalized, forwarded later
+    ])
+    def test_tokens(self, pd_, token, expected):
+        assert normalize_pfam_token(token, pd_) == expected
+
+
+class TestReleaseAndRoundtrip:
+    def test_parse_release(self, tmp_path):
+        p = tmp_path / "Pfam.version.gz"
+        with gzip.open(p, "wt") as fh:
+            fh.write("Pfam release       : 39.0\nPfam-A families    : 53275\n")
+        assert parse_release(p) == "39.0"
+
+    def test_dead_and_release_roundtrip(self, pfam_data, dead_gz):
+        pfam_data.dead = parse_dead_families(dead_gz)
+        pfam_data.release = "39.0"
+        back = _pfam_data_from_json(json.loads(json.dumps(_pfam_data_to_json(pfam_data))))
+        assert back.dead == pfam_data.dead and back.release == "39.0"
+
+    def test_old_cache_without_dead_loads(self, pfam_data):
+        data = _pfam_data_to_json(pfam_data)
+        data.pop("dead"); data.pop("release")
+        back = _pfam_data_from_json(data)
+        assert back.dead == {} and back.release == ""

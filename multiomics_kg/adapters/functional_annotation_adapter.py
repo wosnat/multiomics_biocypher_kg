@@ -1409,7 +1409,8 @@ class MultiPfamAnnotationAdapter:
         genome_config_file: path to ``cyanobacteria_genomes.csv``
         cache_root: project-level cache directory (e.g. ``Path("cache/data")``)
         test_mode: passed to per-strain adapters (stop after 100 edges)
-        cache: if False, force re-download Pfam data even if cache exists
+        cache: ignored (kept for the adapter signature); the Pfam reference is
+            built by prepare_data step 9, not at KG build time
     """
 
     def __init__(
@@ -1420,7 +1421,8 @@ class MultiPfamAnnotationAdapter:
         cache: bool = True,
     ) -> None:
         self.test_mode = test_mode
-        self.pfam_data = load_pfam_data(cache_root, force=not cache)
+        # Read-only: the committed reference is built by prepare_data step 9, never at KG build.
+        self.pfam_data = load_pfam_data(cache_root)
         self._strain_adapters: list[PfamAnnotationAdapter] = []
         self._build_strain_adapters(genome_config_file)
 

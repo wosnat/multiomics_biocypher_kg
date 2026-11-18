@@ -2041,7 +2041,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF13236"
+      "[interpro] Domain of unknown function DUF13236",
+      "[pfam] DUF13236: Domain of unknown function (DUF13236)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13515",
@@ -2240,7 +2241,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] High light-inducible protein HliA-D-like",
-      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein"
+      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein",
+      "[pfam] HliA: High light-inducible protein HliA"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13550",
@@ -5019,7 +5021,7 @@
       "[hamap] Epoxyqueuosine reductase [queG]",
       "[ncbifam] tRNA epoxyqueuosine(34) reductase QueG",
       "[pfam] Fer4_16: 4Fe-4S double cluster binding domain",
-      "[pfam] QueG_DUF1730: Epoxyqueuosine reductase QueG, DUF1730"
+      "[pfam] QueG_Cbl-bind: Epoxyqueuosine reductase QueG, Cbl-binding domain"
     ],
     "alternative_locus_tags": [
       "PMT0007",
@@ -8297,7 +8299,8 @@
       "[interpro] Type II secretion system protein GspE, N-terminal",
       "[tcdb_best_hit] The tri-component complex including EbsA of 125 aas, homologs of which are highly conserved and widespread in diverse cyanobacteria but are not found\u2026 [3.A.15.4.2] :: [tcdb_substrates] Protein",
       "[pfam] T2SSE: Type II/IV secretion system protein",
-      "[pfam] MshEN: MshEN domain"
+      "[pfam] MshEN: MshEN domain",
+      "[pfam] T2SSE_N: Type II secretion system protein E, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS00100",
@@ -8458,7 +8461,8 @@
     ],
     "pfam_ids": [
       "PF00437",
-      "PF05157"
+      "PF05157",
+      "PF30792"
     ],
     "pfam_ids_evidence": {
       "PF00437": "curated",
@@ -8473,9 +8477,11 @@
       ],
       "PF05157": [
         "cyanorak",
-        "eggnog",
         "interproscan",
         "uniprot"
+      ],
+      "PF30792": [
+        "eggnog"
       ]
     },
     "product": "type II secretory pathway, ATPase PulE/Tfp pilus assembly pathway, ATPase PilB",
@@ -12545,7 +12551,8 @@
       "[interpro] SNF2/RAD5-like, C-terminal helicase domain",
       "[interpro] Domain of unknown function DUF19735",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
-      "[pfam] SNF2-rel_dom: SNF2-related domain"
+      "[pfam] SNF2-rel_dom: SNF2-related domain",
+      "[pfam] DUF19735: Domain of unknown function (DUF19735)"
     ],
     "alternative_locus_tags": [
       "PMT0037",
@@ -13159,7 +13166,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8683"
+      "[interpro] Domain of unknown function DUF8683",
+      "[pfam] DUF8683: Domain of unknown function (DUF8683)"
     ],
     "alternative_locus_tags": [
       "PMT0041",
@@ -13677,7 +13685,8 @@
       "[interpro] CbiD, C-terminal domain",
       "[hamap] Cobalt-precorrin-5B C(1)-methyltransferase [cbiD]",
       "[ncbifam] cobalt-precorrin-5B (C(1))-methyltransferase CbiD",
-      "[pfam] CbiD: CbiD"
+      "[pfam] CbiD: CbiD",
+      "[pfam] CbiD_C: CbiD, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0044",
@@ -14508,7 +14517,8 @@
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8672"
+      "[interpro] Protein of unknown function DUF8672",
+      "[pfam] DUF8672: Family of unknown function (DUF8672)"
     ],
     "alternative_locus_tags": [
       "PMT0046",
@@ -14791,7 +14801,8 @@
       "[interpro] Class D beta-lactamase/transpeptidase",
       "[ncbifam] penicillin-binding protein 2",
       "[pfam] PBP_dimer: Penicillin-binding Protein dimerisation domain",
-      "[pfam] Transpeptidase: Penicillin binding protein transpeptidase domain"
+      "[pfam] Transpeptidase: Penicillin binding protein transpeptidase domain",
+      "[pfam] MrdA_TM_N: MrdA N-terminal transmembrane helix"
     ],
     "alternative_locus_tags": [
       "PMT0048",
@@ -15929,7 +15940,8 @@
       "[cog] COG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19738"
+      "[interpro] Domain of unknown function DUF19738",
+      "[pfam] DUF19738: Domain of unknown function (DUF19738)"
     ],
     "alternative_locus_tags": [
       "PMT0053",
@@ -17033,7 +17045,9 @@
       "[interpro] Domain of unknown function DUF8618",
       "[interpro] Domain of unknown function DUF19708",
       "[ncbifam] SpoIID/LytB domain-containing protein",
-      "[pfam] SpoIID: Stage II sporulation protein"
+      "[pfam] SpoIID: Stage II sporulation protein",
+      "[pfam] DUF8618: Domain of unknown function (DUF8618)",
+      "[pfam] DUF19708: Domain of unknown function (DUF19708)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS00305",
@@ -20693,7 +20707,6 @@
       "[hamap] UvrABC system protein B [uvrB]",
       "[ncbifam] excinuclease ABC subunit UvrB",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
-      "[pfam] UvrB: Ultra-violet resistance protein B",
       "[pfam] UVR: UvrB/uvrC motif",
       "[pfam] ResIII: Type III restriction enzyme, res subunit",
       "[pfam] UvrB_inter: UvrB interaction domain",
@@ -20904,7 +20917,6 @@
     ],
     "pfam_ids": [
       "PF00271",
-      "PF12344",
       "PF02151",
       "PF04851",
       "PF17757",
@@ -20932,10 +20944,6 @@
         "cyanorak",
         "eggnog",
         "interproscan"
-      ],
-      "PF12344": [
-        "cyanorak",
-        "eggnog"
       ],
       "PF17757": [
         "interproscan"
@@ -21937,20 +21945,12 @@
       }
     ],
     "pfam_ids": [
-      "PF00529",
-      "PF13437",
       "PF26002"
     ],
     "pfam_ids_evidence": {
       "PF26002": "curated"
     },
     "pfam_ids_source": {
-      "PF00529": [
-        "cyanorak"
-      ],
-      "PF13437": [
-        "cyanorak"
-      ],
       "PF26002": [
         "interproscan",
         "uniprot"
@@ -24666,7 +24666,6 @@
       }
     ],
     "pfam_ids": [
-      "PF13950",
       "PF01370"
     ],
     "pfam_ids_evidence": {
@@ -24678,9 +24677,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF13950": [
-        "cyanorak"
       ]
     },
     "product": "UDP-glucose 4-epimerase GalE",
@@ -25680,7 +25676,8 @@
       "[interpro] N-acetyl sugar amidotransferase",
       "[interpro] Sulfate adenylyltransferase subunit 2",
       "[interpro] LPS biosynthesis protein WbpG-like, C-terminal domain",
-      "[ncbifam] N-acetyl sugar amidotransferase"
+      "[ncbifam] N-acetyl sugar amidotransferase",
+      "[pfam] WbpG_C: LPS biosynthesis protein WbpG-like, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0098",
@@ -28801,7 +28798,8 @@
       "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
       "[interpro] Transcription regulator HTH, GntR",
       "[interpro] PlmA-like, C-terminal domain",
-      "[pfam] GntR: Bacterial regulatory proteins, gntR family"
+      "[pfam] GntR: Bacterial regulatory proteins, gntR family",
+      "[pfam] PlmA_C: Cyanobacterial PlmA-type GntR regulator, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0118",
@@ -31992,7 +31990,6 @@
       }
     ],
     "pfam_ids": [
-      "PF12700",
       "PF25917",
       "PF25954"
     ],
@@ -32001,9 +31998,6 @@
       "PF25954": "signature"
     },
     "pfam_ids_source": {
-      "PF12700": [
-        "cyanorak"
-      ],
       "PF25917": [
         "interproscan"
       ],
@@ -36241,7 +36235,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8660"
+      "[interpro] Domain of unknown function DUF8660",
+      "[pfam] DUF8660: Domain of unknown function (DUF8660)"
     ],
     "alternative_locus_tags": [
       "PMT0148",
@@ -37178,7 +37173,9 @@
       "[interpro] Protein kinase domain",
       "[interpro] Domain of unknown function DUF19734",
       "[interpro] Domain of unknown function DUF20100",
-      "[pfam] Pkinase: Protein kinase domain"
+      "[pfam] Pkinase: Protein kinase domain",
+      "[pfam] DUF19734: Domain of unknown function (DUF19734)",
+      "[pfam] DUF20100: Domain of unknown function (DUF20100)"
     ],
     "alternative_locus_tags": [
       "PMT0154",
@@ -40611,7 +40608,7 @@
       "[tigr_role] Energy metabolism / Photosynthesis",
       "[interpro] Cytochrome b6-f complex subunit 6",
       "[ncbifam] cytochrome b6-f complex subunit PetL",
-      "[pfam] PetL: Cytochrome B6-F complex subunit VI (PetL)"
+      "[pfam] PetL: Cytochrome b6-f complex subunit VI (PetL)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS00865",
@@ -40990,7 +40987,7 @@
       "[ncbifam] 30S ribosomal protein S12 methylthiotransferase RimO",
       "[tigr_role_inferred] Protein synthesis / Ribosomal proteins: synthesis and modification",
       "[pfam] Radical_SAM: Radical SAM superfamily",
-      "[pfam] UPF0004: Uncharacterized protein family UPF0004",
+      "[pfam] UPF0004: tRNA methylthiotransferase MiaB, N-terminal",
       "[pfam] TRAM: TRAM domain",
       "[pfam] TRAM_2: TRAM domain"
     ],
@@ -44285,7 +44282,10 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF15059",
       "[interpro] Domain of unknown function DUF15060",
-      "[interpro] Domain of unknown function DUF19076"
+      "[interpro] Domain of unknown function DUF19076",
+      "[pfam] DUF15059: Domain of unknown function (DUF15059)",
+      "[pfam] DUF15060: Domain of unknown function (DUF15060)",
+      "[pfam] DUF19076: Domain of unknown function (DUF19076)"
     ],
     "alternative_locus_tags": [
       "PMT0188",
@@ -44849,7 +44849,8 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [M] Cell wall/membrane/envelope biogenesis",
       "[interpro] LysM domain",
       "[interpro] Domain of unknown function DUF8654",
-      "[pfam] LysM: LysM domain"
+      "[pfam] LysM: LysM domain",
+      "[pfam] DUF8654: Domain of unknown function (DUF8654)"
     ],
     "alternative_locus_tags": [
       "PMT0190",
@@ -51877,7 +51878,9 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Virginiamycin B lyase",
       "[interpro] Domain of unknown function DUF20578",
-      "[interpro] Domain of unknown function DUF20579"
+      "[interpro] Domain of unknown function DUF20579",
+      "[pfam] DUF20578: Domain of unknown function (DUF20578)",
+      "[pfam] DUF20579: Domain of unknown function (DUF20579)"
     ],
     "alternative_locus_tags": [
       "PMT0221",
@@ -52049,7 +52052,8 @@
       "[interpro] Amino acid/polyamine transporter I",
       "[interpro] APC Superfamily Potassium Transporter",
       "[interpro] KimA potassium transporter, C-terminal",
-      "[pfam] AA_permease_2: Amino acid permease"
+      "[pfam] AA_permease_2: Amino acid permease",
+      "[pfam] KimA_C: KimA potassium transporter C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS01170",
@@ -59215,7 +59219,7 @@
       "[interpro] Oligopeptide transport permease C-like",
       "[interpro] Binding-protein-dependent transport system permease",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] OppC_N: N-terminal TM domain of oligopeptide transport permease C"
+      "[pfam] OmpC-like: Oligopeptide transport permease C-like"
     ],
     "alternative_locus_tags": [
       "AKG35_RS01415",
@@ -61639,7 +61643,7 @@
       "[kegg] 4-benzoquinol methylase; ubiE (gene name, ambiguous)",
       "[kegg] demethylmenaquinone methyltransferase; S-adenosyl-L-methione---DMK methyltransferase; demethylmenaquinone C-methylase; 2-heptaprenyl-1",
       "[kegg] 4-naphthoquinone methyltransferase; 2-demethylmenaquinone methyltransferase; S-adenosyl-L-methione:2-demethylmenaquinone methyltransferase",
-      "[pfam] Ubie_methyltran: ubiE/COQ5 methyltransferase family"
+      "[pfam] Ubie_methyltran: UbiE/COQ5 methyltransferase Domain"
     ],
     "bacteria_cog_og": "COG2226",
     "cluster_number": "CK_00048631",
@@ -61802,7 +61806,7 @@
       "[kegg] 4-benzoquinol methylase; ubiE (gene name, ambiguous)",
       "[kegg] demethylmenaquinone methyltransferase; S-adenosyl-L-methione---DMK methyltransferase; demethylmenaquinone C-methylase; 2-heptaprenyl-1",
       "[kegg] 4-naphthoquinone methyltransferase; 2-demethylmenaquinone methyltransferase; S-adenosyl-L-methione:2-demethylmenaquinone methyltransferase",
-      "[pfam] Ubie_methyltran: ubiE/COQ5 methyltransferase family"
+      "[pfam] Ubie_methyltran: UbiE/COQ5 methyltransferase Domain"
     ],
     "bacteria_cog_og": "COG2226",
     "cluster_number": "CK_00048631",
@@ -62248,7 +62252,9 @@
       "[pfam] Methyltransf_31: Methyltransferase domain",
       "[pfam] TPR_10: Tetratricopeptide repeat",
       "[pfam] TPR_16: Tetratricopeptide repeat",
-      "[pfam] TPR_8: Tetratricopeptide repeat"
+      "[pfam] TPR_8: Tetratricopeptide repeat",
+      "[pfam] CFAP70_TPR_C: Cilia and flagella-associated protein 70 C-terminal domain",
+      "[pfam] DUF19709: Domain of unknown function (DUF19709)"
     ],
     "alternative_locus_tags": [
       "PMT0280",
@@ -63111,7 +63117,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8950"
+      "[interpro] Domain of unknown function DUF8950",
+      "[pfam] DUF8950: Domain of unknown function (DUF8950)"
     ],
     "alternative_locus_tags": [
       "PMT0285",
@@ -65663,7 +65670,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF19719"
+      "[interpro] Domain of unknown function DUF19719",
+      "[pfam] DUF19719: Domain of unknown function (DUF19719)"
     ],
     "alternative_locus_tags": [
       "PMT0303",
@@ -66276,7 +66284,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8674"
+      "[interpro] Domain of unknown function DUF8674",
+      "[pfam] DUF8674: Domain of unknown function (DUF8674)"
     ],
     "alternative_locus_tags": [
       "PMT0309",
@@ -68876,7 +68885,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Cyanobacterial PH domain"
+      "[interpro] Cyanobacterial PH domain",
+      "[pfam] PH_cyano: Cyanobacterial PH domain"
     ],
     "alternative_locus_tags": [
       "PMT0321",
@@ -69295,7 +69305,7 @@
       "[ncbifam] tRNA (N6-isopentenyl adenosine(37)-C2)-methylthiotransferase MiaB",
       "[pfam] TRAM: TRAM domain",
       "[pfam] Radical_SAM: Radical SAM superfamily",
-      "[pfam] UPF0004: Uncharacterized protein family UPF0004"
+      "[pfam] UPF0004: tRNA methylthiotransferase MiaB, N-terminal"
     ],
     "alternative_locus_tags": [
       "PMT0323",
@@ -69962,7 +69972,6 @@
       }
     ],
     "pfam_ids": [
-      "PF7969",
       "PF07969"
     ],
     "pfam_ids_evidence": {
@@ -69970,12 +69979,10 @@
     },
     "pfam_ids_source": {
       "PF07969": [
+        "cyanorak",
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF7969": [
-        "cyanorak"
       ]
     },
     "product": "cytosine deaminase",
@@ -71015,7 +71022,8 @@
       "[cog] COG: METABOLISM [C] Energy production and conversion",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8653"
+      "[interpro] Domain of unknown function DUF8653",
+      "[pfam] DUF8653: Domain of unknown function (DUF8653)"
     ],
     "alternative_locus_tags": [
       "PMT0333",
@@ -76538,7 +76546,8 @@
       "[interpro] Pyridinium-3,5-biscarboxylic acid mononucleotide synthase LarB-like",
       "[interpro] LarB/PurE-like, N-terminal domain",
       "[ncbifam] nickel pincer cofactor biosynthesis protein LarB",
-      "[pfam] AIRC: AIR carboxylase"
+      "[pfam] AIRC: AIR carboxylase",
+      "[pfam] LarB_N: LarB/PurE-like N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0358",
@@ -78981,7 +78990,8 @@
       "[pfam] Methyltransf_18: Methyltransferase domain",
       "[pfam] TP_methylase: Tetrapyrrole (Corrin/Porphyrin) Methylases",
       "[pfam] MTS: Methyltransferase small domain",
-      "[pfam] Methyltransf_4: Putative methyltransferase"
+      "[pfam] Methyltransf_4: Putative methyltransferase",
+      "[pfam] Methyltransf_37: Precorrin methyltransferase domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS01970",
@@ -79250,7 +79260,7 @@
       "[interpro] Glycosyl-hydrolase family 116, N-terminal",
       "[interpro] Non-lysosomal glucosylceramidase",
       "[pfam] Glyco_hydr_116N: beta-glucosidase 2, glycosyl-hydrolase family 116 N-term",
-      "[pfam] DUF608: Glycosyl-hydrolase family 116, catalytic region"
+      "[pfam] GH116_catalytic: Glycosyl-hydrolase family 116, catalytic region"
     ],
     "alternative_locus_tags": [
       "PMT0373",
@@ -82421,7 +82431,8 @@
       "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[interpro] Ribonuclease H-like domain",
       "[interpro] Domain of unknown function DUF8626",
-      "[pfam] RNase_T: Exonuclease"
+      "[pfam] RNase_T: Exonuclease",
+      "[pfam] DUF8626: Domain of unknown function (DUF8626)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS02065",
@@ -86516,7 +86527,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF15078"
+      "[interpro] Domain of unknown function DUF15078",
+      "[pfam] DUF15078: Domain of unknown function (DUF15078)"
     ],
     "alternative_locus_tags": [
       "PMT0402",
@@ -90283,7 +90295,8 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF697",
       "[interpro] Domain of unknown function DUF19727",
-      "[pfam] DUF697: Domain of unknown function (DUF697)"
+      "[pfam] DUF697: Domain of unknown function (DUF697)",
+      "[pfam] DUF19727: Domain of unknown function (DUF19727)"
     ],
     "alternative_locus_tags": [
       "PMT0420",
@@ -90455,7 +90468,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8668"
+      "[interpro] Protein of unknown function DUF8668",
+      "[pfam] DUF8668: Family of unknown function (DUF8668)"
     ],
     "alternative_locus_tags": [
       "PMT0421",
@@ -90864,7 +90878,8 @@
       "[kegg] O-diacetylmuramidase; lysozyme g; L-7001; 1",
       "[kegg] 4-N-acetylmuramidase; mucopeptide N-acetylmuramoylhydrolase; PR1-lysozyme",
       "[interpro] Endolysin",
-      "[pfam] Phage_lysozyme: Phage lysozyme"
+      "[pfam] Phage_lysozyme: Phage lysozyme",
+      "[pfam] Endolysin: Endolysin"
     ],
     "alternative_locus_tags": [
       "PMT0423",
@@ -93188,7 +93203,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19711"
+      "[interpro] Domain of unknown function DUF19711",
+      "[pfam] DUF19711: Domain of unknown function (DUF19711)"
     ],
     "alternative_locus_tags": [
       "PMT0429",
@@ -93325,7 +93341,8 @@
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF13798"
+      "[interpro] Protein of unknown function DUF13798",
+      "[pfam] DUF13798: Family of unknown function (DUF13798)"
     ],
     "alternative_locus_tags": [
       "PMT0430",
@@ -93508,7 +93525,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19706"
+      "[interpro] Domain of unknown function DUF19706",
+      "[pfam] DUF19706: Domain of unknown function (DUF19706)"
     ],
     "alternative_locus_tags": [
       "PMT0431",
@@ -93657,7 +93675,8 @@
       "[cog] COG: GEPR",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF19739"
+      "[interpro] Protein of unknown function DUF19739",
+      "[pfam] DUF19739: Family of unknown function (DUF19739)"
     ],
     "alternative_locus_tags": [
       "PMT0432",
@@ -94917,7 +94936,7 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Translocation and assembly module TamB, C-terminal domain",
       "[interpro] Chloroplast inner translocon TIC236/SSG4",
-      "[pfam] DUF748: Domain of Unknown Function (DUF748)",
+      "[pfam] EpaF: Putative phospholipid transport protein EpaF",
       "[pfam] TamB: TamB C-terminal domain",
       "[pfam] YhdP: YhdP protein"
     ],
@@ -95426,7 +95445,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8664"
+      "[interpro] Domain of unknown function DUF8664",
+      "[pfam] DUF8664: Domain of unknown function (DUF8664)"
     ],
     "alternative_locus_tags": [
       "PMT0441",
@@ -98755,7 +98775,8 @@
       "[cog] COG: METABOLISM [C] Energy production and conversion",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] HTH transcriptional regulator, HTH domain"
+      "[interpro] HTH transcriptional regulator, HTH domain",
+      "[pfam] HTH_pico_cyano: Picocyanobacterial HTH transcriptional regulator"
     ],
     "alternative_locus_tags": [
       "PMT0458",
@@ -101368,7 +101389,8 @@
       "[interpro] Glutathione S-transferase Omega-like",
       "[pfam] GST_N_3: Glutathione S-transferase, N-terminal domain",
       "[pfam] GST_C_2: Glutathione S-transferase, C-terminal domain",
-      "[pfam] GST_N_2: Glutathione S-transferase, N-terminal domain"
+      "[pfam] GST_N_2: Glutathione S-transferase, N-terminal domain",
+      "[pfam] GST_helical_C: Glutathione_S-transferase C-terminal helical domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS02490",
@@ -103476,7 +103498,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8954"
+      "[interpro] Domain of unknown function DUF8954",
+      "[pfam] DUF8954: Domain of unknown function (DUF8954)"
     ],
     "alternative_locus_tags": [
       "PMT0485",
@@ -104159,7 +104182,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF13572"
+      "[interpro] Domain of unknown function DUF13572",
+      "[pfam] DUF13572: Domain of unknown function (DUF13572)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS02605",
@@ -104986,7 +105010,8 @@
       "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
       "[interpro] Crp-type HTH domain",
       "[interpro] Cyanobacterial CRP, N-terminal domain",
-      "[pfam] HTH_Crp_2: Crp-like helix-turn-helix domain"
+      "[pfam] HTH_Crp_2: Crp-like helix-turn-helix domain",
+      "[pfam] Crp_cyano_N: Cyanobacterial CRP family N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0497",
@@ -106951,7 +106976,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8931"
+      "[interpro] Domain of unknown function DUF8931",
+      "[pfam] DUF8931: Domain of unknown function (DUF8931)"
     ],
     "alternative_locus_tags": [
       "PMT0507",
@@ -108314,7 +108340,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF9727"
+      "[interpro] Domain of unknown function DUF9727",
+      "[pfam] DUF9727: Domain of unknown function (DUF9727)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS02710",
@@ -108660,7 +108687,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF19732"
+      "[interpro] Domain of unknown function DUF19732",
+      "[pfam] DUF19732: Domain of unknown function (DUF19732)"
     ],
     "alternative_locus_tags": [
       "PMT0516",
@@ -110153,7 +110181,8 @@
       "[interpro] Uncharacterised protein family Ycf55",
       "[interpro] Cyanobacterial response regulator, helical hairpin domain",
       "[pfam] DUF3685: Protein of unknown function (DUF3685)",
-      "[pfam] Response_reg: Response regulator receiver domain"
+      "[pfam] Response_reg: Response regulator receiver domain",
+      "[pfam] RR_cyano_HH: Cyanobacterial response regulator, helical hairpin domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS02750",
@@ -110481,7 +110510,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] F420-0:gamma-glutamyl ligase-like, N-terminal domain",
-      "[pfam] F420_ligase: F420-0:Gamma-glutamyl ligase"
+      "[pfam] F420_ligase: F420-0:Gamma-glutamyl ligase",
+      "[pfam] Ig_CofE: F420-0:gamma-glutamyl ligase, N-terminal Ig-like domain"
     ],
     "alternative_locus_tags": [
       "PMT0524",
@@ -113558,7 +113588,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Surface adhesin-E-like"
+      "[interpro] Surface adhesin-E-like",
+      "[pfam] Adhesin-E_2: Surface adhesin-E family"
     ],
     "alternative_locus_tags": [
       "PMT0535",
@@ -115276,7 +115307,6 @@
       "PF12838",
       "PF10371",
       "PF13484",
-      "PFOR_II",
       "PF17147",
       "PF12800"
     ],
@@ -115318,11 +115348,9 @@
         "eggnog"
       ],
       "PF17147": [
+        "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PFOR_II": [
-        "eggnog"
       ]
     },
     "product": "pyruvate:ferredoxin (flavodoxin) oxidoreductase",
@@ -118891,7 +118919,8 @@
       "[interpro] Dihydroxy-acid/6-phosphogluconate dehydratase, C-terminal",
       "[hamap] Dihydroxy-acid dehydratase [ilvD]",
       "[pfam] ILVD_EDD_N: Dihydroxy-acid/6-phosphogluconate dehydratase N-terminal",
-      "[pfam] ILV_EDD_C: Dihydroxy-acid/6-phosphogluconate dehydratase C-terminal"
+      "[pfam] ILV_EDD_C: Dihydroxy-acid/6-phosphogluconate dehydratase C-terminal",
+      "[pfam] IlvD_N: Dihydroxy-acid dehydratase IlvD, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0560",
@@ -119191,7 +119220,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8659"
+      "[interpro] Domain of unknown function DUF8659",
+      "[pfam] DUF8659: Domain of unknown function (DUF8659)"
     ],
     "alternative_locus_tags": [
       "PMT0561",
@@ -124743,7 +124773,8 @@
       "[pfam] DEAD: DEAD/DEAH box helicase",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
       "[pfam] RecG_wedge: RecG wedge domain",
-      "[pfam] RecG_dom3_C: ATP-dependent DNA helicase RecG, domain 3, C-terminal"
+      "[pfam] RecG_dom3_C: ATP-dependent DNA helicase RecG, domain 3, C-terminal",
+      "[pfam] RecG_N: RecG N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0581",
@@ -125250,7 +125281,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF10282"
+      "[interpro] Domain of unknown function DUF10282",
+      "[pfam] DUF10282: Domain of unknown function (DUF10282)"
     ],
     "alternative_locus_tags": [
       "PMT0582",
@@ -126988,14 +127020,6 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "pfam_ids": [
-      "PF13437"
-    ],
-    "pfam_ids_source": {
-      "PF13437": [
-        "cyanorak"
-      ]
-    },
     "product": "ABC exporter membrane fusion, DevB family",
     "product_cyanorak": "ABC exporter membrane fusion, DevB family",
     "product_source": "cyanorak",
@@ -131354,7 +131378,8 @@
       "[tigr_role] Hypothetical proteins / Conserved",
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] PMM0687: PMM0687 family protein"
     ],
     "alternative_locus_tags": [
       "PMT0611",
@@ -131504,7 +131529,8 @@
       "[interpro] Methyltransferase domain 25",
       "[interpro] Domain of unknown function DUF19104",
       "[pfam] Methyltransf_11: Methyltransferase domain",
-      "[pfam] Methyltransf_25: Methyltransferase domain"
+      "[pfam] Methyltransf_25: Methyltransferase domain",
+      "[pfam] DUF19104: Domain of unknown function (DUF19104)"
     ],
     "alternative_locus_tags": [
       "PMT0612",
@@ -131754,7 +131780,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF15088"
+      "[interpro] Domain of unknown function DUF15088",
+      "[pfam] DUF15088: Domain of unknown function (DUF15088)"
     ],
     "alternative_locus_tags": [
       "PMT0615",
@@ -136562,7 +136589,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8939"
+      "[interpro] Domain of unknown function DUF8939",
+      "[pfam] DUF8939: Domain of unknown function (DUF8939)"
     ],
     "alternative_locus_tags": [
       "PMT0639",
@@ -136852,9 +136880,11 @@
       "[hamap] DNA primase [dnaG]",
       "[pfam] DnaB_bind: DnaB-helicase binding domain of primase",
       "[pfam] Toprim_4: Toprim domain",
-      "[pfam] Zn_ribbon_DnaG: CHC2 zinc finger",
+      "[pfam] Zn_ribbon_DnaG: DnaG zinc beta ribbon domain",
       "[pfam] DNAG_N: DNA primase catalytic core, N-terminal domain",
-      "[pfam] Toprim_2: Toprim-like"
+      "[pfam] Toprim_2: Toprim-like",
+      "[pfam] DnaG_cyano_C: Cyanobacterial DNA primase DnaG, C-terminal domain",
+      "[pfam] DnaG_C2: DNA primase (DnaG) C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0641",
@@ -137549,7 +137579,7 @@
       "[interpro] SAM-like helix-hairpin-helix tandem",
       "[hamap] Holliday junction branch migration complex subunit RuvA [ruvA]",
       "[ncbifam] Holliday junction branch migration protein RuvA",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
       "[pfam] RuvA_C: RuvA, C-terminal domain",
       "[pfam] RuvA_N: RuvA N terminal domain"
     ],
@@ -138405,7 +138435,8 @@
       "[pfam] HHH_6: Helix-hairpin-helix motif",
       "[pfam] DNA_pol3_alpha: Bacterial DNA polymerase III alpha NTPase domain",
       "[pfam] tRNA_anti-codon: OB-fold nucleic acid binding domain",
-      "[pfam] DNA_pol3_finger: Bacterial DNA polymerase III alpha subunit finger domain"
+      "[pfam] DNA_pol3_finger: Bacterial DNA polymerase III alpha subunit finger domain",
+      "[pfam] DnaE_C_2: DNA polymerase III subunit alpha C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS03390",
@@ -141228,7 +141259,8 @@
       "[tigr_role] Hypothetical proteins / Conserved",
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] Thioredoxin_like: Thioredoxin-like domain"
     ],
     "alternative_locus_tags": [
       "PMT0657",
@@ -141672,7 +141704,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[pfam] PGAP1: PGAP1-like alpha/beta domain",
-      "[pfam] DUF915: Alpha/beta hydrolase of unknown function (DUF915)",
+      "[pfam] Abhydrolase_FphD: FphD-like, alpha/beta hydrolase domain",
       "[pfam] Palm_thioest: Palmitoyl protein thioesterase"
     ],
     "alternative_locus_tags": [
@@ -142741,7 +142773,8 @@
       "[ncbi] glycoside hydrolase family 24 protein",
       "[eggnog] Muramidase (Phage lambda lysozyme)",
       "[tigr_role] Unknown function / Enzymes of unknown specificity",
-      "[interpro] Endolysin"
+      "[interpro] Endolysin",
+      "[pfam] Endolysin: Endolysin"
     ],
     "alternative_locus_tags": [
       "PMT0664",
@@ -142923,7 +142956,8 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] TPM domain",
       "[interpro] TPM phosphatase-associated, C-terminal domain",
-      "[pfam] TPM_phosphatase: TPM domain"
+      "[pfam] TPM_phosphatase: TPM domain",
+      "[pfam] TPM_phosphatase_C: TPM phosphatase-associated C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0665",
@@ -146884,7 +146918,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF10072"
+      "[interpro] Domain of unknown function DUF10072",
+      "[pfam] DUF10072: Domain of unknown function (DUF10072)"
     ],
     "alternative_locus_tags": [
       "PMT0681",
@@ -149787,7 +149822,8 @@
       "[cog] cyaNOG: METABOLISM [G] Carbohydrate transport and metabolism",
       "[interpro] Bacterial-type extracellular solute-binding protein",
       "[interpro] Domain of unknown function DUF15139",
-      "[pfam] SBP_bac_1: Bacterial extracellular solute-binding protein"
+      "[pfam] SBP_bac_1: Bacterial extracellular solute-binding protein",
+      "[pfam] DUF15139: Domain of unknown function (DUF15139)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS03620",
@@ -150362,9 +150398,10 @@
       "[interpro] Heat shock protein Hsp90 family",
       "[interpro] Heat shock protein Hsp90, N-terminal",
       "[interpro] Hsp90, middle domain",
-      "[pfam] HSP90: Hsp90 protein",
+      "[pfam] Hsp90_C: Hsp90 C-terminal domain",
       "[pfam] HATPase_c_3: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
-      "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase"
+      "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
+      "[pfam] Hsp90_M: Hsp90 middle domain"
     ],
     "alternative_locus_tags": [
       "PMT0696",
@@ -150840,7 +150877,8 @@
       "[interpro] Class II Histidinyl-tRNA synthetase (HisRS)-like catalytic core domain",
       "[hamap] ATP phosphoribosyltransferase regulatory subunit [hisZ]",
       "[ncbifam] ATP phosphoribosyltransferase regulatory subunit",
-      "[pfam] tRNA-synt_His: Histidyl-tRNA synthetase"
+      "[pfam] tRNA-synt_His: Histidyl-tRNA synthetase",
+      "[pfam] HisZ_C_4: HisZ C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS03640",
@@ -152875,7 +152913,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Protein of unknown function DUF3110",
-      "[pfam] DUF3110: Protein of unknown function (DUF3110)"
+      "[pfam] DUF3110: Domain of unknown function (DUF3110)"
     ],
     "alternative_locus_tags": [
       "PMT0705",
@@ -153566,7 +153604,8 @@
       "[ncbifam] GTP cyclohydrolase II",
       "[ncbifam] 3,4-dihydroxy-2-butanone-4-phosphate synthase",
       "[pfam] DHBP_synthase: 3,4-dihydroxy-2-butanone 4-phosphate synthase",
-      "[pfam] GTP_cyclohydro2: GTP cyclohydrolase II"
+      "[pfam] GTP_cyclohydro2: GTP cyclohydrolase II",
+      "[pfam] RibBA_C: RibBA C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0708",
@@ -154836,7 +154875,8 @@
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
-      "[interpro] Domain of unknown function DUF13258"
+      "[interpro] Domain of unknown function DUF13258",
+      "[pfam] DUF13258: Domain of unknown function (DUF13258)"
     ],
     "alternative_locus_tags": [
       "PMT0713",
@@ -157480,9 +157520,10 @@
       "[pfam] GIY-YIG: GIY-YIG catalytic domain",
       "[pfam] UvrC_RNaseH_dom: UvrC RNAse H endonuclease domain",
       "[pfam] HHH_2: Helix-hairpin-helix motif",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
       "[pfam] UvrC_RNaseH: UvrC Ribonuclease H-like domain",
-      "[pfam] UvrC_M: UvrC/Cho excinuclease, middle domain"
+      "[pfam] UvrC_M: UvrC/Cho excinuclease, middle domain",
+      "[pfam] GIY-YIG_UvrC: UvrC-like GIY-YIG domain"
     ],
     "alternative_locus_tags": [
       "PMT0724",
@@ -157834,7 +157875,7 @@
       "[interpro] Protoporphyrinogen oxidase HemJ-like",
       "[ncbifam] protoporphyrinogen oxidase HemJ",
       "[tigr_role_inferred] Hypothetical proteins / Conserved",
-      "[pfam] UPF0093: Uncharacterised protein family (UPF0093)"
+      "[pfam] UPF0093: Protoporphyrinogen oxidase HemJ"
     ],
     "alternative_locus_tags": [
       "PMT0725",
@@ -159322,7 +159363,8 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [T] Signal transduction mechanisms",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8667"
+      "[interpro] Domain of unknown function DUF8667",
+      "[pfam] DUF8667: Domain of unknown function (DUF8667)"
     ],
     "alternative_locus_tags": [
       "PMT0730",
@@ -160154,7 +160196,8 @@
       "[interpro] DnaJ domain",
       "[interpro] Picocyanobacterial DnaJ chaperone, middle domain",
       "[pfam] DnaJ: DnaJ domain",
-      "[pfam] RHH_1: Ribbon-helix-helix protein, copG family"
+      "[pfam] RHH_1: Ribbon-helix-helix protein, copG family",
+      "[pfam] DnaJ_pico_M: Picocyanobacterial DnaJ chaperone, middle domain"
     ],
     "alternative_locus_tags": [
       "PMT0736",
@@ -162046,7 +162089,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] H(2):CoB-CoM heterodisulfide,ferredoxin reductase subunit A-like",
       "[interpro] Domain of unknown function DUF19710",
-      "[pfam] FAD_oxidored: FAD dependent oxidoreductase"
+      "[pfam] FAD_oxidored: FAD dependent oxidoreductase",
+      "[pfam] DUF19710: Domain of unknown function (DUF19710)"
     ],
     "alternative_locus_tags": [
       "PMT0742",
@@ -162929,7 +162973,7 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Cofactor assembly of complex C subunit B, CCB2/CCB4",
       "[interpro] COFACTOR ASSEMBLY OF COMPLEX C SUBUNIT B CCB4",
-      "[pfam] CCB2_CCB4: Cofactor assembly of complex C subunit B, CCB2/CCB4"
+      "[pfam] CCB2_CCB4: CCB2/CCB4, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS03880",
@@ -163461,7 +163505,8 @@
       "[interpro] Chloroplast envelope membrane protein, CemA",
       "[hamap] Potassium/proton antiporter CemA [cemA]",
       "[ncbifam] proton extrusion protein PcxA",
-      "[pfam] CemA: CemA family"
+      "[pfam] CemA: CemA family",
+      "[pfam] PxcA_N: PxcA N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0748",
@@ -164930,7 +164975,8 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Uncharacterised protein family UPF0182",
       "[hamap] UPF0182 protein <locus_tag>",
-      "[pfam] UPF0182: Uncharacterised protein family (UPF0182)"
+      "[pfam] UPF0182: UPF0182, C-terminal domain",
+      "[pfam] UPF0182_N: UPF0182 N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0755",
@@ -167299,7 +167345,8 @@
       "[interpro] Acetazolamide conferring resistance protein zam, N-terminal domain",
       "[pfam] OB_RNB: Ribonuclease B OB domain",
       "[pfam] RNB: RNB domain",
-      "[pfam] S1: S1 RNA binding domain"
+      "[pfam] S1: S1 RNA binding domain",
+      "[pfam] RNase_R_N: Cyanobacterial RNase R, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS03985",
@@ -169489,7 +169536,8 @@
       "[pfam] DEAD: DEAD/DEAH box helicase",
       "[pfam] CarD_TRCF_RID: CarD-like/TRCF RID domain",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
-      "[pfam] UvrB_inter: UvrB interaction domain"
+      "[pfam] UvrB_inter: UvrB interaction domain",
+      "[pfam] Mfd_cyano: Cyanobacterial Mfd, Rossmann-like domain"
     ],
     "alternative_locus_tags": [
       "PMT0775",
@@ -171709,7 +171757,8 @@
       "[cog] bactNOG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[cog] cyaNOG: METABOLISM [P] Inorganic ion transport and metabolism",
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
-      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component"
+      "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
+      "[pfam] ABC_transp_p69: ABC transport system permease protein p69"
     ],
     "alternative_locus_tags": [
       "AKG35_RS04070",
@@ -174409,7 +174458,8 @@
       "[ncbi] spectrin repeat-containing protein",
       "[tigr_role] Hypothetical proteins / Conserved",
       "[interpro] Domain of unknown function DUF9057",
-      "[pfam] RHH_5: CopG-like RHH_1 or ribbon-helix-helix domain, RHH_5"
+      "[pfam] RHH_5: CopG-like RHH_1 or ribbon-helix-helix domain, RHH_5",
+      "[pfam] DUF9057: Domain of unknown function (DUF9057)"
     ],
     "alternative_locus_tags": [
       "PMT0794",
@@ -174675,7 +174725,8 @@
       "[tigr_role] Hypothetical proteins / Conserved",
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] Phage_tail_N_2: Putative phage tail protein N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0796",
@@ -175257,7 +175308,8 @@
       "[cog] COG: METABOLISM [C] Energy production and conversion",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8680"
+      "[interpro] Domain of unknown function DUF8680",
+      "[pfam] DUF8680: Domain of unknown function (DUF8680)"
     ],
     "alternative_locus_tags": [
       "PMT0799",
@@ -176177,7 +176229,8 @@
       "[interpro] Two-component sensor histidine kinase",
       "[interpro] Domain of unknown function DUF19736",
       "[pfam] HAMP: HAMP domain",
-      "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase"
+      "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
+      "[pfam] DUF19736: Domain of unknown function (DUF19736)"
     ],
     "alternative_locus_tags": [
       "PMT0804",
@@ -177918,7 +177971,8 @@
       "[cog] COG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8619"
+      "[interpro] Protein of unknown function DUF8619",
+      "[pfam] DUF8619: Family of unknown function (DUF8619)"
     ],
     "alternative_locus_tags": [
       "PMT0813",
@@ -178501,7 +178555,7 @@
       "[interpro] Magnesium chelatase, subunit H, N-terminal",
       "[ncbifam] magnesium chelatase subunit H",
       "[pfam] CobN-Mg_chel: CobN/Magnesium Chelatase",
-      "[pfam] DUF3479: Domain of unknown function (DUF3479)"
+      "[pfam] ChlH_N: Magnesium chelatase ChlH N-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS04240",
@@ -181871,7 +181925,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[interpro] Domain of unknown function DUF15288",
-      "[pfam] Y1_Tnp: Transposase IS200 like"
+      "[pfam] Y1_Tnp: Transposase IS200 like",
+      "[pfam] DUF15288: Domain of unknown function (DUF15288)"
     ],
     "alternative_locus_tags": [
       "PMT0826",
@@ -182154,7 +182209,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[interpro] Domain of unknown function DUF15288",
-      "[pfam] Y1_Tnp: Transposase IS200 like"
+      "[pfam] Y1_Tnp: Transposase IS200 like",
+      "[pfam] DUF15288: Domain of unknown function (DUF15288)"
     ],
     "alternative_locus_tags": [
       "PMT0828",
@@ -182272,7 +182328,8 @@
       "[ncbi] transposase",
       "[interpro] Transposase IS200-like",
       "[interpro] Domain of unknown function DUF15288",
-      "[pfam] Y1_Tnp: Transposase IS200 like"
+      "[pfam] Y1_Tnp: Transposase IS200 like",
+      "[pfam] DUF15288: Domain of unknown function (DUF15288)"
     ],
     "alternative_locus_tags": [
       "PMT0830",
@@ -183258,7 +183315,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Protein of unknown function DUF19733",
-      "[pfam] DUF4278: Domain of unknown function (DUF4278)"
+      "[pfam] DUF4278: Domain of unknown function (DUF4278)",
+      "[pfam] DUF19733: Family of unknown function (DUF19733)"
     ],
     "alternative_locus_tags": [
       "PMT0840",
@@ -184349,7 +184407,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF9057",
-      "[pfam] RHH_5: CopG-like RHH_1 or ribbon-helix-helix domain, RHH_5"
+      "[pfam] RHH_5: CopG-like RHH_1 or ribbon-helix-helix domain, RHH_5",
+      "[pfam] DUF9057: Domain of unknown function (DUF9057)"
     ],
     "alternative_locus_tags": [
       "PMT0850",
@@ -186436,7 +186495,9 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF8648",
-      "[interpro] Domain of unknown function DUF8649"
+      "[interpro] Domain of unknown function DUF8649",
+      "[pfam] DUF8648: Domain of unknown function (DUF8648)",
+      "[pfam] DUF8649: Domain of unknown function (DUF8649)"
     ],
     "alternative_locus_tags": [
       "PMT0864",
@@ -188158,7 +188219,9 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF8932",
-      "[interpro] Domain of unknown function DUF8933"
+      "[interpro] Domain of unknown function DUF8933",
+      "[pfam] DUF8932: Domain of unknown function (DUF8932)",
+      "[pfam] DUF8933: Domain of unknown function (DUF8933)"
     ],
     "alternative_locus_tags": [
       "PMT0874",
@@ -189452,7 +189515,8 @@
     ],
     "alternate_functional_descriptions": [
       "[cyanorak] Predicted protein family PM-11",
-      "[ncbi] hypothetical protein"
+      "[ncbi] hypothetical protein",
+      "[pfam] PM_11: PM-11 family protein"
     ],
     "alternative_locus_tags": [
       "PMT0883",
@@ -190386,7 +190450,8 @@
       "[interpro] ABC-type amino acid transport system, ATPase component, HisP-type",
       "[interpro] Methionine import ATP-binding protein MetN-like",
       "[tcdb_best_hit] Glutamate porter [3.A.1.3.9] :: [tcdb_substrates] Glutamate",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] ABC_tran_CTD_2: ABC transporter ATP-binding protein C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0893",
@@ -191951,8 +192016,7 @@
     ],
     "pfam_ids": [
       "PF01740",
-      "PF00916",
-      "PF13792"
+      "PF00916"
     ],
     "pfam_ids_evidence": {
       "PF00916": "curated",
@@ -191970,9 +192034,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF13792": [
-        "cyanorak"
       ]
     },
     "product": "sulfate permease",
@@ -192807,7 +192868,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8948"
+      "[interpro] Domain of unknown function DUF8948",
+      "[pfam] DUF8948: Domain of unknown function (DUF8948)"
     ],
     "alternative_locus_tags": [
       "PMT0904",
@@ -195675,7 +195737,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[tigr_role] Not Found",
-      "[interpro] Domain of unknown function DUF19715"
+      "[interpro] Domain of unknown function DUF19715",
+      "[pfam] DUF19715: Domain of unknown function (DUF19715)"
     ],
     "alternative_locus_tags": [
       "PMT0932",
@@ -196457,7 +196520,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Protein of unknown function DUF3764",
-      "[pfam] DUF3764: Protein of unknown function (DUF3764)"
+      "[pfam] DUF3764: Domain of unknown function (DUF3764)"
     ],
     "alternative_locus_tags": [
       "PMT0939",
@@ -197773,7 +197836,7 @@
       "[tigr_role] Unclassified / Role category not yet assigned",
       "[interpro] Vancomycin resistance VanW",
       "[interpro] Glycopeptide antibiotic resistance protein",
-      "[pfam] VanW: VanW like protein"
+      "[pfam] VanW: Vancomycin resistance VanW"
     ],
     "alternative_locus_tags": [
       "PMT0954",
@@ -201213,7 +201276,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Protein of unknown function DUF19733",
-      "[pfam] DUF4278: Domain of unknown function (DUF4278)"
+      "[pfam] DUF4278: Domain of unknown function (DUF4278)",
+      "[pfam] DUF19733: Family of unknown function (DUF19733)"
     ],
     "alternative_locus_tags": [
       "PMT0989",
@@ -203246,7 +203310,8 @@
       "[eggnog] BRCA1 C Terminus (BRCT) domain",
       "[tigr_role] Cellular processes / Other",
       "[tigr_role] Transport and binding proteins / Unknown substrate",
-      "[interpro] Domain of unknown function DUF19722"
+      "[interpro] Domain of unknown function DUF19722",
+      "[pfam] DUF19722: Domain of unknown function (DUF19722)"
     ],
     "alternative_locus_tags": [
       "PMT1002",
@@ -203384,7 +203449,8 @@
       "[cog] cyaNOG: METABOLISM [G] Carbohydrate transport and metabolism",
       "[interpro] Glycosyl hydrolase family 57",
       "[interpro] Domain of unknown function DUF15046",
-      "[pfam] Glyco_hydro_57: Glycosyl hydrolase family 57"
+      "[pfam] Glyco_hydro_57: Glycosyl hydrolase family 57",
+      "[pfam] DUF15046: Domain of unknown function (DUF15046)"
     ],
     "alternative_locus_tags": [
       "PMT1003",
@@ -204164,7 +204230,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8671"
+      "[interpro] Domain of unknown function DUF8671",
+      "[pfam] DUF8671: Domain of unknown function (DUF8671)"
     ],
     "alternative_locus_tags": [
       "PMT1010",
@@ -205167,7 +205234,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8646"
+      "[interpro] Domain of unknown function DUF8646",
+      "[pfam] DUF8646: Domain of unknown function (DUF8646)"
     ],
     "alternative_locus_tags": [
       "PMT1015",
@@ -207419,7 +207487,8 @@
       "[cyanorak] possible Ets-domain",
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF19720"
+      "[interpro] Domain of unknown function DUF19720",
+      "[pfam] DUF19720: Domain of unknown function (DUF19720)"
     ],
     "alternative_locus_tags": [
       "PMT1033",
@@ -207993,7 +208062,8 @@
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[interpro] OsmC/Ohr conserved domain",
-      "[pfam] OsmC: OsmC-like protein"
+      "[pfam] OsmC: OsmC-like protein C-terminal domain",
+      "[pfam] OsmC_N_5: OsmC N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT1038",
@@ -210513,7 +210583,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19714"
+      "[interpro] Domain of unknown function DUF19714",
+      "[pfam] DUF19714: Domain of unknown function (DUF19714)"
     ],
     "alternative_locus_tags": [
       "PMT1054",
@@ -210663,7 +210734,7 @@
       "[hamap] tRNA uridine(34) hydroxylase [trhO]",
       "[ncbifam] oxygen-dependent tRNA uridine(34) hydroxylase TrhO",
       "[pfam] Rhodanese: Rhodanese-like domain",
-      "[pfam] Rhodanese_C: Rhodanase C-terminal",
+      "[pfam] Rhodanese_C: Rhodanese C-terminal",
       "[pfam] UPF0176_N: UPF0176 acylphosphatase like domain"
     ],
     "alternative_locus_tags": [
@@ -212587,7 +212658,8 @@
       "[kegg] glycerol dehydrogenase; glycerin dehydrogenase; NAD+-linked glycerol dehydrogenase",
       "[interpro] Alcohol dehydrogenase, iron-type/glycerol dehydrogenase GldA",
       "[interpro] Glycerol dehydrogenase",
-      "[pfam] Fe-ADH: Iron-containing alcohol dehydrogenase"
+      "[pfam] Fe-ADH: Iron-containing alcohol dehydrogenase",
+      "[pfam] GldA_C: GldA C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05710",
@@ -215629,7 +215701,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF9605"
+      "[interpro] Domain of unknown function DUF9605",
+      "[pfam] DUF9605: Domain of unknown function (DUF9605)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05775",
@@ -217430,7 +217503,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19725"
+      "[interpro] Domain of unknown function DUF19725",
+      "[pfam] DUF19725: Domain of unknown function (DUF19725)"
     ],
     "alternative_locus_tags": [
       "PMT1082",
@@ -218140,7 +218214,8 @@
       "[hamap] RecBCD enzyme subunit RecD [recD]",
       "[pfam] UvrD_C_2: UvrD-like helicase C-terminal domain",
       "[pfam] AAA_30: AAA domain",
-      "[pfam] AAA_19: AAA domain"
+      "[pfam] AAA_19: AAA domain",
+      "[pfam] DUF8943: Domain of unknown function (DUF8943)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05830",
@@ -219124,7 +219199,7 @@
       "[interpro] RecBCD enzyme subunit RecC, fourth domain",
       "[interpro] RecBCD enzyme subunit RecC, N-terminal domain",
       "[hamap] RecBCD enzyme subunit RecC [recC]",
-      "[pfam] Exonuc_V_gamma: Exodeoxyribonuclease V, gamma subunit",
+      "[pfam] RecC_N: RecC, N-terminal domain",
       "[pfam] RecC_C: RecC C-terminal domain",
       "[pfam] RecC_4th: RecBCD enzyme subunit RecC fourth domain"
     ],
@@ -220078,7 +220153,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] DUF28446: Repeat of unknown function (DUF28446)"
     ],
     "alternative_locus_tags": [
       "PMT1093",
@@ -221014,7 +221090,8 @@
       "[cog] COG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8650"
+      "[interpro] Domain of unknown function DUF8650",
+      "[pfam] DUF8650: Domain of unknown function (DUF8650)"
     ],
     "alternative_locus_tags": [
       "PMT1098",
@@ -223207,7 +223284,8 @@
       "[interpro] Replicase polyprotein 1ab-like",
       "[interpro] Domain of unknown function DUF19728",
       "[pfam] UvrD_C_2: UvrD-like helicase C-terminal domain",
-      "[pfam] AAA_30: AAA domain"
+      "[pfam] AAA_30: AAA domain",
+      "[pfam] DUF19728: Domain of unknown function (DUF19728)"
     ],
     "alternative_locus_tags": [
       "PMT1107",
@@ -224729,7 +224807,8 @@
       "[cog] COG: ER",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8935"
+      "[interpro] Domain of unknown function DUF8935",
+      "[pfam] DUF8935: Domain of unknown function (DUF8935)"
     ],
     "alternative_locus_tags": [
       "PMT1113",
@@ -224901,7 +224980,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8637"
+      "[interpro] Domain of unknown function DUF8637",
+      "[pfam] DUF8637: Domain of unknown function (DUF8637)"
     ],
     "alternative_locus_tags": [
       "PMT1114",
@@ -228276,7 +228356,8 @@
       "[interpro] RNA methyltransferase TrmJ/LasT",
       "[interpro] tRNA methyltransferase TrmJ, C-terminal domain",
       "[ncbifam] TrmJ/YjtD family RNA methyltransferase",
-      "[pfam] SpoU_methylase: SpoU rRNA Methylase family"
+      "[pfam] SpoU_methylase: SpoU rRNA Methylase family",
+      "[pfam] TrmJ_C: tRNA methyltransferase TrmJ, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT1132",
@@ -231111,7 +231192,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8657"
+      "[interpro] Domain of unknown function DUF8657",
+      "[pfam] DUF8657: Domain of unknown function (DUF8657)"
     ],
     "alternative_locus_tags": [
       "PMT1144",
@@ -231492,7 +231574,7 @@
       "[interpro] ABC transporter type 1, transmembrane domain MetI-like",
       "[tcdb_best_hit] Di- and tri-peptide transporter, DppBCDF with periplasmic substrate binding receptors, A1, A3, A5, A7 and A9, each with differing specificities for\u2026 [3.A.1.5.39] :: [tcdb_substrates] Dipeptide, tripeptide",
       "[pfam] BPD_transp_1: Binding-protein-dependent transport system inner membrane component",
-      "[pfam] BPD_transp_1_N: Binding-prot-dependent transport system membrane comp, N-term"
+      "[pfam] BPD_transp_3: ABC transporter type 1, GsiC-like"
     ],
     "alternative_locus_tags": [
       "AKG35_RS06140",
@@ -232337,7 +232419,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] High light-inducible protein HliA-D-like",
-      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein"
+      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein",
+      "[pfam] HliA: High light-inducible protein HliA"
     ],
     "alternative_locus_tags": [
       "AKG35_RS06180",
@@ -233002,7 +233085,6 @@
       }
     ],
     "pfam_ids": [
-      "PF12700",
       "PF25954",
       "PF25973"
     ],
@@ -233011,9 +233093,6 @@
       "PF25973": "signature"
     },
     "pfam_ids_source": {
-      "PF12700": [
-        "cyanorak"
-      ],
       "PF25954": [
         "interproscan"
       ],
@@ -236379,7 +236458,9 @@
       "[cog] COG: METABOLISM [C] Energy production and conversion",
       "[cog] COG: INFORMATION STORAGE AND PROCESSING [K] Transcription",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] Pmm1148_C: PMM1148 C-terminal domain",
+      "[pfam] Pmm1148_N: Pmm1148 N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT1167",
@@ -237850,7 +237931,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8669"
+      "[interpro] Protein of unknown function DUF8669",
+      "[pfam] DUF8669: Family of unknown function (DUF8669)"
     ],
     "alternative_locus_tags": [
       "PMT1172",
@@ -246189,7 +246271,8 @@
       "[cog] COG: METABOLISM [C] Energy production and conversion",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8679"
+      "[interpro] Domain of unknown function DUF8679",
+      "[pfam] DUF8679: Domain of unknown function (DUF8679)"
     ],
     "alternative_locus_tags": [
       "PMT1209",
@@ -246343,7 +246426,8 @@
       "[cog] COG: METABOLISM [C] Energy production and conversion",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8638"
+      "[interpro] Domain of unknown function DUF8638",
+      "[pfam] DUF8638: Domain of unknown function (DUF8638)"
     ],
     "alternative_locus_tags": [
       "PMT1211",
@@ -247001,7 +247085,6 @@
     ],
     "pfam_ids": [
       "PF00916",
-      "PF13792",
       "PF01740"
     ],
     "pfam_ids_evidence": {
@@ -247020,9 +247103,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF13792": [
-        "cyanorak"
       ]
     },
     "product": "sulfate transporter family protein",
@@ -255651,7 +255731,8 @@
       "[interpro] Penicillin-binding protein, dimerisation domain",
       "[interpro] Class D beta-lactamase/transpeptidase",
       "[pfam] PBP_dimer: Penicillin-binding Protein dimerisation domain",
-      "[pfam] Transpeptidase: Penicillin binding protein transpeptidase domain"
+      "[pfam] Transpeptidase: Penicillin binding protein transpeptidase domain",
+      "[pfam] MrdA_TM_N: MrdA N-terminal transmembrane helix"
     ],
     "alternative_locus_tags": [
       "AKG35_RS06670",
@@ -256055,7 +256136,8 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [R] General function prediction only",
       "[interpro] CAAX prenyl protease 2/Lysostaphin resistance protein A-like domain",
       "[interpro] Domain of unknown function DUF8675",
-      "[pfam] Rce1-like: Type II CAAX prenyl endopeptidase Rce1-like"
+      "[pfam] Rce1-like: Type II CAAX prenyl endopeptidase Rce1-like",
+      "[pfam] DUF8675: Domain of unknown function (DUF8675)"
     ],
     "alternative_locus_tags": [
       "PMT1251",
@@ -256828,15 +256910,12 @@
       }
     ],
     "pfam_ids": [
-      "PF13147",
       "PF01979"
     ],
     "pfam_ids_source": {
       "PF01979": [
+        "cyanorak",
         "eggnog"
-      ],
-      "PF13147": [
-        "cyanorak"
       ]
     },
     "product": "putative dihydroorotase",
@@ -257169,7 +257248,9 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF15024",
-      "[interpro] Domain of unknown function DUF24318"
+      "[interpro] Domain of unknown function DUF24318",
+      "[pfam] DUF15024: Domain of unknown function (DUF15024)",
+      "[pfam] DUF24318: Domain of unknown function (DUF24318)"
     ],
     "alternative_locus_tags": [
       "PMT1255",
@@ -257789,7 +257870,8 @@
       "[cog] COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8631"
+      "[interpro] Domain of unknown function DUF8631",
+      "[pfam] DUF8631: Domain of unknown function (DUF8631)"
     ],
     "alternative_locus_tags": [
       "PMT1258",
@@ -260059,7 +260141,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8666"
+      "[interpro] Domain of unknown function DUF8666",
+      "[pfam] DUF8666: Domain of unknown function (DUF8666)"
     ],
     "alternative_locus_tags": [
       "PMT1266",
@@ -264833,7 +264916,9 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown"
+      "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
+      "[pfam] OB_PatR_C: Cyanobacterial OB-fold-like RNA-binding domain, C-terminal",
+      "[pfam] OB_PatR_N: PatR RNA-binding protein, N-terminal OB-fold domain"
     ],
     "alternative_locus_tags": [
       "PMT1292",
@@ -266593,7 +266678,8 @@
       "[interpro] NfeD-like, C-terminal domain",
       "[interpro] Membrane-associated protease and related proteins",
       "[interpro] RP252-like, transmembrane domain",
-      "[pfam] NfeD: NfeD-like C-terminal, partner-binding domain"
+      "[pfam] NfeD: NfeD-like C-terminal, partner-binding domain",
+      "[pfam] RP252: RP252-like transmembrane domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS06925",
@@ -268112,7 +268198,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[pfam] SH3_1: SH3 domain"
+      "[pfam] SH3_1: SH3 domain",
+      "[pfam] PSHCP: PSHCP Tudor-like domain"
     ],
     "alternative_locus_tags": [
       "PMT1307",
@@ -268840,7 +268927,8 @@
       "[tigr_role] Hypothetical proteins / Conserved",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF10367"
+      "[interpro] Domain of unknown function DUF10367",
+      "[pfam] DUF10367: Domain of unknown function (DUF10367)"
     ],
     "alternative_locus_tags": [
       "PMT1310",
@@ -271727,7 +271815,6 @@
     ],
     "pfam_ids": [
       "PF00355",
-      "PF08802",
       "PF25471"
     ],
     "pfam_ids_evidence": {
@@ -271739,9 +271826,6 @@
         "cyanorak",
         "eggnog",
         "interproscan"
-      ],
-      "PF08802": [
-        "cyanorak"
       ],
       "PF25471": [
         "interproscan"
@@ -281417,7 +281501,8 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] DciA-like",
       "[interpro] DciA, C-terminal zinc-binding domain",
-      "[pfam] DciA: Dna[CI] antecedent, DciA"
+      "[pfam] DciA: Dna[CI] antecedent, DciA",
+      "[pfam] DciA_cyano_C: Cyanobacterial DciA, C-terminal zinc-binding domain"
     ],
     "alternative_locus_tags": [
       "PMT1362",
@@ -281576,7 +281661,9 @@
       "[interpro] Lipid A-modifying glycosyltransferase 83",
       "[interpro] RgtA-type glycosyltransferase-like, C-terminal domain",
       "[interpro] Domain of unknown function DUF20112",
-      "[pfam] PMT_2: Dolichyl-phosphate-mannose-protein mannosyltransferase"
+      "[pfam] PMT_2: Dolichyl-phosphate-mannose-protein mannosyltransferase",
+      "[pfam] GT_RgtA_C: Cyanobacterial RgtA-type glycosyltransferase, C-terminal domain",
+      "[pfam] DUF20112: Domain of unknown function (DUF20112)"
     ],
     "alternative_locus_tags": [
       "PMT1363",
@@ -283450,7 +283537,9 @@
       "[interpro] AAA domain-containing protein Ycf46",
       "[interpro] SpoVK-like AAA ATPase, second domain",
       "[interpro] SpoVK-like AAA ATPase, N-terminal",
-      "[pfam] AAA: ATPase family associated with various cellular activities (AAA)"
+      "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
+      "[pfam] AAA_SpoVK_N: SpoVK-like AAA ATPase, N-terminal domain",
+      "[pfam] AAA_SpoVK_2nd: SpoVK-like AAA ATPase, second domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS07305",
@@ -285553,7 +285642,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Protein of unknown function DUF19724"
+      "[interpro] Protein of unknown function DUF19724",
+      "[pfam] DUF19724: Family of unknown function (DUF19724)"
     ],
     "alternative_locus_tags": [
       "PMT1380",
@@ -285706,7 +285796,8 @@
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Transposase-derived protein, C-terminal domain"
+      "[interpro] Transposase-derived protein, C-terminal domain",
+      "[pfam] Tnp_cyano_C: Cyanobacterial transposase-derived protein, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT1381",
@@ -289826,7 +289917,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF15188"
+      "[interpro] Domain of unknown function DUF15188",
+      "[pfam] DUF15188: Domain of unknown function (DUF15188)"
     ],
     "alternative_locus_tags": [
       "PMT1406",
@@ -292634,7 +292726,8 @@
       "[pfam] HisKA: His Kinase A (phospho-acceptor) domain",
       "[pfam] HAMP: HAMP domain",
       "[pfam] HATPase_c: Histidine kinase-, DNA gyrase B-, and HSP90-like ATPase",
-      "[pfam] PAS_4: PAS fold"
+      "[pfam] PAS_4: PAS fold",
+      "[pfam] PAS_NblS: NblS/DspA histidine kinase PAS-like sensory domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS07560",
@@ -296737,7 +296830,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF15030"
+      "[interpro] Domain of unknown function DUF15030",
+      "[pfam] DUF15030: Domain of unknown function (DUF15030)"
     ],
     "alternative_locus_tags": [
       "PMT1432",
@@ -298799,7 +298893,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF19717"
+      "[interpro] Domain of unknown function DUF19717",
+      "[pfam] DUF19717: Domain of unknown function (DUF19717)"
     ],
     "alternative_locus_tags": [
       "PMT1443",
@@ -299481,7 +299576,7 @@
       "[interpro] BPG-independent PGAM, core domain",
       "[hamap] 2,3-bisphosphoglycerate-independent phosphoglycerate mutase [gpmI]",
       "[pfam] Metalloenzyme: Metalloenzyme superfamily",
-      "[pfam] iPGM_N: BPG-independent PGAM N-terminus (iPGM_N)",
+      "[pfam] iPGM_core: BPG-independent PGAM, core domain",
       "[pfam] Phosphodiest: Type I phosphodiesterase / nucleotide pyrophosphatase"
     ],
     "alternative_locus_tags": [
@@ -304571,7 +304666,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8621"
+      "[interpro] Domain of unknown function DUF8621",
+      "[pfam] DUF8621: Domain of unknown function (DUF8621)"
     ],
     "alternative_locus_tags": [
       "PMT1464",
@@ -307827,7 +307923,8 @@
       "[cog] COG: QR",
       "[interpro] Methyltransferase type 12",
       "[pfam] Methyltransf_12: Methyltransferase domain",
-      "[pfam] Methyltransf_31: Methyltransferase domain"
+      "[pfam] Methyltransf_31: Methyltransferase domain",
+      "[pfam] CpcM_C: CpcM C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS07860",
@@ -308028,7 +308125,7 @@
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [D] Cell cycle control, cell division, chromosome partitioning",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [D] Cell cycle control, cell division, chromosome partitioning",
       "[interpro] Probable peptidoglycan glycosyltransferase FtsW/RodA",
-      "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
+      "[pfam] FTSW_RODA_SPOVE: Probable peptidoglycan glycosyltransferase FtsW/RodA"
     ],
     "alternative_locus_tags": [
       "AKG35_RS07865",
@@ -308957,7 +309054,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Cyanobacterial NIF11-like domain"
+      "[interpro] Cyanobacterial NIF11-like domain",
+      "[pfam] NIF11-like_cyano: Cyanobacterial NIF11-like domain"
     ],
     "alternative_locus_tags": [
       "PMT1480",
@@ -309614,7 +309712,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF12900"
+      "[interpro] Domain of unknown function DUF12900",
+      "[pfam] DUF12900: Domain of unknown function (DUF12900)"
     ],
     "alternative_locus_tags": [
       "PMT1483",
@@ -310873,7 +310972,8 @@
       "[interpro] Ski2-like RNA helicase, middle domain",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
       "[pfam] DEAD: DEAD/DEAH box helicase",
-      "[pfam] DSHCT: DSHCT (NUC185) domain"
+      "[pfam] DSHCT: DSHCT (NUC185) domain",
+      "[pfam] Ski2_cyano_M: Cyanobacterial Ski2-like RNA helicase, middle domain"
     ],
     "alternative_locus_tags": [
       "PMT1487",
@@ -314959,7 +315059,6 @@
     ],
     "pfam_ids": [
       "PF04055",
-      "PF13394",
       "PF13353",
       "PF21016"
     ],
@@ -314975,9 +315074,6 @@
       ],
       "PF13353": [
         "eggnog"
-      ],
-      "PF13394": [
-        "cyanorak"
       ],
       "PF21016": [
         "interproscan"
@@ -315027,7 +315123,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] High light-inducible protein HliA-D-like",
-      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein"
+      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein",
+      "[pfam] HliA: High light-inducible protein HliA"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08015",
@@ -315218,7 +315315,8 @@
       "[ncbifam] DNA-directed RNA polymerase subunit beta''",
       "[pfam] RNA_pol_Rpb1_5: RNA polymerase Rpb1, domain 5",
       "[pfam] RNA_pol_Rpb1_4: RNA polymerase Rpb1, domain 4",
-      "[pfam] RNA_pol_Rpb1_3: RNA polymerase Rpb1, domain 3"
+      "[pfam] RNA_pol_Rpb1_3: RNA polymerase Rpb1, domain 3",
+      "[pfam] RpoC_C: DNA-directed RNA polymerase subunit beta'-like, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08020",
@@ -319364,7 +319462,8 @@
       "[interpro] Domain of unknown function DUF1254",
       "[interpro] Domain of unknown function DUF14418",
       "[pfam] DUF1254: Protein of unknown function (DUF1254)",
-      "[pfam] DUF1214: Protein of unknown function (DUF1214)"
+      "[pfam] DUF1214: Protein of unknown function (DUF1214)",
+      "[pfam] DUF14418: Domain of unknown function (DUF14418)"
     ],
     "alternative_locus_tags": [
       "PMT1521",
@@ -319532,7 +319631,8 @@
       "[interpro] Domain of unknown function DUF1254",
       "[interpro] Domain of unknown function DUF14418",
       "[pfam] DUF1214: Protein of unknown function (DUF1214)",
-      "[pfam] DUF1254: Protein of unknown function (DUF1254)"
+      "[pfam] DUF1254: Protein of unknown function (DUF1254)",
+      "[pfam] DUF14418: Domain of unknown function (DUF14418)"
     ],
     "alternative_locus_tags": [
       "PMT1522",
@@ -319698,7 +319798,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF11374"
+      "[interpro] Domain of unknown function DUF11374",
+      "[pfam] DUF11374: Domain of unknown function (DUF11374)"
     ],
     "alternative_locus_tags": [
       "PMT1523",
@@ -321668,7 +321769,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF11385"
+      "[interpro] Domain of unknown function DUF11385",
+      "[pfam] DUF11385: Domain of unknown function (DUF11385)"
     ],
     "alternative_locus_tags": [
       "PMT1535",
@@ -321804,7 +321906,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF11385"
+      "[interpro] Domain of unknown function DUF11385",
+      "[pfam] DUF11385: Domain of unknown function (DUF11385)"
     ],
     "alternative_locus_tags": [
       "PMT1536",
@@ -323103,7 +323206,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8940"
+      "[interpro] Domain of unknown function DUF8940",
+      "[pfam] DUF8940: Domain of unknown function (DUF8940)"
     ],
     "alternative_locus_tags": [
       "PMT1543",
@@ -326550,7 +326654,8 @@
       "[cog] COG: METABOLISM [F] Nucleotide transport and metabolism",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8941"
+      "[interpro] Domain of unknown function DUF8941",
+      "[pfam] DUF8941: Domain of unknown function (DUF8941)"
     ],
     "alternative_locus_tags": [
       "PMT1559",
@@ -328278,14 +328383,6 @@
         "taxonomic_level": "Cyanobacteria"
       }
     ],
-    "pfam_ids": [
-      "PF12700"
-    ],
-    "pfam_ids_source": {
-      "PF12700": [
-        "cyanorak"
-      ]
-    },
     "product": "ABC exporter membrane fusion, DevB family",
     "product_cyanorak": "ABC exporter membrane fusion, DevB family",
     "product_source": "cyanorak",
@@ -332177,7 +332274,7 @@
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [U] Intracellular trafficking, secretion, and vesicular transport",
-      "[pfam] PD40: WD40-like Beta Propeller Repeat"
+      "[pfam] PD40: TolB beta propeller domain"
     ],
     "alternative_locus_tags": [
       "PMT1593",
@@ -333510,7 +333607,7 @@
       "[cog] cyaNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[interpro] Peptidase S9, prolyl oligopeptidase, catalytic domain",
       "[pfam] Peptidase_S9: Prolyl oligopeptidase family",
-      "[pfam] PD40: WD40-like Beta Propeller Repeat"
+      "[pfam] PD40: TolB beta propeller domain"
     ],
     "alternative_locus_tags": [
       "PMT1602",
@@ -336276,8 +336373,6 @@
       }
     ],
     "pfam_ids": [
-      "PF12700",
-      "PF16576",
       "PF25944",
       "PF25917"
     ],
@@ -336286,12 +336381,6 @@
       "PF25944": "curated"
     },
     "pfam_ids_source": {
-      "PF12700": [
-        "cyanorak"
-      ],
-      "PF16576": [
-        "cyanorak"
-      ],
       "PF25917": [
         "interproscan",
         "uniprot"
@@ -336368,7 +336457,8 @@
       "[pfam] AAA: ATPase family associated with various cellular activities (AAA)",
       "[pfam] MgsA_C: MgsA AAA+ ATPase C terminal",
       "[pfam] AAA_assoc_2: AAA C-terminal domain",
-      "[pfam] RuvB_N: Holliday junction DNA helicase RuvB P-loop domain"
+      "[pfam] RuvB_N: Holliday junction DNA helicase RuvB P-loop domain",
+      "[pfam] MgsA_3rd: MgsA AAA+ ATPase third domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08625",
@@ -337419,7 +337509,8 @@
       "[kegg] pantothenate kinase; pantothenate kinase (phosphorylating); pantothenic acid kinase; ATP:pantothenate 4'-phosphotransferase; D-pantothenate kinase",
       "[interpro] Type III pantothenate kinase",
       "[interpro] Domain of unknown function DUF8947",
-      "[pfam] Pan_kinase: Type III pantothenate kinase"
+      "[pfam] Pan_kinase: Type III pantothenate kinase",
+      "[pfam] DUF8947: Domain of unknown function (DUF8947)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08650",
@@ -339567,7 +339658,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8682"
+      "[interpro] Domain of unknown function DUF8682",
+      "[pfam] DUF8682: Domain of unknown function (DUF8682)"
     ],
     "alternative_locus_tags": [
       "PMT1632",
@@ -339707,7 +339799,8 @@
       "[cog] COG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8665"
+      "[interpro] Domain of unknown function DUF8665",
+      "[pfam] DUF8665: Domain of unknown function (DUF8665)"
     ],
     "alternative_locus_tags": [
       "PMT1633",
@@ -339850,7 +339943,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Protein of unknown function DUF8946"
+      "[interpro] Protein of unknown function DUF8946",
+      "[pfam] DUF8946: Family of unknown function (DUF8946)"
     ],
     "alternative_locus_tags": [
       "PMT1634",
@@ -340614,7 +340708,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8663"
+      "[interpro] Domain of unknown function DUF8663",
+      "[pfam] DUF8663: Domain of unknown function (DUF8663)"
     ],
     "alternative_locus_tags": [
       "PMT1638",
@@ -340769,7 +340864,8 @@
       "[pfam] HrpB_C: ATP-dependent helicase C-terminal",
       "[pfam] WHD_HA2: Helicase associated domain (HA2), winged-helix",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
-      "[pfam] CON_HrpB: ATP-dependent RNA helicase HrpB, connector region"
+      "[pfam] CON_HrpB: ATP-dependent RNA helicase HrpB, connector region",
+      "[pfam] HrpB_mid: HrpB middle domain"
     ],
     "alternative_locus_tags": [
       "PMT1639",
@@ -344886,7 +344982,6 @@
       }
     ],
     "pfam_ids": [
-      "PF13659",
       "PF05175",
       "PF13847"
     ],
@@ -344898,9 +344993,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF13659": [
-        "cyanorak"
       ],
       "PF13847": [
         "eggnog"
@@ -344952,7 +345044,7 @@
       "[interpro] DNA recombination-mediator protein A",
       "[interpro] Smf/DprA, SLOG domain",
       "[pfam] DNA_processg_A: DNA recombination-mediator protein A",
-      "[pfam] HHH_5: Helix-hairpin-helix domain"
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08885",
@@ -347835,7 +347927,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Cyanobacterial helix-turn-helix domain"
+      "[interpro] Cyanobacterial helix-turn-helix domain",
+      "[pfam] HTH_cyano: Cyanobacterial helix-turn-helix domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08955",
@@ -352002,7 +352095,9 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF8655",
-      "[interpro] Domain of unknown function DUF8656"
+      "[interpro] Domain of unknown function DUF8656",
+      "[pfam] DUF8655: Domain of unknown function (DUF8655)",
+      "[pfam] DUF8656: Domain of unknown function (DUF8656)"
     ],
     "alternative_locus_tags": [
       "PMT1692",
@@ -352457,7 +352552,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8953"
+      "[interpro] Domain of unknown function DUF8953",
+      "[pfam] DUF8953: Domain of unknown function (DUF8953)"
     ],
     "alternative_locus_tags": [
       "PMT1696",
@@ -353037,7 +353133,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8658"
+      "[interpro] Domain of unknown function DUF8658",
+      "[pfam] DUF8658: Domain of unknown function (DUF8658)"
     ],
     "alternative_locus_tags": [
       "PMT1702",
@@ -353675,7 +353772,8 @@
       "[cog] COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF12884"
+      "[interpro] Domain of unknown function DUF12884",
+      "[pfam] DUF12884: Domain of unknown function (DUF12884)"
     ],
     "alternative_locus_tags": [
       "PMT1705",
@@ -354486,7 +354584,7 @@
       "[hamap] Peptidoglycan glycosyltransferase MrdB [mrdB]",
       "[ncbifam] rod shape-determining protein RodA",
       "[tigr_role_inferred] Cell envelope / Biosynthesis and degradation of murein sacculus and peptidoglycan",
-      "[pfam] FTSW_RODA_SPOVE: Cell cycle protein"
+      "[pfam] FTSW_RODA_SPOVE: Probable peptidoglycan glycosyltransferase FtsW/RodA"
     ],
     "alternative_locus_tags": [
       "PMT1708",
@@ -354754,7 +354852,8 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [T] Signal transduction mechanisms",
       "[interpro] Signal transduction histidine kinase, dimerisation/phosphoacceptor domain",
       "[interpro] Domain of unknown function DUF8628",
-      "[pfam] HisKA: His Kinase A (phospho-acceptor) domain"
+      "[pfam] HisKA: His Kinase A (phospho-acceptor) domain",
+      "[pfam] DUF8628: Domain of unknown function (DUF8628)"
     ],
     "alternative_locus_tags": [
       "PMT1709",
@@ -355338,7 +355437,6 @@
       "[kegg] anthranilate synthase; anthranilate synthetase; chorismate lyase; chorismate pyruvate-lyase (amino-accepting); TrpE",
       "[interpro] Anthranilate synthase-like domain",
       "[interpro] Anthranilate synthase component I-like",
-      "[pfam] Anth_synt_I_N: Anthranilate synthase component I, N terminal region",
       "[pfam] Chorismate_bind: chorismate binding enzyme"
     ],
     "alternative_locus_tags": [
@@ -355747,7 +355845,6 @@
       }
     ],
     "pfam_ids": [
-      "PF04715",
       "PF00425"
     ],
     "pfam_ids_evidence": {
@@ -355758,11 +355855,6 @@
         "cyanorak",
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF04715": [
-        "cyanorak",
-        "eggnog",
         "uniprot"
       ]
     },
@@ -357120,7 +357212,8 @@
       "[ncbifam] ATP-dependent sacrificial sulfur transferase LarE",
       "[tigr_role_inferred] Hypothetical proteins / Conserved",
       "[pfam] Asn_synthase: Asparagine synthase",
-      "[pfam] NAD_synthase: NAD synthase"
+      "[pfam] NAD_synthase: NAD synthase",
+      "[pfam] LarE_C: LarE C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT1717",
@@ -357573,8 +357666,8 @@
       "[interpro] Rhodanese-like domain",
       "[interpro] ThiF/MoeB/HesA family",
       "[ncbifam] molybdopterin-synthase adenylyltransferase MoeB",
-      "[pfam] Rhodanese: Rhodanese-like domain",
-      "[pfam] ThiF: ThiF family"
+      "[pfam] ThiF: ThiF family",
+      "[pfam] Rhodanese: Rhodanese-like domain"
     ],
     "alternative_locus_tags": [
       "PMT1719",
@@ -357756,9 +357849,8 @@
       }
     ],
     "pfam_ids": [
-      "PF05237",
-      "PF00581",
-      "PF00899"
+      "PF00899",
+      "PF00581"
     ],
     "pfam_ids_evidence": {
       "PF00581": "curated",
@@ -357774,9 +357866,6 @@
         "cyanorak",
         "eggnog",
         "interproscan"
-      ],
-      "PF05237": [
-        "cyanorak"
       ]
     },
     "product": "molybdopterin biosynthesis protein MoeB",
@@ -358854,7 +358943,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
       "[interpro] Domain of unknown function DUF8945",
-      "[pfam] Helicase_C_2: Helicase C-terminal domain"
+      "[pfam] Helicase_C_2: Helicase C-terminal domain",
+      "[pfam] DUF8945: Domain of unknown function (DUF8945)"
     ],
     "alternative_locus_tags": [
       "PMT1725",
@@ -366496,7 +366586,8 @@
       "[interpro] Large ribosomal subunit protein uL15",
       "[interpro] Ribosomal protein uL15, N-terminal region",
       "[hamap] Large ribosomal subunit protein uL15 [rplO]",
-      "[pfam] Ribosomal_L27A: Ribosomal proteins 50S-L15, 50S-L18e, 60S-L27A"
+      "[pfam] Ribosomal_L27A: Ribosomal proteins 50S-L15, 50S-L18e, 60S-L27A",
+      "[pfam] Ribosomal_uL15_N: Ribosomal protein uL15, N-terminal region"
     ],
     "alternative_locus_tags": [
       "PMT1749",
@@ -371008,7 +371099,8 @@
       "[interpro] HNH nuclease",
       "[interpro] HNH endonuclease-associated, N-terminal domain",
       "[pfam] HNH: HNH endonuclease",
-      "[pfam] HNH_5: HNH endonuclease"
+      "[pfam] HNH_5: HNH endonuclease",
+      "[pfam] HNH_assoc_N: HNH endonuclease-associated, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS09425",
@@ -371845,7 +371937,8 @@
       "[interpro] Glycosyltransferase 2-like",
       "[interpro] Glycosyltransferase 2",
       "[interpro] GtrB-like, C-terminal hairpin",
-      "[pfam] Glycos_transf_2: Glycosyl transferase family 2"
+      "[pfam] Glycos_transf_2: Glycosyl transferase family 2",
+      "[pfam] GtrB_C: GtrB C-terminal hairpin"
     ],
     "alternative_locus_tags": [
       "PMT1766",
@@ -375269,7 +375362,8 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Phosphodiester glycosidase",
       "[interpro] Domain of unknown function DUF19730",
-      "[pfam] NAGPA: Phosphodiester glycosidase"
+      "[pfam] NAGPA: Phosphodiester glycosidase",
+      "[pfam] DUF19730: Domain of unknown function (DUF19730)"
     ],
     "alternative_locus_tags": [
       "PMT1778",
@@ -379064,7 +379158,8 @@
       "[ncbifam] TIGR03960 family B12-binding radical SAM protein",
       "[pfam] DUF2344: Uncharacterized protein conserved in bacteria (DUF2344)",
       "[pfam] Radical_SAM: Radical SAM superfamily",
-      "[pfam] Radical_SAM_N2: Radical SAM proteins, N-terminal"
+      "[pfam] Radical_SAM_N2: Radical SAM proteins, N-terminal",
+      "[pfam] DUF19705: Domain of unknown function (DUF19705)"
     ],
     "alternative_locus_tags": [
       "PMT1790",
@@ -379702,7 +379797,8 @@
       "[interpro] Tetrapyrrole and bacteriochlorophyll biosynthesis methyltransferases-like",
       "[interpro] Photosystem II high light acclimation Slr0320-like",
       "[ncbifam] photosystem II high light acclimation radical SAM protein",
-      "[pfam] Radical_SAM: Radical SAM superfamily"
+      "[pfam] Radical_SAM: Radical SAM superfamily",
+      "[pfam] Slr0320_N: Slr0320-like N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT1794",
@@ -381785,7 +381881,8 @@
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF18281"
+      "[interpro] Domain of unknown function DUF18281",
+      "[pfam] DUF18281: Domain of unknown function (DUF18281)"
     ],
     "alternative_locus_tags": [
       "PMT1801",
@@ -382399,7 +382496,8 @@
       "[cog] COG: METABOLISM [C] Energy production and conversion",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8635"
+      "[interpro] Protein of unknown function DUF8635",
+      "[pfam] DUF8635: Family of unknown function (DUF8635)"
     ],
     "alternative_locus_tags": [
       "PMT1804",
@@ -387447,7 +387545,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[tigr_role] Cell envelope / Other",
-      "[interpro] Domain of unknown function DUF19712"
+      "[interpro] Domain of unknown function DUF19712",
+      "[pfam] DUF19712: Domain of unknown function (DUF19712)"
     ],
     "alternative_locus_tags": [
       "PMT1827",
@@ -388600,7 +388699,9 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] DUF3084, N-terminal",
       "[interpro] DUF3084-associated, C-terminal helical hairpin",
-      "[pfam] DUF3084: Protein of unknown function (DUF3084)"
+      "[pfam] DUF3084: Protein of unknown function (DUF3084)",
+      "[pfam] DUF3084_C: DUF3084-associated C-terminal helical hairpin",
+      "[pfam] Alr4393_2nd: Alr4393 second domain"
     ],
     "alternative_locus_tags": [
       "PMT1832",
@@ -390181,7 +390282,8 @@
       "[pfam] Alpha-mann_mid: Alpha mannosidase middle domain",
       "[pfam] Glyco_hydro_38C: Glycosyl hydrolases family 38 C-terminal domain",
       "[pfam] Glyco_hydro_38N: Glycosyl hydrolases family 38 N-terminal domain",
-      "[pfam] Glyco_hydro_38: Glycosyl hydrolases family 38 C-terminal domain 1"
+      "[pfam] Glyco_hydro_38: Glycosyl hydrolases family 38 C-terminal domain 1",
+      "[pfam] DUF15070: Domain of unknown function (DUF15070)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS09850",
@@ -391209,7 +391311,7 @@
       "[ncbifam] competence/damage-inducible protein A",
       "[ncbifam] nicotinamide-nucleotide amidohydrolase family protein",
       "[ncbifam] CinA family nicotinamide mononucleotide deamidase-related protein",
-      "[pfam] CinA: Competence-damaged protein",
+      "[pfam] CinA: CinA C-terminal domain",
       "[pfam] MoCF_biosynth: Probable molybdopterin binding domain",
       "[pfam] CinA_KH: Damage-inducible protein CinA KH domain"
     ],
@@ -396621,9 +396723,9 @@
       "[interpro] RecB family nuclease, TM0106, putative",
       "[interpro] MrfB-like, ribonuclease H-like domain",
       "[ncbifam] TM0106 family RecB-like putative nuclease",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
       "[pfam] RNase_H_2: RNase_H superfamily",
-      "[pfam] Cas_Cas4: Domain of unknown function DUF83"
+      "[pfam] Cas_Cas4: Na2/Cas4 DUF83"
     ],
     "alternative_locus_tags": [
       "PMT1870",
@@ -400913,7 +401015,8 @@
       "[interpro] Gluconeogenesis factor",
       "[hamap] Gluconeogenesis factor",
       "[ncbifam] uridine diphosphate-N-acetylglucosamine-binding protein YvcK",
-      "[pfam] CofD: 2-phospho-L-lactate transferase CofD"
+      "[pfam] CofD: 2-phospho-L-lactate transferase CofD",
+      "[pfam] GNGF_N: Putative gluconeogenesis factor, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT1890",
@@ -402094,7 +402197,8 @@
       "[interpro] Rubredoxin-like domain",
       "[interpro] Rubredoxin domain",
       "[interpro] Rubredoxin electron transfer",
-      "[pfam] Rubredoxin: Rubredoxin"
+      "[pfam] Rubredoxin: Rubredoxin",
+      "[pfam] Rubredoxin_C: Rubredoxin, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS10130",
@@ -403346,7 +403450,8 @@
       "[ncbifam] bifunctional aldolase/short-chain dehydrogenase",
       "[pfam] Aldolase_II: Class II Aldolase and Adducin N-terminal domain",
       "[pfam] adh_short: short chain dehydrogenase",
-      "[pfam] adh_short_C2: Enoyl-(Acyl carrier protein) reductase"
+      "[pfam] adh_short_C2: Enoyl-(Acyl carrier protein) reductase",
+      "[pfam] Aldolase_II_2: Aldolase class II, second domain"
     ],
     "alternative_locus_tags": [
       "PMT1902",
@@ -404635,7 +404740,6 @@
     ],
     "pfam_ids": [
       "PF01370",
-      "PF13950",
       "PF16363"
     ],
     "pfam_ids_evidence": {
@@ -404645,9 +404749,6 @@
       "PF01370": [
         "cyanorak",
         "eggnog"
-      ],
-      "PF13950": [
-        "cyanorak"
       ],
       "PF16363": [
         "eggnog",
@@ -405181,7 +405282,8 @@
       "[pfam] CBS: CBS domain",
       "[pfam] DHH: DHH family, N-terminal domain",
       "[pfam] DHHA1: DHHA1 domain",
-      "[pfam] PolyA_pol_RNAbd: Probable RNA and SrmB- binding site of polymerase A"
+      "[pfam] PolyA_pol_RNAbd: Probable RNA and SrmB- binding site of polymerase A",
+      "[pfam] DUF19726: Domain of unknown function (DUF19726)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS10190",
@@ -409081,7 +409183,8 @@
       "[interpro] Glycosyltransferase 2",
       "[interpro] GtrB-like, C-terminal hairpin",
       "[tcdb_best_hit] GtrB of 318 aas and 2 TMSs. [4.D.1.1.14]",
-      "[pfam] Glycos_transf_2: Glycosyl transferase family 2"
+      "[pfam] Glycos_transf_2: Glycosyl transferase family 2",
+      "[pfam] GtrB_C: GtrB C-terminal hairpin"
     ],
     "alternative_locus_tags": [
       "PMT1934",
@@ -409882,7 +409985,8 @@
       "[interpro] FAD-binding domain, PCMH-type",
       "[interpro] Domain of unknown function DUF19731",
       "[pfam] FAD_binding_4: FAD binding domain",
-      "[pfam] FAD-oxidase_C: FAD linked oxidases, C-terminal domain"
+      "[pfam] FAD-oxidase_C: FAD linked oxidases, C-terminal domain",
+      "[pfam] DUF19731: Domain of unknown function (DUF19731)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS10325",
@@ -411477,7 +411581,8 @@
       "[cog] COG: METABOLISM [G] Carbohydrate transport and metabolism",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8661"
+      "[interpro] Protein of unknown function DUF8661",
+      "[pfam] DUF8661: Family of unknown function (DUF8661)"
     ],
     "alternative_locus_tags": [
       "PMT1947",
@@ -411630,7 +411735,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8670"
+      "[interpro] Domain of unknown function DUF8670",
+      "[pfam] DUF8670: Domain of unknown function (DUF8670)"
     ],
     "alternative_locus_tags": [
       "PMT1948",
@@ -417909,7 +418015,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Protein of unknown function DUF8620"
+      "[interpro] Protein of unknown function DUF8620",
+      "[pfam] DUF8620: Family of unknown function (DUF8620)"
     ],
     "alternative_locus_tags": [
       "PMT1972",
@@ -418036,7 +418143,7 @@
       "[interpro] Epimerase-like, C-terminal domain",
       "[ncbifam] TIGR01777 family oxidoreductase",
       "[pfam] NAD_binding_10: NAD(P)H-binding",
-      "[pfam] DUF1731: Domain of unknown function (DUF1731)",
+      "[pfam] DUF1731: Epimerase-like, C-terminal domain",
       "[pfam] Epimerase: NAD dependent epimerase/dehydratase family"
     ],
     "alternative_locus_tags": [
@@ -418726,7 +418833,8 @@
       "[interpro] Lipid A-modifying glycosyltransferase 83",
       "[interpro] Domain of unknown function DUF15142",
       "[pfam] PMT_2: Dolichyl-phosphate-mannose-protein mannosyltransferase",
-      "[pfam] PMT: Dolichyl-phosphate-mannose-protein mannosyltransferase"
+      "[pfam] PMT: Dolichyl-phosphate-mannose-protein mannosyltransferase",
+      "[pfam] DUF15142: Domain of unknown function (DUF15142)"
     ],
     "alternative_locus_tags": [
       "PMT1976",
@@ -418974,7 +419082,8 @@
       "[cog] cyaNOG: CELLULAR PROCESSES AND SIGNALING [O] Posttranslational modification, protein turnover, chaperones",
       "[interpro] DnaJ domain",
       "[interpro] Cyanobacterial DnaJ chaperone, C-terminal domain",
-      "[pfam] DnaJ: DnaJ domain"
+      "[pfam] DnaJ: DnaJ domain",
+      "[pfam] DnaJ_cyano_C: Cyanobacterial DnaJ chaperone, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS10525",
@@ -420000,7 +420109,8 @@
       "[interpro] Glycosyltransferase RgtA/B/C/D-like",
       "[interpro] Lipid A-modifying glycosyltransferase 83",
       "[interpro] Domain of unknown function DUF19729",
-      "[pfam] PMT_2: Dolichyl-phosphate-mannose-protein mannosyltransferase"
+      "[pfam] PMT_2: Dolichyl-phosphate-mannose-protein mannosyltransferase",
+      "[pfam] DUF19729: Domain of unknown function (DUF19729)"
     ],
     "alternative_locus_tags": [
       "PMT1982",
@@ -420526,7 +420636,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[tigr_role] Cell envelope / Other",
-      "[interpro] Domain of unknown function DUF9922"
+      "[interpro] Domain of unknown function DUF9922",
+      "[pfam] DUF9922: Domain of unknown function (DUF9922)"
     ],
     "alternative_locus_tags": [
       "PMT1985",
@@ -421389,7 +421500,8 @@
       "[interpro] DNA Replication and Repair Clamp Loader Complex",
       "[interpro] DNA polymerase III delta prime, C-terminal, cyanobacteria",
       "[ncbifam] DNA polymerase III subunit delta'",
-      "[pfam] DNA_pol3_delta2: DNA polymerase III, delta subunit"
+      "[pfam] DNA_pol3_delta2: DNA polymerase III, delta subunit",
+      "[pfam] DNA_pol3_delp_C: Cyanobacterial DNA polymerase III delta prime, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS10595",
@@ -422235,7 +422347,8 @@
       "[ncbifam] heavy metal translocating P-type ATPase",
       "[pfam] HMA: Heavy-metal-associated domain",
       "[pfam] E1-E2_ATPase: P-type ATPase actuator domain",
-      "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase"
+      "[pfam] Hydrolase: haloacid dehalogenase-like hydrolase",
+      "[pfam] CopB_TM: CopB transmembrane domain"
     ],
     "alternative_locus_tags": [
       "PMT1991",
@@ -433387,7 +433500,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8692"
+      "[interpro] Domain of unknown function DUF8692",
+      "[pfam] DUF8692: Domain of unknown function (DUF8692)"
     ],
     "alternative_locus_tags": [
       "PMT2037",
@@ -434088,7 +434202,7 @@
       "[ncbifam] magnesium protoporphyrin IX methyltransferase",
       "[pfam] Mg-por_mtran_C: Magnesium-protoporphyrin IX methyltransferase C-terminus",
       "[pfam] PrmA: Ribosomal protein L11 methyltransferase (PrmA)",
-      "[pfam] Ubie_methyltran: ubiE/COQ5 methyltransferase family"
+      "[pfam] Ubie_methyltran: UbiE/COQ5 methyltransferase Domain"
     ],
     "alternative_locus_tags": [
       "PMT2040",
@@ -435066,7 +435180,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19718"
+      "[interpro] Domain of unknown function DUF19718",
+      "[pfam] DUF19718: Domain of unknown function (DUF19718)"
     ],
     "alternative_locus_tags": [
       "PMT2044",
@@ -437492,17 +437607,14 @@
       }
     ],
     "pfam_ids": [
-      "PF01188",
       "PF13378"
     ],
     "pfam_ids_evidence": {
       "PF13378": "curated"
     },
     "pfam_ids_source": {
-      "PF01188": [
-        "cyanorak"
-      ],
       "PF13378": [
+        "cyanorak",
         "eggnog",
         "interproscan",
         "uniprot"
@@ -437985,7 +438097,8 @@
       "[kegg] isochorismate synthase; MenF",
       "[interpro] Isochorismate synthase",
       "[ncbifam] isochorismate synthase",
-      "[pfam] Chorismate_bind: chorismate binding enzyme"
+      "[pfam] Chorismate_bind: chorismate binding enzyme",
+      "[pfam] Chorismate_bind_2: Chorismate binding enzyme"
     ],
     "alternative_locus_tags": [
       "AKG35_RS10960",
@@ -440622,7 +440735,8 @@
       "[tigr_role] Mobile and extrachromosomal element functions / Transposon functions",
       "[interpro] Transposase IS200-like",
       "[interpro] Domain of unknown function DUF15288",
-      "[pfam] Y1_Tnp: Transposase IS200 like"
+      "[pfam] Y1_Tnp: Transposase IS200 like",
+      "[pfam] DUF15288: Domain of unknown function (DUF15288)"
     ],
     "alternative_locus_tags": [
       "PMT2071",
@@ -442385,7 +442499,8 @@
       "[interpro] ABC1 atypical kinase-like domain",
       "[interpro] UbiB protein kinase-like",
       "[interpro] ABC1-LIKE KINASE 7-like, C-terminal helical hairpin",
-      "[pfam] ABC1: ABC1 atypical kinase-like domain"
+      "[pfam] ABC1: ABC1 atypical kinase-like domain",
+      "[pfam] ABC1_cyano_C: Cyanobacterial ABC1 kinase, C-terminal helical hairpin"
     ],
     "alternative_locus_tags": [
       "PMT2082",
@@ -445935,7 +446050,8 @@
       "[interpro] Ribonuclease HI",
       "[interpro] Ribonuclease H",
       "[hamap] Ribonuclease H [rnhA]",
-      "[pfam] RNase_H: RNase H"
+      "[pfam] RNase_H: RNase H",
+      "[pfam] RNase_HII_C: RNase HII C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT2093",
@@ -446932,7 +447048,7 @@
       "[interpro] Type II/III secretion system, secretin-like domain",
       "[interpro] Bacterial Secretion System Channel Protein",
       "[pfam] Secretin_N: Bacterial type II/III secretion system short domain",
-      "[pfam] Secretin: Bacterial type II and III secretion system protein",
+      "[pfam] Secretin: Type II/III secretion system, secretin-like domain",
       "[pfam] AMIN: AMIN domain",
       "[pfam] STN: Secretin and TonB N terminus short domain"
     ],
@@ -447782,7 +447898,8 @@
       "[cog] COG: POORLY CHARACTERIZED [R] General function prediction only",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8623"
+      "[interpro] Domain of unknown function DUF8623",
+      "[pfam] DUF8623: Domain of unknown function (DUF8623)"
     ],
     "alternative_locus_tags": [
       "PMT2102",
@@ -450912,7 +451029,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF19719"
+      "[interpro] Domain of unknown function DUF19719",
+      "[pfam] DUF19719: Domain of unknown function (DUF19719)"
     ],
     "alternative_locus_tags": [
       "PMT2115",
@@ -455043,7 +455161,6 @@
       }
     ],
     "pfam_ids": [
-      "PF12700",
       "PF25917",
       "PF25973"
     ],
@@ -455051,9 +455168,6 @@
       "PF25973": "signature"
     },
     "pfam_ids_source": {
-      "PF12700": [
-        "cyanorak"
-      ],
       "PF25917": [
         "uniprot"
       ],
@@ -457227,7 +457341,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[pfam] FecR_C: FecR, C-terminal",
-      "[pfam] FecR: FecR protein"
+      "[pfam] FecR: FecR domain"
     ],
     "alternative_locus_tags": [
       "PMT2153",
@@ -458086,9 +458200,11 @@
       "[interpro] Domain of unknown function DUF16811",
       "[pfam] SNF2-rel_dom: SNF2-related domain",
       "[pfam] Helicase_C: Helicase conserved C-terminal domain",
-      "[pfam] DUF3670: SNF2 Helicase protein",
+      "[pfam] DUF3670: Domain of unknown function (DUF3670)",
       "[pfam] Intein_splicing: Intein splicing domain",
-      "[pfam] LAGLIDADG_3: LAGLIDADG-like domain"
+      "[pfam] LAGLIDADG_3: LAGLIDADG-like domain",
+      "[pfam] DUF9129: Domain of unknown function (DUF9129)",
+      "[pfam] DUF16811: Domain of unknown function (DUF16811)"
     ],
     "alternative_locus_tags": [
       "PMT2158",
@@ -458332,7 +458448,8 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Zinc finger, SWIM-type",
       "[interpro] Domain of unknown function DUF19077",
-      "[pfam] SWIM: SWIM zinc finger"
+      "[pfam] SWIM: SWIM zinc finger",
+      "[pfam] DUF19077: Domain of unknown function (DUF19077)"
     ],
     "alternative_locus_tags": [
       "PMT2159",
@@ -461181,7 +461298,9 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF8644",
-      "[interpro] Domain of unknown function DUF8645"
+      "[interpro] Domain of unknown function DUF8645",
+      "[pfam] DUF8644: Domain of unknown function (DUF8644)",
+      "[pfam] DUF8645: Domain of unknown function (DUF8645)"
     ],
     "alternative_locus_tags": [
       "PMT2173",
@@ -463321,7 +463440,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19716"
+      "[interpro] Domain of unknown function DUF19716",
+      "[pfam] DUF19716: Domain of unknown function (DUF19716)"
     ],
     "alternative_locus_tags": [
       "PMT2180",
@@ -463965,7 +464085,7 @@
       "[pfam] DNA_ligase_ZBD: NAD-dependent DNA ligase C4 zinc finger domain",
       "[pfam] HHH_2: Helix-hairpin-helix motif",
       "[pfam] BRCT: BRCA1 C Terminus (BRCT) domain",
-      "[pfam] HHH_5: Helix-hairpin-helix domain",
+      "[pfam] HHH_5: SAM-like Helix-hairpin-helix tandem",
       "[pfam] OB_DNA_ligase: NAD-dependent DNA ligase OB-fold domain",
       "[pfam] DNA_ligase_aden: NAD-dependent DNA ligase adenylation domain",
       "[pfam] Nlig-Ia: DNA ligase-like, N-terminal NAD+-binding domain"
@@ -464416,7 +464536,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Cyanobacterial protein family of unknown function (DUF8929)"
+      "[interpro] Cyanobacterial protein family of unknown function (DUF8929)",
+      "[pfam] DUF8929: Cyanobacterial protein family of unknown function (DUF8929)"
     ],
     "alternative_locus_tags": [
       "PMT2185",
@@ -465397,7 +465518,8 @@
       "[interpro] ABC transporter ATP-binding component",
       "[interpro] EvrA-like ABC transporter, C-terminal domain",
       "[tcdb_best_hit] The ethyl (methyl; benzyl) viologen export pump, EvrABC. [3.A.1.141.1] :: [tcdb_substrates] Benzyl viologen, Methyl viologen",
-      "[pfam] ABC_tran: ABC transporter"
+      "[pfam] ABC_tran: ABC transporter",
+      "[pfam] EvrA_C: EvrA-like ABC transporter, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS11665",
@@ -466124,7 +466246,9 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] Domain of unknown function DUF19740",
-      "[interpro] Domain of unknown function DUF19741"
+      "[interpro] Domain of unknown function DUF19741",
+      "[pfam] DUF19740: Domain of unknown function (DUF19740)",
+      "[pfam] DUF19741: Domain of unknown function (DUF19741)"
     ],
     "alternative_locus_tags": [
       "PMT2192",
@@ -466268,7 +466392,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF13069"
+      "[interpro] Domain of unknown function DUF13069",
+      "[pfam] DUF13069: Domain of unknown function (DUF13069)"
     ],
     "alternative_locus_tags": [
       "PMT2193",
@@ -467700,7 +467825,8 @@
       "[pfam] Fer4_5: 4Fe-4S binding domain",
       "[pfam] Sigma54_activat: Sigma-54 interaction domain",
       "[pfam] cNMP_binding: Cyclic nucleotide-binding domain",
-      "[pfam] AAA_lid_14: AAA+ ATPase lid domain"
+      "[pfam] AAA_lid_14: AAA+ ATPase lid domain",
+      "[pfam] DUF12123: Domain of unknown function (DUF12123)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS11725",
@@ -472165,7 +472291,6 @@
       }
     ],
     "pfam_ids": [
-      "PF13394",
       "PF04055"
     ],
     "pfam_ids_evidence": {
@@ -472177,9 +472302,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF13394": [
-        "cyanorak"
       ]
     },
     "product": "7-carboxy-7-deazaguanine synthase",
@@ -472604,7 +472726,6 @@
       "[kegg] aminodeoxychorismate synthase; ADC synthase; 4-amino-4-deoxychorismate synthase; PabB; chorismate:L-glutamine amido-ligase (incorrect)",
       "[interpro] Anthranilate synthase-like domain",
       "[interpro] Anthranilate synthase component I-like",
-      "[pfam] Anth_synt_I_N: Anthranilate synthase component I, N terminal region",
       "[pfam] Chorismate_bind: chorismate binding enzyme"
     ],
     "alternative_locus_tags": [
@@ -472764,7 +472885,6 @@
       }
     ],
     "pfam_ids": [
-      "PF04715",
       "PF00425"
     ],
     "pfam_ids_evidence": {
@@ -472776,9 +472896,6 @@
         "eggnog",
         "interproscan",
         "uniprot"
-      ],
-      "PF04715": [
-        "cyanorak"
       ]
     },
     "product": "para-aminobenzoate synthetase component I",
@@ -473334,7 +473451,6 @@
       "[interpro] ABC Transporter, Amino Acid and LPS Transport",
       "[ncbifam] urea ABC transporter ATP-binding protein UrtD",
       "[tcdb_best_hit] The high-affinity (<1 \u03bcM) urea porter [3.A.1.4.4] :: [tcdb_substrates] Urea",
-      "[pfam] BCA_ABC_TP_C: Branched-chain amino acid ATP-binding cassette transporter",
       "[pfam] ABC_tran: ABC transporter"
     ],
     "alternative_locus_tags": [
@@ -473526,7 +473642,6 @@
       }
     ],
     "pfam_ids": [
-      "PF12399",
       "PF00005"
     ],
     "pfam_ids_evidence": {
@@ -473537,11 +473652,6 @@
         "cyanorak",
         "eggnog",
         "interproscan",
-        "uniprot"
-      ],
-      "PF12399": [
-        "cyanorak",
-        "eggnog",
         "uniprot"
       ]
     },
@@ -482784,7 +482894,8 @@
       "[interpro] Phospho-N-acetylmuramoyl-pentapeptide transferase",
       "[hamap] Phospho-N-acetylmuramoyl-pentapeptide-transferase [mraY]",
       "[pfam] MraY_sig1: Phospho-N-acetylmuramoyl-pentapeptide-transferase signature 1",
-      "[pfam] Glycos_transf_4: Glycosyl transferase family 4"
+      "[pfam] Glycos_transf_4: Glycosyl transferase family 4",
+      "[pfam] MraY_insert: Inserted domain of MraY phospho-MurNAc-pentapeptide transferase"
     ],
     "alternative_locus_tags": [
       "PMT2264",
@@ -484648,7 +484759,8 @@
       "[interpro] ABC1 atypical kinase-like domain",
       "[interpro] UbiB protein kinase-like",
       "[interpro] ABC1 kinase 3-like, C-terminal domain",
-      "[pfam] ABC1: ABC1 atypical kinase-like domain"
+      "[pfam] ABC1: ABC1 atypical kinase-like domain",
+      "[pfam] ABC1K3_C: ABC1 kinase 3, C-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT2272",
@@ -486885,24 +486997,12 @@
       }
     ],
     "pfam_ids": [
-      "PF13533",
-      "PF13437",
-      "PF00529",
       "PF26002"
     ],
     "pfam_ids_evidence": {
       "PF26002": "curated"
     },
     "pfam_ids_source": {
-      "PF00529": [
-        "cyanorak"
-      ],
-      "PF13437": [
-        "cyanorak"
-      ],
-      "PF13533": [
-        "cyanorak"
-      ],
       "PF26002": [
         "interproscan",
         "uniprot"
@@ -487299,7 +487399,8 @@
       "[interpro] UDP-2,4-diacetamido-2,4,6-trideoxy-beta-L-altropyranose hydrolase",
       "[ncbifam] UDP-2,4-diacetamido-2,4,6-trideoxy-beta-L-altropyranose hydrolase",
       "[pfam] Glyco_trans_1_3: Glycosyl transferase family 1",
-      "[pfam] Acetyltransf_3: Acetyltransferase (GNAT) domain"
+      "[pfam] Acetyltransf_3: Acetyltransferase (GNAT) domain",
+      "[pfam] PseG_N: PseG N-terminal domain"
     ],
     "alternative_locus_tags": [
       "PMT0104",
@@ -487598,7 +487699,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[pfam] Methyltransf_24: Methyltransferase domain",
-      "[pfam] BcsB: Bacterial cellulose synthase subunit",
+      "[pfam] CBM_BcsB_1st: Cellulose synthase BcsB, first CBM domain",
       "[pfam] Glycos_transf_2: Glycosyl transferase family 2",
       "[pfam] GtrA_DPMS_TM: GtrA/DPMS, transmembrane domain",
       "[pfam] Methyltransf_23: Methyltransferase domain"
@@ -488408,7 +488509,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[interpro] Domain of unknown function DUF15288",
-      "[pfam] Y1_Tnp: Transposase IS200 like"
+      "[pfam] Y1_Tnp: Transposase IS200 like",
+      "[pfam] DUF15288: Domain of unknown function (DUF15288)"
     ],
     "alternative_locus_tags": [
       "PMT0240",
@@ -489495,7 +489597,6 @@
       }
     ],
     "pfam_ids": [
-      "PF13544",
       "PF07963"
     ],
     "pfam_ids_evidence": {
@@ -489503,11 +489604,9 @@
     },
     "pfam_ids_source": {
       "PF07963": [
+        "cyanorak",
         "eggnog",
         "interproscan"
-      ],
-      "PF13544": [
-        "cyanorak"
       ]
     },
     "product": "type IV pilin PilA",
@@ -489567,7 +489666,7 @@
       "[interpro] Bacterial competence-related DNA uptake protein",
       "[ncbifam] ComEC/Rec2-related protein",
       "[pfam] Competence: Competence protein",
-      "[pfam] DUF4131: Domain of unknown function (DUF4131)"
+      "[pfam] ComEC_N: ComEC-like, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13430",
@@ -491381,7 +491480,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8633"
+      "[interpro] Protein of unknown function DUF8633",
+      "[pfam] DUF8633: Family of unknown function (DUF8633)"
     ],
     "alternative_locus_tags": [
       "PMT0360",
@@ -491522,7 +491622,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8678"
+      "[interpro] Protein of unknown function DUF8678",
+      "[pfam] DUF8678: Family of unknown function (DUF8678)"
     ],
     "alternative_locus_tags": [
       "PMT0371",
@@ -491975,7 +492076,8 @@
       "[eggnog] Contains the applicable subsitutions in the R-H-R-Y motif identified by Nunes-Duby et al 1998",
       "[tigr_role] Cellular processes / Other",
       "[tigr_role] Transport and binding proteins / Unknown substrate",
-      "[interpro] Domain of unknown function DUF19721"
+      "[interpro] Domain of unknown function DUF19721",
+      "[pfam] DUF19721: Domain of unknown function (DUF19721)"
     ],
     "alternative_locus_tags": [
       "PMT0381",
@@ -492675,7 +492777,7 @@
       "[cog] bactNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[cog] cyaNOG: METABOLISM [E] Amino acid transport and metabolism",
       "[pfam] Peptidase_S9: Prolyl oligopeptidase family",
-      "[pfam] PD40: WD40-like Beta Propeller Repeat"
+      "[pfam] PD40: TolB beta propeller domain"
     ],
     "alternative_locus_tags": [
       "PMT0490",
@@ -492995,7 +493097,8 @@
       "[ncbi] hypothetical protein",
       "[eggnog] -",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8952"
+      "[interpro] Domain of unknown function DUF8952",
+      "[pfam] DUF8952: Domain of unknown function (DUF8952)"
     ],
     "alternative_locus_tags": [
       "PMT0544",
@@ -493277,7 +493380,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Asl3888-like"
+      "[interpro] Asl3888-like",
+      "[pfam] RBP_Asl3888: Cyanobacterial RNA-binding protein Asl3888-like"
     ],
     "alternative_locus_tags": [
       "PMT0586",
@@ -496940,7 +497044,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Domain of unknown function DUF9370"
+      "[interpro] Domain of unknown function DUF9370",
+      "[pfam] DUF9370: Domain of unknown function (DUF9370)"
     ],
     "alternative_locus_tags": [
       "PMT0916",
@@ -501718,7 +501823,8 @@
       "[cog] COG: METABOLISM [H] Coenzyme transport and metabolism",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8632"
+      "[interpro] Domain of unknown function DUF8632",
+      "[pfam] DUF8632: Domain of unknown function (DUF8632)"
     ],
     "alternative_locus_tags": [
       "PMT1428",
@@ -502235,7 +502341,8 @@
       "[cyanorak_role] Other",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8953"
+      "[interpro] Domain of unknown function DUF8953",
+      "[pfam] DUF8953: Domain of unknown function (DUF8953)"
     ],
     "alternative_locus_tags": [
       "PMT1564",
@@ -502525,7 +502632,8 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] High light-inducible protein HliA-D-like",
-      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein"
+      "[pfam] Chloroa_b-bind: Chlorophyll A-B binding protein",
+      "[pfam] HliA: High light-inducible protein HliA"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08735",
@@ -503278,7 +503386,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8639"
+      "[interpro] Domain of unknown function DUF8639",
+      "[pfam] DUF8639: Domain of unknown function (DUF8639)"
     ],
     "alternative_locus_tags": [
       "PMT1693",
@@ -506662,7 +506771,8 @@
       "[interpro] 4Fe-4S ferredoxin-type, iron-sulphur binding domain",
       "[pfam] Fer4_17: 4Fe-4S dicluster domain",
       "[pfam] CCG: Cysteine-rich domain",
-      "[pfam] Fer4_8: 4Fe-4S dicluster domain"
+      "[pfam] Fer4_8: 4Fe-4S dicluster domain",
+      "[pfam] GlcF_linker: Glycolate oxidase iron-sulfur subunit, linker region"
     ],
     "alternative_locus_tags": [
       "AKG35_RS12495",
@@ -509170,7 +509280,7 @@
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[interpro] FecR protein",
       "[interpro] Fe(2+)-dicitrate sensor, transmembrane component",
-      "[pfam] FecR: FecR protein"
+      "[pfam] FecR: FecR domain"
     ],
     "alternative_locus_tags": [
       "PMT2147",
@@ -510747,7 +510857,8 @@
     "alternate_functional_descriptions": [
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[interpro] Domain of unknown function DUF8953"
+      "[interpro] Domain of unknown function DUF8953",
+      "[pfam] DUF8953: Domain of unknown function (DUF8953)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS01000",
@@ -511792,7 +511903,8 @@
       "[cyanorak] Hypothetical protein",
       "[ncbi] hypothetical protein",
       "[interpro] Domain of unknown function DUF15288",
-      "[pfam] Y1_Tnp: Transposase IS200 like"
+      "[pfam] Y1_Tnp: Transposase IS200 like",
+      "[pfam] DUF15288: Domain of unknown function (DUF15288)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS01290",
@@ -512624,7 +512736,7 @@
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[pfam] Competence: Competence protein",
-      "[pfam] DUF4131: Domain of unknown function (DUF4131)"
+      "[pfam] ComEC_N: ComEC-like, N-terminal domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13435",
@@ -512788,7 +512900,7 @@
       "[ncbi] hypothetical protein",
       "[eggnog] establishment of competence for transformation",
       "[pfam] Competence: Competence protein",
-      "[pfam] DUF4131: Domain of unknown function (DUF4131)",
+      "[pfam] ComEC_N: ComEC-like, N-terminal domain",
       "[pfam] Lactamase_B: Metallo-beta-lactamase superfamily"
     ],
     "alternative_locus_tags": [
@@ -515693,7 +515805,8 @@
       "[cyanorak] Conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Protein of unknown function DUF19737"
+      "[interpro] Protein of unknown function DUF19737",
+      "[pfam] DUF19737: Family of unknown function (DUF19737)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS02890",
@@ -516503,7 +516616,8 @@
       "[eggnog] -",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF9687"
+      "[interpro] Domain of unknown function DUF9687",
+      "[pfam] DUF9687: Domain of unknown function (DUF9687)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13295",
@@ -519282,7 +519396,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Protein of unknown function DUF8633"
+      "[interpro] Protein of unknown function DUF8633",
+      "[pfam] DUF8633: Family of unknown function (DUF8633)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS12305",
@@ -521416,7 +521531,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8662"
+      "[interpro] Domain of unknown function DUF8662",
+      "[pfam] DUF8662: Domain of unknown function (DUF8662)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05020",
@@ -522061,7 +522177,8 @@
     "alternate_functional_descriptions": [
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[interpro] Domain of unknown function DUF8638"
+      "[interpro] Domain of unknown function DUF8638",
+      "[pfam] DUF8638: Domain of unknown function (DUF8638)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05075",
@@ -522180,7 +522297,8 @@
     "alternate_functional_descriptions": [
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[interpro] Domain of unknown function DUF8638"
+      "[interpro] Domain of unknown function DUF8638",
+      "[pfam] DUF8638: Domain of unknown function (DUF8638)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05095",
@@ -522414,7 +522532,8 @@
     "alternate_functional_descriptions": [
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
-      "[interpro] Domain of unknown function DUF8638"
+      "[interpro] Domain of unknown function DUF8638",
+      "[pfam] DUF8638: Domain of unknown function (DUF8638)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05115",
@@ -525173,7 +525292,8 @@
       "[cyanorak] Conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Protein of unknown function DUF8938"
+      "[interpro] Protein of unknown function DUF8938",
+      "[pfam] DUF8938: Family of unknown function (DUF8938)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS12905",
@@ -525466,7 +525586,8 @@
       "[tigr_role] Cell envelope / Other",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF19723"
+      "[interpro] Domain of unknown function DUF19723",
+      "[pfam] DUF19723: Domain of unknown function (DUF19723)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05505",
@@ -526325,7 +526446,8 @@
       "[cyanorak] conserved hypothetical protein",
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Protein of unknown function DUF8635"
+      "[interpro] Protein of unknown function DUF8635",
+      "[pfam] DUF8635: Family of unknown function (DUF8635)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13310",
@@ -526436,7 +526558,8 @@
     "alternate_functional_descriptions": [
       "[ncbi] hypothetical protein",
       "[eggnog] -",
-      "[interpro] Protein of unknown function DUF8635"
+      "[interpro] Protein of unknown function DUF8635",
+      "[pfam] DUF8635: Family of unknown function (DUF8635)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS05630",
@@ -527593,7 +527716,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Protein of unknown function DUF8673"
+      "[interpro] Protein of unknown function DUF8673",
+      "[pfam] DUF8673: Family of unknown function (DUF8673)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS06260",
@@ -530432,7 +530556,8 @@
       "[eggnog] -",
       "[cyanorak_role] Protein folding and stabilization",
       "[tigr_role] Protein fate / Protein folding and stabilization",
-      "[interpro] Domain of unknown function DUF8937"
+      "[interpro] Domain of unknown function DUF8937",
+      "[pfam] DUF8937: Domain of unknown function (DUF8937)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS07425",
@@ -531982,7 +532107,8 @@
       "[ncbi] hypothetical protein",
       "[tigr_role] Cell envelope / Other",
       "[cog] COG: CP",
-      "[interpro] Protein of unknown function DUF8624"
+      "[interpro] Protein of unknown function DUF8624",
+      "[pfam] DUF8624: Family of unknown function (DUF8624)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13655",
@@ -533535,7 +533661,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Cell envelope / Other",
-      "[interpro] Protein of unknown function DUF8677"
+      "[interpro] Protein of unknown function DUF8677",
+      "[pfam] DUF8677: Family of unknown function (DUF8677)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS13340",
@@ -533683,7 +533810,7 @@
       "[cog] COG: METABOLISM [I] Lipid transport and metabolism",
       "[cog] bactNOG: METABOLISM [I] Lipid transport and metabolism",
       "[cog] cyaNOG: METABOLISM [I] Lipid transport and metabolism",
-      "[pfam] PLDc_2: PLD-like domain"
+      "[pfam] PLDc_2: Cardiolipin synthase, PLD-like domain"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08575",
@@ -533838,7 +533965,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8642"
+      "[interpro] Domain of unknown function DUF8642",
+      "[pfam] DUF8642: Domain of unknown function (DUF8642)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS12425",
@@ -534787,7 +534915,8 @@
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
       "[cog] COG: INFORMATION STORAGE AND PROCESSING [L] Replication, recombination and repair",
-      "[interpro] Domain of unknown function DUF8949"
+      "[interpro] Domain of unknown function DUF8949",
+      "[pfam] DUF8949: Domain of unknown function (DUF8949)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS08970",
@@ -534933,7 +535062,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] COG: CELLULAR PROCESSES AND SIGNALING [D] Cell cycle control, cell division, chromosome partitioning",
       "[cog] COG: METABOLISM [C] Energy production and conversion",
-      "[interpro] Domain of unknown function DUF8630"
+      "[interpro] Domain of unknown function DUF8630",
+      "[pfam] DUF8630: Domain of unknown function (DUF8630)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS09015",
@@ -538244,7 +538374,8 @@
       "[cog] COG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] bactNOG: POORLY CHARACTERIZED [S] Function unknown",
       "[cog] cyaNOG: POORLY CHARACTERIZED [S] Function unknown",
-      "[interpro] Domain of unknown function DUF8692"
+      "[interpro] Domain of unknown function DUF8692",
+      "[pfam] DUF8692: Domain of unknown function (DUF8692)"
     ],
     "alternative_locus_tags": [
       "AKG35_RS10810",
@@ -541959,7 +542090,8 @@
       "[ncbi] hypothetical protein",
       "[cyanorak_role] Conserved hypothetical proteins",
       "[tigr_role] Hypothetical proteins / Conserved",
-      "[interpro] Domain of unknown function DUF8954"
+      "[interpro] Domain of unknown function DUF8954",
+      "[pfam] DUF8954: Domain of unknown function (DUF8954)"
     ],
     "alternative_locus_tags": [
       "PMT0907",

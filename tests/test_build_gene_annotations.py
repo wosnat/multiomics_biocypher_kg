@@ -309,6 +309,36 @@ class TestEnrichPfamFields:
         assert unresolved == []
         assert "pfam_ids" not in gene
 
+    def test_short_name_starting_with_pf_is_not_an_accession(self, pfam_data):
+        pfam_data.by_accession["PF00365"] = PfamEntry("PF00365", "PFK", "Phosphofructokinase", "", "")
+        pfam_data.by_shortname["PFK"] = "PF00365"
+        gene = {"pfam_ids": ["PFK", "PFOR_II"]}
+        unresolved = enrich_pfam_fields(gene, pfam_data)
+        assert gene["pfam_ids"] == ["PF00365"]
+        assert unresolved == ["PFOR_II"]
+
+    def test_cyanorak_four_digit_typo_is_padded(self, pfam_data):
+        pfam_data.by_accession["PF07969"] = PfamEntry("PF07969", "Amidohydro_3", "Amidohydrolase", "", "")
+        gene = {"pfam_ids": ["PF7969"], "pfam_ids_source": {"PF7969": ["cyanorak"]}}
+        enrich_pfam_fields(gene, pfam_data)
+        assert gene["pfam_ids"] == ["PF07969"]
+        assert gene["pfam_ids_source"] == {"PF07969": ["cyanorak"]}
+
+    def test_killed_family_is_forwarded_with_its_sources(self, pfam_data):
+        pfam_data.dead = {"PF01188": {"shortname": "MR_MLE", "forward_to": ["PF00712"], "comment": ""}}
+        gene = {"pfam_ids": ["PF01188", "PF00712"],
+                "pfam_ids_source": {"PF01188": ["cyanorak"], "PF00712": ["eggnog"]}}
+        enrich_pfam_fields(gene, pfam_data)
+        assert gene["pfam_ids"] == ["PF00712"]
+        assert gene["pfam_ids_source"] == {"PF00712": ["cyanorak", "eggnog"]}
+
+    def test_killed_family_without_successor_is_dropped(self, pfam_data):
+        pfam_data.dead = {"PF13659": {"shortname": "X", "forward_to": [], "comment": "Not what it seems"}}
+        gene = {"pfam_ids": ["PF13659"], "pfam_ids_source": {"PF13659": ["cyanorak"]}}
+        unresolved = enrich_pfam_fields(gene, pfam_data)
+        assert "pfam_ids" not in gene and "pfam_ids_source" not in gene
+        assert unresolved == ["PF13659"]
+
     def test_none_input(self, pfam_data):
         gene = {"pfam_ids": None}
         unresolved = enrich_pfam_fields(gene, pfam_data)
