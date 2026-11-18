@@ -101,6 +101,9 @@ tag with nothing logged.
 
 ### Fixed
 
+- Post-import waits for every index to come online (`db.awaitIndexes`) before the aggregation
+  group. The 2026-11-18 rebuild failed there with "Could not compile query due to insanely
+  frequent schema changes" because the indexes just created were still populating.
 - PDF text extraction decodes the symbol-font glyphs that pypdf emits as `/H<code>` tokens in
   ASM and PNAS PDFs (`/H11021` = <, `/H9262` = μ, `/H11002` = −, …; 9 papers carry them).
   Two Publication nodes had them in their text: Steglich 2006's title ended

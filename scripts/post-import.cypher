@@ -230,6 +230,11 @@ CREATE INDEX chemical_role_level_idx IF NOT EXISTS FOR (r:ChemicalRole) ON (r.le
 CREATE INDEX chemical_role_level_kind_idx IF NOT EXISTS FOR (r:ChemicalRole) ON (r.level_kind);
 CREATE FULLTEXT INDEX chemicalRoleFullText IF NOT EXISTS FOR (r:ChemicalRole) ON EACH [r.name];
 
+// Wait for every index to finish populating before the next group compiles queries.
+// Without it, group 2 can fail with "Could not compile query due to insanely frequent
+// schema changes" while the indexes above are still being built (2026-11-18 rebuild).
+CALL db.awaitIndexes(1800);
+
 // -----------------------------------------------------------------------
 // ── GeneCluster member_count verification ──────────────────────────────
 MATCH (gc:GeneCluster)

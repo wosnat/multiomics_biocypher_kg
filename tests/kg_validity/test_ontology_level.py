@@ -28,8 +28,9 @@ ONTOLOGY_LABELS = [
 
 # GO release 2026-07-26 (live distribution; level 0 = the single root, not checked)
 EXPECTED_BP_LEVEL_DIST = {
-    1: 16, 2: 111, 3: 323, 4: 667, 5: 830,
-    6: 738, 7: 457, 8: 131, 9: 33, 10: 12, 11: 3,
+    # InterProScan 6 / InterPro 111.0 rescan, 2026-11-18 (+23 BP terms).
+    1: 16, 2: 115, 3: 338, 4: 691, 5: 856,
+    6: 758, 7: 470, 8: 139, 9: 35, 10: 12, 11: 3,
 }
 
 
@@ -83,11 +84,13 @@ def test_pfam_and_pfam_clan_fixed_levels(run_query):
     (2026-08-10): Layer B propagates InterPro's direct HMM Pfam hits into
     ``pfam_ids``, adding ~776 domains (and their clans) the eggNOG layer missed.
     6604/533 -> 6874/540 with Ford 2021's 74 Cyanorak genomes (2026-10-28).
+    6874 -> 8479 with the InterProScan 6 / InterPro 111.0 rescan (2026-11-18):
+    InterProScan's direct Pfam hits now rival eggNOG's; every new domain has genes.
     """
     rows = run_query(
         "MATCH (t:Pfam) RETURN count(t) AS n, min(t.level) AS mn, max(t.level) AS mx"
     )
-    assert rows[0]["n"] == 6874, f"Pfam count {rows[0]['n']} != 6874"
+    assert rows[0]["n"] == 8479, f"Pfam count {rows[0]['n']} != 8479"
     assert rows[0]["mn"] == 1, f"Pfam min level {rows[0]['mn']} != 1"
     assert rows[0]["mx"] == 1, f"Pfam max level {rows[0]['mx']} != 1"
 

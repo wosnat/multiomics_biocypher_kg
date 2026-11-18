@@ -17,9 +17,10 @@ pytestmark = pytest.mark.kg
 # ── node counts / properties ────────────────────────────────────────────────
 
 def test_ncbifam_family_count_in_range(run_query):
-    """Spec §6 predicts ~4,957 NcbifamFamily nodes (observed-only, flat)."""
+    """Spec §6 predicted ~4,957 NcbifamFamily nodes (observed-only, flat); 5,109 after
+    the InterProScan 6 / InterPro 111.0 rescan (2026-11-18)."""
     n = run_query("MATCH (n:NcbifamFamily) RETURN count(n) AS n")[0]["n"]
-    assert 4900 <= n <= 5050, f"expected NcbifamFamily count in [4900, 5050], got {n}"
+    assert 5050 <= n <= 5200, f"expected NcbifamFamily count in [5050, 5200], got {n}"
 
 
 def test_ncbifam_node_id_uses_colon_curie_prefix(run_query):
