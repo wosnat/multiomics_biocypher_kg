@@ -54,6 +54,13 @@ tag with nothing logged.
 
 ### Breaking
 
+- A gene annotated with an EC number Expasy later split across several numbers now carries
+  the successors' common parent class instead of every successor: `1.11.1.15` peroxiredoxin
+  (501 genes) -> `1.11.1.-`, not all six peroxiredoxin types `1.11.1.24`-`29`; the
+  `2.3.1.266`/`2.3.1.267` fan-out (407 genes) -> `2.3.1.-`. The old number does not say which
+  successor a gene is. 803 genes change EC sets; a split with no class in common is dropped
+  (13 of the 101 split entries).
+
 - `ClusteringAnalysis.total_gene_count` now counts the distinct genes loaded into the analysis's
   clusters (post-import, from `Gene_in_gene_cluster` edges), not the clustered rows of the source
   CSV. Rows that resolve to no Gene node no longer count, so it is lower on 12 of 26 analyses —
@@ -131,6 +138,16 @@ tag with nothing logged.
 
 ### Fixed
 
+- KEGG KOs and reactions KEGG has deleted are dropped instead of shipped as nodes named by
+  their own id (34 KOs, 817 gene edges) or with a blank name (35 reactions). eggNOG still
+  assigns them; KEGG returns nothing for them and publishes no successor. Step 6 leaves them out
+  of `kegg_data.json` and lists them under `deleted_kos` / `deleted_reactions`; the adapters
+  drop and log the gene edges to them.
+- EC names: pypath keeps only the last `DE` line of an Expasy `enzyme.dat` entry, so 131 enzyme
+  names were cut to their last line (`1.5.1.1` read "[NAD(P)H]") and 10 transferred entries
+  read as a bare EC number, hiding that they had moved (`1.7.99.4` was named "1.9.6.1"). The EC
+  adapter now joins continuation lines after download, and the committed `ec_data.json` was
+  repaired for exactly those entries (no other Expasy changes pulled in).
 - Pfam names: 1,871 of 8,479 Pfam nodes were named only by their accession (276 in the
   alpha.9 release), among them PF31213 HliA, because the Pfam reference was built once in March
   2026 and never refreshed while the InterProScan 6 rescan called Pfam 39.0 families. The

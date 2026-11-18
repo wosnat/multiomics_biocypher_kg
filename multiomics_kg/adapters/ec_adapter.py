@@ -23,6 +23,62 @@ from pydantic import BaseModel, DirectoryPath, FilePath, validate_call
 logger.debug(f"Loading module {__name__}.")
 
 
+ENZYME_DAT_URL = "https://ftp.expasy.org/databases/enzyme/enzyme.dat"
+
+
+def enzyme_dat_descriptions(enzyme_dat_text: str) -> dict[str, str]:
+    """``{ec: description}`` from Expasy ``enzyme.dat``, joining continuation ``DE`` lines.
+
+    pypath's ``expasy_enzymes`` keeps only the last ``DE`` line of an entry, so a long
+    "Transferred entry: 1.7.1.1, ... and\nDE   1.9.6.1." is stored as "1.9.6.1" and the
+    entry is neither recognised as transferred nor remapped by ``normalize_ec``.
+    """
+    out: dict[str, str] = {}
+    ec, parts = None, []
+    for line in enzyme_dat_text.splitlines():
+        if line.startswith("ID   "):
+            ec, parts = line[5:].strip(), []
+        elif line.startswith("DE   ") and ec:
+            parts.append(line[5:].strip())
+        elif line.startswith("//"):
+            if ec and parts:
+                # Expasy wraps long names at hyphens ("glycine-" / "betaine-forming"),
+                # so a line ending in "-" continues the word without a space.
+                text = parts[0]
+                for p in parts[1:]:
+                    text += p if text.endswith("-") else " " + p
+                out[ec] = text.strip(". ")
+            ec, parts = None, []
+    return out
+
+
+def repair_truncated_descriptions(enzymes: dict, ec_dict: dict, descriptions: dict[str, str]) -> list[str]:
+    """Restore descriptions pypath truncated to their last line, in place.
+
+    Only entries whose stored ``de`` is the tail of the full ``DE`` text are touched, so
+    applying it to an older cache does not pull in other upstream changes. Entries that
+    turn out to be transferred or deleted are removed from the hierarchy's ``entries``
+    lists (they are not current EC numbers). Returns the repaired EC numbers.
+    """
+    repaired = []
+    for ec, info in enzymes.items():
+        full = descriptions.get(ec)
+        de = info.get("de", "")
+        if full and full != de and full.endswith(de):
+            info["de"] = full
+            repaired.append(ec)
+    obsolete = {ec for ec in repaired if enzymes[ec]["de"].startswith(("Transferred entry", "Deleted"))}
+
+    def _prune(node):
+        if isinstance(node, dict):
+            if isinstance(node.get("entries"), list):
+                node["entries"] = [e for e in node["entries"] if e not in obsolete]
+            for v in node.values():
+                _prune(v)
+    _prune(ec_dict)
+    return sorted(repaired)
+
+
 class ECEnumMeta(EnumMeta):
     def __contains__(cls, item):
         return item in cls.__members__.keys()
@@ -188,6 +244,11 @@ class EC:
             t0 = time()
 
             self.enzymes = expasy.expasy_enzymes()
+            dat = curl.Curl(ENZYME_DAT_URL, silent=True, large=False, encoding="utf-8")
+            descriptions = enzyme_dat_descriptions(dat.result or "")
+            repaired = repair_truncated_descriptions(self.enzymes, {}, descriptions)
+            if repaired:
+                logger.info(f"Joined multi-line DE descriptions for {len(repaired)} EC entries")
 
             self.enzyme_classes = expasy.expasy_enzyme_classes()
 

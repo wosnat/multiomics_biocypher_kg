@@ -194630,21 +194630,13 @@
       "Ribosomal proteins: synthesis and modification"
     ],
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.1.-": [
+        "cyanorak",
+        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.266": [
-        "cyanorak",
-        "eggnog"
-      ],
-      "2.3.1.267": [
-        "cyanorak",
-        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -219299,16 +219291,13 @@
       "Phosphorus"
     ],
     "ec_numbers": [
-      "1.11.1.-",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_source": {
       "1.11.1.-": [
-        "uniprot"
-      ],
-      "1.11.1.15": [
         "cyanorak",
-        "eggnog"
+        "eggnog",
+        "uniprot"
       ]
     },
     "eggnog_og_descriptions": [
@@ -284621,13 +284610,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -328688,13 +328677,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -338892,13 +338881,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak"
       ],
       "1.11.1.24": [
@@ -410635,19 +410624,12 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.1.-": [
+        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.266": [
-        "eggnog"
-      ],
-      "2.3.1.267": [
-        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -487973,13 +487955,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],

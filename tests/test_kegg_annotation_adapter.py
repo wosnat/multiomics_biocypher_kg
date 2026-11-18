@@ -383,3 +383,21 @@ def test_multi_kegg_emits_pathway_node_even_without_ko_link(multi_kegg):
         "Reaction-only pathway ko00997 should be emitted as a KeggTerm node "
         "even though no KO links to it"
     )
+
+
+def test_multi_kegg_drops_kos_deleted_from_kegg(tmp_path, kegg_cache):
+    """A KO a gene cites but KEGG deleted (absent from kegg_data.json) gets no node
+    and no gene edge, instead of a node named by its own id."""
+    d = tmp_path / "MIT9313"
+    d.mkdir()
+    (d / "gene_annotations_merged.json").write_text(json.dumps({
+        "PMT0001": {"locus_tag": "PMT0001", "kegg_ko": ["K02338", "K00050"]},
+    }), encoding="utf-8")
+    cfg = tmp_path / "g.csv"
+    cfg.write_text(f"organism,strain,data_dir\nPro,MIT9313,{d}\n", encoding="utf-8")
+    a = MultiKeggAnnotationAdapter(genome_config_file=str(cfg), cache_root=kegg_cache)
+    assert a.all_ko_ids() == {"K02338"}
+    ko_nodes = {n[0] for n in a.get_nodes() if n[2]["level_kind"] == "ko"}
+    assert ko_nodes == {"kegg.orthology:K02338"}
+    gene_edges = [e for e in a.get_edges() if e[3] == "gene_has_kegg_ko"]
+    assert [e[2] for e in gene_edges] == ["kegg.orthology:K02338"]

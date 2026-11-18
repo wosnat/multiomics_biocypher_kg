@@ -51742,13 +51742,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -155283,19 +155283,16 @@
       "Oxidative stress"
     ],
     "ec_numbers": [
-      "1.11.1.15",
-      "1.11.1.27",
-      "1.11.1.-"
+      "1.11.1.-",
+      "1.11.1.27"
     ],
     "ec_numbers_evidence": {
-      "1.11.1.-": "family_inferred"
+      "1.11.1.-": "curated"
     },
     "ec_numbers_source": {
       "1.11.1.-": [
+        "cyanorak",
         "interproscan"
-      ],
-      "1.11.1.15": [
-        "cyanorak"
       ],
       "1.11.1.27": [
         "uniprot"
@@ -158655,8 +158652,7 @@
       "tRNA and rRNA base modification"
     ],
     "ec_numbers": [
-      "2.1.1.213",
-      "2.1.1.214",
+      "2.1.1.-",
       "2.1.1.215",
       "2.1.1.216"
     ],
@@ -158664,22 +158660,17 @@
       "2.1.1.216": "curated"
     },
     "ec_numbers_source": {
-      "2.1.1.213": [
-        "uniprot"
-      ],
-      "2.1.1.214": [
+      "2.1.1.-": [
         "uniprot"
       ],
       "2.1.1.215": [
         "cyanorak",
-        "eggnog",
-        "uniprot"
+        "eggnog"
       ],
       "2.1.1.216": [
         "cyanorak",
         "eggnog",
-        "interproscan",
-        "uniprot"
+        "interproscan"
       ]
     },
     "eggnog_og_descriptions": [
@@ -185760,20 +185751,10 @@
       "Ribosomal proteins: synthesis and modification"
     ],
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.1.-": [
-        "uniprot"
-      ],
-      "2.3.1.266": [
-        "cyanorak",
-        "eggnog",
-        "uniprot"
-      ],
-      "2.3.1.267": [
         "cyanorak",
         "eggnog",
         "uniprot"
@@ -196266,13 +196247,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -246977,11 +246958,11 @@
       "Phosphorus"
     ],
     "ec_numbers": [
-      "1.11.1.15",
+      "1.11.1.-",
       "1.11.1.24"
     ],
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -307306,19 +307287,10 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.1.-": [
-        "uniprot"
-      ],
-      "2.3.1.266": [
-        "eggnog",
-        "uniprot"
-      ],
-      "2.3.1.267": [
         "eggnog",
         "uniprot"
       ]
@@ -332931,13 +332903,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],

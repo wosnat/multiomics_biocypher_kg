@@ -125009,6 +125009,79 @@
       "structure_kind": "defined"
     }
   },
+  "deleted_kos": [
+    "K00050",
+    "K00210",
+    "K00329",
+    "K00356",
+    "K00745",
+    "K00842",
+    "K01144",
+    "K01263",
+    "K01450",
+    "K01572",
+    "K01594",
+    "K02428",
+    "K02487",
+    "K02763",
+    "K02764",
+    "K02790",
+    "K03815",
+    "K03827",
+    "K06021",
+    "K06955",
+    "K07011",
+    "K07015",
+    "K07088",
+    "K11189",
+    "K12535",
+    "K16291",
+    "K16299",
+    "K16300",
+    "K18707",
+    "K19234",
+    "K19235",
+    "K20116",
+    "K20117",
+    "K21394"
+  ],
+  "deleted_reactions": [
+    "R00516",
+    "R00568",
+    "R00924",
+    "R00962",
+    "R00967",
+    "R00970",
+    "R01548",
+    "R01549",
+    "R01880",
+    "R02091",
+    "R02096",
+    "R02097",
+    "R02327",
+    "R02332",
+    "R02371",
+    "R02372",
+    "R03106",
+    "R04936",
+    "R04984",
+    "R04989",
+    "R04990",
+    "R04993",
+    "R05614",
+    "R05617",
+    "R06146",
+    "R06858",
+    "R06859",
+    "R07768",
+    "R08773",
+    "R08774",
+    "R08775",
+    "R09396",
+    "R10645",
+    "R10646",
+    "R10647"
+  ],
   "excluded_pathways": {
     "ko01521": "Human Diseases / Drug resistance: antineoplastic: human disease maps (cancer, infection from the host side, ...), not bacterial",
     "ko01522": "Human Diseases / Drug resistance: antineoplastic: human disease maps (cancer, infection from the host side, ...), not bacterial",
@@ -128774,10 +128847,6 @@
       "name": "idnO; gluconate 5-dehydrogenase [EC:1.1.1.69]",
       "pathways": []
     },
-    "K00050": {
-      "name": "",
-      "pathways": []
-    },
     "K00052": {
       "name": "leuB, IMDH; 3-isopropylmalate dehydrogenase [EC:1.1.1.85]",
       "pathways": [
@@ -129501,10 +129570,6 @@
         "ko01212"
       ]
     },
-    "K00210": {
-      "name": "",
-      "pathways": []
-    },
     "K00214": {
       "name": "BLVRA, bvdR; biliverdin reductase [EC:1.3.1.24]",
       "pathways": [
@@ -130052,10 +130117,6 @@
         "ko01100"
       ]
     },
-    "K00329": {
-      "name": "",
-      "pathways": []
-    },
     "K00330": {
       "name": "nuoA; NADH-quinone oxidoreductase subunit A [EC:7.1.1.2]",
       "pathways": [
@@ -130190,10 +130251,6 @@
         "ko01110",
         "ko01240"
       ]
-    },
-    "K00356": {
-      "name": "",
-      "pathways": []
     },
     "K00362": {
       "name": "nirB; nitrite reductase (NADH) large subunit [EC:1.7.1.15]",
@@ -131505,10 +131562,6 @@
         "ko01100"
       ]
     },
-    "K00745": {
-      "name": "",
-      "pathways": []
-    },
     "K00748": {
       "name": "lpxB; lipid-A-disaccharide synthase [EC:2.4.1.182]",
       "pathways": [
@@ -132023,10 +132076,6 @@
         "ko00330",
         "ko01100"
       ]
-    },
-    "K00842": {
-      "name": "",
-      "pathways": []
     },
     "K00845": {
       "name": "glk; glucokinase [EC:2.7.1.2]",
@@ -133256,10 +133305,6 @@
         "ko03410"
       ]
     },
-    "K01144": {
-      "name": "",
-      "pathways": []
-    },
     "K01146": {
       "name": "xni; protein Xni",
       "pathways": []
@@ -133629,10 +133674,6 @@
       "name": "pepP; Xaa-Pro aminopeptidase [EC:3.4.11.9]",
       "pathways": []
     },
-    "K01263": {
-      "name": "",
-      "pathways": []
-    },
     "K01265": {
       "name": "map; methionyl aminopeptidase [EC:3.4.11.18]",
       "pathways": []
@@ -133922,10 +133963,6 @@
       "pathways": [
         "ko01503"
       ]
-    },
-    "K01450": {
-      "name": "",
-      "pathways": []
     },
     "K01451": {
       "name": "hipO; hippurate hydrolase [EC:3.5.1.32]",
@@ -134409,10 +134446,6 @@
         "ko01100"
       ]
     },
-    "K01572": {
-      "name": "",
-      "pathways": []
-    },
     "K01573": {
       "name": "oadG; oxaloacetate decarboxylase (Na+ extruding) subunit gamma",
       "pathways": [
@@ -134540,10 +134573,6 @@
         "ko01100",
         "ko01110"
       ]
-    },
-    "K01594": {
-      "name": "",
-      "pathways": []
     },
     "K01595": {
       "name": "ppc; phosphoenolpyruvate carboxylase [EC:4.1.1.31]",
@@ -138293,10 +138322,6 @@
       "name": "rlmE, rrmJ, ftsJ; 23S rRNA (uridine2552-2'-O)-methyltransferase [EC:2.1.1.166]",
       "pathways": []
     },
-    "K02428": {
-      "name": "",
-      "pathways": []
-    },
     "K02429": {
       "name": "fucP, deoP, nagP, agaP; MFS transporter, FHS family, fucose-galactose-glucose:H+ symporter family protein",
       "pathways": []
@@ -138564,10 +138589,6 @@
     },
     "K02485": {
       "name": "rssB, hnr; two-component system, response regulator",
-      "pathways": []
-    },
-    "K02487": {
-      "name": "",
       "pathways": []
     },
     "K02488": {
@@ -139488,14 +139509,6 @@
         "ko02060"
       ]
     },
-    "K02763": {
-      "name": "",
-      "pathways": []
-    },
-    "K02764": {
-      "name": "",
-      "pathways": []
-    },
     "K02765": {
       "name": "gamP; D-glucosamine PTS system EIICBA component [EC:2.7.1.-]",
       "pathways": [
@@ -139568,10 +139581,6 @@
       "pathways": [
         "ko02060"
       ]
-    },
-    "K02790": {
-      "name": "",
-      "pathways": []
     },
     "K02791": {
       "name": "malX; maltose/glucose PTS system EIICB component [EC:2.7.1.199 2.7.1.208]",
@@ -142426,10 +142435,6 @@
         "ko01100"
       ]
     },
-    "K03815": {
-      "name": "",
-      "pathways": []
-    },
     "K03816": {
       "name": "xpt; xanthine phosphoribosyltransferase [EC:2.4.2.22]",
       "pathways": [
@@ -142486,10 +142491,6 @@
     },
     "K03826": {
       "name": "yiaB_C; [protein]-L-lysine N-acetyltransferase [EC:2.3.1.338]",
-      "pathways": []
-    },
-    "K03827": {
-      "name": "",
       "pathways": []
     },
     "K03828": {
@@ -144611,10 +144612,6 @@
       "name": "ettA; energy-dependent translational throttle protein EttA",
       "pathways": []
     },
-    "K06021": {
-      "name": "",
-      "pathways": []
-    },
     "K06023": {
       "name": "hprK, ptsK; HPr kinase/phosphorylase [EC:2.7.11.- 2.7.4.-]",
       "pathways": []
@@ -145569,10 +145566,6 @@
       "name": "K06954; uncharacterized protein",
       "pathways": []
     },
-    "K06955": {
-      "name": "",
-      "pathways": []
-    },
     "K06956": {
       "name": "K06956; uncharacterized protein",
       "pathways": []
@@ -145758,10 +145751,6 @@
       "name": "K07010; putative glutamine amidotransferase",
       "pathways": []
     },
-    "K07011": {
-      "name": "",
-      "pathways": []
-    },
     "K07012": {
       "name": "cas3; CRISPR-associated endonuclease/helicase Cas3 [EC:3.1.-.- 5.6.2.4]",
       "pathways": []
@@ -145772,10 +145761,6 @@
     },
     "K07014": {
       "name": "K07014; uncharacterized protein",
-      "pathways": []
-    },
-    "K07015": {
-      "name": "",
       "pathways": []
     },
     "K07017": {
@@ -145979,10 +145964,6 @@
     },
     "K07086": {
       "name": "K07086; uncharacterized protein",
-      "pathways": []
-    },
-    "K07088": {
-      "name": "",
       "pathways": []
     },
     "K07089": {
@@ -150588,10 +150569,6 @@
         "ko02060"
       ]
     },
-    "K11189": {
-      "name": "",
-      "pathways": []
-    },
     "K11206": {
       "name": "NIT1, ybeM; deaminated glutathione amidase [EC:3.5.1.128]",
       "pathways": []
@@ -151817,10 +151794,6 @@
       "pathways": [
         "ko02020"
       ]
-    },
-    "K12535": {
-      "name": "",
-      "pathways": []
     },
     "K12536": {
       "name": "hasD, prtD, aprD, rsaD, prsD, eexD; ATP-binding cassette, subfamily C, type I secretion system permease/ATPase",
@@ -154601,24 +154574,12 @@
       "name": "zipB; zinc and cadmium transporter",
       "pathways": []
     },
-    "K16291": {
-      "name": "",
-      "pathways": []
-    },
     "K16293": {
       "name": "psrB; polysulfide reductase chain B",
       "pathways": []
     },
     "K16294": {
       "name": "psrC; polysulfide reductase chain C",
-      "pathways": []
-    },
-    "K16299": {
-      "name": "",
-      "pathways": []
-    },
-    "K16300": {
-      "name": "",
       "pathways": []
     },
     "K16322": {
@@ -156136,10 +156097,6 @@
       "name": "B3GNT9; beta-1,3-N-acetylglucosaminyltransferase 9 [EC:2.4.1.-]",
       "pathways": []
     },
-    "K18707": {
-      "name": "",
-      "pathways": []
-    },
     "K18765": {
       "name": "csrD; RNase E specificity factor CsrD",
       "pathways": []
@@ -156682,14 +156639,6 @@
         "ko02010"
       ]
     },
-    "K19234": {
-      "name": "",
-      "pathways": []
-    },
-    "K19235": {
-      "name": "",
-      "pathways": []
-    },
     "K19236": {
       "name": "ldtA_B_C_E, erfK; L,D-transpeptidase",
       "pathways": [
@@ -157182,14 +157131,6 @@
     },
     "K20074": {
       "name": "prpC, phpP; PPM family protein phosphatase [EC:3.1.3.16]",
-      "pathways": []
-    },
-    "K20116": {
-      "name": "",
-      "pathways": []
-    },
-    "K20117": {
-      "name": "",
       "pathways": []
     },
     "K20118": {
@@ -157954,10 +157895,6 @@
       "pathways": [
         "ko02020"
       ]
-    },
-    "K21394": {
-      "name": "",
-      "pathways": []
     },
     "K21395": {
       "name": "gtrC; TRAP-type transport system periplasmic protein",
@@ -164899,16 +164836,6 @@
         "27765"
       ]
     },
-    "R00516": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R00517": {
       "compounds": [
         "C00035",
@@ -165304,16 +165231,6 @@
         "17643",
         "17644"
       ]
-    },
-    "R00568": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
     },
     "R00570": {
       "compounds": [
@@ -168993,16 +168910,6 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
-    "R00924": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R00926": {
       "compounds": [
         "C00010",
@@ -169528,16 +169435,6 @@
         "23539"
       ]
     },
-    "R00962": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R00963": {
       "compounds": [
         "C00001",
@@ -169645,16 +169542,6 @@
         "13020"
       ]
     },
-    "R00967": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R00968": {
       "compounds": [
         "C00035",
@@ -169680,16 +169567,6 @@
         "27652",
         "27653"
       ]
-    },
-    "R00970": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
     },
     "R00974": {
       "compounds": [
@@ -175218,26 +175095,6 @@
         "23103"
       ]
     },
-    "R01548": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R01549": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R01557": {
       "compounds": [
         "C00208",
@@ -177964,16 +177821,6 @@
         "16072"
       ]
     },
-    "R01880": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R01884": {
       "compounds": [
         "C00001",
@@ -179645,16 +179492,6 @@
         "12700"
       ]
     },
-    "R02091": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R02093": {
       "compounds": [
         "C00002",
@@ -179708,26 +179545,6 @@
         "13519",
         "13520"
       ]
-    },
-    "R02096": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R02097": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
     },
     "R02098": {
       "compounds": [
@@ -181495,16 +181312,6 @@
         "27681"
       ]
     },
-    "R02327": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R02328": {
       "compounds": [
         "C00013",
@@ -181561,16 +181368,6 @@
         "28584",
         "28585"
       ]
-    },
-    "R02332": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
     },
     "R02333": {
       "compounds": [
@@ -181715,26 +181512,6 @@
         "27896",
         "27897"
       ]
-    },
-    "R02371": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R02372": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
     },
     "R02377": {
       "compounds": [
@@ -186219,16 +185996,6 @@
         "ko00270",
         "ko01100"
       ],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R03106": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
     },
@@ -195234,16 +195001,6 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
-    "R04936": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R04941": {
       "compounds": [
         "C00001",
@@ -195903,16 +195660,6 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
-    "R04984": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R04985": {
       "compounds": [
         "C00011",
@@ -195983,36 +195730,6 @@
       "mass_balance": "balanced",
       "mnxr_id": "MNXR198499",
       "name": "S-adenosyl-L-methionine:3-(all-trans-octaprenyl)benzene-1,2-diol 2-O-methyltransferase; 2-Octaprenyl-6-hydroxyphenol + S-Adenosyl-L-methionine <=> 2-Octaprenyl-6-methoxyphenol + S-Adenosyl-L-homocysteine",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R04989": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R04990": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R04993": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
@@ -198931,16 +198648,6 @@
         "16008"
       ]
     },
-    "R05614": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R05615": {
       "compounds": [
         "C00013",
@@ -198971,16 +198678,6 @@
       "mass_balance": "balanced",
       "mnxr_id": "MNXR197707",
       "name": "all-trans-hexaprenyl diphosphate:4-hydroxybenzoate hexaprenyltransferase; all-trans-Hexaprenyl diphosphate + 4-Hydroxybenzoate <=> 3-Hexaprenyl-4-hydroxybenzoate + Diphosphate",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R05617": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
       "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
@@ -200708,16 +200405,6 @@
         "10079"
       ]
     },
-    "R06146": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R06169": {
       "compounds": [],
       "ec_numbers": [
@@ -202087,26 +201774,6 @@
         "ko00361",
         "ko01120"
       ],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R06858": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R06859": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
     },
@@ -206296,16 +205963,6 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
-    "R07768": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R07769": {
       "compounds": [
         "C00229",
@@ -209209,36 +208866,6 @@
       "reaction_class": "chemical",
       "rhea_ids": []
     },
-    "R08773": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R08774": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R08775": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
     "R08781": {
       "compounds": [
         "C00019",
@@ -210645,16 +210272,6 @@
         "ko01100",
         "ko01240"
       ],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R09396": {
-      "compounds": [],
-      "ec_numbers": [],
-      "mass_balance": "unbalanced",
-      "mnxr_id": null,
-      "name": "",
-      "pathways": [],
       "reaction_class": "chemical",
       "rhea_ids": []
     },
@@ -214879,42 +214496,6 @@
         "38025",
         "38026"
       ]
-    },
-    "R10645": {
-      "compounds": [],
-      "ec_numbers": [
-        "2.8.4.3"
-      ],
-      "mass_balance": "unbalanced",
-      "mnxr_id": "MNXR113966",
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R10646": {
-      "compounds": [],
-      "ec_numbers": [
-        "2.8.4.3"
-      ],
-      "mass_balance": "unbalanced",
-      "mnxr_id": "MNXR113967",
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
-    },
-    "R10647": {
-      "compounds": [],
-      "ec_numbers": [
-        "2.8.4.3"
-      ],
-      "mass_balance": "balanced",
-      "mnxr_id": "MNXR113968",
-      "name": "",
-      "pathways": [],
-      "reaction_class": "chemical",
-      "rhea_ids": []
     },
     "R10648": {
       "compounds": [

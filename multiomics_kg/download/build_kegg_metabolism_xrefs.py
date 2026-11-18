@@ -563,6 +563,19 @@ def _mnxm_order(mnxm_id: str) -> tuple[int, int, str]:
     return (0, int(digits), mnxm_id) if digits.isdigit() else (1, 0, mnxm_id)
 
 
+def _deleted_entries(ids: set[str], current_names: dict[str, str], kind: str) -> list[str]:
+    """Ids gene annotations cite that KEGG's current list no longer has (sorted).
+
+    An empty ``current_names`` means the list was not loaded; nothing is treated as deleted.
+    """
+    if not current_names:
+        return []
+    deleted = sorted(i for i in ids if i not in current_names)
+    if deleted:
+        log.warning(f"Dropped {len(deleted)} {kind}(s) deleted from KEGG: {', '.join(deleted)}")
+    return deleted
+
+
 def _bulk_enrich_reactions(
     conn: sqlite3.Connection,
     kegg_ids: list[str],
@@ -1422,6 +1435,14 @@ def build_pruned_kegg_data(
     """
     pathway_names = raw.get("pathway_names", {})
     kos, rxns, cpds = sets["kos"], sets["rxns"], sets["cpds"]
+    # KOs / reactions KEGG has deleted: eggNOG still assigns them, but they are gone from
+    # /list/ko and /list/reaction (KEGG returns nothing for them) and KEGG publishes no
+    # successor, so they are dropped, not kept as id-named nodes. The adapters drop the
+    # gene edges to them because they are absent from this cache. Recorded in the output.
+    deleted_kos = _deleted_entries(kos, raw.get("ko_names", {}), "KO")
+    deleted_rxns = _deleted_entries(rxns, raw.get("reaction_names", {}), "reaction")
+    kos = kos - set(deleted_kos)
+    rxns = rxns - set(deleted_rxns)
     pws_in = sets["pws"]
     pws = {p for p in pws_in if pathway_names.get(p)}
     dropped_pws = pws_in - pws
@@ -1464,6 +1485,8 @@ def build_pruned_kegg_data(
         },
         "reactions": rxn_enriched,
         "compounds": cpd_enriched,
+        "deleted_kos": deleted_kos,
+        "deleted_reactions": deleted_rxns,
     }
 
     log.info(
@@ -2089,8 +2112,9 @@ def main(force: bool = False, refetch_raw: bool = False, today: str | None = Non
 
     inp = Step6Inputs(
         table=table,
-        kegg_rest={k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions",
-                                             "excluded_pathways")},
+        kegg_rest={**{k: kegg_data[k] for k in ("kos", "pathways", "subcategories", "categories", "reactions",
+                                                "excluded_pathways")},
+                   **{k: kegg_data.get(k, []) for k in ("deleted_kos", "deleted_reactions")}},
         system_substrates=system_substrates, chemical_roles=chemical_roles, system_roles=system_roles,
         rekeys=rekeys, role_of_old=role_of_old, tables=tables, paper_overrides=paper_overrides,
         name_candidates=paper.name_candidates, lock=lock,

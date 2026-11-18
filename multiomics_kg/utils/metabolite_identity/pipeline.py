@@ -52,7 +52,7 @@ class Step6ValidationError(RuntimeError):
 @dataclass
 class Step6Inputs:
     table: dict[str, dict]                      # stage D: full node id → entry (+ transient mnx_chebi_aliases)
-    kegg_rest: dict                             # kos, pathways, subcategories, categories, reactions
+    kegg_rest: dict                             # kos, pathways, subcategories, categories, reactions, excluded_pathways, deleted_kos, deleted_reactions
     system_substrates: dict[str, list[str]]     # {tc_system: [raw-resolved primary ids]}
     chemical_roles: dict[str, dict]
     system_roles: dict[str, list[str]]

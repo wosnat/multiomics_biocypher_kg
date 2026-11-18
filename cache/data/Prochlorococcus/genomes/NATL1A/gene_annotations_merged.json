@@ -27438,13 +27438,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -184906,19 +184906,10 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.1.-": [
-        "uniprot"
-      ],
-      "2.3.1.266": [
-        "eggnog",
-        "uniprot"
-      ],
-      "2.3.1.267": [
         "eggnog",
         "uniprot"
       ]
@@ -211415,13 +211406,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -224922,10 +224913,10 @@
       "Phosphorus"
     ],
     "ec_numbers": [
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog",
         "uniprot"
@@ -284379,24 +284370,19 @@
     ],
     "ec_numbers": [
       "2.3.1.266",
-      "2.3.1.267",
       "2.3.1.-"
     ],
     "ec_numbers_evidence": {
-      "2.3.1.-": "family_inferred"
+      "2.3.1.-": "curated"
     },
     "ec_numbers_source": {
       "2.3.1.-": [
+        "cyanorak",
+        "eggnog",
         "interproscan"
       ],
       "2.3.1.266": [
-        "cyanorak",
-        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.267": [
-        "cyanorak",
-        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -299777,13 +299763,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -313651,13 +313637,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -400534,27 +400520,15 @@
       "Nitrogen metabolism"
     ],
     "ec_numbers": [
-      "2.3.2.23",
-      "2.3.2.27",
-      "6.2.1.45",
       "2.7.7.80",
       "2.8.1.11"
     ],
     "ec_numbers_source": {
-      "2.3.2.23": [
-        "uniprot"
-      ],
-      "2.3.2.27": [
-        "uniprot"
-      ],
       "2.7.7.80": [
         "eggnog"
       ],
       "2.8.1.11": [
         "eggnog"
-      ],
-      "6.2.1.45": [
-        "uniprot"
       ]
     },
     "eggnog_og_descriptions": [

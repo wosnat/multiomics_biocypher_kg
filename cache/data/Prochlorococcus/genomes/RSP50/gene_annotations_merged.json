@@ -114272,13 +114272,13 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "eggnog"
       ],
       "1.11.1.24": [
@@ -159274,19 +159274,12 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.1.-": [
+        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.266": [
-        "eggnog"
-      ],
-      "2.3.1.267": [
-        "eggnog"
       ]
     },
     "eggnog_ogs": [
@@ -160835,13 +160828,13 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "eggnog"
       ],
       "1.11.1.24": [
@@ -249286,13 +249279,13 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "eggnog"
       ],
       "1.11.1.24": [
@@ -258242,10 +258235,10 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "eggnog"
       ]
     },
@@ -281035,7 +281028,6 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "2.3.1.266",
-      "2.3.1.267",
       "2.3.1.-"
     ],
     "ec_numbers_evidence": {
@@ -281043,14 +281035,11 @@
     },
     "ec_numbers_source": {
       "2.3.1.-": [
+        "eggnog",
         "interproscan"
       ],
       "2.3.1.266": [
-        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.267": [
-        "eggnog"
       ]
     },
     "eggnog_ogs": [

@@ -1944,3 +1944,11 @@ def test_load_previous_kegg_data(tmp_path):
     bad.write_text('{"compounds": ')
     with pytest.raises(RuntimeError, match="git checkout"):
         bx._load_previous_kegg_data(bad)
+
+
+def test_deleted_entries_are_ids_missing_from_keggs_current_list():
+    from multiomics_kg.download.build_kegg_metabolism_xrefs import _deleted_entries
+    names = {"R00001": "a", "R00002": "b"}
+    assert _deleted_entries({"R00001", "R00516", "R00568"}, names, "reaction") == ["R00516", "R00568"]
+    # No list loaded: nothing is treated as deleted.
+    assert _deleted_entries({"R00516"}, {}, "reaction") == []
