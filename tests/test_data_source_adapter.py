@@ -36,7 +36,8 @@ def test_reference_sources_have_info_types_and_chebi_version(adapter):
     if not cache.exists():
         pytest.skip("ChEBI cache not present")
     assert nodes["chebi"]["version"] == str(json.loads(cache.read_text())["release"]) != ""
-    assert nodes["kegg"]["version"] == ""
+    from multiomics_kg.utils.data_source_citations import load_citations, resolve_version
+    assert nodes["kegg"]["version"] == resolve_version(load_citations()["sources"]["kegg"])
 
 
 def test_merops_diamond_is_tool_run_gene_level(adapter):
@@ -144,8 +145,28 @@ def test_tcdb_diamond_is_tool_run_gene_level(adapter):
 
 
 def test_chebi_version_independent_of_cwd(tmp_path, monkeypatch):
-    from multiomics_kg.adapters import data_source_adapter as dsa
-    expected = DataSourceAdapter._version_for("chebi")
+    from multiomics_kg.utils import data_source_citations as dsc
+    expected = dsc.resolve_version({"version_from": "chebi_cache"})
     monkeypatch.chdir(tmp_path)
-    assert dsa._CHEBI_CACHE.is_absolute()
-    assert DataSourceAdapter._version_for("chebi") == expected != ""
+    assert dsc.CHEBI_CACHE_PATH.is_absolute()
+    assert dsc.resolve_version({"version_from": "chebi_cache"}) == expected != ""
+
+
+def test_every_node_carries_citations_from_yaml(adapter):
+    from multiomics_kg.utils.data_source_citations import load_citations
+    adapter.download_data()
+    cites = load_citations()["sources"]
+    for _, _, props in adapter.get_nodes():
+        e = cites[props["id"]]
+        assert props["citations"] and len(props["dois"]) == len(props["citations"]), props["id"]
+        assert props["url"] == e["url"]
+        assert props["name"] == e["name"]
+        assert props["description"] == e["description"]
+        assert ("license" in props) == bool(e.get("license")), props["id"]
+
+
+def test_interproscan_description_names_version_6(adapter):
+    adapter.download_data()
+    nodes = {props["id"]: props for _, _, props in adapter.get_nodes()}
+    assert "InterProScan 6" in nodes["interproscan"]["description"]
+    assert "InterProScan 5" not in nodes["interproscan"]["description"]

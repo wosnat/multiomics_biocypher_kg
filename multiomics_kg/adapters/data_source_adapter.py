@@ -1,6 +1,8 @@
-"""DataSource adapter — emits 4 metadata nodes describing the data sources
-that contribute fields to Gene records. Soft-joined to Gene via
-Gene.contributing_sources (no materialized edges).
+"""DataSource adapter — emits one metadata node per logical / reference
+source in gene_annotations_config.yaml. Soft-joined to Gene via
+Gene.contributing_sources and to edges via their `sources` values (R2); no
+materialized edges. Name, description, citations, dois, url, license and
+version come from config/data_source_citations.yaml.
 
 Auto-generates DataSource.info_types by walking the fields block of
 gene_annotations_config.yaml and inverting source -> field-name mapping.
@@ -13,7 +15,8 @@ from pathlib import Path
 from typing import Any, Iterator
 
 import yaml
-from biocypher._logger import logger
+
+from multiomics_kg.utils.data_source_citations import load_citations, resolve_version
 
 
 def _clean_str(value: str) -> str:
@@ -27,10 +30,6 @@ def data_source_ids(config: dict) -> set[str]:
            for ls in src.get("logical_sources", [])}
     ids |= {rs["id"] for rs in (config.get("reference_sources") or [])}
     return ids
-
-
-_CHEBI_CACHE = (Path(__file__).resolve().parents[2]
-                / "cache" / "data" / "chebi" / "chebi_metabolite_xrefs.json")
 
 
 class DataSourceAdapter:
@@ -48,10 +47,12 @@ class DataSourceAdapter:
         self.config_path = Path(config_path)
         self._config: dict[str, Any] | None = None
         self._info_types_by_source: dict[str, list[str]] = {}
+        self._citations: dict[str, dict[str, Any]] = {}
 
     def download_data(self, cache: bool = True) -> None:
         with open(self.config_path) as f:
             self._config = yaml.safe_load(f)
+        self._citations = load_citations()["sources"]
         self._info_types_by_source = self._derive_info_types(self._config)
 
     @staticmethod
@@ -121,50 +122,6 @@ class DataSourceAdapter:
         for rs in (self._config or {}).get("reference_sources") or []:
             yield {"_yaml_source_name": rs["id"], **rs}
 
-    @staticmethod
-    def _version_for(source_id: str) -> str:
-        """ChEBI's release comes from the committed cache; other sources are unversioned."""
-        if source_id != "chebi":
-            return ""
-        if not _CHEBI_CACHE.exists():
-            logger.warning(f"ChEBI cache {_CHEBI_CACHE} missing; DataSource chebi gets no version")
-            return ""
-        import json
-        with open(_CHEBI_CACHE) as f:
-            return str(json.load(f).get("release", ""))
-
-    @staticmethod
-    def _name_for(source_id: str) -> str:
-        return {
-            "ncbi": "NCBI RefSeq",
-            "cyanorak": "Cyanorak",
-            "uniprot": "UniProt",
-            "eggnog": "EggNOG-mapper",
-            "psortb": "PSORTb",
-            "signalp": "SignalP",
-            "interproscan": "InterProScan",
-            "tcdb_diamond": "TCDB (diamond)",
-            "merops_diamond": "MEROPS (diamond)",
-            "kegg": "KEGG",
-            "chebi": "ChEBI",
-        }.get(source_id, source_id.title())
-
-    @staticmethod
-    def _description_for(source_id: str) -> str:
-        return {
-            "ncbi": "NCBI RefSeq genome annotation (GFF + GenBank).",
-            "cyanorak": "Cyanorak: curated cyanobacteria gene clusters and roles.",
-            "uniprot": "UniProt proteins (reviewed + unreviewed) cross-referenced via RefSeq protein_id.",
-            "eggnog": "EggNOG-mapper functional annotations (per-protein query against the eggNOG reference).",
-            "psortb": "PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).",
-            "signalp": "SignalP 6.0 per-protein signal-peptide-type predictions (SP/LIPO/TAT/TATLIPO/PILIN).",
-            "interproscan": "InterProScan 5 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs).",
-            "tcdb_diamond": "diamond blastp against the curated TCDB FASTA — per-protein transporter classifications by direct sequence similarity, independent of eggNOG's ortholog-transferred KEGG_TC.",
-            "merops_diamond": "diamond blastp against the MEROPS peptidase scan library — per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the KG's only MEROPS evidence source.",
-            "kegg": "KEGG COMPOUND and its compound BRITE classification trees (br08001-br08021), via the KEGG REST API; source of MetaboliteClass memberships.",
-            "chebi": "ChEBI (Chemical Entities of Biological Interest, EMBL-EBI): metabolite identity, stereo relations and the role ontology behind ChemicalRole. Licensed CC BY 4.0; attribution: ChEBI, EMBL-EBI.",
-        }.get(source_id, "")
-
     def get_nodes(self) -> Iterator[tuple[str, str, dict[str, Any]]]:
         if self._config is None:
             self.download_data()
@@ -183,16 +140,26 @@ class DataSourceAdapter:
             extra_bucket = set(ls.get("info_types_extra") or [])
             info_types = sorted(yaml_bucket | id_bucket | extra_bucket)
             node_id = f"data_source:{src_id}"
+            if src_id not in self._citations:
+                raise KeyError(
+                    f"DataSource '{src_id}' has no entry in config/data_source_citations.yaml"
+                )
+            cite = self._citations[src_id]
             properties = {
                 "id": _clean_str(src_id),
-                "name": _clean_str(self._name_for(src_id)),
-                "description": _clean_str(self._description_for(src_id)),
-                "version": _clean_str(self._version_for(src_id)),
+                "name": _clean_str(cite["name"]),
+                "description": _clean_str(cite["description"]),
+                "version": _clean_str(resolve_version(cite)),
+                "citations": [_clean_str(c) for c in cite["citations"]],
+                "dois": [_clean_str(d) for d in cite["dois"]],
+                "url": _clean_str(cite["url"]),
                 "scope": _clean_str(ls.get("scope", "")),
                 "provenance": _clean_str(ls.get("provenance", "")),
                 "applies_to_organisms": [_clean_str(o) for o in (ls.get("applies_to_organisms") or [])],
                 "info_types": [_clean_str(t) for t in info_types],
             }
+            if cite.get("license"):
+                properties["license"] = _clean_str(cite["license"])
             yield node_id, "data_source", properties
 
     def get_edges(self) -> Iterator[tuple]:

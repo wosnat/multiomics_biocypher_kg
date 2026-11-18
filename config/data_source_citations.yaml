@@ -1,0 +1,141 @@
+# Per-DataSource metadata: THE source of truth for DataSource name,
+# description, citations, dois, url, license and version, plus the build
+# framework citations stamped on Schema_info.build_citations.
+# Read by multiomics_kg/utils/data_source_citations.py.
+#
+# Rules (tests/test_data_source_citations.py):
+#   - one entry per DataSource id (gene_annotations_config.yaml logical_sources + reference_sources)
+#   - dois parallel to citations, bare (10.xxxx/...), empty string where none
+#   - no apostrophe, double quote, pipe or backslash anywhere
+#   - version literal, or version_from: chebi_cache | go_release
+#   - interproscan version must equal INTERPRO_RELEASE in run_interproscan.py
+# Citations were taken from each project's own how-to-cite page (or PubMed
+# where the page was unreachable) and independently re-checked; see
+# docs/superpowers/specs/2026-11-18-data-source-citations-design.md.
+
+sources:
+  ncbi:
+    name: NCBI RefSeq
+    description: NCBI RefSeq genome annotation (GFF + GenBank, PGAP gene calls and protein FASTA).
+    version: ''
+    citations:
+    - 'Goldfarb T et al. 2025. NCBI RefSeq: reference sequence standards through 25 years of curation and annotation. Nucleic Acids Research 53:D243-D257.'
+    - Tatusova T et al. 2016. NCBI prokaryotic genome annotation pipeline. Nucleic Acids Research 44:6614-6624.
+    dois:
+    - 10.1093/nar/gkae1038
+    - 10.1093/nar/gkw569
+    url: https://www.ncbi.nlm.nih.gov/refseq/publications/
+  cyanorak:
+    name: Cyanorak
+    description: 'Cyanorak v2.1: curated cyanobacteria gene clusters (CK clusters) and functional roles.'
+    version: '2.1'
+    citations:
+    - 'Garczarek L et al. 2021. Cyanorak v2.1: a scalable information system dedicated to the visualization and expert curation of marine and brackish picocyanobacteria genomes. Nucleic Acids Research 49:D667-D676.'
+    dois:
+    - 10.1093/nar/gkaa958
+    url: https://pubmed.ncbi.nlm.nih.gov/33125079/
+  uniprot:
+    name: UniProt
+    description: UniProt proteins (reviewed + unreviewed) cross-referenced via RefSeq protein_id.
+    version: ''
+    citations:
+    - 'The UniProt Consortium. 2025. UniProt: the Universal Protein Knowledgebase in 2025. Nucleic Acids Research 53:D609-D617.'
+    dois:
+    - 10.1093/nar/gkae1010
+    url: https://www.uniprot.org/help/publications
+    license: CC BY 4.0
+  eggnog:
+    name: EggNOG-mapper
+    description: EggNOG-mapper functional annotations (per-protein query against the eggNOG reference; source of KO, COG category, ortholog groups, and orthology-transferred GO/EC/Pfam/CAZy/TC).
+    version: eggNOG 5.0.2 (eggNOG-mapper 2.1.13)
+    citations:
+    - 'Cantalapiedra CP et al. 2021. eggNOG-mapper v2: functional annotation, orthology assignments, and domain prediction at the metagenomic scale. Molecular Biology and Evolution 38:5825-5829.'
+    - 'Huerta-Cepas J et al. 2019. eggNOG 5.0: a hierarchical, functionally and phylogenetically annotated orthology resource based on 5090 organisms and 2502 viruses. Nucleic Acids Research 47:D309-D314.'
+    - Galperin MY et al. 2025. COG database update 2024. Nucleic Acids Research 53:D356-D363.
+    dois:
+    - 10.1093/molbev/msab293
+    - 10.1093/nar/gky1085
+    - 10.1093/nar/gkae983
+    url: https://github.com/eggnogdb/eggnog-mapper/wiki/eggNOG-mapper-v2.1.5-to-v2.1.13
+  psortb:
+    name: PSORTb
+    description: PSORTb v3.0.3 per-protein subcellular-localization predictions (Gram-negative model).
+    version: 3.0.3
+    citations:
+    - 'Yu NY et al. 2010. PSORTb 3.0: improved protein subcellular localization prediction with refined localization subcategories and predictive capabilities for all prokaryotes. Bioinformatics 26:1608-1615.'
+    dois:
+    - 10.1093/bioinformatics/btq249
+    url: https://pubmed.ncbi.nlm.nih.gov/20472543/
+  signalp:
+    name: SignalP
+    description: SignalP 6.0 per-protein signal-peptide-type predictions (SP/LIPO/TAT/TATLIPO/PILIN).
+    version: '6.0'
+    citations:
+    - Teufel F et al. 2022. SignalP 6.0 predicts all five types of signal peptides using protein language models. Nature Biotechnology 40:1023-1025.
+    dois:
+    - 10.1038/s41587-021-01156-3
+    url: https://pubmed.ncbi.nlm.nih.gov/34980915/
+  interproscan:
+    name: InterProScan
+    description: InterProScan 6 per-protein InterPro-entry domain/family predictions (direct HMM/profile matching across member DBs, incl. Pfam and NCBIfam), plus the InterPro, NCBIfam and frozen TIGRFAMs 15.0 role reference data.
+    version: '111.0'
+    citations:
+    - 'Blum M et al. 2026. InterProScan 6: a modern large-scale protein function annotation pipeline. Bioinformatics Advances 6:vbag141.'
+    - 'Blum M et al. 2025. InterPro: the protein sequence classification resource in 2025. Nucleic Acids Research 53:D444-D456.'
+    - 'Li W et al. 2021. RefSeq: expanding the Prokaryotic Genome Annotation Pipeline reach with protein family model curation. Nucleic Acids Research 49:D1020-D1028.'
+    - Haft DH et al. 2013. TIGRFAMs and Genome Properties in 2013. Nucleic Acids Research 41:D387-D395.
+    dois:
+    - 10.1093/bioadv/vbag141
+    - 10.1093/nar/gkae1082
+    - 10.1093/nar/gkaa1105
+    - 10.1093/nar/gks1234
+    url: https://github.com/ebi-pf-team/interproscan6
+  tcdb_diamond:
+    name: TCDB (diamond)
+    description: 'diamond blastp against the curated TCDB FASTA: per-protein transporter classifications by direct sequence similarity, independent of the orthology-transferred KEGG_TC from eggNOG. TCDB also supplies the TcdbFamily hierarchy, names and substrates.'
+    version: ''
+    citations:
+    - 'Saier MH et al. 2021. The Transporter Classification Database (TCDB): 2021 update. Nucleic Acids Research 49:D461-D467.'
+    - Buchfink B et al. 2021. Sensitive protein alignments at tree-of-life scale using DIAMOND. Nature Methods 18:366-368.
+    dois:
+    - 10.1093/nar/gkaa1004
+    - 10.1038/s41592-021-01101-x
+    url: https://www.tcdb.org/
+    license: CC BY-SA 3.0 and GNU Free Documentation License (site text)
+  merops_diamond:
+    name: MEROPS (diamond)
+    description: 'diamond blastp against the MEROPS peptidase scan library: per-protein protease/peptidase-inhibitor classifications (clan/family/subfamily) by direct sequence similarity; the only MEROPS evidence source. MEROPS also supplies family names, the Pfam bridge and cleavage specificity.'
+    version: '12.5'
+    citations:
+    - Rawlings ND et al. 2018. The MEROPS database of proteolytic enzymes, their substrates and inhibitors in 2017 and a comparison with peptidases in the PANTHER database. Nucleic Acids Research 46:D624-D632.
+    - Buchfink B et al. 2021. Sensitive protein alignments at tree-of-life scale using DIAMOND. Nature Methods 18:366-368.
+    dois:
+    - 10.1093/nar/gkx1134
+    - 10.1038/s41592-021-01101-x
+    url: https://www.ebi.ac.uk/merops/
+  kegg:
+    name: KEGG
+    description: 'KEGG via the KEGG REST API: KEGG Orthology, pathways, reactions, COMPOUND and the BRITE hierarchies (functional KO trees and compound classification trees br08001-br08021).'
+    version: ''
+    citations:
+    - Kanehisa M et al. 2027. KEGG for characterizing genomes and pathways in the biosphere. Nucleic Acids Research 55:gkag1042.
+    - 'Kanehisa M et al. 2025. KEGG: biological systems database as a model of the real world. Nucleic Acids Research 53:D672-D677.'
+    - Kanehisa M. 2019. Toward understanding the origin and evolution of cellular organisms. Protein Science 28:1947-1951.
+    - 'Kanehisa M, Goto S. 2000. KEGG: Kyoto Encyclopedia of Genes and Genomes. Nucleic Acids Research 28:27-30.'
+    dois:
+    - 10.1093/nar/gkag1042
+    - 10.1093/nar/gkae909
+    - 10.1002/pro.3715
+    - 10.1093/nar/28.1.27
+    url: https://www.kegg.jp/kegg/kegg1.html
+    license: 'Proprietary (Kanehisa Laboratories): free website use for academic users; FTP/service provision requires an academic subscription; non-academic use requires a commercial license (kegg.jp/kegg/legal.html)'
+  chebi:
+    name: ChEBI
+    description: 'ChEBI (Chemical Entities of Biological Interest, EMBL-EBI): metabolite identity, stereo relations and the role ontology behind ChemicalRole. Licensed CC BY 4.0; attribution: ChEBI, EMBL-EBI.'
+    version_from: chebi_cache
+    citations:
+    - 'Malik A et al. 2026. ChEBI: re-engineered for a sustainable future. Nucleic Acids Research 54:D1768-D1778.'
+    dois:
+    - 10.1093/nar/gkaf1271
+    url: https://www.ebi.ac.uk/chebi/aboutChebiForward.do
+    license: CC BY 4.0
