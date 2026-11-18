@@ -8,7 +8,7 @@
 #   - dois parallel to citations, bare (10.xxxx/...), one per citation (no empty
 #     string: an empty element is lost on neo4j-admin import, misaligning the lists)
 #   - no apostrophe, double quote, pipe or backslash anywhere
-#   - version literal, or version_from: chebi_cache | go_release
+#   - version literal, or version_from: chebi_cache | go_release | pfam_reference
 #   - interproscan version must equal INTERPRO_RELEASE in run_interproscan.py
 # Citations were taken from each project's own how-to-cite page (or PubMed
 # where the page was unreachable) and independently re-checked; see
@@ -158,7 +158,7 @@ sources:
   pfam:
     name: Pfam
     description: 'Pfam domain and clan reference data (Pfam-A.clans): Pfam and PfamClan node names and clan membership.'
-    version: ''
+    version_from: pfam_reference
     citations:
     - 'Paysan-Lafosse T et al. 2025. The Pfam protein families database: embracing AI/ML. Nucleic Acids Research 53:D523-D534.'
     dois:

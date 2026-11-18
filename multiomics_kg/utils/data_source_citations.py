@@ -24,6 +24,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[2]
 CITATIONS_PATH = _REPO_ROOT / "config" / "data_source_citations.yaml"
 CHEBI_CACHE_PATH = _REPO_ROOT / "cache" / "data" / "chebi" / "chebi_metabolite_xrefs.json"
 GO_RELEASE_PATH = _REPO_ROOT / "cache" / "data" / "go_terms" / "go_release.txt"
+PFAM_REFERENCE_PATH = _REPO_ROOT / "cache" / "data" / "pfam" / "pfam_reference.json"
 
 # `'` → `^` and `|` deleted by the adapters' _clean_str; `"` is swapped for `'`
 # when post-import injects build_citations as a Cypher list; `\` escapes there.
@@ -54,9 +55,17 @@ def _read_go_release() -> str:
     return GO_RELEASE_PATH.read_text().strip()
 
 
+def _read_pfam_release() -> str:
+    if not PFAM_REFERENCE_PATH.exists():
+        logger.warning(f"{PFAM_REFERENCE_PATH} missing; DataSource pfam gets no version")
+        return ""
+    return str(json.loads(PFAM_REFERENCE_PATH.read_text()).get("release", ""))
+
+
 _VERSION_READERS = {
     "chebi_cache": _read_chebi_release,
     "go_release": _read_go_release,
+    "pfam_reference": _read_pfam_release,
 }
 
 

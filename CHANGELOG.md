@@ -103,7 +103,7 @@ tag with nothing logged.
   how-to-cite page) and, where stated, `license`; `Schema_info.build_citations` cites BioCypher.
   Six reference databases join as `DataSource` nodes (`go`, `pfam`, `cazy`, `expasy_enzyme`,
   `metanetx`, `ncbi_taxonomy`; 11 → 17), and `version` is filled where known (eggNOG 5.0.2,
-  InterPro 111.0, MEROPS 12.5, MetaNetX 4.5, GO release, ChEBI release). Curated in
+  InterPro 111.0, MEROPS 12.5, MetaNetX 4.5, Pfam 39.0, GO release, ChEBI release). Curated in
   `config/data_source_citations.yaml`.
 
 - Build warns when step 6 is stale for GO transport: `kegg_data.json` now records the KG GO

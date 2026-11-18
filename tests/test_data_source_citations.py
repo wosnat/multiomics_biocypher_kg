@@ -142,3 +142,13 @@ def test_every_citation_has_a_doi(citations):
     str[] cell, so dois would silently misalign with citations."""
     for sid, e in citations["sources"].items():
         assert all(d for d in e["dois"]), sid
+
+
+def test_pfam_reference_reader():
+    import json
+    p = Path("cache/data/pfam/pfam_reference.json")
+    if not p.exists():
+        pytest.skip("pfam_reference.json not present")
+    expected = json.loads(p.read_text())["release"]
+    assert resolve_version({"version_from": "pfam_reference"}) == expected != ""
+    assert resolve_version(load_citations()["sources"]["pfam"]) == expected
