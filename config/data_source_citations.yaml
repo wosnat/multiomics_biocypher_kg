@@ -13,6 +13,10 @@
 # where the page was unreachable) and independently re-checked; see
 # docs/superpowers/specs/2026-11-18-data-source-citations-design.md.
 
+# Build framework citations -> Schema_info.build_citations (str[]; DOI inside
+# the text because Schema_info carries no parallel dois list). Neo4j has none.
+build_citations:
+- 'Lobentanzer S et al. 2023. Democratizing knowledge representation with BioCypher. Nature Biotechnology 41:1056-1059. doi: 10.1038/s41587-023-01848-y'
 sources:
   ncbi:
     name: NCBI RefSeq

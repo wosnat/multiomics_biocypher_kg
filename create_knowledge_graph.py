@@ -471,6 +471,9 @@ def main():
         print(f"WARNING: {chebi_cache} missing; no chebi_release.txt written, "
               "so Schema_info.chebi_release will be null")
 
+    from multiomics_kg.utils.data_source_citations import write_build_citations
+    print(f"Wrote build citations to {write_build_citations(bc._output_directory)}")
+
     kegg_data_path = Path("cache/data/kegg/kegg_data.json")
     if kegg_data_path.exists():
         kegg_data_json = json.loads(kegg_data_path.read_text())

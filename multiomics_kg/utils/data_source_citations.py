@@ -68,3 +68,14 @@ def resolve_version(entry: dict[str, Any]) -> str:
             raise ValueError(f"unknown version_from {reader!r}; known: {sorted(_VERSION_READERS)}")
         return _VERSION_READERS[reader]()
     return str(entry.get("version") or "")
+
+
+def write_build_citations(out_dir: str | Path) -> Path:
+    """Write ``build_citations`` as a JSON list to ``<out_dir>/build_citations.json``.
+
+    Post-import reads this sidecar and stamps ``Schema_info.build_citations``
+    (the post-process container has no Python).
+    """
+    path = Path(out_dir) / "build_citations.json"
+    path.write_text(json.dumps(load_citations()["build_citations"]))
+    return path

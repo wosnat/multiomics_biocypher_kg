@@ -96,3 +96,19 @@ def test_go_release_reader():
     if not p.exists():
         pytest.skip("go_release.txt not present")
     assert resolve_version({"version_from": "go_release"}) == p.read_text().strip() != ""
+
+
+def test_build_citations_nonempty(citations):
+    build = citations["build_citations"]
+    assert isinstance(build, list) and build and all(isinstance(c, str) and c for c in build)
+    assert any("BioCypher" in c for c in build)
+    # DOI carried inside the text: Schema_info has no parallel dois list
+    assert all(re.search(r"doi: 10\.\d{4,9}/\S+$", c) for c in build)
+
+
+def test_write_build_citations_sidecar(tmp_path):
+    import json
+    from multiomics_kg.utils.data_source_citations import write_build_citations
+    path = write_build_citations(tmp_path)
+    assert path == tmp_path / "build_citations.json"
+    assert json.loads(path.read_text()) == load_citations()["build_citations"]

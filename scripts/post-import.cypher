@@ -2042,6 +2042,8 @@ CALL {
 :param go_excluded         => []
 // tcdb_excluded is injected by post-import.sh from tcdb_substrate_excluded_targets.json
 :param tcdb_excluded       => []
+// build_citations is injected by post-import.sh from build_citations.json
+:param build_citations     => []
 
 MATCH (s:Schema_info {id: 'schema_info'})
 SET s.version           = coalesce($version, '0.0.0-dev'),
@@ -2060,7 +2062,8 @@ SET s.version           = coalesce($version, '0.0.0-dev'),
                                           THEN null ELSE $vocab_hash END,
     s.chebi_release = CASE WHEN coalesce($chebi_release, '') = '' THEN null ELSE $chebi_release END,
     s.go_transport_excluded_targets = coalesce($go_excluded, []),
-    s.tcdb_substrate_excluded_targets = coalesce($tcdb_excluded, [])
+    s.tcdb_substrate_excluded_targets = coalesce($tcdb_excluded, []),
+    s.build_citations = coalesce($build_citations, [])
 WITH s
 SET s.paper_count           = COUNT { (:Publication) },
     s.experiment_count      = COUNT { (:Experiment) },
