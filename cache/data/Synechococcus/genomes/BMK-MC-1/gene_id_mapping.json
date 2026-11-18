@@ -181105,6 +181105,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "SynBMKMC1_RS12100",
           "type": "gene_synonym"
         },
@@ -262734,6 +262738,9 @@
     "nblB": [
       "SynBMKMC1_00179"
     ],
+    "nblD": [
+      "SynBMKMC1_02620"
+    ],
     "nblS": [
       "SynBMKMC1_02503"
     ],
@@ -281862,7 +281869,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 3096,
-    "n_multi": 14812,
+    "n_multi": 14813,
     "n_specific": 17059,
     "passes": 2
   },

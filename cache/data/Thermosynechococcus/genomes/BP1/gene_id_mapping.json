@@ -63344,6 +63344,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "ccmP",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS01580",
           "type": "gene_synonym"
         },
@@ -115306,6 +115310,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "rbp",
+          "type": "gene_name"
+        },
+        {
           "id": "TLL_RS11440",
           "type": "gene_synonym"
         },
@@ -118499,6 +118507,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "rbp",
+          "type": "gene_name"
+        },
         {
           "id": "TLL_RS07320",
           "type": "gene_synonym"
@@ -138011,6 +138023,9 @@
     "ccmO": [
       "tll1148"
     ],
+    "ccmP": [
+      "tlr0311"
+    ],
     "ccmR": [
       "tlr2037"
     ],
@@ -140955,6 +140970,10 @@
     ],
     "rbgA": [
       "tlr1507"
+    ],
+    "rbp": [
+      "tsl2255",
+      "tsr1443"
     ],
     "rbp3": [
       "tlr1512"
@@ -156671,7 +156690,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2449,
-    "n_multi": 9521,
+    "n_multi": 9523,
     "n_specific": 7234,
     "passes": 2
   },

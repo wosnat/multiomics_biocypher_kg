@@ -3872,6 +3872,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "ccmP",
+          "type": "gene_name"
+        },
+        {
           "id": "M744_RS00340",
           "type": "gene_synonym"
         },
@@ -102204,6 +102208,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "ccmN",
+          "type": "gene_name"
+        },
+        {
           "id": "M744_RS09015",
           "type": "gene_synonym"
         },
@@ -187093,8 +187101,14 @@
     "ccmM": [
       "M744_09475"
     ],
+    "ccmN": [
+      "M744_09470"
+    ],
     "ccmO": [
       "M744_09465"
+    ],
+    "ccmP": [
+      "M744_00360"
     ],
     "ccoO": [
       "M744_02050"
@@ -201111,7 +201125,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2714,
-    "n_multi": 11158,
+    "n_multi": 11160,
     "n_specific": 10625,
     "passes": 2
   },

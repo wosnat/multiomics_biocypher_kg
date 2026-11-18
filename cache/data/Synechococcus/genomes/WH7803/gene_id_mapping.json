@@ -3049,6 +3049,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "SynWH7803_2071",
           "type": "gene_synonym"
         },
@@ -216709,6 +216713,9 @@
     "nblB": [
       "SynWH7803_0189"
     ],
+    "nblD": [
+      "SYNWH7803_RS10230"
+    ],
     "nblS": [
       "SynWH7803_1963"
     ],
@@ -231389,7 +231396,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2590,
-    "n_multi": 12982,
+    "n_multi": 12983,
     "n_specific": 12457,
     "passes": 2
   },

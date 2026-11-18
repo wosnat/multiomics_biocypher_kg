@@ -77012,6 +77012,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "KR49_RS05050",
           "type": "gene_synonym"
         },
@@ -238347,6 +238351,9 @@
     "nblB": [
       "KR49_09615"
     ],
+    "nblD": [
+      "KR49_05585"
+    ],
     "nblS": [
       "KR49_05990"
     ],
@@ -255816,7 +255823,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2722,
-    "n_multi": 13566,
+    "n_multi": 13567,
     "n_specific": 15443,
     "passes": 2
   },

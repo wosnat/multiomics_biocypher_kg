@@ -35089,6 +35089,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "dprE1",
+          "type": "gene_name"
+        },
+        {
           "id": "SynTAK9802_RS02770",
           "type": "gene_synonym"
         },
@@ -196133,6 +196137,9 @@
       "SynTAK9802_00499",
       "SynTAK9802_00500"
     ],
+    "dprE1": [
+      "SynTAK9802_00578"
+    ],
     "dusA": [
       "SynTAK9802_00015"
     ],
@@ -211803,7 +211810,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2700,
-    "n_multi": 10622,
+    "n_multi": 10623,
     "n_specific": 12543,
     "passes": 2
   },

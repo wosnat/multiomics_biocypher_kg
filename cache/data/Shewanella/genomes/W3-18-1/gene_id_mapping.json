@@ -172619,6 +172619,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "bamJ",
+          "type": "gene_name"
+        },
+        {
           "id": "SPUTW3181_RS15420",
           "type": "gene_synonym"
         },
@@ -282559,6 +282563,9 @@
     "bamE": [
       "Sputw3181_2873"
     ],
+    "bamJ": [
+      "Sputw3181_2964"
+    ],
     "barA": [
       "Sputw3181_1245"
     ],
@@ -304580,7 +304587,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 4058,
-    "n_multi": 16912,
+    "n_multi": 16913,
     "n_specific": 16068,
     "passes": 2
   },

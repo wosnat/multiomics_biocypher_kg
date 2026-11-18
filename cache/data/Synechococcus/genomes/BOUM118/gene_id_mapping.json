@@ -38713,6 +38713,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "SynBOUM118_RS02990",
           "type": "gene_synonym"
         },
@@ -204887,6 +204891,9 @@
     "nblB": [
       "SynBOUM118_00137"
     ],
+    "nblD": [
+      "SynBOUM118_00640"
+    ],
     "nblS": [
       "SynBOUM118_00570"
     ],
@@ -219934,7 +219941,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2789,
-    "n_multi": 11066,
+    "n_multi": 11067,
     "n_specific": 13021,
     "passes": 2
   },

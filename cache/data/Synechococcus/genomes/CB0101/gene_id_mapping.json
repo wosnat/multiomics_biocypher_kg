@@ -87702,6 +87702,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "CB0101_RS0111520",
           "type": "gene_synonym"
         },
@@ -111533,6 +111537,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "dprE1",
+          "type": "gene_name"
+        },
         {
           "id": "CB0101_RS0114650",
           "type": "gene_synonym"
@@ -157467,6 +157475,9 @@
     "dprA": [
       "CB0101_RS0113130"
     ],
+    "dprE1": [
+      "CB0101_RS0114650"
+    ],
     "dus": [
       "CB0101_RS0111860"
     ],
@@ -158654,6 +158665,9 @@
     ],
     "nblB": [
       "CB0101_RS0114215"
+    ],
+    "nblD": [
+      "CB0101_RS0111520"
     ],
     "nblS": [
       "CB0101_RS0110940"
@@ -169187,7 +169201,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 3056,
-    "n_multi": 9660,
+    "n_multi": 9662,
     "n_specific": 8572,
     "passes": 2
   },

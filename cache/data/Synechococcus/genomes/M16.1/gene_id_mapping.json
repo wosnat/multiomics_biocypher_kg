@@ -149191,6 +149191,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "dprE1",
+          "type": "gene_name"
+        },
+        {
           "id": "SynM161_RS09955",
           "type": "gene_synonym"
         },
@@ -215720,6 +215724,9 @@
     "dprA": [
       "SynM161_00476"
     ],
+    "dprE1": [
+      "SynM161_02141"
+    ],
     "dusA": [
       "SynM161_00015"
     ],
@@ -232856,7 +232863,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2543,
-    "n_multi": 12296,
+    "n_multi": 12297,
     "n_specific": 14067,
     "passes": 2
   },

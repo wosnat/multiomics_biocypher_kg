@@ -35681,6 +35681,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "CyaNS01_RS02800",
           "type": "gene_synonym"
         },
@@ -222835,6 +222839,9 @@
     "natH": [
       "CyaNS01_01857"
     ],
+    "nblD": [
+      "CyaNS01_00595"
+    ],
     "nblS": [
       "CyaNS01_00747"
     ],
@@ -239050,7 +239057,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2975,
-    "n_multi": 12032,
+    "n_multi": 12033,
     "n_specific": 14170,
     "passes": 2
   },

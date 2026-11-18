@@ -122449,6 +122449,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "yfiB",
+          "type": "gene_name"
+        },
+        {
           "id": "HP15_RS14070",
           "type": "gene_synonym"
         },
@@ -330680,6 +330684,9 @@
     "yfhR": [
       "HP15_3062"
     ],
+    "yfiB": [
+      "HP15_2834"
+    ],
     "yfiJ": [
       "HP15_p187g121"
     ],
@@ -347608,7 +347615,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 4240,
-    "n_multi": 20740,
+    "n_multi": 20741,
     "n_specific": 16644,
     "passes": 2
   },

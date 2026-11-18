@@ -25481,6 +25481,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "dprE1",
+          "type": "gene_name"
+        },
+        {
           "id": "SynBIOSE41_RS00865",
           "type": "gene_synonym"
         },
@@ -326209,6 +326213,9 @@
     "dprA": [
       "SynBIOSE41_00649"
     ],
+    "dprE1": [
+      "SynBIOSE41_00210"
+    ],
     "dusA": [
       "SynBIOSE41_00015"
     ],
@@ -350968,7 +350975,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 4456,
-    "n_multi": 17836,
+    "n_multi": 17837,
     "n_specific": 21384,
     "passes": 2
   },

@@ -48681,6 +48681,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "SynA18461_RS03040",
           "type": "gene_synonym"
         },
@@ -245323,6 +245327,9 @@
     "nblB": [
       "SynA18461_00143"
     ],
+    "nblD": [
+      "SynA18461_00662"
+    ],
     "nblS": [
       "SynA18461_00604"
     ],
@@ -263273,7 +263280,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2956,
-    "n_multi": 13802,
+    "n_multi": 13803,
     "n_specific": 15929,
     "passes": 2
   },

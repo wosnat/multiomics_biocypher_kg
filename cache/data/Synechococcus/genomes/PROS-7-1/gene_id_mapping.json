@@ -167353,6 +167353,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "SynPROS71_RS11155",
           "type": "gene_synonym"
         },
@@ -249630,6 +249634,9 @@
     "nblB": [
       "SynPROS71_00211"
     ],
+    "nblD": [
+      "SynPROS71_02360"
+    ],
     "nblS": [
       "SynPROS71_02240"
     ],
@@ -267879,7 +267886,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2865,
-    "n_multi": 14157,
+    "n_multi": 14158,
     "n_specific": 16201,
     "passes": 2
   },

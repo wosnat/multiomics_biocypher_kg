@@ -191843,6 +191843,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "WH5701_15486",
           "type": "gene_synonym"
         },
@@ -250290,6 +250294,9 @@
     "nblB": [
       "WH5701_01640"
     ],
+    "nblD": [
+      "WH5701_15486"
+    ],
     "nblS": [
       "WH5701_14941"
     ],
@@ -268171,7 +268178,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 3353,
-    "n_multi": 13571,
+    "n_multi": 13572,
     "n_specific": 15736,
     "passes": 2
   },

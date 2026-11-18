@@ -44597,6 +44597,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "nblD",
+          "type": "gene_name"
+        },
+        {
           "id": "TX72_RS02940",
           "type": "gene_synonym"
         },
@@ -236849,6 +236853,9 @@
     "nblB": [
       "SYNW0139"
     ],
+    "nblD": [
+      "SYNW0602"
+    ],
     "nblS": [
       "SYNW0551"
     ],
@@ -253010,7 +253017,7 @@
   "stats": {
     "n_conflicts": 0,
     "n_genes": 2830,
-    "n_multi": 14563,
+    "n_multi": 14564,
     "n_specific": 13138,
     "passes": 2
   },

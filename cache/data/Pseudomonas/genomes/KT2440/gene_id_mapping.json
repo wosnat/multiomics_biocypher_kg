@@ -120757,6 +120757,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "gpgF",
+          "type": "gene_name"
+        },
+        {
           "id": "M8001_RS07125",
           "type": "gene_synonym"
         },
@@ -120847,6 +120851,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "gpgD",
+          "type": "gene_name"
+        },
+        {
           "id": "M8001_RS07130",
           "type": "gene_synonym"
         },
@@ -120932,6 +120940,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "gpgS",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS07135",
           "type": "gene_synonym"
@@ -124608,6 +124620,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "dspII",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS07355",
           "type": "gene_synonym"
@@ -132545,6 +132561,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "lptF",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS07800",
           "type": "gene_synonym"
@@ -191432,6 +191452,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "pcrP",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS11310",
           "type": "gene_synonym"
@@ -253354,6 +253378,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "fapF",
+          "type": "gene_name"
+        },
+        {
           "id": "M8001_RS14925",
           "type": "gene_synonym"
         },
@@ -253443,6 +253471,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "fapE",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS14930",
           "type": "gene_synonym"
@@ -253534,6 +253566,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "fapD",
+          "type": "gene_name"
+        },
+        {
           "id": "M8001_RS14935",
           "type": "gene_synonym"
         },
@@ -253623,6 +253659,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "fapC",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS14940",
           "type": "gene_synonym"
@@ -253714,6 +253754,10 @@
       ],
       "tier3_ids": [
         {
+          "id": "fapB",
+          "type": "gene_name"
+        },
+        {
           "id": "M8001_RS14945",
           "type": "gene_synonym"
         },
@@ -253803,6 +253847,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "fapA",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS14950",
           "type": "gene_synonym"
@@ -328857,6 +328905,10 @@
         }
       ],
       "tier3_ids": [
+        {
+          "id": "proA",
+          "type": "gene_name"
+        },
         {
           "id": "M8001_RS19360",
           "type": "gene_synonym"
@@ -573636,6 +573688,9 @@
     "dsbG": [
       "M8001_22155"
     ],
+    "dspII": [
+      "M8001_07340"
+    ],
     "dtd": [
       "M8001_26400"
     ],
@@ -573908,6 +573963,24 @@
     ],
     "fahA": [
       "M8001_24240"
+    ],
+    "fapA": [
+      "M8001_14925"
+    ],
+    "fapB": [
+      "M8001_14920"
+    ],
+    "fapC": [
+      "M8001_14915"
+    ],
+    "fapD": [
+      "M8001_14910"
+    ],
+    "fapE": [
+      "M8001_14905"
+    ],
+    "fapF": [
+      "M8001_14900"
     ],
     "fatB": [
       "M8001_13600"
@@ -574748,6 +574821,15 @@
     ],
     "gpW": [
       "M8001_15905"
+    ],
+    "gpgD": [
+      "M8001_07115"
+    ],
+    "gpgF": [
+      "M8001_07110"
+    ],
+    "gpgS": [
+      "M8001_07120"
     ],
     "gph": [
       "M8001_02200",
@@ -575661,7 +575743,8 @@
       "M8001_25205"
     ],
     "lptF": [
-      "M8001_05155"
+      "M8001_05155",
+      "M8001_07785"
     ],
     "lptG": [
       "M8001_05160"
@@ -576866,6 +576949,9 @@
     "pcpS": [
       "M8001_06155"
     ],
+    "pcrP": [
+      "M8001_11290"
+    ],
     "pcs": [
       "M8001_03925"
     ],
@@ -577381,6 +577467,7 @@
       "M8001_03940"
     ],
     "proA": [
+      "M8001_19330",
       "M8001_25285"
     ],
     "proB": [
@@ -619429,7 +619516,7 @@
   "stats": {
     "n_conflicts": 17,
     "n_genes": 5487,
-    "n_multi": 31077,
+    "n_multi": 31088,
     "n_specific": 38861,
     "passes": 3
   },
