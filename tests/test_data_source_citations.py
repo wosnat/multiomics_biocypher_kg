@@ -112,3 +112,33 @@ def test_write_build_citations_sidecar(tmp_path):
     path = write_build_citations(tmp_path)
     assert path == tmp_path / "build_citations.json"
     assert json.loads(path.read_text()) == load_citations()["build_citations"]
+
+
+def test_snapshot_data_source_descriptions_match_yaml(citations):
+    """tests/kg_validity/snapshot_data.json pins DataSource descriptions; it must
+    follow the yaml (the source of truth) or test_snapshot fails after a rebuild."""
+    import json
+    snap = json.loads(Path("tests/kg_validity/snapshot_data.json").read_text())
+    pinned = {}
+
+    def walk(o):
+        if isinstance(o, dict):
+            if str(o.get("id", "")).startswith("data_source:") and "description" in o.get("properties", {}):
+                pinned[o["id"].split(":", 1)[1]] = o["properties"]["description"]
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+
+    walk(snap)
+    assert pinned, "no DataSource nodes found in snapshot_data.json"
+    for sid, desc in pinned.items():
+        assert desc == citations["sources"][sid]["description"], sid
+
+
+def test_every_citation_has_a_doi(citations):
+    """An empty DOI element does not survive neo4j-admin import of a `|`-joined
+    str[] cell, so dois would silently misalign with citations."""
+    for sid, e in citations["sources"].items():
+        assert all(d for d in e["dois"]), sid

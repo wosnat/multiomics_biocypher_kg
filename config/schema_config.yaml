@@ -506,7 +506,7 @@ data source:
     applies_to_organisms: str[]   # populated only for organism_restricted
     info_types: str[]             # auto-generated from gene_annotations_config.yaml
     citations: str[]              # references to cite for this source (config/data_source_citations.yaml)
-    dois: str[]                   # bare DOIs, parallel to citations ('' where none)
+    dois: str[]                   # bare DOIs, one per citation (parallel list)
     url: str                      # the source's own how-to-cite page
     license: str                  # sparse: licence / terms of use when the source states one
 

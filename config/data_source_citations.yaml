@@ -5,7 +5,8 @@
 #
 # Rules (tests/test_data_source_citations.py):
 #   - one entry per DataSource id (gene_annotations_config.yaml logical_sources + reference_sources)
-#   - dois parallel to citations, bare (10.xxxx/...), empty string where none
+#   - dois parallel to citations, bare (10.xxxx/...), one per citation (no empty
+#     string: an empty element is lost on neo4j-admin import, misaligning the lists)
 #   - no apostrophe, double quote, pipe or backslash anywhere
 #   - version literal, or version_from: chebi_cache | go_release
 #   - interproscan version must equal INTERPRO_RELEASE in run_interproscan.py
