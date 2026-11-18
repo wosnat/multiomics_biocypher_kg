@@ -281,11 +281,11 @@ pre-redesign shape.
 - `calls_made == input_proteins` — every input protein should appear in the
   output; a shortfall means IPS dropped sequences (non-standard residues, empty
   seqs). Check `logs/interproscan/<strain>.log`.
-- `sentinel_rate` (proteins with no match): calibrated to the 42-strain batch
-  = **0.06–0.21** (mean 0.12). *Prochlorococcus* runs high (~0.15 — streamlined
-  genomes carry more uncharacterized ORFs); *Alteromonas*/heterotrophs run low
-  (~0.08). Flag anything **> 0.30** — that usually means the data dir is missing
-  member-DB subdirs or the wrong `--applications` was passed.
+- `sentinel_rate` (proteins with no match): calibrated to the 118-strain
+  InterProScan 6 batch = **0.05–0.19**. *Prochlorococcus* runs high (mean 0.12 —
+  streamlined genomes carry more uncharacterized ORFs); *Alteromonas*/heterotrophs
+  run low (~0.05–0.09). Flag anything **> 0.30** — that usually means the data dir
+  is missing member-DB subdirs or the wrong `--applications` was passed.
 - `interpro_integrated_matches / total_matches` — the fraction of hits that map
   to an `IPR` entry; expect a healthy majority. A collapse signals a data-dir
   version mismatch.
@@ -374,7 +374,27 @@ jq -r '."WP_011131653.1".libraries.NCBIFAM[].accession' \
 # -> includes "TIGR00357"
 ```
 
-## Observed batch results (42-strain run, 2026-07-23; re-run with xrefs 2026-08-09)
+## Observed batch results — InterProScan 6 / InterPro 111.0 (118 strains, 2026-11-18)
+
+One detached `--force` batch (`nohup setsid`, log `logs/interproscan/batch_v6.log`),
+2026-11-11 → 2026-11-16, ~122 h total at `--threads 8`. Every strain:
+`calls_made == input_proteins`, `parse_failures == 0`, sentinel < 0.30.
+305,761 proteins, 2,366,240 matches, 67.7% InterPro-integrated (same band as v5).
+
+| Genus | Strains | Matches/protein | Sentinel mean (range) | Wallclock (min) |
+|---|---|---|---|---|
+| *Prochlorococcus* | 45 | 7.58 | 0.123 (0.085–0.188) | 33–63 |
+| *Synechococcus* (+ *Cyanobium*) | 56 | 7.32 | 0.115 (0.068–0.164) | 52–83 |
+| *Alteromonas* | 11 | 8.93 | 0.070 (0.057–0.089) | 97–109 |
+| other heterotrophs + BP1 | 6 | 8.3–9.0 | 0.048–0.086 | 63–138 |
+
+vs. the InterProScan 5.78-109.0 calls on MED4: matches 14,025 → 14,158, no-match
+proteins 267 → 227, 0 called InterPro accessions missing from the 111.0 reference
+(v5 had 11 retired). Corpus-wide, 1,651 Pfam families are newly called; 1,592 of
+them are Pfam 38/39 additions (above PF31256, the highest v5 called), so the KG's
+`Pfam` node count rose 6,874 → 8,479.
+
+## Observed batch results (InterProScan 5, 42-strain run, 2026-07-23; re-run with xrefs 2026-08-09)
 
 *These totals predate the 2026-08-17 faceted-schema redesign, which
 `--normalize` applied to all 42 strains against the same cached `raw.json`

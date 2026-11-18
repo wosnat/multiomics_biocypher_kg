@@ -73,6 +73,15 @@ tag with nothing logged.
   (`family_inferred`, single-EC InterPro families; genes with an EC +90), one gene loses one
   InterPro-derived GO term per BP/MF; `annotation_state` unchanged for every gene; expression
   edges identical (358,913).
+- InterProScan re-scan of all 118 strains with InterProScan 6.0.3.0 against InterPro 111.0
+  (2026-11-18; was 5.78-109.0, whose member databases predate 111). No scanned accession is
+  retired any more, so the build drops no InterPro or NCBIfam calls (the 10 `family_type =
+  'retired'` NcbifamFamily nodes are gone). `InterproEntry` 13,299 → 14,663 (14,621 with a
+  description), `NcbifamFamily` → 5,109, `Pfam` 6,874 → 8,479 (1,592 of the new families are
+  Pfam 38/39 additions, mostly DUFs). Genes with an InterPro edge 253,687 → 260,829, with a Pfam
+  edge 257,070 → 264,504, with an NCBIfam edge 114,407 → 115,265. `annotation_state` moves up
+  only: no_evidence −1,436, catch_all_only −4,151, informative_single +4,074, informative_multi
+  +1,513. Expression edges identical (358,913).
 - MIT9313 ID bridge: 8 rows of `MIT9313_resources/MIT9313_genbank.tsv` named a paralog in their
   RS `locus_tag` cell (e.g. psbA1 P9313_04931 / PMT_0419 carried psbA2's AKG35_RS08155); the
   genome-ordered `P9313name` numbering and UniProt side with the row's `PMTid`, so those cells
@@ -95,6 +104,12 @@ tag with nothing logged.
 
 ### Changed
 
+- `/interproscan-run` runs InterProScan 6 (the `ebi-pf-team/interproscan6` 6.0.3.0 Nextflow
+  pipeline, Docker profile, `--interpro 111.0`, data under `$INTERPROSCAN_DATA_DIR/v6/data`)
+  instead of the InterProScan 5 Docker image, which has no build past InterPro 109. The parser
+  maps InterProScan 6's library names (`Pfam`, `CATH-Gene3D`, `PROSITE patterns`, …) and
+  title-case entry types onto the InterProScan 5 vocabulary, so `calls.json` and the KG's
+  controlled vocabularies are unchanged; `--normalize` still reads InterProScan 5 raw output.
 - `omics_edge_snapshot.py` and `capture_annotation_state.py` can snapshot another graph:
   `KG_SNAPSHOT_CONTAINER` / `NEO4J_USER` / `NEO4J_PASSWORD` env vars (e.g. the auth-enabled
   `alpha-deploy` release container) and `--baseline PATH` for a non-committed baseline file.
