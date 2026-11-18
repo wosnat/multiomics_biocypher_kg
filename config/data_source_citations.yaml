@@ -55,11 +55,9 @@ sources:
     citations:
     - 'Cantalapiedra CP et al. 2021. eggNOG-mapper v2: functional annotation, orthology assignments, and domain prediction at the metagenomic scale. Molecular Biology and Evolution 38:5825-5829.'
     - 'Huerta-Cepas J et al. 2019. eggNOG 5.0: a hierarchical, functionally and phylogenetically annotated orthology resource based on 5090 organisms and 2502 viruses. Nucleic Acids Research 47:D309-D314.'
-    - Galperin MY et al. 2025. COG database update 2024. Nucleic Acids Research 53:D356-D363.
     dois:
     - 10.1093/molbev/msab293
     - 10.1093/nar/gky1085
-    - 10.1093/nar/gkae983
     url: https://github.com/eggnogdb/eggnog-mapper/wiki/eggNOG-mapper-v2.1.5-to-v2.1.13
   psortb:
     name: PSORTb
@@ -94,6 +92,7 @@ sources:
     - 10.1093/nar/gkaa1105
     - 10.1093/nar/gks1234
     url: https://github.com/ebi-pf-team/interproscan6
+    license: InterPro and member-database data CC0 1.0; InterProScan software Apache 2.0
   tcdb_diamond:
     name: TCDB (diamond)
     description: 'diamond blastp against the curated TCDB FASTA: per-protein transporter classifications by direct sequence similarity, independent of the orthology-transferred KEGG_TC from eggNOG. TCDB also supplies the TcdbFamily hierarchy, names and substrates.'
@@ -164,6 +163,7 @@ sources:
     dois:
     - 10.1093/nar/gkae997
     url: https://pfam-docs.readthedocs.io/en/latest/citing-pfam.html
+    license: CC0 1.0
   cazy:
     name: CAZy
     description: 'CAZy carbohydrate-active enzyme classification: the CazyFamily class / family / subfamily nomenclature.'
@@ -181,7 +181,8 @@ sources:
     - Bairoch A. 2000. The ENZYME database in 2000. Nucleic Acids Research 28:304-305.
     dois:
     - 10.1093/nar/28.1.304
-    url: https://pubmed.ncbi.nlm.nih.gov/10592255/
+    url: https://enzyme.expasy.org/
+    license: CC BY 4.0
   metanetx:
     name: MetaNetX
     description: MetaNetX / MNXref cross-references used to resolve reactions and metabolites across namespaces (KEGG, ChEBI, HMDB).
