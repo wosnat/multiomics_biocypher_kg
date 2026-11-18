@@ -205345,18 +205345,13 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "4.1.1.112",
       "7.2.4.2"
     ],
     "ec_numbers_evidence": {
       "7.2.4.2": "family_inferred"
     },
     "ec_numbers_source": {
-      "4.1.1.112": [
-        "eggnog"
-      ],
       "7.2.4.2": [
-        "eggnog",
         "interproscan"
       ]
     },
@@ -205591,7 +205586,6 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "7.2.4.2",
-      "4.1.1.112",
       "6.4.1.1"
     ],
     "ec_numbers_evidence": {
@@ -205599,14 +205593,10 @@
       "7.2.4.2": "curated"
     },
     "ec_numbers_source": {
-      "4.1.1.112": [
-        "eggnog"
-      ],
       "6.4.1.1": [
         "interproscan"
       ],
       "7.2.4.2": [
-        "eggnog",
         "interproscan",
         "uniprot"
       ]
@@ -205813,21 +205803,16 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "7.2.4.-",
-      "4.1.1.112",
       "7.2.4.2"
     ],
     "ec_numbers_evidence": {
       "7.2.4.2": "family_inferred"
     },
     "ec_numbers_source": {
-      "4.1.1.112": [
-        "eggnog"
-      ],
       "7.2.4.-": [
         "uniprot"
       ],
       "7.2.4.2": [
-        "eggnog",
         "interproscan"
       ]
     },
@@ -213170,7 +213155,6 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "2.3.1.266",
-      "2.3.1.267",
       "2.3.1.-"
     ],
     "ec_numbers_evidence": {
@@ -213178,14 +213162,11 @@
     },
     "ec_numbers_source": {
       "2.3.1.-": [
+        "eggnog",
         "interproscan"
       ],
       "2.3.1.266": [
-        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.267": [
-        "eggnog"
       ]
     },
     "eggnog_ogs": [
@@ -224848,10 +224829,10 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "eggnog"
       ],
       "1.11.1.24": [
@@ -331152,13 +331133,13 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.11.1.26",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.26": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "eggnog"
       ],
       "1.11.1.26": [
@@ -364844,8 +364825,6 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "2.3.-.-",
-      "2.3.1.266",
-      "2.3.1.267",
       "2.3.1.-"
     ],
     "ec_numbers_evidence": {
@@ -364856,13 +364835,8 @@
         "uniprot"
       ],
       "2.3.1.-": [
+        "eggnog",
         "interproscan"
-      ],
-      "2.3.1.266": [
-        "eggnog"
-      ],
-      "2.3.1.267": [
-        "eggnog"
       ]
     },
     "eggnog_ogs": [
@@ -397265,7 +397239,6 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.11.1.-",
-      "1.11.1.15",
       "1.11.1.24"
     ],
     "ec_numbers_evidence": {
@@ -397273,10 +397246,8 @@
     },
     "ec_numbers_source": {
       "1.11.1.-": [
+        "eggnog",
         "uniprot"
-      ],
-      "1.11.1.15": [
-        "eggnog"
       ],
       "1.11.1.24": [
         "interproscan"
@@ -411485,13 +411456,13 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "eggnog"
       ],
       "1.11.1.24": [
@@ -472010,17 +471981,13 @@
     "coordinate_source": "ncbi",
     "ec_numbers": [
       "2.3.-.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.-.-": [
         "uniprot"
       ],
-      "2.3.1.266": [
-        "eggnog"
-      ],
-      "2.3.1.267": [
+      "2.3.1.-": [
         "eggnog"
       ]
     },
@@ -564649,7 +564616,6 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "1.11.1.15",
       "1.11.1.-"
     ],
     "ec_numbers_evidence": {
@@ -564657,10 +564623,8 @@
     },
     "ec_numbers_source": {
       "1.11.1.-": [
+        "eggnog",
         "interproscan"
-      ],
-      "1.11.1.15": [
-        "eggnog"
       ]
     },
     "eggnog_ogs": [
@@ -565970,7 +565934,6 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "1.11.1.15",
       "1.11.1.-"
     ],
     "ec_numbers_evidence": {
@@ -565978,10 +565941,8 @@
     },
     "ec_numbers_source": {
       "1.11.1.-": [
+        "eggnog",
         "interproscan"
-      ],
-      "1.11.1.15": [
-        "eggnog"
       ]
     },
     "eggnog_ogs": [

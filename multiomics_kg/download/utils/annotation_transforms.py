@@ -232,13 +232,32 @@ def _build_ec_transfer_map() -> dict[str, list[str]]:
     return transfer_map
 
 
-def _tx_normalize_ec(value: str) -> str | list[str]:
+def _common_ec_parent(ecs: list[str]) -> str:
+    """Deepest EC class shared by every number ("1.11.1.24", "1.11.1.29" -> "1.11.1.-").
+
+    Returns "" when the numbers do not share even their first level.
+    """
+    split = [e.split(".") for e in ecs]
+    common: list[str] = []
+    for level in zip(*split):
+        if len(set(level)) != 1 or level[0] == "-":
+            break
+        common.append(level[0])
+    if not common:
+        return ""
+    return ".".join(common + ["-"] * (4 - len(common)))
+
+
+def _tx_normalize_ec(value: str) -> str:
     """Remap obsolete/transferred EC numbers to current equivalents.
 
     Returns:
       - Original EC string if it's current (not in transfer map)
-      - Successor EC string(s) if transferred (list for multi-successor)
-      - Empty string if deleted
+      - The successor if transferred to one number
+      - The successors' common parent class if transferred to several (Expasy split
+        the enzyme; the old number does not say which successor a gene is, so
+        1.11.1.15 peroxiredoxin -> 1.11.1.- rather than all six peroxiredoxin types)
+      - Empty string if deleted, or split across EC classes with nothing in common
     """
     global _EC_TRANSFER_MAP
     if _EC_TRANSFER_MAP is None:
@@ -256,7 +275,7 @@ def _tx_normalize_ec(value: str) -> str | list[str]:
         return ""  # deleted entry
     if len(successors) == 1:
         return successors[0]
-    return successors  # multi-successor: list
+    return _common_ec_parent(successors)
 
 
 # Map from YAML transform name → function

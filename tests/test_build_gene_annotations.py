@@ -2019,9 +2019,16 @@ class TestNormalizeEcTransform:
     def test_single_successor(self, _fake_ec_map):
         assert _tx_normalize_ec("1.6.99.5") == "1.6.5.11"
 
-    def test_multi_successor_returns_list(self, _fake_ec_map):
-        result = _tx_normalize_ec("1.1.1.5")
-        assert result == ["1.1.1.303", "1.1.1.304"]
+    def test_multi_successor_returns_common_parent(self, _fake_ec_map):
+        # Expasy split the enzyme; the old number does not say which successor it is.
+        assert _tx_normalize_ec("1.1.1.5") == "1.1.1.-"
+
+    def test_common_ec_parent(self):
+        from multiomics_kg.download.utils.annotation_transforms import _common_ec_parent
+        assert _common_ec_parent(["1.11.1.24", "1.11.1.29"]) == "1.11.1.-"
+        assert _common_ec_parent(["1.7.1.1", "1.9.6.1"]) == "1.-.-.-"
+        assert _common_ec_parent(["2.7.11.1", "2.7.12.1"]) == "2.7.-.-"
+        assert _common_ec_parent(["3.4.21.62", "4.1.1.1"]) == ""
 
     def test_deleted_returns_empty(self, _fake_ec_map):
         assert _tx_normalize_ec("1.13.11.42") == ""
@@ -2080,12 +2087,12 @@ class TestNormalizeEcInBuilder:
         merged = self.builder.build_merged(gm, {}, {})
         assert merged.get("ec_numbers") is None  # only EC was deleted → no field
 
-    def test_multi_successor_expanded(self, _fake_ec_map):
+    def test_multi_successor_becomes_common_parent(self, _fake_ec_map):
         gm = {"ec_numbers": "1.1.1.5"}
         merged = self.builder.build_merged(gm, {}, {})
         ec = merged["ec_numbers"]
-        assert "1.1.1.303" in ec
-        assert "1.1.1.304" in ec
+        assert "1.1.1.-" in ec
+        assert "1.1.1.303" not in ec and "1.1.1.304" not in ec
         assert "1.1.1.5" not in ec
 
     def test_partial_ec_preserved(self, _fake_ec_map):

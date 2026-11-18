@@ -719,6 +719,10 @@ class MultiKeggAnnotationAdapter:
         these KOs — keeping the graph consistent and preventing dangling
         edges that would fail ``neo4j-admin import``.
         """
+        return self._cited_ko_ids() & set(self.kegg_data.get("kos", {}))
+
+    def _cited_ko_ids(self) -> set[str]:
+        """Every KO a gene cites, including ones KEGG has deleted (absent from the cache)."""
         ids: set[str] = set()
         for adapter in self._strain_adapters:
             ids |= adapter.get_all_ko_ids()
@@ -758,24 +762,13 @@ class MultiKeggAnnotationAdapter:
             if cat:
                 cat_ids.add(cat)
 
-        # Yield KO nodes
+        # Yield KO nodes. KOs KEGG deleted are not in the cache (step 6 records them in
+        # kegg_data["deleted_kos"]) and get no node; get_edges drops their gene edges.
         ko_count = 0
-        retired_kos = []
         for ko_id in sorted(ko_ids):
-            raw_name = kos.get(ko_id, {}).get("name", "")
-            if not raw_name:
-                # KO exists in eggNOG annotations but was retired from KEGG;
-                # use the bare ID as a fallback name.
-                retired_kos.append(ko_id)
-                raw_name = ko_id
-            name = _clean_str(raw_name)
+            name = _clean_str(kos[ko_id].get("name", ""))
             yield (_ko_node_id(ko_id), "kegg_term", {"name": name, "level_kind": "ko", "level": 3})
             ko_count += 1
-        if retired_kos:
-            logger.warning(
-                f"{len(retired_kos)} KO IDs from eggNOG not found in KEGG "
-                f"(likely retired): {retired_kos}"
-            )
         logger.info(f"MultiKeggAnnotationAdapter.get_nodes: {ko_count} KO nodes")
 
         # Yield Pathway nodes
@@ -814,13 +807,23 @@ class MultiKeggAnnotationAdapter:
         pathways = self.kegg_data.get("pathways", {})
         subcategories = self.kegg_data.get("subcategories", {})
 
-        # 1. gene → KO edges
+        # 1. gene → KO edges (KOs KEGG deleted have no node: drop and log them)
+        live = {_ko_node_id(k) for k in kos}
         gene_ko_count = 0
+        dropped: dict[str, int] = {}
         for adapter in self._strain_adapters:
             for edge in adapter.get_edges():
+                if edge[2] not in live:
+                    dropped[edge[2]] = dropped.get(edge[2], 0) + 1
+                    continue
                 yield edge
                 gene_ko_count += 1
         logger.info(f"MultiKeggAnnotationAdapter.get_edges: {gene_ko_count} gene→KO edges")
+        if dropped:
+            logger.warning(
+                "MultiKeggAnnotationAdapter: dropped %d gene→KO edges to %d KO(s) deleted from "
+                "KEGG: %s", sum(dropped.values()), len(dropped), ", ".join(sorted(dropped)),
+            )
 
         # Collect KOs and pathways actually emitted
         ko_ids = self.all_ko_ids()

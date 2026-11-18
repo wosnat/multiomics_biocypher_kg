@@ -187521,24 +187521,19 @@
     ],
     "ec_numbers": [
       "2.3.1.266",
-      "2.3.1.267",
       "2.3.1.-"
     ],
     "ec_numbers_evidence": {
-      "2.3.1.-": "family_inferred"
+      "2.3.1.-": "curated"
     },
     "ec_numbers_source": {
       "2.3.1.-": [
+        "cyanorak",
+        "eggnog",
         "interproscan"
       ],
       "2.3.1.266": [
-        "cyanorak",
-        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.267": [
-        "cyanorak",
-        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -200449,14 +200444,14 @@
       "Adaptation/acclimation to atypical conditions and detoxification"
     ],
     "ec_numbers": [
-      "1.11.1.15",
+      "1.11.1.-",
       "1.11.1.24"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "family_inferred"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -235341,10 +235336,10 @@
       "Phosphorus"
     ],
     "ec_numbers": [
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ]
@@ -250431,14 +250426,14 @@
       "Adaptation/acclimation to atypical conditions and detoxification"
     ],
     "ec_numbers": [
-      "1.11.1.15",
+      "1.11.1.-",
       "1.11.1.24"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "family_inferred"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
@@ -269045,19 +269040,12 @@
     ],
     "coordinate_source": "ncbi",
     "ec_numbers": [
-      "2.3.1.-",
-      "2.3.1.266",
-      "2.3.1.267"
+      "2.3.1.-"
     ],
     "ec_numbers_source": {
       "2.3.1.-": [
+        "eggnog",
         "uniprot"
-      ],
-      "2.3.1.266": [
-        "eggnog"
-      ],
-      "2.3.1.267": [
-        "eggnog"
       ]
     },
     "eggnog_og_descriptions": [
@@ -427227,13 +427215,13 @@
     ],
     "ec_numbers": [
       "1.11.1.24",
-      "1.11.1.15"
+      "1.11.1.-"
     ],
     "ec_numbers_evidence": {
       "1.11.1.24": "curated"
     },
     "ec_numbers_source": {
-      "1.11.1.15": [
+      "1.11.1.-": [
         "cyanorak",
         "eggnog"
       ],
