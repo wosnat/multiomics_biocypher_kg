@@ -152,7 +152,7 @@ def test_report_prompts_for_modified_table_and_scope_count(tmp_path):
     cfg = _report_config(tmp_path, scope="all_detected_genes",
                          detail="40 significant genes", name="t_modified.csv")
     out = de_quality_report(cfg, str(tmp_path / "p.yaml"))
-    assert "fold_change_recomputed_by_kg" in out
+    assert "fold_change_computed_by_kg" in out
     assert "fold_change_sign_reversed_by_kg" in out
     assert "significance_calls_differ_from_paper" in out
 

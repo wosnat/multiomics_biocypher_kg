@@ -2420,7 +2420,7 @@ def de_quality_report(config: dict, config_path: str) -> str:
                     or abs(st.median_log2fc) > 0.5):
                 prompts.append("conditions_not_normalized_to_each_other")
             if str(table["filename"]).endswith("_modified.csv"):
-                prompts += ["fold_change_recomputed_by_kg (check the builder)",
+                prompts += ["fold_change_computed_by_kg (check the builder)",
                             "fold_change_sign_reversed_by_kg (check the builder)"]
             exp_sig[exp_key] = exp_sig.get(exp_key, 0) + n_sig
             lines.append(f"  caveats to consider: {prompts}")

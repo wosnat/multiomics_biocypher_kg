@@ -546,7 +546,7 @@ paperconfig items (b)), zero-count magnitudes (KG semantics).
       (spec §11). → spec §2;
       explorer `docs/superpowers/specs/2026-11-18-kg-side-de-value-provenance-ask.md`
 - [ ] **Revisit the existing recomputations under line B** (Aharonovich HOT1A3 ×2, Beliaev 2014,
-      Fuszard 2012 NATL2A). Kept "for now" with `fold_change_recomputed_by_kg`; strict B would
+      Fuszard 2012 NATL2A). Kept "for now" with `fold_change_computed_by_kg`; strict B would
       load the published values instead. → spec §1
 
 ## Explorer / MCP coordination

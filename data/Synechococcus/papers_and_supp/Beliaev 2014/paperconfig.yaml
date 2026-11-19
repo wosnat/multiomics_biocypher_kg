@@ -29,7 +29,7 @@ publication:
         Matched by growth state, not by sampling day: the conditions are successive steady states of one
         chemostat (axenic, then lactate coculture, then HCO3- coculture), each sampled after at least
         five volume changes under steady-state conditions.
-      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveats: [fold_change_computed_by_kg]
       data_caveat_note: >-
         Table S3 published plain RPKM ratios. A zero-read gene sits at the Synechococcus RPKM floor (0.12),
         so floor-driven ratios took the largest effects (up to 498-fold) and genes dropping to zero printed
@@ -62,7 +62,7 @@ publication:
         Matched by growth state, not by sampling day: the conditions are successive steady states of one
         chemostat (axenic, then lactate coculture, then HCO3- coculture), each sampled after at least
         five volume changes under steady-state conditions.
-      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveats: [fold_change_computed_by_kg]
       data_caveat_note: >-
         Table S4 published plain RPKM ratios. A zero-read gene sits at the Shewanella RPKM floor (0), so
         floor-driven ratios took the largest effects (up to 498-fold) and genes dropping to zero printed as
@@ -95,7 +95,7 @@ publication:
         Matched by growth state, not by sampling day: the conditions are successive steady states of one
         chemostat (axenic, then lactate coculture, then HCO3- coculture), each sampled after at least
         five volume changes under steady-state conditions.
-      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveats: [fold_change_computed_by_kg]
       data_caveat_note: >-
         Table S5 published plain RPKM ratios. A zero-read gene sits at the Synechococcus RPKM floor (0.12),
         so floor-driven ratios took the largest effects (up to 498-fold) and genes dropping to zero printed
@@ -128,7 +128,7 @@ publication:
         Matched by growth state, not by sampling day: the conditions are successive steady states of one
         chemostat (axenic, then lactate coculture, then HCO3- coculture), each sampled after at least
         five volume changes under steady-state conditions.
-      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveats: [fold_change_computed_by_kg]
       data_caveat_note: >-
         Table S6 published plain RPKM ratios. A zero-read gene sits at the Shewanella RPKM floor (0), so
         floor-driven ratios took the largest effects (up to 498-fold) and genes dropping to zero printed as
@@ -161,7 +161,7 @@ publication:
         Matched by growth state, not by sampling day: the conditions are successive steady states of one
         chemostat (axenic, then lactate coculture, then HCO3- coculture), each sampled after at least
         five volume changes under steady-state conditions.
-      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveats: [fold_change_computed_by_kg]
       data_caveat_note: >-
         Table S7 published plain RPKM ratios. A zero-read gene sits at the Synechococcus RPKM floor (0.12),
         so floor-driven ratios took the largest effects (up to 498-fold) and genes dropping to zero printed
@@ -194,7 +194,7 @@ publication:
         Matched by growth state, not by sampling day: the conditions are successive steady states of one
         chemostat (axenic, then lactate coculture, then HCO3- coculture), each sampled after at least
         five volume changes under steady-state conditions.
-      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveats: [fold_change_computed_by_kg]
       data_caveat_note: >-
         Table S8 published plain RPKM ratios. A zero-read gene sits at the Shewanella RPKM floor (0), so
         floor-driven ratios took the largest effects (up to 498-fold) and genes dropping to zero printed as

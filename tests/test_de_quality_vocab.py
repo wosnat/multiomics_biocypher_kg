@@ -7,7 +7,7 @@ DATA_CAVEATS = {
     "comparison_direction_unclear",
     "table_may_be_a_different_comparison",
     "significance_calls_differ_from_paper",
-    "fold_change_recomputed_by_kg",
+    "fold_change_computed_by_kg",
     "fold_change_sign_reversed_by_kg",
 }
 

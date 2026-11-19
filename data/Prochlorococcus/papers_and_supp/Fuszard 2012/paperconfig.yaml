@@ -55,7 +55,7 @@ publication:
         Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
         parallel and each harvested in mid-exponential phase (supplementary methods); no common harvest
         date is stated.
-      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveats: [fold_change_computed_by_kg]
       data_caveat_note: >-
         The published NATL2A Ratio of means is Deplete Mean / number of peptides on every row (a supplement
         spreadsheet error; 62 of 63 rows below 1). The KG recomputed log2(Deplete Mean / Control Mean) from

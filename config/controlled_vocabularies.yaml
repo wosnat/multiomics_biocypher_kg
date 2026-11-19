@@ -825,7 +825,7 @@ Experiment.data_caveats:
   values: [fold_change_inflated_at_low_counts, no_biological_replicates,
            conditions_not_normalized_to_each_other, comparison_direction_unclear,
            table_may_be_a_different_comparison, significance_calls_differ_from_paper,
-           fold_change_recomputed_by_kg, fold_change_sign_reversed_by_kg]
+           fold_change_computed_by_kg, fold_change_sign_reversed_by_kg]
   description: >
     Known limitations of the differential-expression table of this experiment that
     change how its numbers should be read; the analysis decides what to do
@@ -842,7 +842,7 @@ Experiment.data_caveats:
     comparison_direction_unclear: "The source table does not make clear which condition is the numerator. The KG keeps the sign the paper states."
     table_may_be_a_different_comparison: "The published table probably reports a different comparison than its label says (see note)."
     significance_calls_differ_from_paper: "The KG significant / not-significant call uses a different rule from the paper, so its counts differ from the paper (see note)."
-    fold_change_recomputed_by_kg: "The KG recomputed the fold change from the expression columns of the paper, because the published values were distorted (see note), so values will not match the paper table. The original values are only in the paper."
+    fold_change_computed_by_kg: "The KG computed the stored fold change itself instead of taking one published value as is, for example recomputed from the expression columns of the paper or averaged over several published ratios (see note). Values will not match any single column of the paper table; the published values are only in the paper. A plain unit conversion, such as linear to log2, does not count."
     fold_change_sign_reversed_by_kg: "The paper table reports the comparison the other way round (control vs treatment). The KG negated it so that positive means up in the treatment; signs are opposite to the paper table."
 
 Experiment.fold_change_type:
