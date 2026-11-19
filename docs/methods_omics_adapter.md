@@ -105,7 +105,7 @@ The `logfc_col` value is stored as log2 after conversion by the analysis's `fold
 
 ## Significance Determination
 
-Statistical significance follows each paper's own criterion, through a four-priority cascade evaluated per row:
+Statistical significance follows each paper's own criterion, through a four-priority cascade evaluated per row. `multiomics_kg/utils/de_calls.py` is the single implementation of the cascade (and of the fold-change conversion and the low-signal rules below); the adapter, the validator's QA report and the post-import statistics all use it, so they cannot disagree:
 
 **Priority 1 — Prefiltered tables.** When the analysis declares `prefiltered: true`, all rows are considered significant. This applies to publications that report only genes passing their own significance thresholds.
 
@@ -118,6 +118,19 @@ Statistical significance follows each paper's own criterion, through a four-prio
 The `significant` property is a string with three possible values: `"significant"`, `"not significant"`, or `"unknown"`. This avoids boolean serialization issues with neo4j-admin import and provides a self-documenting value in Cypher queries (e.g., `WHERE r.significant = 'significant'`).
 
 The adapter supports two operating modes: in `"all"` mode (default), all rows produce edges regardless of significance, with a `significant` string property for downstream filtering; in `"significant_only"` mode, rows classified as `"not significant"` are excluded from edge generation.
+
+
+## Table quality
+
+Each DE experiment publishes what the KG read from its table, so a reader can judge the numbers before ranking by them (`docs/kg-changes/de-table-quality.md`).
+
+- **`fold_change_type`** (`log2` | `linear` | `signed_linear`): the scale of the table's fold-change column, stamped from the analyses' declared value (default `log2`). The stored `log2_fold_change` is always log2. The build fails if one experiment's analyses declare different scales.
+- **Low-signal rules**, applied only where the paperconfig declares level columns (`treatment_level_cols` / `control_level_cols`, or `mean_level_cols`). Edges flagged carry `low_signal_reason`; the experiment carries `low_signal_basis`.
+  - `condition_at_column_minimum` (per-condition columns; one column = the arm's average, several = its replicates): either arm has no signal, i.e. every one of its columns is empty or at that column's own minimum. No fold-change cutoff.
+  - `mean_in_bottom_decile` (one or more mean columns, averaged per row): |log2FC| > 5 and the mean is in the table's bottom 10%.
+  - Declaring both kinds on one experiment fails the build.
+- **Six per-time-point statistics**, computed post-import over all `Changes_expression_of` edges of the experiment and parallel to `time_point_orders`: `time_point_negative_fractions` (share with log2FC < 0), `time_point_median_log2fc`, `time_point_max_abs_log2fc`, `time_point_large_fc_not_significant` (|log2FC| > 5 and `not_significant`), `time_point_extreme_fc_count` (|log2FC| > 10), `time_point_low_signal_count` (edges with `low_signal_reason`). They describe the published rows: when `table_scope` is not `all_detected_genes` they describe that subset, not the genome.
+- **`data_caveats`**: curated, never computed. See the paperconfig fields `data_caveats`, `data_caveat_note`, `data_caveats_reviewed_on`.
 
 ## Pre-resolved CSV Integration
 

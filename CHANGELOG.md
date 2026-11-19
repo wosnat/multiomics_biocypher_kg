@@ -114,7 +114,24 @@ tag with nothing logged.
   MIT9313 Tier-1 conflicts 33 → 17. One paper row moves: Biller 2022 Table S3 psbA1 (Q7TTH6)
   was on PMT1532 (psbA2) and is now on PMT0419 (psbA1).
 
+- DE table caveats (`docs/kg-changes/de-table-quality.md`): `data_caveats`, `data_caveat_note` and
+  `data_caveats_reviewed_on` curated on 29 experiments in 12 papers (Aharonovich 2016, Anjur 2026,
+  Barber 2026, Capovilla 2023, Ferrer 2020, Fuszard 2012, Koch 2019, Pandhal 2007, barreto 2022,
+  Beliaev 2014, Huang 2020, Oleza 2017): inflated fold changes at low counts, no biological
+  replicates, recomputed or sign-reversed fold changes, and significance calls that differ from the
+  paper. The other 164 DE experiments are on `config/data_caveats_unreviewed.yaml` (37 papers) and
+  read `[]` without a review date. No edge or call changes.
+
 ### Added
+
+- DE table quality (`docs/kg-changes/de-table-quality.md`): `Experiment.data_caveats` (closed
+  vocabulary, dense on DE experiments), `data_caveat_note`, `data_caveats_reviewed_on`,
+  `fold_change_type` (`log2` | `linear` | `signed_linear`), `low_signal_basis`, edge
+  `low_signal_reason`, and six per-time-point arrays parallel to `time_point_orders`
+  (`time_point_negative_fractions`, `_median_log2fc`, `_max_abs_log2fc`,
+  `_large_fc_not_significant`, `_extreme_fc_count`, `_low_signal_count`). The paperconfig validator
+  gains a curator QA report and requires a caveat review per DE experiment. They describe the
+  published rows, so read them with `table_scope`.
 
 - KEGG modules (`docs/kg-changes/kegg-modules.md`): `KeggModule` nodes — 414 modules
   (`kegg.module:M…`) plus the `ko00002` type / class / subclass tree above them (57 nodes) — with
