@@ -2319,7 +2319,99 @@ def validate_paperconfig_content(
     return errors, warnings
 
 
-def validate(config_path: str) -> bool:
+_LEVEL_COLUMN_HINT = re.compile(
+    r"basemean|rpkm|nsaf|cpm|count|mean|expression|abundance", re.IGNORECASE)
+
+
+def de_quality_report(config: dict, config_path: str) -> str:
+    """Per-analysis DE table statistics and caveat prompts (information only).
+
+    Uses the adapter's own row logic (``de_calls``). Rows the adapter skips (empty or
+    invalid fold change) are left out; rows with an unresolved gene id are kept, since
+    the statistics need no gene ids, so the numbers can differ slightly from the build.
+    """
+    from multiomics_kg.utils.de_calls import (
+        call_row, expression_status, level_basis, low_signal_mask,
+        low_signal_reason, read_de_table, time_point_stats,
+    )
+
+    pub = (config or {}).get("publication") or {}
+    experiments = pub.get("experiments") or {}
+    blocks: list[str] = []
+    for table_key, table in (pub.get("supplementary_materials") or {}).items():
+        if not isinstance(table, dict) or not table.get("filename"):
+            continue
+        for a in table.get("statistical_analyses") or []:
+            if not isinstance(a, dict) or not a.get("experiment"):
+                continue
+            exp_key = a["experiment"]
+            exp = experiments.get(exp_key) or {}
+            head = f"QA {a.get('id', '?')} ({exp_key}, tp {a.get('timepoint') or '-'})"
+            path = Path(table["filename"])
+            if not path.is_absolute():
+                path = _find_project_root() / path
+            analysis = {**table, **a}
+            try:
+                df, _ = read_de_table(str(path), analysis)
+                basis = level_basis(a)
+                mask = low_signal_mask(df, a)
+                columns = set(df.columns)
+                rows = []
+                n_sig = 0
+                for idx, row in enumerate(df.to_dict("records")):
+                    call = call_row(row, a, columns, default_pvalue_threshold=0.05)
+                    if call is None or call.log2_fold_change is None:
+                        continue
+                    n_sig += call.significant == "significant"
+                    rows.append((
+                        call.log2_fold_change,
+                        expression_status(call.significant, call.log2_fold_change),
+                        low_signal_reason(basis, mask[idx], call.log2_fold_change)
+                        if mask is not None else None))
+                st = time_point_stats(rows)
+            except Exception as exc:  # report is advisory: never raise
+                blocks.append(f"{head}\n  could not read table: {exc}")
+                continue
+
+            lines = [head,
+                     f"  rows: {st.total}",
+                     f"  negative_fraction: {st.negative_fraction:.3f}",
+                     f"  median_log2fc: {st.median_log2fc:.3f}",
+                     f"  max_abs_log2fc: {st.max_abs_log2fc:.2f}",
+                     f"  large_fc_not_significant: {st.large_fc_not_significant}",
+                     f"  extreme_fc_count: {st.extreme_fc_count}"]
+            if mask is None:
+                declared = {a.get("logfc_col"), a.get("adjusted_p_value_col")}
+                cands = [c for c in df.columns
+                         if c not in declared and _LEVEL_COLUMN_HINT.search(str(c))]
+                lines.append("  level columns: not declared")
+                lines.append(f"  candidate level columns: {cands}")
+            else:
+                lines.append(f"  low_signal_count: {st.low_signal_count}")
+
+            prompts = []
+            if st.extreme_fc_count > 0 or st.low_signal_count > 0:
+                prompts.append("fold_change_inflated_at_low_counts")
+            if exp.get("table_scope") == "all_detected_genes" and st.total and (
+                    st.negative_fraction > 0.75 or st.negative_fraction < 0.25
+                    or abs(st.median_log2fc) > 0.5):
+                prompts.append("conditions_not_normalized_to_each_other")
+            if str(table["filename"]).endswith("_modified.csv"):
+                prompts += ["fold_change_recomputed_by_kg (check the builder)",
+                            "fold_change_sign_reversed_by_kg (check the builder)"]
+            m = re.search(r"\d+", str(exp.get("table_scope_detail") or ""))
+            if m:
+                n = int(m.group())
+                if abs(n_sig - n) > 0.2 * n:
+                    prompts.append(
+                        f"significance_calls_differ_from_paper (table {n_sig} vs stated {n})")
+            lines.append(f"  caveats to consider: {prompts}")
+            blocks.append("\n".join(lines))
+    blocks.append("This report is information for the curator; it never fails validation.")
+    return "\n\n".join(blocks)
+
+
+def validate(config_path: str, report: bool = False) -> bool:
     """CLI entry: parse YAML, validate, print results, return success bool."""
     try:
         config = load_paperconfig(Path(config_path))
@@ -2329,6 +2421,9 @@ def validate(config_path: str) -> bool:
 
     errors, warnings = validate_paperconfig_content(config, config_path)
     _print_results(errors, warnings)
+    if report:
+        print()
+        print(de_quality_report(config, config_path))
     return len(errors) == 0
 
 
@@ -2389,5 +2484,5 @@ if __name__ == "__main__":
         sys.exit(1)
 
     print(f"Validating: {config_path}\n")
-    ok = validate(config_path)
+    ok = validate(config_path, report=True)
     sys.exit(0 if ok else 1)

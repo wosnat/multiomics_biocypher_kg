@@ -76,6 +76,9 @@ The `experiments` block defines experiment-level metadata that is shared across 
       # control_timing: mixed           # overrides publication.control_timing (matched | baseline | mixed)
       # design_notes: >-                # required when control_timing is baseline or mixed
       #   day 18: coculture sampled on day 18 vs axenic sampled on day 14 ...
+      data_caveats: []                # REQUIRED on every DE experiment ([] = reviewed, none apply); values: see the QA step
+      # data_caveat_note: "why each caveat applies"   # required when data_caveats is non-empty; no | or apostrophes
+      data_caveats_reviewed_on: "2026-11-19"          # REQUIRED on every DE experiment, YYYY-MM-DD
       # Optional fields:
       medium: "Pro99 natural seawater medium"
       temperature: "24C"
@@ -856,6 +859,19 @@ Every analysis must have `timepoint`, `timepoint_hours`, and `growth_phase`. Loo
 | `logfc_threshold` | Absolute log2 fold-change threshold the publication used (e.g., `0.8`, `1.0`); `0` = the paper used no fold cutoff | **Required** unless `prefiltered` or `pvalue_asterisk_in_logfc` decides significance — there is no default (validator error, adapter refuses the analysis) |
 | `fold_change_type` | `log2` (default) · `linear` (unsigned ratio, 0.5 = 2-fold down) · `signed_linear` (+3 = 3-fold up, -3 = 3-fold down; a value in (-1, 1) is an error) | Read the table legend: "positive and negative values indicate increase and decline" on values that are never between -1 and 1 = `signed_linear`. Any other convention (minus-sign-marked ratios, pseudocount ratios) → a `_modified.csv` builder. The validator warns when a `log2` column has no value in (-1, 1) and max \|x\| > 20; small-effect signed tables slip under that, so read the legend |
 | `asterisk_min_level` | Minimum number of `*` that counts as significant (default 1) | When the legend grades stars (`*` q < 0.05, `**` q < 0.01) and the paper's DE criterion is the stricter band |
+| `treatment_level_cols` + `control_level_cols` | Lists of table columns holding the expression level (counts, RPKM, intensity) of each arm; give both together | When the table has per-arm levels: the KG flags rows whose arm sits at the column minimum as low-signal (`low_signal_reason`) |
+| `mean_level_cols` | List of columns whose row mean is the expression level; not with the two above | When the table has only a mean level (e.g. `baseMean`): rows in the bottom decile with a large fold change are flagged |
+
+```yaml
+      statistical_analyses:
+        - id: "DE_x_20h"
+          experiment: my_experiment
+          name_col: "Gene"
+          logfc_col: "log2FoldChange"
+          adjusted_p_value_col: "padj"
+          logfc_threshold: 1.0
+          mean_level_cols: ["baseMean"]   # or treatment_level_cols / control_level_cols
+```
 
 **Note on tables where all values are significant:** Some supplementary tables only list genes that are already significantly differentially expressed (pre-filtered by the authors). In these cases, set `prefiltered: true` on the analysis. This tells the adapter that all rows are significant. You may also omit `adjusted_p_value_col` and `pvalue_asterisk_in_logfc` if not applicable.
 
@@ -1197,6 +1213,7 @@ Before submitting a paperconfig:
 - [ ] `skip_rows` is set correctly if the CSV has extra header rows
 - [ ] Gene/protein identifiers in `name_col` use locus tags or IDs that can match existing gene nodes
 - [ ] `prefiltered` is set to `true` if the table only contains significant results
+- [ ] Every DE experiment has `data_caveats` (`[]` allowed), `data_caveat_note` when non-empty, and `data_caveats_reviewed_on`; level columns declared where the table has them (see QA step)
 - [ ] `logfc_threshold` is set (the paper's fold cutoff, `0` if none) unless `prefiltered` / asterisks decide significance; `pvalue_threshold` matches the paper
 - [ ] `fold_change_type` matches the table legend (log2 / linear / signed_linear); the significant count matches the paper's
 - [ ] For coculture/viral experiments: `treatment_organism` and `treatment_taxid` are set on the experiment
@@ -1313,6 +1330,15 @@ This script checks:
 - `design_notes` has no `|` or `'` (error); `control_timing` on an experiment with no `statistical_analyses` (warning)
 
 The script exits with code 0 on success, 1 on validation failure.
+
+### QA step
+
+The validator prints a `QA <analysis id>` block per DE analysis (row count, negative fraction, median and max |log2FC|, extreme fold changes, low-signal rows, candidate level columns, caveat prompts). It is information only and never fails validation. For every DE experiment:
+
+1. Propose level columns from the report's `candidate level columns` and confirm them against the paper's Methods (declare `treatment_level_cols` + `control_level_cols`, or `mean_level_cols`).
+2. Run the validator and read the QA report.
+3. Go through the `data_caveats` vocabulary (`config/controlled_vocabularies.yaml`, `Experiment.data_caveats`) with the paper open, starting from the report's prompts. Set `data_caveats` (`[]` allowed), a `data_caveat_note` when non-empty, and `data_caveats_reviewed_on`.
+4. Do not add new experiments to `config/data_caveats_unreviewed.yaml`; it only lists the backlog.
 
 ### Gene ID Mapping
 

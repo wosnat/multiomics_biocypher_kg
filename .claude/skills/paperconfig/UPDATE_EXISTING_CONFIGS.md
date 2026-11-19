@@ -17,7 +17,8 @@ paper's significant count looks wrong. The 2026-10-31 audit of all DE papers
 
 The adapter calls significance in this order: `prefiltered` → asterisks → an empty p-value cell
 (not significant) → `pvalue_threshold` and `logfc_threshold`. A table with no p-value column at
-all is judged on the fold change alone.
+all is judged on the fold change alone. The calls are implemented in `multiomics_kg/utils/de_calls.py`,
+shared by the adapter and the validator.
 
 ## Checklist, per analysis
 
@@ -68,3 +69,16 @@ It warns when `prefiltered` is combined with thresholds or asterisks.
 
 Log every change to an existing paper in `CHANGELOG.md` → `### Data`: what the KG asserted before
 and what it asserts now.
+
+## Reviewing data caveats (allowlist backfill)
+
+An experiment listed in `config/data_caveats_unreviewed.yaml` has not had its data caveats reviewed.
+For each one:
+
+1. Propose level columns from the validator's QA `candidate level columns` and confirm them against the
+   paper's Methods.
+2. Run the validator and read the QA report.
+3. Go through the `data_caveats` vocabulary with the paper open, starting from the report's prompts. Set
+   `data_caveats` (`[]` allowed), a `data_caveat_note` when non-empty, and `data_caveats_reviewed_on`.
+4. Remove the experiment's key from `config/data_caveats_unreviewed.yaml`. When the file is empty, delete
+   it and its validator check.

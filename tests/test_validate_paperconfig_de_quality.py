@@ -111,3 +111,61 @@ def test_caveats_on_non_de_experiment_warns():
 
 def test_missing_allowlist_file_is_empty(tmp_path):
     assert load_caveat_allowlist(tmp_path / "none.yaml") == {}
+
+
+# --- DE QA report -----------------------------------------------------------
+from validate_paperconfig import de_quality_report, validate_paperconfig_content  # noqa: E402
+
+
+def _report_config(tmp_path, scope="", detail=None, name="t.csv"):
+    df = pd.DataFrame({
+        "gene": [f"g{i}" for i in range(6)],
+        "lfc": [-11.0, 1.2, 0.3, -0.4, 2.0, 0.1],
+        "padj": [0.5, 0.01, 0.9, 0.8, 0.001, 0.7],
+        "baseMean": [1, 50, 60, 70, 80, 90],
+    })
+    path = tmp_path / name
+    df.to_csv(path, index=False)
+    exp = {"name": "T", "table_scope": scope, **REVIEWED}
+    if detail:
+        exp["table_scope_detail"] = detail
+    return {"publication": {
+        "experiments": {"e1": exp},
+        "supplementary_materials": {"s1": {
+            "type": "csv", "filename": str(path),
+            "statistical_analyses": [{
+                "id": "a1", "experiment": "e1", "name_col": "gene", "logfc_col": "lfc",
+                "adjusted_p_value_col": "padj", "pvalue_threshold": 0.05,
+                "logfc_threshold": 1.0, "timepoint": "24h"}]}}}}
+
+
+def test_report_lists_statistics_and_prompts(tmp_path):
+    out = de_quality_report(_report_config(tmp_path), str(tmp_path / "p.yaml"))
+    assert "QA a1 (e1, tp 24h)" in out
+    assert "extreme_fc_count: 1" in out
+    assert "fold_change_inflated_at_low_counts" in out
+    assert "candidate level columns: ['baseMean']" in out
+    assert "never fails validation" in out
+
+
+def test_report_prompts_for_modified_table_and_scope_count(tmp_path):
+    cfg = _report_config(tmp_path, scope="all_detected_genes",
+                         detail="40 significant genes", name="t_modified.csv")
+    out = de_quality_report(cfg, str(tmp_path / "p.yaml"))
+    assert "fold_change_recomputed_by_kg" in out
+    assert "fold_change_sign_reversed_by_kg" in out
+    assert "significance_calls_differ_from_paper" in out
+
+
+def test_report_never_adds_errors(tmp_path):
+    cfg = _report_config(tmp_path)
+    cfg_path = str(tmp_path / "p.yaml")
+    before = validate_paperconfig_content(cfg, cfg_path)
+    de_quality_report(cfg, cfg_path)
+    assert validate_paperconfig_content(cfg, cfg_path) == before
+
+
+def test_report_uses_source_csv_without_resolved(tmp_path):
+    cfg = _report_config(tmp_path)
+    assert not list(tmp_path.glob("*_resolved.csv"))
+    assert "rows: 6" in de_quality_report(cfg, str(tmp_path / "p.yaml"))

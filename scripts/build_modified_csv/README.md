@@ -9,6 +9,7 @@ One script per omics paper that needs a derived view of its supplementary CSVs (
 - **Never edit the original** — write `<original_name>_modified.csv` in the same directory.
 - The paperconfig's `filename:` points at the `*_modified.csv`. Add a YAML comment near each `supp_table_*` block referencing this script for traceability.
 - Re-running the script must be idempotent.
+- A builder that recomputes fold changes adds `fold_change_recomputed_by_kg`, and one that negates them adds `fold_change_sign_reversed_by_kg`, to `data_caveats` on every experiment it feeds, with the reason in `data_caveat_note`.
 
 ## Why a separate script (vs. inline)
 
