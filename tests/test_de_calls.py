@@ -44,3 +44,101 @@ def test_expression_status_zero_fc():
     assert expression_status("significant", 0.0) == "not_significant"
     assert expression_status("significant", 1.0) == "significant_up"
     assert expression_status("significant", -1.0) == "significant_down"
+
+
+# ---------------------------------------------------------------------------
+# Low-signal rule + per-time-point statistics
+# ---------------------------------------------------------------------------
+import pandas as pd
+
+from multiomics_kg.utils.de_calls import (
+    LOW_SIGNAL_CONDITION, LOW_SIGNAL_MEAN, level_basis, low_signal_mask,
+    low_signal_reason, time_point_stats,
+)
+
+ARMS = {"treatment_level_cols": ["t"], "control_level_cols": ["c"]}
+
+
+def test_level_basis_kinds_and_errors():
+    assert level_basis(ARMS) == LOW_SIGNAL_CONDITION
+    assert level_basis({"mean_level_cols": ["m"]}) == LOW_SIGNAL_MEAN
+    assert level_basis({}) is None
+    with pytest.raises(ValueError):
+        level_basis({"treatment_level_cols": ["t"]})
+    with pytest.raises(ValueError):
+        level_basis({**ARMS, "mean_level_cols": ["m"]})
+    assert level_basis({"mean_level_cols": "baseMean"}) == LOW_SIGNAL_MEAN
+
+
+def test_mask_rule1_minimum_and_empty():
+    df = pd.DataFrame({"t": [0.01, 5, 7, None], "c": [3, 0.01, 4, 2]})
+    assert low_signal_mask(df, ARMS) == [True, True, False, True]
+
+
+def test_mask_rule1_replicates_need_all_at_minimum():
+    df = pd.DataFrame({"r1": [0, 0, 2], "r2": [0, 3, 0], "c": [5, 6, 7]})
+    a = {"treatment_level_cols": ["r1", "r2"], "control_level_cols": ["c"]}
+    assert low_signal_mask(df, a) == [True, False, False]
+
+
+def test_mask_constant_column_is_all_minimum():
+    df = pd.DataFrame({"t": [1, 2, 3], "c": [5, 5, 5]})
+    assert low_signal_mask(df, ARMS) == [True, True, True]
+
+
+def test_mask_non_numeric_text_is_empty():
+    df = pd.DataFrame({"t": ["n.d.", 4, 5], "c": [3, 4, 5]})
+    assert low_signal_mask(df, ARMS)[0] is True
+
+
+def test_mask_all_empty_column():
+    df = pd.DataFrame({"t": [None, None], "c": [1, 2]})
+    assert low_signal_mask(df, ARMS) == [True, True]
+
+
+def test_mask_rule2_bottom_decile():
+    df = pd.DataFrame({"m": list(range(1, 21))})
+    mask = low_signal_mask(df, {"mean_level_cols": ["m"]})
+    assert mask == [v <= 2 for v in range(1, 21)]
+    assert isinstance(mask, list) and all(isinstance(x, bool) for x in mask)
+
+
+def test_mask_none_without_level_cols():
+    assert low_signal_mask(pd.DataFrame({"a": [1]}), {}) is None
+
+
+def test_low_signal_reason_rule2_needs_large_fc():
+    assert low_signal_reason(LOW_SIGNAL_MEAN, True, 5.0) is None
+    assert low_signal_reason(LOW_SIGNAL_MEAN, True, -5.01) == LOW_SIGNAL_MEAN
+    assert low_signal_reason(LOW_SIGNAL_CONDITION, True, 0.1) == LOW_SIGNAL_CONDITION
+    assert low_signal_reason(LOW_SIGNAL_CONDITION, False, 9) is None
+    assert low_signal_reason(None, True, 9) is None
+
+
+def test_time_point_stats_values():
+    s = time_point_stats([
+        (-1, "not_significant", None),
+        (2, "significant_up", None),
+        (-6, "not_significant", "condition_at_column_minimum"),
+        (11, "significant_up", None),
+        (0, "not_significant", None),
+    ])
+    assert s.total == 5
+    assert s.negative_fraction == pytest.approx(0.4)
+    assert s.median_log2fc == 0.0
+    assert s.max_abs_log2fc == 11.0
+    assert s.large_fc_not_significant == 1
+    assert s.extreme_fc_count == 1
+    assert s.low_signal_count == 1
+
+
+def test_time_point_stats_all_zero():
+    s = time_point_stats([(0.0, "not_significant", None)] * 3)
+    assert s.negative_fraction == 0.0 and s.median_log2fc == 0.0
+
+
+def test_time_point_stats_median_interpolates_and_empty():
+    s = time_point_stats([(1, "x", None), (2, "x", None)])
+    assert s.median_log2fc == 1.5
+    e = time_point_stats([])
+    assert e.total == 0 and e.median_log2fc == 0.0 and e.low_signal_count == 0
