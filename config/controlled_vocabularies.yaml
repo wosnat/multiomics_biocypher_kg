@@ -812,6 +812,79 @@ Experiment.control_timing:
     baseline: every contrast compares against a control sampled at another time, typically a single early reference point; read design_notes
     mixed: some timepoints are matched and others compare against a control sampled at another time; read design_notes for which
 
+Experiment.data_caveats:
+  # provenance: curated per paperconfig (docs/superpowers/specs/2026-11-18-de-table-quality-design.md
+  #   section 4.1, 2026-11-18). One flag set per experiment, no severity. Dense on every Experiment
+  #   with a DE contrast; post-import re-materializes [] like background_factors (so no min_size:
+  #   [] is a valid value). A new problem that fits no value gets a new value.
+  applies_to: Experiment
+  applies_to_kind: node
+  property: data_caveats
+  value_type: string_array
+  closed: true
+  values: [fold_change_inflated_at_low_counts, no_biological_replicates,
+           conditions_not_normalized_to_each_other, comparison_direction_unclear,
+           table_may_be_a_different_comparison, significance_calls_differ_from_paper,
+           fold_change_recomputed_by_kg, fold_change_sign_reversed_by_kg]
+  description: >
+    Known limitations of the differential-expression table of this experiment that
+    change how its numbers should be read; the analysis decides what to do
+    with each. Dense on experiments with a differential-expression contrast.
+    An empty list together with data_caveats_reviewed_on means the experiment
+    was reviewed and no caveat applies; an empty list without it means it has
+    not been reviewed yet. data_caveat_note gives the evidence and names the
+    time points or tables affected when a caveat covers only part of the
+    experiment.
+  value_descriptions:
+    fold_change_inflated_at_low_counts: "Genes with zero or very few reads in one condition get extreme fold changes. Do not rank or filter these genes by fold-change size."
+    no_biological_replicates: "Each condition was sequenced once, so the p-values and significance calls rest on a model, not on measured variation."
+    conditions_not_normalized_to_each_other: "The two conditions differ in overall signal, which shifts most genes in one direction. Compare genes within this experiment, not across experiments."
+    comparison_direction_unclear: "The source table does not make clear which condition is the numerator. The KG keeps the sign the paper states."
+    table_may_be_a_different_comparison: "The published table probably reports a different comparison than its label says (see note)."
+    significance_calls_differ_from_paper: "The KG significant / not-significant call uses a different rule from the paper, so its counts differ from the paper (see note)."
+    fold_change_recomputed_by_kg: "The KG recomputed the fold change from the expression columns of the paper, because the published values were distorted (see note), so values will not match the paper table. The original values are only in the paper."
+    fold_change_sign_reversed_by_kg: "The paper table reports the comparison the other way round (control vs treatment). The KG negated it so that positive means up in the treatment; signs are opposite to the paper table."
+
+Experiment.fold_change_type:
+  # provenance: set by the omics adapter from the paperconfig fold_change_type of the experiment
+  #   analyses (default log2). Sparse: absent on experiments with no DE table.
+  applies_to: Experiment
+  applies_to_kind: node
+  property: fold_change_type
+  value_type: string
+  closed: true
+  sparse: true
+  values: [log2, linear, signed_linear]
+  description: >
+    The scale of the fold-change column of the table the KG read. For papers
+    whose table is rewritten by a _modified.csv builder, that is the derived
+    table, not the original paper table. The stored log2_fold_change on the edges
+    is always log2, whatever this scale was. Absent on experiments with no
+    differential-expression table.
+  value_descriptions:
+    log2: the table reports log2 fold changes
+    linear: the table reports linear fold changes, where 0.5 is a two-fold decrease
+    signed_linear: the table reports linear fold changes with the sign giving direction, where +3 is three-fold up and -3 is three-fold down
+
+Experiment.low_signal_basis:
+  # provenance: which of the two low-signal rules the DE-call code applied (utils/de_calls),
+  #   chosen by whether the table carries per-condition expression columns. Sparse.
+  applies_to: Experiment
+  applies_to_kind: node
+  property: low_signal_basis
+  value_type: string
+  closed: true
+  sparse: true
+  values: [condition_at_column_minimum, mean_in_bottom_decile]
+  description: >
+    How genes with too little signal for a trustworthy fold change were
+    identified in the table of this experiment. Edges so identified carry
+    low_signal_reason with the same value. Absent when the table gives no
+    basis for the check.
+  value_descriptions:
+    condition_at_column_minimum: a gene is low-signal when one of its two condition values sits at the minimum of that column, the floor value a table uses for undetected genes
+    mean_in_bottom_decile: a gene is low-signal when its mean expression is in the bottom decile of the table and its absolute log2 fold change exceeds 5; the fold-change cutoff is needed so that genes that are low but not extreme are not flagged
+
 ClusteringAnalysis.cluster_type:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
   #   What kind of gene grouping a clustering analysis is (paperconfig
@@ -997,6 +1070,24 @@ Changes_expression_of.expression_status:
     Post-import significance call combining the significant flag of the edge and
     the sign of log2_fold_change: significant_up, significant_down, or
     not_significant.
+
+Changes_expression_of.low_signal_reason:
+  # provenance: set per edge by the omics adapter (utils/de_calls low-signal rule); same value
+  #   set as Experiment.low_signal_basis. Sparse: absent on edges not flagged.
+  applies_to: Changes_expression_of
+  applies_to_kind: edge
+  property: low_signal_reason
+  value_type: string
+  closed: true
+  sparse: true
+  values: [condition_at_column_minimum, mean_in_bottom_decile]
+  description: >
+    Present only on edges whose fold change rests on too little signal to
+    trust its size: the rule that flagged it. Do not rank or filter these
+    edges by fold-change size. Absent on all other edges.
+  value_descriptions:
+    condition_at_column_minimum: one of the two condition values sits at the minimum of its column, the floor value the table uses for undetected genes
+    mean_in_bottom_decile: the gene mean expression is in the bottom decile of the table and its absolute log2 fold change exceeds 5
 
 Derived_metric_quantifies_gene.metric_bucket:
   # provenance (moved out of the researcher-facing description, 2026-08-29):
