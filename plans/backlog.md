@@ -495,6 +495,60 @@ Smaller ID follow-ups from the same batch (not concepts, just mapping work):
 - [ ] Oleza 2015b and Oleza 2017: PatternLab TFold raw p-values are mapped to
       `adjusted_p_value_col` (open policy item).
 
+## DE table quality — follow-ups (spec `docs/superpowers/specs/2026-11-18-de-table-quality-design.md`)
+
+The first delivery is the mechanism plus the cases the spec names (spec §7.6). Everything below
+was deferred out of it on 2026-11-19. The related KG-bug items stay where they are and are only
+pointed to here: row collisions (P2, "Two table rows → one gene"), Aharonovich 2016 metadata (P2
+paperconfig items (b)), zero-count magnitudes (KG semantics).
+
+- [ ] **Backfill the caveat review on existing DE experiments.** Every DE experiment present
+      when the mechanism lands goes on the unreviewed allowlist (spec §7.4); the validator requires
+      `data_caveats` + `data_caveats_reviewed_on` on everything else. Review in batches by paper:
+      read the source, set `data_caveats` (`[]` allowed) + the date, remove the experiments from
+      the list. Done when the list is empty; then delete the file and its validator check. Use the
+      explorer's "stands out, not reviewed" list as the review queue. → spec §7.4
+- [ ] **Declare level columns for the ~11 papers that publish them**, so
+      `time_point_low_signal_count` / `low_signal_reason` are filled: Aharonovich 2016, Al-Hosani
+      2015 (`baseMeanA`/`baseMeanB`), Hackl 2023 (`baseMean`), Thompson 2016 (RPKM, 18 tables),
+      Fuszard 2012, Moreno 2023, Domínguez 2017, Koch 2019 (NSAF; empty cells = no signal), Beliaev
+      2014, Anjur-Dietrich 2026 (logCPM). Deferred because it is per-paper reading, not code; until
+      then the count is empty everywhere. → spec §4 item 2, §4.4
+- [ ] **Check the §3.4 suspects and tag only if confirmed:** Moreno 2023 proteomics,
+      `nmicrobiol.2017.100` late coculture, Al-Hosani 2015, Kaur 2018 DSS-3 exoproteome (15 edges
+      with |log2FC| > 10), Biller 2018 NATL2A extended darkness, Koch 2019 83-1 glucose.
+      → spec §3.4, §4 item 1
+- [ ] **Aharonovich 2016: confirm caveats against the Supplementary information** once it is
+      obtained (not in the paper directory). Same blocker as the P2 metadata item (b). → spec §3.1
+- [ ] **Steglich 2006 publication title contains "/H17188"** (explorer E1). A Publication bug,
+      outside this spec's experiment scope. → spec §3.1
+- [ ] **Microarray probe-level features** (removed from the DE-table-quality spec 2026-11-19,
+      §10): `Experiment.array_design`, shared-probe paralog twins (edge `shares_probe_with` +
+      caveat), and the per-design gene universe (which genes a significant-only array table could
+      have reported; explorer backlog 2d.5(b)). Deferred as complex for a handful of paralog pairs;
+      until then a gene missing from a microarray table reads "not significant or not on the
+      array" (`omics_type = 'MICROARRAY'`). If picked up, use **probe lists**, not inference from
+      fold changes: the GEO platform tables (GPL5471 has 9,947 probe rows) or the probe lists some
+      supplements carry. Findings from a 2026-11-19 GEO lookup: a GPL id does **not** identify an
+      array (one per submission) — Affymetrix MD4-9313a520062 = GPL5471 (Lindell 2007), GPL11412
+      (Thompson 2011; title doesn't name the design), GPL19747 (Bagby 2015, MED4 probes only), and
+      Tolonen 2006 names MD4-9313 in its Methods; Affymetrix SYN-PHGa520786F = GPL19456 (Doron 2016);
+      JCVI WH8102 19K v1.0 / v2.0 = GPL7448 / GPL7449 (Ostrowski 2010, Tetu 2009). Unresolved:
+      Martiny 2006, Steglich 2006, Steglich 2010, Zinser 2009 (Affymetrix, probably MD4-9313), Tal
+      2009. → spec §10
+- [ ] **Value provenance fields F2–F6** from the explorer ask (how each value was made). Deferred
+      as a possible later spec; F1 `fold_change_type`, F7 and F8 are done by this spec. Carry the
+      explorer's shape requests into it (ask §6): F6 stores the control phase even when equal to
+      the treatment's, `""` = unknown only; F3's `-1.0` sentinel is registered in the description;
+      once F3 exists, `significance_calls_differ_from_paper` is derived from it post-import, not
+      curated. F5 (`paper_reported_significant_count`) would also replace the validator's parse of
+      `table_scope_detail` free text for the "significant count far from the paper's" prompt
+      (spec §11). → spec §2;
+      explorer `docs/superpowers/specs/2026-11-18-kg-side-de-value-provenance-ask.md`
+- [ ] **Revisit the existing recomputations under line B** (Aharonovich HOT1A3 ×2, Beliaev 2014,
+      Fuszard 2012 NATL2A). Kept "for now" with `fold_change_recomputed_by_kg`; strict B would
+      load the published values instead. → spec §1
+
 ## Explorer / MCP coordination
 
 - [ ] **Explorer: treat `structure_kind = 'generic'` substrate targets as a class of compounds.** TCDB lists ChEBI structural classes as substrates (alpha-amino acid → C00045 on 76 systems, peptide, lipid, fatty acid, nucleoside …); they stay generic `Metabolite` nodes by design (classes, not placeholders), so a transport answer that lands on one should say "a class of compounds", not a single molecule. From the TCDB integration review (2026-10-25). Raised with the explorer as E1 of `multiomics_explorer/docs/kg-specs/2026-10-29-transport-small-followups-explorer-asks.md`.
