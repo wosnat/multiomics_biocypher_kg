@@ -13,7 +13,7 @@ from multiomics_kg.utils.fold_change import signed_linear_suspect, signed_linear
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
 from multiomics_kg.utils.de_calls import (
-    call_row, check_significance, convert_fold_change, level_basis, low_signal_mask,
+    _as_list, call_row, check_significance, convert_fold_change, level_basis, low_signal_mask,
     low_signal_reason, read_de_table,
 )
 from multiomics_kg.utils.paperconfig_utils import (
@@ -28,6 +28,10 @@ except ImportError:
 
 
 logger.debug(f"Loading module {__name__}.")
+
+
+class _LevelColumnError(ValueError):
+    """Declared low-signal level column is absent from the DE table."""
 
 
 class OmicsEnumMeta(EnumMeta):
@@ -805,6 +809,14 @@ class OMICSAdapter:
             # df.iterrows(): the latter materializes a pd.Series per row, which
             # dominated the omics adapter's wall time. row.get() / row[col]
             # work identically on dicts, so the body is unchanged.
+            declared_levels = [
+                c for k in ("treatment_level_cols", "control_level_cols", "mean_level_cols")
+                for c in _as_list(analysis.get(k))
+            ]
+            absent = [c for c in declared_levels if c not in df.columns]
+            if absent:
+                raise _LevelColumnError(
+                    f"{analysis.get('id', '')}: level column(s) {absent} not found in {filename}")
             ls_basis = level_basis(analysis)
             ls_mask = low_signal_mask(df, analysis)
             for idx, row in enumerate(df.to_dict('records')):
@@ -911,6 +923,8 @@ class OMICSAdapter:
                 table_scope=analysis.get('table_scope'),
             )
 
+        except _LevelColumnError:
+            raise  # a mis-declared level column fails the build, not just this analysis
         except Exception as e:
             logger.error(f"Error processing file {filename}: {str(e)}")
 

@@ -110,3 +110,17 @@ def test_low_signal_survives_unresolved_rows(tmp_path):
     assert "PMM0001" not in r
     assert r["PMM0002"] is None
     assert r["PMM0003"] == CONDITION
+
+
+def test_missing_level_column_raises(tmp_path):
+    ad = _adapter(tmp_path, [{"treatment_level_cols": ["t_typo"], "control_level_cols": ["c"]}],
+                  df=LEVEL_DF)
+    with pytest.raises(ValueError, match="t_typo"):
+        ad.get_edges()
+
+
+def test_significant_only_keeps_low_signal_reason(tmp_path):
+    ad = _adapter(tmp_path, [LEVELS], df=LEVEL_DF)
+    ad.significance_mode = "significant_only"
+    r = _reasons(ad)
+    assert r["PMM0001"] == CONDITION and r["PMM0003"] == CONDITION
