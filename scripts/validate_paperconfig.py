@@ -288,6 +288,8 @@ CANONICAL_TREATMENT_TYPES = _load_condition_vocab("Experiment.treatment_type")
 CANONICAL_BACKGROUND_FACTORS = _load_condition_vocab("Experiment.background_factors")
 CANONICAL_CONDITION_TYPES = CANONICAL_TREATMENT_TYPES | CANONICAL_BACKGROUND_FACTORS
 VALID_CONTROL_TIMINGS = _load_condition_vocab("Experiment.control_timing")
+VALID_DATA_CAVEATS = _load_condition_vocab("Experiment.data_caveats")
+CAVEAT_ALLOWLIST_PATH = _PROJECT_ROOT / "config" / "data_caveats_unreviewed.yaml"
 
 
 def validate_control_timing(pub: dict, supp: dict, config_path: str = "") -> tuple[list, list]:
@@ -456,6 +458,162 @@ CANONICAL_TEST_TYPES = {
     "LC-MS/MS",               # label-free proteomics quantification
     "read_coverage",          # raw per-gene sequencing read counts (no formal test)
 }
+
+
+def load_caveat_allowlist(path: Path | None = None) -> dict[str, set[str]]:
+    """Unreviewed DE experiments: {repo-relative posix paperconfig path: {experiment keys}}.
+
+    A missing file means an empty allowlist (every DE experiment must be reviewed).
+    """
+    import yaml
+    path = Path(path) if path is not None else CAVEAT_ALLOWLIST_PATH
+    if not path.exists():
+        return {}
+    raw = yaml.safe_load(path.read_text()) or {}
+    return {Path(k).as_posix(): set(v or []) for k, v in raw.items()}
+
+
+def _declared_level_cols(analysis: dict) -> list[str]:
+    from multiomics_kg.utils.de_calls import _as_list
+    cols: list[str] = []
+    for key in ("treatment_level_cols", "control_level_cols", "mean_level_cols"):
+        cols.extend(_as_list(analysis.get(key)))
+    return cols
+
+
+def _table_header(table: dict) -> list[str] | None:
+    """Column names of a table (resolved CSV when present), None when unreadable."""
+    fn = table.get("filename")
+    if not fn:
+        return None
+    path = Path(fn)
+    if not path.is_absolute():
+        path = _find_project_root() / path
+    resolved = get_resolved_path(str(path))
+    try:
+        if resolved.exists():
+            return list(pd.read_csv(resolved, nrows=0).columns)
+        if not path.exists():
+            return None
+        return list(pd.read_csv(path, sep=table.get("sep", ","),
+                                skiprows=table.get("skip_rows", 0) or None, nrows=0).columns)
+    except Exception:
+        return None
+
+
+def validate_de_quality(pub: dict, supp: dict, config_path: str = "",
+                        allowlist: dict | None = None) -> tuple[list, list]:
+    """Data-caveat, level-column and scale rules (de-table-quality spec).
+
+    DE experiment = referenced by >= 1 statistical_analyses entry. Errors: unknown
+    data_caveats value; caveats without a clean data_caveat_note; bad
+    data_caveats_reviewed_on; a DE experiment outside the allowlist missing
+    data_caveats / data_caveats_reviewed_on; a stale allowlist entry; one-arm or
+    arms+mean level columns; a declared level column absent from the table; mixed
+    fold_change_type or mixed level bases within one experiment. Warnings: caveats
+    on a non-DE experiment; allowlist keys naming a vanished experiment.
+    """
+    import datetime
+    from multiomics_kg.utils.de_calls import level_basis
+
+    errors: list[str] = []
+    warnings: list[str] = []
+    experiments = (pub or {}).get("experiments") or {}
+    allowlist = allowlist or {}
+
+    try:
+        rel = Path(config_path).resolve().relative_to(_find_project_root()).as_posix()
+    except (ValueError, OSError):
+        rel = Path(config_path).as_posix()
+    unreviewed = allowlist.get(rel, set())
+
+    scales: dict[str, set] = {}
+    bases: dict[str, set] = {}
+    for table_key, table in (supp or {}).items():
+        if not isinstance(table, dict):
+            continue
+        header = None
+        header_read = False
+        for a in table.get("statistical_analyses") or []:
+            if not isinstance(a, dict) or not a.get("experiment"):
+                continue
+            exp_key = a["experiment"]
+            ctx = f"{config_path} | {table_key} | analysis {a.get('id', '?')}"
+            scales.setdefault(exp_key, set()).add(a.get("fold_change_type") or "log2")
+            try:
+                basis = level_basis(a)
+            except ValueError as exc:
+                errors.append(f"{ctx} | {exc}")
+                basis = None
+            if basis is not None:
+                bases.setdefault(exp_key, set()).add(basis)
+            declared = _declared_level_cols(a)
+            if declared:
+                if not header_read:
+                    header, header_read = _table_header(table), True
+                if header is not None:
+                    for col in declared:
+                        if col not in header:
+                            errors.append(
+                                f"{ctx} | level column '{col}' not found in the table columns")
+
+    for key, exp in experiments.items():
+        if not isinstance(exp, dict):
+            continue
+        ctx = f"{config_path} | experiments.{key}"
+        is_de = key in scales
+        caveats = exp.get("data_caveats")
+        note = exp.get("data_caveat_note")
+        reviewed = exp.get("data_caveats_reviewed_on")
+
+        if caveats is not None and not isinstance(caveats, list):
+            errors.append(f"{ctx} | data_caveats must be a list")
+            caveats = []
+        for value in caveats or []:
+            if value not in VALID_DATA_CAVEATS:
+                errors.append(_canonical_field_error(
+                    config_path, f"experiments.{key}", "data_caveats", value, VALID_DATA_CAVEATS))
+        if caveats and not note:
+            errors.append(f"{ctx} | data_caveats set without data_caveat_note")
+        if note and ("|" in str(note) or "'" in str(note)):
+            errors.append(f"{ctx} | data_caveat_note must not contain '|' or apostrophes")
+        if reviewed is not None:
+            ok = bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(reviewed)))
+            if ok:
+                try:
+                    datetime.date.fromisoformat(str(reviewed))
+                except ValueError:
+                    ok = False
+            if not ok:
+                errors.append(f"{ctx} | data_caveats_reviewed_on '{reviewed}' is not a valid YYYY-MM-DD date")
+
+        if not is_de:
+            if caveats or note or reviewed is not None:
+                warnings.append(f"{ctx} | data_caveats set on an experiment with no statistical_analyses")
+            continue
+
+        if key in unreviewed:
+            if reviewed is not None:
+                errors.append(
+                    f"{ctx} | has data_caveats_reviewed_on but is still listed in "
+                    f"config/data_caveats_unreviewed.yaml: remove it from config/data_caveats_unreviewed.yaml")
+        else:
+            if caveats is None:
+                errors.append(f"{ctx} | missing data_caveats (use [] when reviewed and none apply)")
+            if reviewed is None:
+                errors.append(f"{ctx} | missing data_caveats_reviewed_on (YYYY-MM-DD)")
+
+        if len(scales.get(key, ())) > 1:
+            errors.append(f"{ctx} | analyses mix fold_change_type {sorted(scales[key])}")
+        if len(bases.get(key, ())) > 1:
+            errors.append(f"{ctx} | analyses mix level bases {sorted(bases[key])}")
+
+    for key in sorted(unreviewed):
+        if key not in experiments:
+            warnings.append(
+                f"{config_path} | data_caveats_unreviewed.yaml lists '{key}', "
+                f"which is not an experiment of this paperconfig")
+    return errors, warnings
 
 
 def _load_treatment_organisms(project_root: str) -> set:
@@ -1797,6 +1955,10 @@ def validate_paperconfig_content(
         _ct_errors, _ct_warnings = validate_control_timing(pub, supp, config_path)
         errors.extend(_ct_errors)
         warnings.extend(_ct_warnings)
+        _dq_errors, _dq_warnings = validate_de_quality(
+            pub, supp, config_path, load_caveat_allowlist())
+        errors.extend(_dq_errors)
+        warnings.extend(_dq_warnings)
 
     if not supp:
         errors.append(f"{config_path} | Missing 'supplementary_materials'")

@@ -94,6 +94,7 @@ def _make_valid_config(csv_path: Path, overrides: dict = None,
         "omics_type": "RNASEQ",
         "test_type": "DESeq2",
         "treatment_type": "coculture",
+        "data_caveats": [], "data_caveats_reviewed_on": "2026-11-18",
         "background_factors": ["light"],
         "treatment_condition": "Coculture",
         "control_condition": "Axenic",
@@ -313,6 +314,7 @@ class TestPartnerOrganismAccounting:
     def _experiment(self, **extra) -> dict:
         exp = {
             "treatment_type": "growth_phase",
+            "data_caveats": [], "data_caveats_reviewed_on": "2026-11-18",
             "treatment_condition": "24 hours after co-culturing",
             "control_condition": "12 hours after co-culturing",
         }
@@ -766,6 +768,7 @@ def test_validate_paperconfig_content_accepts_minimal_valid_config(tmp_path):
                     "omics_type": "RNASEQ",
                     "test_type": "DESeq2",
                     "treatment_type": ["nitrogen"],
+                    "data_caveats": [], "data_caveats_reviewed_on": "2026-11-18",
                     "background_factors": ["axenic"],
                     "treatment_condition": "N-limited",
                     "control_condition": "N-replete",
@@ -815,6 +818,7 @@ def test_validate_rejects_unknown_compartment(tmp_path):
                     "name": "e", "organism": "Prochlorococcus MED4",
                     "omics_type": "RNASEQ", "test_type": "DESeq2",
                     "treatment_type": ["nitrogen"],
+                    "data_caveats": [], "data_caveats_reviewed_on": "2026-11-18",
                     "background_factors": ["axenic"],
                     "treatment_condition": "A", "control_condition": "B",
                     "compartment": "nucleus",   # ← not in vocabulary
@@ -848,6 +852,7 @@ def test_validate_accepts_whole_cell_compartment(tmp_path):
                 "name": "e", "organism": "Prochlorococcus MED4",
                 "omics_type": "RNASEQ", "test_type": "DESeq2",
                 "treatment_type": ["nitrogen"],
+                "data_caveats": [], "data_caveats_reviewed_on": "2026-11-18",
                 "background_factors": ["axenic"],
                 "treatment_condition": "A", "control_condition": "B",
                 "compartment": "whole_cell",
@@ -880,6 +885,7 @@ def test_validate_accepts_paired_rnaseq_proteome_omics_type(tmp_path):
                 "name": "e", "organism": "Prochlorococcus MED4",
                 "omics_type": "PAIRED_RNASEQ_PROTEOME",
                 "test_type": "DESeq2", "treatment_type": ["diel"],
+                "data_caveats": [], "data_caveats_reviewed_on": "2026-11-18",
                 "treatment_condition": "A", "control_condition": "B",
             }},
             "supplementary_materials": {"t1": {
@@ -1533,6 +1539,7 @@ class TestBackgroundOrganisms:
     def _background_exp(self, **extra) -> dict:
         exp = {
             "treatment_type": "nitrogen",
+            "data_caveats": [], "data_caveats_reviewed_on": "2026-11-18",
             "treatment_condition": "N starvation",
             "control_condition": "Exponential growth",
             "background_factors": ["coculture", "light"],
