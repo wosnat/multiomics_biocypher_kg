@@ -105,7 +105,7 @@ The `logfc_col` value is stored as log2 after conversion by the analysis's `fold
 
 ## Significance Determination
 
-Statistical significance follows each paper's own criterion, through a four-priority cascade evaluated per row. `multiomics_kg/utils/de_calls.py` is the single implementation of the cascade (and of the fold-change conversion and the low-signal rules below); the adapter, the validator's QA report and the post-import statistics all use it, so they cannot disagree:
+Statistical significance follows each paper's own criterion, through a four-priority cascade evaluated per row. `multiomics_kg/utils/de_calls.py` is the single implementation of the cascade (and of the fold-change conversion and the low-signal rules below); the adapter and the validator's QA report call it directly. The post-import statistics are Cypher that computes the same quantities; a KG test pins them to `de_calls.time_point_stats`, so they cannot silently disagree:
 
 **Priority 1 — Prefiltered tables.** When the analysis declares `prefiltered: true`, all rows are considered significant. This applies to publications that report only genes passing their own significance thresholds.
 

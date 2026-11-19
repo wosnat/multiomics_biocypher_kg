@@ -169,3 +169,32 @@ def test_report_uses_source_csv_without_resolved(tmp_path):
     cfg = _report_config(tmp_path)
     assert not list(tmp_path.glob("*_resolved.csv"))
     assert "rows: 6" in de_quality_report(cfg, str(tmp_path / "p.yaml"))
+
+
+def test_null_data_caveats_is_an_error():
+    errs, _ = _run({"data_caveats": None})
+    _only(errs, "data_caveats is empty-valued")
+
+
+def test_date_object_reviewed_on_is_accepted():
+    import datetime
+    errs, warns = _run({"data_caveats_reviewed_on": datetime.date(2026, 11, 19)})
+    assert errs == [] and warns == []
+
+
+def _stated_prompt(tmp_path, detail):
+    out = de_quality_report(_report_config(tmp_path, scope="all_detected_genes", detail=detail),
+                            str(tmp_path / "p.yaml"))
+    return "significance_calls_differ_from_paper" in out
+
+
+def test_scope_number_without_significance_word_gives_no_prompt(tmp_path):
+    assert not _stated_prompt(tmp_path, "FDR < 0.05; 2528 genes in table")
+
+
+def test_stated_significant_count_far_from_table_prompts(tmp_path):
+    assert _stated_prompt(tmp_path, "47 significant genes")  # table has 2
+
+
+def test_stated_significant_count_close_to_table_no_prompt(tmp_path):
+    assert not _stated_prompt(tmp_path, "2 significant genes")

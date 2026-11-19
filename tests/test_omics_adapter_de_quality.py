@@ -124,3 +124,21 @@ def test_significant_only_keeps_low_signal_reason(tmp_path):
     ad.significance_mode = "significant_only"
     r = _reasons(ad)
     assert r["PMM0001"] == CONDITION and r["PMM0003"] == CONDITION
+
+
+def test_one_arm_level_declaration_names_the_analysis(tmp_path):
+    ad = _adapter(tmp_path, [{"treatment_level_cols": ["t"]}], df=LEVEL_DF)
+    with pytest.raises(ValueError, match=r"a0.*level|level.*a0"):
+        ad.get_nodes()
+
+
+def test_null_data_caveats_is_empty_list(tmp_path):
+    ad = _adapter(tmp_path, [{}], exp_extra={"data_caveats": None})
+    assert _exp_props(ad)["e1"]["data_caveats"] == []
+
+
+def test_date_valued_reviewed_on_is_emitted_as_iso_string(tmp_path):
+    import datetime
+    ad = _adapter(tmp_path, [{}], exp_extra={
+        "data_caveats_reviewed_on": datetime.date(2026, 11, 19)})
+    assert _exp_props(ad)["e1"]["data_caveats_reviewed_on"] == "2026-11-19"

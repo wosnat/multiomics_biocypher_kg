@@ -24,7 +24,7 @@ The statistics are computed over the experiment's published rows on every scope;
 
 - `all_detected_genes`: they describe the measured genome. A negative fraction far from 0.5 or a large median suggests unnormalized conditions.
 - `significant_only`, `filtered_subset`, `top_n`: they describe the published subset. `time_point_large_fc_not_significant` is 0 by construction in a significant-only table. `time_point_extreme_fc_count` stays meaningful.
-- `time_point_low_signal_count` is 0 wherever no level columns are declared (all papers until the backlog item below is done).
+- `time_point_low_signal_count` is 0 wherever no level columns are declared (all papers until the level-column backlog item is done; `plans/backlog.md`, section "DE table quality - follow-ups").
 
 ## Curation and the allowlist
 
@@ -32,4 +32,4 @@ The statistics are computed over the experiment's published rows on every scope;
 
 ## Deferred
 
-Backfill of the caveat review, level-column declarations for the ~11 papers that publish them, and the section 3.4 suspects: see the backlog section above.
+Backfill of the caveat review, level-column declarations for the ~11 papers that publish them, and the section 3.4 suspects: see `plans/backlog.md`, section "DE table quality - follow-ups".

@@ -565,7 +565,11 @@ def validate_de_quality(pub: dict, supp: dict, config_path: str = "",
         caveats = exp.get("data_caveats")
         note = exp.get("data_caveat_note")
         reviewed = exp.get("data_caveats_reviewed_on")
+        if isinstance(reviewed, datetime.date):  # unquoted YAML date
+            reviewed = reviewed.isoformat()
 
+        if "data_caveats" in exp and caveats is None:
+            errors.append(f"{ctx} | data_caveats is empty-valued; write [] for reviewed-and-clean")
         if caveats is not None and not isinstance(caveats, list):
             errors.append(f"{ctx} | data_caveats must be a list")
             caveats = []
@@ -598,7 +602,7 @@ def validate_de_quality(pub: dict, supp: dict, config_path: str = "",
                     f"{ctx} | has data_caveats_reviewed_on but is still listed in "
                     f"config/data_caveats_unreviewed.yaml: remove it from config/data_caveats_unreviewed.yaml")
         else:
-            if caveats is None:
+            if caveats is None and "data_caveats" not in exp:
                 errors.append(f"{ctx} | missing data_caveats (use [] when reviewed and none apply)")
             if reviewed is None:
                 errors.append(f"{ctx} | missing data_caveats_reviewed_on (YYYY-MM-DD)")
@@ -2323,6 +2327,24 @@ _LEVEL_COLUMN_HINT = re.compile(
     r"basemean|rpkm|nsaf|cpm|count|mean|expression|abundance", re.IGNORECASE)
 
 
+_STATED_SIGNIFICANT = re.compile(
+    r"(\d[\d,]*)\s+(?:\w+\s+){0,2}(?:significant|significantly|differentially|DE\b)",
+    re.IGNORECASE)
+
+
+def _stated_significant_count(detail) -> int | None:
+    """The count a ``table_scope_detail`` states for significant genes, else None.
+
+    Only a number tied to a significance word counts ("47 significant genes");
+    thresholds ("p < 0.05") and table sizes ("2528 genes in table") are ignored.
+    """
+    m = _STATED_SIGNIFICANT.search(str(detail or ""))
+    if not m:
+        return None
+    n = int(m.group(1).replace(",", ""))
+    return n or None
+
+
 def de_quality_report(config: dict, config_path: str) -> str:
     """Per-analysis DE table statistics and caveat prompts (information only).
 
@@ -2338,6 +2360,7 @@ def de_quality_report(config: dict, config_path: str) -> str:
     pub = (config or {}).get("publication") or {}
     experiments = pub.get("experiments") or {}
     blocks: list[str] = []
+    exp_sig: dict[str, int] = {}  # significant rows summed over an experiment's analyses
     for table_key, table in (pub.get("supplementary_materials") or {}).items():
         if not isinstance(table, dict) or not table.get("filename"):
             continue
@@ -2399,14 +2422,15 @@ def de_quality_report(config: dict, config_path: str) -> str:
             if str(table["filename"]).endswith("_modified.csv"):
                 prompts += ["fold_change_recomputed_by_kg (check the builder)",
                             "fold_change_sign_reversed_by_kg (check the builder)"]
-            m = re.search(r"\d+", str(exp.get("table_scope_detail") or ""))
-            if m:
-                n = int(m.group())
-                if abs(n_sig - n) > 0.2 * n:
-                    prompts.append(
-                        f"significance_calls_differ_from_paper (table {n_sig} vs stated {n})")
+            exp_sig[exp_key] = exp_sig.get(exp_key, 0) + n_sig
             lines.append(f"  caveats to consider: {prompts}")
             blocks.append("\n".join(lines))
+    for exp_key, n_sig in exp_sig.items():
+        n = _stated_significant_count((experiments.get(exp_key) or {}).get("table_scope_detail"))
+        if n is not None and abs(n_sig - n) > 0.2 * n:
+            blocks.append(
+                f"QA experiment {exp_key}\n  caveats to consider: "
+                f"['significance_calls_differ_from_paper (tables {n_sig} vs stated {n})']")
     blocks.append("This report is information for the curator; it never fails validation.")
     return "\n\n".join(blocks)
 

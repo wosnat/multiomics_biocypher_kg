@@ -13,7 +13,7 @@ from multiomics_kg.utils.fold_change import signed_linear_suspect, signed_linear
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
 from multiomics_kg.utils.de_calls import (
-    _as_list, call_row, check_significance, convert_fold_change, level_basis, low_signal_mask,
+    _as_list, call_row, convert_fold_change, level_basis, low_signal_mask,
     low_signal_reason, read_de_table,
 )
 from multiomics_kg.utils.paperconfig_utils import (
@@ -446,7 +446,14 @@ class OMICSAdapter:
                     raise ValueError(
                         f"{experiment_id}: analyses declare different fold_change_type "
                         f"values {sorted(fc_types)}")
-                bases = {b for b in (level_basis(a) for a in own) if b is not None}
+                bases = set()
+                for a in own:
+                    try:
+                        b = level_basis(a)
+                    except ValueError as exc:
+                        raise ValueError(f"{experiment_id} / {a.get('id')}: {exc}") from exc
+                    if b is not None:
+                        bases.add(b)
                 if len(bases) > 1:
                     raise ValueError(
                         f"{experiment_id}: analyses declare different low-signal "
@@ -456,7 +463,7 @@ class OMICSAdapter:
                 if bases:
                     exp_props["low_signal_basis"] = bases.pop()
             for key in ("data_caveat_note", "data_caveats_reviewed_on"):
-                val = self.clean_text(exp.get(key) or "")
+                val = self.clean_text(str(exp.get(key) or ""))
                 if val:
                     exp_props[key] = val
             design_notes = self.clean_text(exp.get("design_notes") or "")
@@ -676,22 +683,6 @@ class OMICSAdapter:
 
         logger.info(f"Generated {len(edge_list)} edges (expression, has_experiment, tests_coculture_with)")
         return edge_list
-
-    def _check_significance(
-        self,
-        fc_value: float | None,
-        pvalue: float | None,
-        asterisk_significant: bool | None,
-        analysis: dict,
-        p_missing: bool = False,
-    ) -> str:
-        """Significance of a row; see ``de_calls.check_significance``."""
-        return check_significance(
-            fc_value, pvalue, asterisk_significant, analysis,
-            default_pvalue_threshold=self.default_pvalue_threshold,
-            default_logfc_threshold=self.default_logfc_threshold,
-            p_missing=p_missing,
-        )
 
     def _load_and_create_edges(
         self,
@@ -976,7 +967,7 @@ class OMICSAdapter:
 
     def _normalize_list_field(self, exp: dict, field: str) -> list[str]:
         """Normalize a paperconfig field to a list of cleaned strings."""
-        val = exp.get(field, [])
+        val = exp.get(field) or []
         if isinstance(val, str):
             val = [val] if val else []
         return [self.clean_text(v) for v in val]

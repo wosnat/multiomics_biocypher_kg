@@ -61,6 +61,8 @@ def _live_vs_stored(run_query, exp_id):
     for r in edges:
         by_tp.setdefault(r["tp"], []).append((r["fc"], r["st"], r["lsr"]))
     orders = list(exp["time_point_orders"])
+    assert edges, f"{exp_id}: no Changes_expression_of edges"
+    assert orders, f"{exp_id}: empty time_point_orders"
     assert sorted(by_tp) == sorted(orders)
     # arrays are ordered by time_point_order
     for i, order in enumerate(orders):
