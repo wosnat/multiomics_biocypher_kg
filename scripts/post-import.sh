@@ -373,6 +373,13 @@ WHERE n:ClusteringAnalysis OR n:DerivedMetric OR n:MetaboliteAssay
 SET n.treatment_type = coalesce(n.treatment_type, []),
     n.background_factors = coalesce(n.background_factors, []);
 
+// data_caveats is dense on every DE experiment (fold_change_type marks those);
+// neo4j-admin import drops an empty list, so re-materialize [] (non-DE
+// experiments stay without the property).
+MATCH (e:Experiment)
+WHERE e.fold_change_type IS NOT NULL
+SET e.data_caveats = coalesce(e.data_caveats, []);
+
 // Experiment growth_phases (must run before Publication rollup)
 MATCH (e:Experiment)
 OPTIONAL MATCH (e)-[r:Changes_expression_of]->(:Gene)
@@ -420,7 +427,13 @@ SET e.gene_count = 0,
     e.time_point_totals = [],
     e.time_point_significant_up = [],
     e.time_point_significant_down = [],
-    e.time_point_growth_phases = [];
+    e.time_point_growth_phases = [],
+    e.time_point_negative_fractions = [],
+    e.time_point_median_log2fc = [],
+    e.time_point_max_abs_log2fc = [],
+    e.time_point_large_fc_not_significant = [],
+    e.time_point_extreme_fc_count = [],
+    e.time_point_low_signal_count = [];
 
 // Experiment stats computation (overrides defaults where edges exist)
 MATCH (e:Experiment)-[r:Changes_expression_of]->(g:Gene)
@@ -431,7 +444,13 @@ WITH e,
      max(COALESCE(r.growth_phase, '')) AS tp_gp,
      count(r) AS total,
      count(CASE WHEN r.expression_status = 'significant_up' THEN 1 END) AS sig_up,
-     count(CASE WHEN r.expression_status = 'significant_down' THEN 1 END) AS sig_down
+     count(CASE WHEN r.expression_status = 'significant_down' THEN 1 END) AS sig_down,
+     count(CASE WHEN r.log2_fold_change < 0 THEN 1 END) AS neg,
+     percentileCont(r.log2_fold_change, 0.5) AS med,
+     max(abs(r.log2_fold_change)) AS maxabs,
+     count(CASE WHEN abs(r.log2_fold_change) > 5 AND r.expression_status = 'not_significant' THEN 1 END) AS large_ns,
+     count(CASE WHEN abs(r.log2_fold_change) > 10 THEN 1 END) AS extreme,
+     count(r.low_signal_reason) AS low_sig
 ORDER BY e.id, tp_order
 WITH e,
      sum(total) AS gene_count,
@@ -443,7 +462,13 @@ WITH e,
      collect(tp_gp) AS tp_gps,
      collect(total) AS tp_totals,
      collect(sig_up) AS tp_sig_up,
-     collect(sig_down) AS tp_sig_down
+     collect(sig_down) AS tp_sig_down,
+     collect(toFloat(neg) / total) AS tp_neg_frac,
+     collect(med) AS tp_median,
+     collect(maxabs) AS tp_max_abs,
+     collect(large_ns) AS tp_large_ns,
+     collect(extreme) AS tp_extreme,
+     collect(low_sig) AS tp_low_sig
 SET e.gene_count = gene_count,
     e.significant_up_count = significant_up_count,
     e.significant_down_count = significant_down_count,
@@ -454,7 +479,13 @@ SET e.gene_count = gene_count,
     e.time_point_totals = tp_totals,
     e.time_point_significant_up = tp_sig_up,
     e.time_point_significant_down = tp_sig_down,
-    e.time_point_growth_phases = tp_gps;
+    e.time_point_growth_phases = tp_gps,
+    e.time_point_negative_fractions = tp_neg_frac,
+    e.time_point_median_log2fc = tp_median,
+    e.time_point_max_abs_log2fc = tp_max_abs,
+    e.time_point_large_fc_not_significant = tp_large_ns,
+    e.time_point_extreme_fc_count = tp_extreme,
+    e.time_point_low_signal_count = tp_low_sig;
 
 // Distinct gene count per experiment (union across timepoints).
 // gene_count above is cumulative; distinct_gene_count is the unique-gene
