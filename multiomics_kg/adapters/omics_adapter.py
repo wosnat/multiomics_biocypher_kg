@@ -12,7 +12,10 @@ from multiomics_kg.utils.curie_utils import normalize_curie
 from multiomics_kg.utils.fold_change import signed_linear_suspect, signed_linear_violations
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
-from multiomics_kg.utils.de_calls import call_row, check_significance, convert_fold_change, read_de_table
+from multiomics_kg.utils.de_calls import (
+    call_row, check_significance, convert_fold_change, level_basis, low_signal_mask,
+    low_signal_reason, read_de_table,
+)
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig, get_experiments, get_experiment_for_analysis, iter_analyses,
     parse_timepoint_hours,
@@ -430,6 +433,28 @@ class OMICSAdapter:
                 )
                 if control_timing:
                     exp_props["control_timing"] = control_timing
+            # DE-table quality (spec 2026-11-19): only experiments with a DE contrast.
+            if exp_key in de_experiments:
+                own = [a for _, _, a in iter_analyses(self.config_data)
+                       if a.get("experiment") == exp_key]
+                fc_types = {a.get("fold_change_type") or "log2" for a in own}
+                if len(fc_types) > 1:
+                    raise ValueError(
+                        f"{experiment_id}: analyses declare different fold_change_type "
+                        f"values {sorted(fc_types)}")
+                bases = {b for b in (level_basis(a) for a in own) if b is not None}
+                if len(bases) > 1:
+                    raise ValueError(
+                        f"{experiment_id}: analyses declare different low-signal "
+                        f"level_basis values {sorted(bases)}")
+                exp_props["data_caveats"] = self._normalize_list_field(exp, "data_caveats")
+                exp_props["fold_change_type"] = self.clean_text(fc_types.pop())
+                if bases:
+                    exp_props["low_signal_basis"] = bases.pop()
+            for key in ("data_caveat_note", "data_caveats_reviewed_on"):
+                val = self.clean_text(exp.get(key) or "")
+                if val:
+                    exp_props[key] = val
             design_notes = self.clean_text(exp.get("design_notes") or "")
             if design_notes:
                 exp_props["design_notes"] = design_notes
@@ -780,6 +805,8 @@ class OMICSAdapter:
             # df.iterrows(): the latter materializes a pd.Series per row, which
             # dominated the omics adapter's wall time. row.get() / row[col]
             # work identically on dicts, so the body is unchanged.
+            ls_basis = level_basis(analysis)
+            ls_mask = low_signal_mask(df, analysis)
             for idx, row in enumerate(df.to_dict('records')):
                 if self.test_mode and idx >= self.early_stopping:
                     break
@@ -836,6 +863,12 @@ class OMICSAdapter:
                     # (post-import then reads the edge as not_significant).
                     if fc != 0:
                         edge_properties['expression_direction'] = 'up' if fc > 0 else 'down'
+
+                if ls_mask is not None:
+                    reason = low_signal_reason(
+                        ls_basis, ls_mask[idx], edge_properties['log2_fold_change'])
+                    if reason is not None:
+                        edge_properties['low_signal_reason'] = reason
 
                 # Timepoint properties
                 if time_point:
