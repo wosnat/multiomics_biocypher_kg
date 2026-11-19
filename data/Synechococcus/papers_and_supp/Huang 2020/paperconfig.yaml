@@ -39,6 +39,14 @@ publication:
         second uninfected control sampled at 8 h was not used because edgeR found no differences between
         the 30 min and 8 h controls. adjusted_p_value on these edges is the unadjusted p-value
         reported by the paper (no multiple-testing correction).
+      data_caveats: [fold_change_inflated_at_low_counts, no_biological_replicates, significance_calls_differ_from_paper]
+      data_caveat_note: >-
+        One library per condition (GEO GSE150732 has one count column per sample), so edgeR p-values rest on
+        a model. Genes with 0 to 2 reads in one arm hold 13 to 15 of the 20 largest abs log2FC values at 1h,
+        3h and 5h (3h top: 32 vs 0 reads, log2FC -7.9). The paper calls up-regulation only (log2FC 2 or
+        more, raw p below 0.05) and reports 32 genes; that rule gives 47 genes across time points, and the
+        KG also calls down-regulation by the mirrored rule, which the paper does not define.
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     geo_de_wh7803:
       type: csv

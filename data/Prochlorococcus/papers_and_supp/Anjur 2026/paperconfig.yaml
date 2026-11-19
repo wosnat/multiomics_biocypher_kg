@@ -23,6 +23,12 @@ publication:
       light_intensity: 45 umol photons m-2 s-1
       table_scope: significant_only
       table_scope_detail: FDR < 0.05 and |logFC| > 0.8
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_caveat_note: >-
+        edgeR estimates against near-zero reads: IMG 2626313376 (+26.13, logCPM 2.74) and 2626312218
+        (+24.45, logCPM 1.06) lie in the bottom 10% of logCPM (10th percentile 4.47, median 6.94) and rank
+        first and second by effect. No count table is published (reads in SRA only).
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     annotation_genome_9301:
       type: id_translation

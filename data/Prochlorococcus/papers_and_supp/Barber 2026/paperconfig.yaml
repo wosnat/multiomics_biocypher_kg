@@ -30,6 +30,12 @@ publication:
         Matched by growth state: every culture was harvested at mid-log phase on its own substrate,
         so the glucose control and the treatment were sampled at the same growth stage, not the same
         clock time. Perseus Difference was glucose minus substrate and is negated in the builder.
+      data_caveats: [fold_change_sign_reversed_by_kg]
+      data_caveat_note: >-
+        Perseus reports Difference glu_L_cys = mean log2 LFQ glucose minus L-cysteine. The KG negated it
+        (build_barber2026_rpom_proteomics.py) so positive means higher on L-cysteine; e.g. the DHPS TRAP SBP
+        HpsK reads -8.95 in the R-DHPS sheet column and +8.95 here.
+      data_caveats_reviewed_on: "2026-11-19"
 
     r_dhps_vs_glucose_dss3_proteomics:
       name: "R. pomeroyi DSS-3 proteome on R-DHPS vs glucose (LFQ proteomics)"
@@ -50,6 +56,12 @@ publication:
         Matched by growth state: every culture was harvested at mid-log phase on its own substrate,
         so the glucose control and the treatment were sampled at the same growth stage, not the same
         clock time. Perseus Difference was glucose minus substrate and is negated in the builder.
+      data_caveats: [fold_change_sign_reversed_by_kg]
+      data_caveat_note: >-
+        Perseus reports Difference glu_R-DHPS = mean log2 LFQ glucose minus R-DHPS. The KG negated it
+        (build_barber2026_rpom_proteomics.py) so positive means higher on R-DHPS; e.g. the DHPS TRAP SBP
+        HpsK reads -8.95 in the R-DHPS sheet column and +8.95 here.
+      data_caveats_reviewed_on: "2026-11-19"
 
     s_dhps_vs_glucose_dss3_proteomics:
       name: "R. pomeroyi DSS-3 proteome on S-DHPS vs glucose (LFQ proteomics)"
@@ -70,6 +82,12 @@ publication:
         Matched by growth state: every culture was harvested at mid-log phase on its own substrate,
         so the glucose control and the treatment were sampled at the same growth stage, not the same
         clock time. Perseus Difference was glucose minus substrate and is negated in the builder.
+      data_caveats: [fold_change_sign_reversed_by_kg]
+      data_caveat_note: >-
+        Perseus reports Difference glu_S_DHPS = mean log2 LFQ glucose minus S-DHPS. The KG negated it
+        (build_barber2026_rpom_proteomics.py) so positive means higher on S-DHPS; e.g. the DHPS TRAP SBP
+        HpsK reads -8.95 in the R-DHPS sheet column and +8.95 here.
+      data_caveats_reviewed_on: "2026-11-19"
 
     r_dhps_vs_s_dhps_dss3_proteomics:
       name: "R. pomeroyi DSS-3 proteome on R-DHPS vs S-DHPS (LFQ proteomics)"

@@ -55,6 +55,13 @@ publication:
         Matched by growth state, not by sampling day: Pi-replete and Pi-deplete cultures were grown in
         parallel and each harvested in mid-exponential phase (supplementary methods); no common harvest
         date is stated.
+      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveat_note: >-
+        The published NATL2A Ratio of means is Deplete Mean / number of peptides on every row (a supplement
+        spreadsheet error; 62 of 63 rows below 1). The KG recomputed log2(Deplete Mean / Control Mean) from
+        the two mean columns (build_fuszard2012_modified_csv.py), which reproduces the paper 6 up and 1
+        down.
+      data_caveats_reviewed_on: "2026-11-19"
     # ── SS120 Pi limitation proteomics ──
     pi_limitation_ss120_itraq:
       name: "SS120 proteomics: Pi replete vs Pi deplete (iTRAQ)"

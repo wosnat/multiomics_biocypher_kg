@@ -31,6 +31,12 @@ publication:
       design_notes: >-
         Two sampling times of the same cultures: phase M2 at 21 h (alginate and pectin use, no net growth)
         against phase M1 at 13 h (exponential growth on laminarin) as reference.
+      data_caveats: [fold_change_sign_reversed_by_kg]
+      data_caveat_note: >-
+        Table S1 M1 vs M2 is log2 of the first condition over the second (checked on the laminarin GH16
+        Alt831_03772 and the pectate lyase Alt831_00890). The KG negated it to M2 vs M1
+        (build_koch2019_de_nsaf.py), so signs are opposite to the table.
+      data_caveats_reviewed_on: "2026-11-19"
     glucose_stationary_vs_exponential_831_rnaseq:
       name: "Alteromonas 83-1 on glucose, stationary (G2, 21 h) vs exponential (G1, 13 h) (RNASEQ)"
       organism: "Alteromonas macleodii 83-1"
@@ -48,6 +54,12 @@ publication:
       design_notes: >-
         Two sampling times of the same glucose cultures: stationary phase at 21 h against exponential
         phase at 13 h as reference.
+      data_caveats: [fold_change_sign_reversed_by_kg]
+      data_caveat_note: >-
+        Table S1 G1 vs G2 is log2 of the first condition over the second (checked on the laminarin GH16
+        Alt831_03772 and the pectate lyase Alt831_00890). The KG negated it to G2 vs G1
+        (build_koch2019_de_nsaf.py), so signs are opposite to the table.
+      data_caveats_reviewed_on: "2026-11-19"
     polysaccharide_mix_vs_glucose_phase1_831_rnaseq:
       name: "Alteromonas 83-1 on a polysaccharide mix vs glucose at 13 h (M1 vs G1) (RNASEQ)"
       organism: "Alteromonas macleodii 83-1"
@@ -61,6 +73,12 @@ publication:
       medium: "SWM with 0.02% laminarin, alginate and pectin"
       temperature: "20C"
       table_scope: all_detected_genes
+      data_caveats: [fold_change_sign_reversed_by_kg]
+      data_caveat_note: >-
+        Table S1 G1 vs M1 is log2 of the first condition over the second (checked on the laminarin GH16
+        Alt831_03772 and the pectate lyase Alt831_00890). The KG negated it to M1 vs G1
+        (build_koch2019_de_nsaf.py), so signs are opposite to the table.
+      data_caveats_reviewed_on: "2026-11-19"
     polysaccharide_mix_vs_glucose_phase2_831_rnaseq:
       name: "Alteromonas 83-1 on a polysaccharide mix vs glucose at 21 h (M2 vs G2) (RNASEQ)"
       organism: "Alteromonas macleodii 83-1"
@@ -77,6 +95,12 @@ publication:
       design_notes: >-
         Same sampling time (21 h) in both arms, but different physiological states: no net growth on
         alginate and pectin vs stationary phase on glucose.
+      data_caveats: [fold_change_sign_reversed_by_kg]
+      data_caveat_note: >-
+        Table S1 G2 vs M2 is log2 of the first condition over the second (checked on the laminarin GH16
+        Alt831_03772 and the pectate lyase Alt831_00890). The KG negated it to M2 vs G2
+        (build_koch2019_de_nsaf.py), so signs are opposite to the table.
+      data_caveats_reviewed_on: "2026-11-19"
     proteome_nsaf_831_proteomics:
       name: "Alteromonas 83-1 whole-cell proteome on glucose and on a polysaccharide mix at 13 h and 21 h (%NSAF)"
       organism: "Alteromonas macleodii 83-1"

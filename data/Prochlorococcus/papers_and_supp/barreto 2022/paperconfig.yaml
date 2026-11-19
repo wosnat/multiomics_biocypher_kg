@@ -200,6 +200,13 @@ publication:
         Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
         for MIT9312, CC9311, WH8102).
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: [table_may_be_a_different_comparison]
+      data_caveat_note: >-
+        Table S12 (MIT9312) is labelled as the partner deviation from the mean coculture response at 800
+        ppm, but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
+        anticorrelates with the matching 400 ppm table S9 on shared genes (r = -0.61; -0.61 / -0.83 / -0.97
+        over S12 / S13 / S14).
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_synechococcus_cc9311_at_800_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus CC9311 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -231,6 +238,13 @@ publication:
         Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
         for MIT9312, CC9311, WH8102).
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: [table_may_be_a_different_comparison]
+      data_caveat_note: >-
+        Table S13 (CC9311) is labelled as the partner deviation from the mean coculture response at 800 ppm,
+        but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
+        anticorrelates with the matching 400 ppm table S10 on shared genes (r = -0.83; -0.61 / -0.83 / -0.97
+        over S12 / S13 / S14).
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_synechococcus_wh8102_at_800_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus WH8102 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -262,6 +276,13 @@ publication:
         Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
         for MIT9312, CC9311, WH8102).
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: [table_may_be_a_different_comparison]
+      data_caveat_note: >-
+        Table S14 (WH8102) is labelled as the partner deviation from the mean coculture response at 800 ppm,
+        but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
+        anticorrelates with the matching 400 ppm table S11 on shared genes (r = -0.97; -0.61 / -0.83 / -0.97
+        over S12 / S13 / S14).
+      data_caveats_reviewed_on: "2026-11-19"
     interaction_pco2_coculture_ez55_rnaseq:
       name: EZ55 Table S4 contrast, labelled pCO2 x coculture interaction by the authors (RNASEQ)
       organism: Alteromonas macleodii EZ55

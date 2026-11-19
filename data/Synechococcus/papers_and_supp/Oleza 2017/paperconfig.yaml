@@ -82,6 +82,12 @@ publication:
       treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
       table_scope_detail: "All 1724 R. pomeroyi proteins detected in seawater mono-culture and/or co-culture with Synechococcus"
+      data_caveats: [significance_calls_differ_from_paper]
+      data_caveat_note: >-
+        Table S7 own Significant (+) column, the Perseus FDR plus fold (s0) call, marks 263 proteins. The KG
+        call is q 0.05 or below from the Student t-test q-value column, 295 proteins: 32 more, all with abs
+        fold change 3.8 or less.
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # Table S2A: Synechococcus WH7803 in ASW — early coculture proteomics

@@ -21,6 +21,15 @@ publication:
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
+      data_caveats: [fold_change_inflated_at_low_counts, conditions_not_normalized_to_each_other, comparison_direction_unclear]
+      data_caveat_note: >-
+        Rockhopper expression with a 0.01 pseudocount, so 1 vs 0 reads gives log2 6.7: 562 of 1714 genes
+        have a zero arm, 265 exceed abs log2FC 10 and 291 have abs log2FC above 5 but are not significant.
+        The axenic and coculture expression columns sum to 156K vs 384K and 82% of values are negative
+        (median -1.46; -0.93 with 10 or more reads in both arms). The published value equals log2(axenic
+        column / coculture column) although the header says coculture/axenic; the KG keeps the published
+        sign, which the paper text agrees with.
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_prochlorococcus_mit9313_high_alteromonas_hot1a3_rnaseq:
       name: HOT1A3 Coculture with Prochlorococcus MIT9313 (high Alteromonas inoculum, 5x10^6 cells/ml) vs coculture with
         MIT9313 at low Alteromonas inoculum (0.5x10^6 cells/ml) (RNASEQ)
@@ -43,6 +52,13 @@ publication:
       design_notes: >-
         Both arms are 20 h HOT1A3 cocultures with MIT9313, differing only in the HOT1A3 inoculum (high
         vs 0.5x10^6 cells/ml).
+      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveat_note: >-
+        The published fold change was (a+0.01)/(b+0.01) on Rockhopper expression, so 1 vs 0 reads read
+        101-fold. The KG recomputed log2((a+1)/(b+1)) from the two expression columns
+        (build_aharonovich2016_hot1a3_modified_csv.py) and dropped rows with both arms zero; q-values are as
+        published.
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_prochlorococcus_mit9313_hot1a3_rnaseq:
       name: HOT1A3 Coculture with Prochlorococcus MIT9313 vs coculture with Prochlorococcus MED4 (RNASEQ)
       organism: Alteromonas macleodii HOT1A3
@@ -64,6 +80,13 @@ publication:
       design_notes: >-
         Both arms are 20 h HOT1A3 cocultures: HOT1A3 with MIT9313 (treatment) vs HOT1A3 with MED4
         (control). MED4 is a partner of the control arm only and is not recorded as a coculture partner.
+      data_caveats: [fold_change_recomputed_by_kg]
+      data_caveat_note: >-
+        The published fold change was (a+0.01)/(b+0.01) on Rockhopper expression, so 1 vs 0 reads read
+        101-fold. The KG recomputed log2((a+1)/(b+1)) from the two expression columns
+        (build_aharonovich2016_hot1a3_modified_csv.py) and dropped rows with both arms zero; q-values are as
+        published.
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_5e6:
       name: MIT9313 Coculture with Alteromonas HOT1A3 vs Pro99 medium growth conditions (RNASEQ)
       organism: Prochlorococcus MIT9313
@@ -82,6 +105,11 @@ publication:
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_caveat_note: >-
+        Rockhopper expression with a 0.01 pseudocount, so 1 vs 0 reads gives log2 6.7: 104 of 2269 genes
+        have a zero arm, 14 exceed abs log2FC 10 and 85 have abs log2FC above 5 but are not significant.
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_alteromonas_hot1a3_mit9313_rnaseq_inoc_05e6:
       name: MIT9313 Coculture with Alteromonas HOT1A3 vs Pro99 medium growth conditions (RNASEQ)
       organism: Prochlorococcus MIT9313
@@ -100,6 +128,11 @@ publication:
       treatment_taxid: 28108
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_caveat_note: >-
+        Rockhopper expression with a 0.01 pseudocount, so 1 vs 0 reads gives log2 6.7: 212 of 2268 genes
+        have a zero arm, 104 exceed abs log2FC 10 and 178 have abs log2FC above 5 but are not significant.
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     id_translation_hot1a3_author:
       type: id_translation
