@@ -12,6 +12,7 @@ from multiomics_kg.utils.curie_utils import normalize_curie
 from multiomics_kg.utils.fold_change import signed_linear_suspect, signed_linear_violations
 
 from multiomics_kg.download.resolve_paper_ids import get_resolved_path
+from multiomics_kg.utils.de_calls import call_row, check_significance, convert_fold_change, read_de_table
 from multiomics_kg.utils.paperconfig_utils import (
     load_paperconfig, get_experiments, get_experiment_for_analysis, iter_analyses,
     parse_timepoint_hours,
@@ -75,31 +76,8 @@ class OMICSModel(BaseModel):
 
 
 def _convert_fold_change(fc_float: float, fold_change_type: str | None) -> float | None:
-    """Convert fold-change value to log2 scale.
-
-    Args:
-        fc_float: The raw fold-change value from the CSV.
-        fold_change_type: 'log2' (default), 'linear', 'signed_linear', or None
-            (treated as log2). 'signed_linear' is the "+3 = 3-fold up, -3 = 3-fold
-            down" convention: log2 = sign(x) * log2|x|.
-
-    Returns:
-        log2-scale fold-change, or None if conversion is invalid (linear FC <= 0;
-        signed linear FC in (-1, 1)).
-    """
-    if fold_change_type is None or fold_change_type == "log2":
-        return fc_float
-    if fold_change_type == "linear":
-        if fc_float <= 0:
-            return None
-        return math.log2(fc_float)
-    if fold_change_type == "signed_linear":
-        # Values in (-1, 1) cannot occur in this convention; the whole analysis is
-        # refused up front (signed_linear_violations), so this is only a guard.
-        if abs(fc_float) < 1:
-            return None
-        return math.copysign(math.log2(abs(fc_float)), fc_float)
-    return fc_float
+    """Convert a fold-change to log2 scale (see ``de_calls.convert_fold_change``)."""
+    return convert_fold_change(fc_float, fold_change_type)
 
 
 def _log_duplicate_gene_rows(rows_by_edge: dict[str, list[tuple]], analysis_id: str,
@@ -678,47 +656,13 @@ class OMICSAdapter:
         analysis: dict,
         p_missing: bool = False,
     ) -> str:
-        """
-        Determine whether a row is statistically significant.
-
-        Priority order:
-        1. prefiltered: true → always "significant"
-        2. pvalue_asterisk_in_logfc → use asterisk_significant
-        3. p_missing (the table has a p-value column but this row's cell is empty,
-           e.g. a DESeq2 NA padj) → "not significant": untested is not significant
-        4. Thresholds (config overrides constructor defaults)
-        5. "unknown" if no info available
-
-        Returns:
-            "significant", "not significant", or "unknown".
-        """
-        if analysis.get('prefiltered'):
-            return 'significant'
-
-        if asterisk_significant is not None:
-            return 'significant' if asterisk_significant else 'not significant'
-
-        if p_missing:
-            return 'not significant'
-
-        # `is not None`, not `or`: an explicit threshold of 0 must not fall back to the default.
-        pval_thresh = analysis.get('pvalue_threshold')
-        if pval_thresh is None:
-            pval_thresh = self.default_pvalue_threshold
-        logfc_thresh = analysis.get('logfc_threshold')
-        if logfc_thresh is None:
-            logfc_thresh = self.default_logfc_threshold
-
-        if pval_thresh is None and logfc_thresh is None:
-            return 'unknown'
-
-        sig = True
-        if logfc_thresh is not None and fc_value is not None:
-            sig = sig and (abs(fc_value) >= logfc_thresh)
-        if pval_thresh is not None and pvalue is not None:
-            sig = sig and (pvalue <= pval_thresh)
-
-        return 'significant' if sig else 'not significant'
+        """Significance of a row; see ``de_calls.check_significance``."""
+        return check_significance(
+            fc_value, pvalue, asterisk_significant, analysis,
+            default_pvalue_threshold=self.default_pvalue_threshold,
+            default_logfc_threshold=self.default_logfc_threshold,
+            p_missing=p_missing,
+        )
 
     def _load_and_create_edges(
         self,
@@ -756,21 +700,9 @@ class OMICSAdapter:
 
         # Probe for pre-resolved CSV (written by resolve_paper_ids.py)
         _resolved_path = get_resolved_path(filename)
-        _use_resolved = _resolved_path.exists()
 
         try:
-            # Load the data file
-            # _resolved.csv is always a clean comma-separated file with no extra header rows,
-            # so use plain pd.read_csv() regardless of the original sep/skip_rows settings.
-            if _use_resolved:
-                df = pd.read_csv(str(_resolved_path))
-            else:
-                skip_rows = analysis.get('skip_rows', 0)
-                sep = analysis.get('sep', ',')
-                if skip_rows:
-                    df = pd.read_csv(filename, sep=sep, skiprows=skip_rows)
-                else:
-                    df = pd.read_csv(filename, sep=sep)
+            df, _use_resolved = read_de_table(filename, analysis)
 
             _resolved_col = 'resolved_locus_tag'
             use_locus_tag_col = _use_resolved and _resolved_col in df.columns
@@ -787,7 +719,6 @@ class OMICSAdapter:
             logfc_col = analysis.get('logfc_col', None)
             p_value_col = analysis.get('adjusted_p_value_col', None)
             pvalue_asterisk = analysis.get('pvalue_asterisk_in_logfc', False)
-            asterisk_min_level = int(analysis.get('asterisk_min_level', 1))
 
             # Validate columns exist
             missing_cols = []
@@ -833,6 +764,8 @@ class OMICSAdapter:
                     )
                     return edges
 
+            df_columns = set(df.columns)
+
             # Track skipped rows for logging
             skipped_count = 0
             raw_fc_values = []  # collect raw FC values for range validation
@@ -869,80 +802,28 @@ class OMICSAdapter:
                 gene_id = self.add_prefix_to_id(prefix="ncbigene", identifier=gene_id)
 
                 # Skip rows with missing or non-numeric fold change values
-                fc_float = None
-                asterisk_significant = None
-                if logfc_col in df.columns:
-                    fc_val = row.get(logfc_col)
-                    if pd.isna(fc_val):
-                        skipped_count += 1
-                        continue
-                    fc_str = str(fc_val).strip()
-                    if fc_str == '' or fc_str == 'NA':
-                        skipped_count += 1
-                        continue
-                    # Handle asterisk-based significance markers in logFC column
-                    # Supports trailing "1.1 *", leading "* 1.1", or bare "1.1*"
-                    if pvalue_asterisk:
-                        # Count the marker: "**1.1", "1.1 **". A paper whose "*" is a
-                        # weaker band than its DE criterion sets asterisk_min_level: 2.
-                        n_stars = max(len(fc_str) - len(fc_str.lstrip('*')),
-                                      len(fc_str) - len(fc_str.rstrip('*')))
-                        asterisk_significant = n_stars >= asterisk_min_level
-                        fc_str = fc_str.strip('*').strip()
-                    else:
-                        # Always strip stray whitespace and stars from logFC values
-                        fc_str = fc_str.strip('*').strip()
-                    try:
-                        fc_float = float(fc_str)
-                    except (ValueError, TypeError):
-                        skipped_count += 1
-                        continue
-                    if not math.isfinite(fc_float):
-                        skipped_count += 1
-                        continue
-                    raw_fc_values.append(fc_float)
+                call = call_row(
+                    row, analysis, df_columns,
+                    default_pvalue_threshold=self.default_pvalue_threshold,
+                    default_logfc_threshold=self.default_logfc_threshold,
+                )
+                if call is None:
+                    skipped_count += 1
+                    continue
+                raw_fc_values.append(call.raw_fc)
+                if call.log2_fold_change is None:
+                    logger.debug(
+                        "Skipping row with invalid linear FC %.4f in %s",
+                        call.raw_fc, filename
+                    )
+                    skipped_count += 1
+                    continue
 
                 # Extract edge properties — only per-gene/per-timepoint fields
-                edge_properties = {}
-
-                if fc_float is not None:
-                    fold_change_type = analysis.get('fold_change_type', None)
-                    converted = _convert_fold_change(fc_float, fold_change_type)
-                    if converted is None:
-                        logger.debug(
-                            "Skipping row with invalid linear FC %.4f in %s",
-                            fc_float, filename
-                        )
-                        skipped_count += 1
-                        continue
-                    edge_properties['log2_fold_change'] = converted
-
-                pval = None
-                if asterisk_significant is not None:
-                    # Asterisk encodes significance at pvalue_threshold; use threshold as placeholder
-                    pval_thresh = analysis.get('pvalue_threshold') or self.default_pvalue_threshold or 0.05
-                    pval = pval_thresh if asterisk_significant else 1.0
-                    edge_properties['adjusted_p_value'] = pval
-                elif p_value_col and p_value_col in df.columns and not pd.isna(row.get(p_value_col)):
-                    try:
-                        pval = float(row[p_value_col])
-                        if math.isfinite(pval):
-                            edge_properties['adjusted_p_value'] = pval
-                        else:
-                            pval = None
-                    except (ValueError, TypeError):
-                        pass
-
-                # Check significance and optionally filter
-                # Judge the log2 value: a linear ratio below 1 is a down-regulation.
-                # A declared p-value column with an empty / non-numeric cell (DESeq2 NA padj,
-                # single-peptide proteins) means "not tested", never "significant on fold alone".
-                p_missing = (asterisk_significant is None and pval is None
-                             and bool(p_value_col) and p_value_col in df.columns)
-                significant = self._check_significance(
-                    edge_properties.get('log2_fold_change'), pval, asterisk_significant, analysis,
-                    p_missing=p_missing,
-                )
+                edge_properties = {'log2_fold_change': call.log2_fold_change}
+                if call.adjusted_p_value is not None:
+                    edge_properties['adjusted_p_value'] = call.adjusted_p_value
+                significant = call.significant
                 edge_properties['significant'] = significant
                 if self.significance_mode == "significant_only" and significant == 'not significant':
                     skipped_count += 1
