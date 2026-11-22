@@ -70,15 +70,17 @@ It warns when `prefiltered` is combined with thresholds or asterisks.
 Log every change to an existing paper in `CHANGELOG.md` → `### Data`: what the KG asserted before
 and what it asserts now.
 
-## Reviewing data caveats (allowlist backfill)
+## Reviewing data caveats
 
-An experiment listed in `config/data_caveats_unreviewed.yaml` has not had its data caveats reviewed.
-For each one:
+Every DE experiment carries `data_caveats` + `data_caveats_reviewed_on` (the backfill finished on
+2026-11-19 and `config/data_caveats_unreviewed.yaml` was deleted). To review or re-review one:
 
 1. Propose level columns from the validator's QA `candidate level columns` and confirm them against the
    paper's Methods.
 2. Run the validator and read the QA report.
-3. Go through the `data_caveats` vocabulary with the paper open, starting from the report's prompts. Set
-   `data_caveats` (`[]` allowed), a `data_caveat_note` when non-empty, and `data_caveats_reviewed_on`.
-4. Remove the experiment's key from `config/data_caveats_unreviewed.yaml`. When the file is empty, delete
-   it and its validator check.
+3. Go through the `data_caveats` vocabulary with the paper open, starting from the report's prompts. Tag
+   only problems visible in the data; a Methods-only concern goes in `data_notes` with no tag. Set
+   `fold_change_provenance` when the KG computed or negated the fold change or applied its own
+   significance rule. Set `data_caveats` (`[]` allowed), `data_notes` when either list is non-empty,
+   and `data_caveats_reviewed_on`.
+4. Set `data_caveats_reviewed_on` to the review date, also when nothing changed.

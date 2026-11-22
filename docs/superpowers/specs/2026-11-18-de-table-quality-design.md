@@ -84,8 +84,8 @@ Other spock scripts:
 
 1. **Curated flags** for §3.2. **Decided (2026-11-18):**
    - `Experiment.data_caveats` (`str[]`): dense on every Experiment with a DE contrast; `[]` = no known problem, re-materialised post-import like `background_factors`. A closed vocabulary in `config/controlled_vocabularies.yaml`, each value with a researcher-facing `value_descriptions` line that the MCP shows verbatim.
-   - `Experiment.data_caveat_note` (str, sparse): one or two lines of evidence. It names the time points or tables affected when a caveat covers only part of the experiment.
-   - Curated in the paperconfig under the experiment (`data_caveats:` / `data_caveat_note:`). The validator checks values against the vocabulary and requires a note whenever the list is non-empty.
+   - `Experiment.data_notes` (str, sparse): one or two lines of evidence. It names the time points or tables affected when a caveat covers only part of the experiment.
+   - Curated in the paperconfig under the experiment (`data_caveats:` / `data_notes:`). The validator checks values against the vocabulary and requires a note whenever the list is non-empty.
    - `Experiment.data_caveats_reviewed_on` (str, sparse, ISO date): when the experiment was last reviewed against this vocabulary (explorer review §6.2). Absent = not reviewed; `[]` with a date = reviewed and clean. Curated in the paperconfig next to `data_caveats`.
    - One flag set per experiment, not per time point: no known case needs per-time-point flags.
    - No severity levels: the MCP shows each caveat with its description and the analysis decides. A severity would be a verdict.
@@ -103,6 +103,8 @@ Other spock scripts:
    | `significance_calls_differ_from_paper` | The KG's significant / not-significant call uses a different rule from the paper's, so its counts differ from the paper's (see note). | Pandhal 2007, Christie-Oleza 2017 S7, Huang 2021 |
    | `fold_change_computed_by_kg` | The KG computed the stored fold change itself instead of taking one published value as is (recomputed from the paper's expression columns, or averaged over several published ratios; see note), so values will not match any single column of the paper's table. A plain unit conversion does not count. *Renamed 2026-11-19 from `fold_change_recomputed_by_kg` and widened to cover Pandhal 2007.* | Aharonovich 2016 HOT1A3 ×2, Beliaev 2014, Fuszard 2012 NATL2A, Pandhal 2007 ×2 |
    | `fold_change_sign_reversed_by_kg` | The paper's table reports the comparison the other way round (control vs treatment). The KG negated it so that positive means up in the treatment; signs are opposite to the paper's table. | Ferrer 2020, Barber 2026 ×3, Koch 2019 (the only builders that negate, checked 2026-11-19) |
+
+   **Amended 2026-11-19 (after the backfill, before release).** The vocabulary split in two. `data_caveats` keeps the first five values and tags only problems measured or visible in the data; a concern that rests only on the Methods of the paper is written in the free-text note with no tag, because the KG presents data and statistics as the paper reports them. The last three moved to a new closed list, `Experiment.fold_change_provenance` (what the KG did to the table, not a problem with the data), renamed `significance_rule_differs_from_paper`, `computed_by_kg`, `sign_reversed_by_kg`. The note field was renamed `data_caveat_note` → `data_notes` (general notes, allowed on any experiment, added to `experimentFullText`). Result: 17 experiments caveated, 29 with provenance, 16 with an untagged Methods note.
 
    Every first assignment is still checked against the source during curation. The suspects from §3.4 and item 2 (Moreno 2023 proteomics, `nmicrobiol.2017.100` late coculture, Al-Hosani 2015, Kaur 2018 DSS-3 exoproteome, Biller 2018 NATL2A extended darkness, Koch 2019 83-1 glucose) are tagged only if that check confirms a problem.
 2. **Table-sanity statistics.** **Decided (2026-11-18):**
@@ -244,7 +246,7 @@ We'd still like **F1 `fold_change_type`** soon. It was the question that started
 ### 6.7 What the explorer will build
 
 1. **`list_experiments`:**
-   - Rows get `data_caveats` and `data_caveat_note` (the note in verbose only) and `data_caveats_reviewed`.
+   - Rows get `data_caveats` and `data_notes` (the note in verbose only) and `data_caveats_reviewed`.
    - The envelope gets `by_data_caveat`.
    - Filters: `data_caveats` (any of) and `exclude_data_caveats`.
    - Verbose rows also carry the §4.2 statistics.
@@ -305,7 +307,7 @@ The first delivery is the mechanism plus the cases this spec names:
 
 ### 7.7 Paperconfig fields and the `/paperconfig` skill (added 2026-11-19)
 **New paperconfig fields** (all optional in the schema; the allowlist in §7.4 decides when the first three are required):
-- Experiment: `data_caveats` (list), `data_caveat_note`, `data_caveats_reviewed_on`.
+- Experiment: `data_caveats` (list), `data_notes`, `data_caveats_reviewed_on`.
 - Statistical analysis: the level-column lists of §4.4 (`treatment_level_cols` / `control_level_cols` or `mean_level_cols`; names left to the builder).
 
 **`scripts/validate_paperconfig.py` gains a QA report** for each DE analysis. It is printed, never a warning or error, and it never fails validation:
@@ -325,7 +327,7 @@ The first delivery is the mechanism plus the cases this spec names:
 **`/paperconfig` skill** (`.claude/skills/paperconfig/SKILL.md`) gains a QA step after validation:
 1. For each DE table, propose the level columns from the header candidates; the curator confirms against the paper's Methods.
 2. Run the validator and read its QA report.
-3. Walk the caveat vocabulary with the paper open, starting from the prompts. Set `data_caveats` (`[]` allowed), a `data_caveat_note` when non-empty, and `data_caveats_reviewed_on`.
+3. Walk the caveat vocabulary with the paper open, starting from the prompts. Set `data_caveats` (`[]` allowed), a `data_notes` when non-empty, and `data_caveats_reviewed_on`.
 The same steps are the checklist for the allowlist backfill (§7.4).
 
 ## 8. Explorer follow-up on §7 (2026-11-19)
@@ -366,7 +368,7 @@ The flip is in `design_notes`, which is free text. A user checking a KG value ag
 
 **Why.** Inferring shared probes from published fold changes needs every table mapped to a design, enough full tables per design and a matching rule, all for a handful of paralog pairs on old arrays. The reliable source is a probe list (the GEO platform table, e.g. GPL5471's 9,947 rows, or the probe lists some supplements carry), not inference. `array_design` alone only served that pooling. A GEO lookup also showed that a GEO platform id does not identify an array (MD4-9313 is GPL5471, GPL11412 and GPL19747), so even the field's value needs curation.
 
-**For the explorer.** Key the array path of the call matrix (2d.6) on `omics_type = 'MICROARRAY'`, not on `array_design`: a gene missing from a microarray table reads "not significant or not on the array". Shared-probe twins are not flagged; a curator who notices them in a paper may say so in `data_caveat_note`.
+**For the explorer.** Key the array path of the call matrix (2d.6) on `omics_type = 'MICROARRAY'`, not on `array_design`: a gene missing from a microarray table reads "not significant or not on the array". Shared-probe twins are not flagged; a curator who notices them in a paper may say so in `data_notes`.
 
 **Kept for later:** backlog item "microarray probe-level features" in `plans/backlog.md`, with the GEO findings.
 

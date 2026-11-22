@@ -19,6 +19,8 @@ publication:
       light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
       table_scope: all_detected_genes
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     salt_low_salinity_acclimation_28_med4_rnaseq:
       name: MED4 Low salinity acclimation (28 psu) vs Normal seawater salinity (34 psu) (RNASEQ)
       organism: Prochlorococcus MED4
@@ -35,6 +37,8 @@ publication:
       light_condition: continuous light
       light_intensity: 10 umol photons m-2 s-1
       table_scope: all_detected_genes
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     # Source: GEO GSE195946 (the study's own deposit) rather than the paper's
     # supplementary tables S1/S2. S1/S2 carry only the "highly differentially

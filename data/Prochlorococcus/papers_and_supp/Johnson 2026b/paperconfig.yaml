@@ -28,6 +28,13 @@ publication:
         and ZT 4, lights on, diel), not ZT 0 as one Methods sentence suggests; the reported log2FC
         reproduce the same-ZT contrast from the GEO GSE314951 counts (r = 1.00) and not the ZT 0
         contrast (r below 0.6).
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper counts a gene as differentially expressed only when DESeq2 padj is below 0.05 at both time
+        points of the extension (897 genes in extended dark). The KG calls each time point on its own padj below
+        0.05, marking 983 genes at 2h and 1278 at 4h; requiring both time points recovers the paper 897.
+      data_caveats_reviewed_on: "2026-11-19"
 
     extended_light_med4:
       name: "MED4 extended light past dusk vs normal dark period (RNA-seq)"
@@ -48,6 +55,13 @@ publication:
         Control for 14h and 16h is the normal-diel circadian time-course sample at the same ZT (ZT
         14 and ZT 16, lights off, diel), not ZT 0 or ZT 12; the reported log2FC reproduce the same-ZT
         contrast from the GEO GSE314951 counts (r = 1.00) and not the ZT 12 contrast (r below 0.82).
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper counts a gene as differentially expressed only when DESeq2 padj is below 0.05 at both time
+        points of the extension (121 genes in extended light). The KG calls each time point on its own padj below
+        0.05, marking 153 genes at 14h and 1182 at 16h; requiring both time points recovers the paper 121.
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # Built from media-2.xlsx DESeq2 sheets by

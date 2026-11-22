@@ -21,6 +21,8 @@ publication:
       light_intensity: ~55 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Top 50% of genes by expression level
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     supp_3h_post_starvation:
       type: csv

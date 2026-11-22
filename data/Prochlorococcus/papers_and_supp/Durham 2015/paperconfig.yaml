@@ -31,6 +31,8 @@ publication:
         control is DSS-3 alone in the same carbon-free f/2 medium, so the only carbon source in the
         co-culture is diatom-derived. Fold changes in ST01 are linear and are converted to log2 in the
         builder.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # Built by scripts/build_modified_csv/build_durham2015_dss3_coculture.py from

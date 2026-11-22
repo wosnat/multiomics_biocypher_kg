@@ -21,6 +21,13 @@ publication:
       design_notes: >-
         Dark and diel arms were split from the same bottles at 24 h and sampled at the same times at
         every timepoint.
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_notes: >-
+        The axenic dark libraries lose most transcripts: at 40 h and 48 h they detect 889 to 1834 of 2198 genes
+        (GEO counts). PMN2A_0131 and PMN2A_1993 have 732 to 2981 reads per light library and 0 or 1 in every
+        40 h dark library (log2FC -10.5, -11.3). 3 values exceed abs log2FC 10 and 38 exceed 8 (40 h and 48 h);
+        their size is set by the empty arm, not measured.
+      data_caveats_reviewed_on: "2026-11-19"
     darkness_extended_darkness_natl2a_rnaseq_coculture:
       name: NATL2A Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -44,6 +51,8 @@ publication:
       design_notes: >-
         Dark and diel arms were split from the same bottles at 24 h and sampled at the same times at
         every timepoint.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     darkness_extended_darkness_mit1002_rnaseq:
       name: MIT1002 Extended darkness vs 13:11 diel light:dark cycle control (RNASEQ)
       organism: Alteromonas macleodii MIT1002
@@ -65,6 +74,8 @@ publication:
       light_intensity: 0 umol photons m-2 s-1
       table_scope: significant_only
       table_scope_detail: Consistently DE at 1-5h extended darkness
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     annotation_gff_mit1002_old_draft:
       type: annotation_gff

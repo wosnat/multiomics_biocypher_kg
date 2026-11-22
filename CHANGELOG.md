@@ -114,18 +114,22 @@ tag with nothing logged.
   MIT9313 Tier-1 conflicts 33 → 17. One paper row moves: Biller 2022 Table S3 psbA1 (Q7TTH6)
   was on PMT1532 (psbA2) and is now on PMT0419 (psbA1).
 
-- DE table caveats (`docs/kg-changes/de-table-quality.md`): `data_caveats`, `data_caveat_note` and
-  `data_caveats_reviewed_on` curated on 29 experiments in 12 papers (Aharonovich 2016, Anjur 2026,
-  Barber 2026, Capovilla 2023, Ferrer 2020, Fuszard 2012, Koch 2019, Pandhal 2007, barreto 2022,
-  Beliaev 2014, Huang 2020, Oleza 2017): inflated fold changes at low counts, no biological
-  replicates, fold changes the KG computed itself (recomputed or averaged over runs) or sign-reversed, and significance calls that differ from the
-  paper. The other 164 DE experiments are on `config/data_caveats_unreviewed.yaml` (37 papers) and
-  read `[]` without a review date. No edge or call changes.
+- DE table caveats (`docs/kg-changes/de-table-quality.md`): `data_caveats`,
+  `fold_change_provenance`, `data_notes` and `data_caveats_reviewed_on` curated on every DE
+  experiment: 193 experiments in 44 papers. `data_caveats` tags only problems visible in the
+  published data, on 17 experiments: inflated fold changes at low counts (12), a table that may be a
+  different comparison (4), conditions not normalized to each other (2), unclear direction (1), no
+  biological replicates (1). `fold_change_provenance` records what the KG did to the table, on 29
+  experiments: fold changes it computed itself (11) or sign-reversed (8), and a significance rule
+  that differs from the paper (12). A concern that rests only on the Methods of a paper goes in
+  `data_notes` with no tag (16 experiments). The rest are reviewed and clean (`[]` with a date). No
+  edge or call changes.
 
 ### Added
 
-- DE table quality (`docs/kg-changes/de-table-quality.md`): `Experiment.data_caveats` (closed
-  vocabulary, dense on DE experiments), `data_caveat_note`, `data_caveats_reviewed_on`,
+- DE table quality (`docs/kg-changes/de-table-quality.md`): `Experiment.data_caveats` and
+  `Experiment.fold_change_provenance` (closed vocabularies, dense on DE experiments), `data_notes`
+  (general free-text notes on an experiment, in `experimentFullText`), `data_caveats_reviewed_on`,
   `fold_change_type` (`log2` | `linear` | `signed_linear`), `low_signal_basis`, edge
   `low_signal_reason`, and six per-time-point arrays parallel to `time_point_orders`
   (`time_point_negative_fractions`, `_median_log2fc`, `_max_abs_log2fc`,

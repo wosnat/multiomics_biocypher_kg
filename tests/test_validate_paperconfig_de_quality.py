@@ -32,21 +32,21 @@ def test_clean_reviewed_experiment():
 
 
 def test_unknown_caveat_value():
-    _only(_run({"data_caveats": ["nope"], "data_caveat_note": "n"})[0], "data_caveats")
+    _only(_run({"data_caveats": ["nope"], "data_notes": "n"})[0], "data_caveats")
 
 
 def test_probe_caveat_rejected():
-    errs, _ = _run({"data_caveats": ["paralogs_share_one_array_probe"], "data_caveat_note": "n"})
+    errs, _ = _run({"data_caveats": ["paralogs_share_one_array_probe"], "data_notes": "n"})
     _only(errs, "paralogs_share_one_array_probe")
 
 
 def test_caveats_need_note():
-    _only(_run({"data_caveats": ["no_biological_replicates"]})[0], "data_caveat_note")
+    _only(_run({"data_caveats": ["no_biological_replicates"]})[0], "data_notes")
 
 
 def test_note_forbids_pipe_and_quote():
     for bad in ("a|b", "it's"):
-        errs, _ = _run({"data_caveats": ["no_biological_replicates"], "data_caveat_note": bad})
+        errs, _ = _run({"data_caveats": ["no_biological_replicates"], "data_notes": bad})
         _only(errs, "must not contain")
 
 
@@ -103,7 +103,7 @@ def test_mixed_level_basis_errors():
 
 
 def test_caveats_on_non_de_experiment_warns():
-    errs, warns = _run({"data_caveats": ["no_biological_replicates"], "data_caveat_note": "n"},
+    errs, warns = _run({"data_caveats": ["no_biological_replicates"], "data_notes": "n"},
                        de=False)
     assert errs == []
     _only(warns, "no statistical_analyses")
@@ -152,9 +152,9 @@ def test_report_prompts_for_modified_table_and_scope_count(tmp_path):
     cfg = _report_config(tmp_path, scope="all_detected_genes",
                          detail="40 significant genes", name="t_modified.csv")
     out = de_quality_report(cfg, str(tmp_path / "p.yaml"))
-    assert "fold_change_computed_by_kg" in out
-    assert "fold_change_sign_reversed_by_kg" in out
-    assert "significance_calls_differ_from_paper" in out
+    assert "fold_change_provenance: computed_by_kg" in out
+    assert "fold_change_provenance: sign_reversed_by_kg" in out
+    assert "fold_change_provenance: significance_rule_differs_from_paper" in out
 
 
 def test_report_never_adds_errors(tmp_path):
@@ -185,7 +185,7 @@ def test_date_object_reviewed_on_is_accepted():
 def _stated_prompt(tmp_path, detail):
     out = de_quality_report(_report_config(tmp_path, scope="all_detected_genes", detail=detail),
                             str(tmp_path / "p.yaml"))
-    return "significance_calls_differ_from_paper" in out
+    return "significance_rule_differs_from_paper" in out
 
 
 def test_scope_number_without_significance_word_gives_no_prompt(tmp_path):
@@ -198,3 +198,31 @@ def test_stated_significant_count_far_from_table_prompts(tmp_path):
 
 def test_stated_significant_count_close_to_table_no_prompt(tmp_path):
     assert not _stated_prompt(tmp_path, "2 significant genes")
+
+
+def test_unknown_fold_change_provenance_value():
+    _only(_run({"fold_change_provenance": ["nope"], "data_notes": "n"})[0],
+          "fold_change_provenance")
+
+
+def test_old_caveat_name_is_not_a_provenance_value():
+    errs, _ = _run({"data_caveats": ["fold_change_computed_by_kg"], "data_notes": "n"})
+    _only(errs, "data_caveats")
+
+
+def test_fold_change_provenance_needs_notes():
+    _only(_run({"fold_change_provenance": ["sign_reversed_by_kg"]})[0],
+          "fold_change_provenance set without data_notes")
+
+
+def test_fold_change_provenance_with_notes_is_clean():
+    assert _run({"fold_change_provenance": ["computed_by_kg"], "data_notes": "n"}) == ([], [])
+
+
+def test_data_notes_alone_is_clean():
+    assert _run({"data_notes": "Methods concern, no tag"}) == ([], [])
+
+
+def test_provenance_on_non_de_experiment_warns():
+    _, warns = _run({"fold_change_provenance": ["computed_by_kg"], "data_notes": "n"}, de=False)
+    assert any("fold_change_provenance" in w for w in warns), warns

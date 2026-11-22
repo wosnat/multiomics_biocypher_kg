@@ -23,6 +23,8 @@ publication:
         12h and 24h: no-added-iron (-Fe) vs iron-replete (+Fe) cultures sampled at the same hour. 48h:
         -Fe sampled at 48h vs +Fe sampled at 24h (exponential), because the 48h +Fe array hybridized
         poorly (p. 1582) - not matched.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     iron_rescue_med4_microarray:
       name: MED4 Iron rescue - after vs before iron re-addition (MED4) (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -44,6 +46,8 @@ publication:
         R (rescue: 70h vs 48h): the -Fe cultures 21h after iron addition at 49h (sampled at 70h) vs the same
         -Fe cultures before rescue, sampled at 48h (nutrient_limited, iron-starved). Within-culture
         before/after comparison, no parallel untreated control at 70h.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     iron_iron_starvation_mit9313_mit9313_microarray:
       name: MIT9313 Iron starvation (MIT9313) vs Iron-replete control (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -59,6 +63,8 @@ publication:
       light_condition: continuous light
       light_intensity: 20 umol photons m-2 s-1
       table_scope: significant_any_timepoint
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     iron_rescue_mit9313_microarray:
       name: MIT9313 Iron rescue - after vs before iron re-addition (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -80,6 +86,8 @@ publication:
         R (rescue: 72h vs 53h): the -Fe cultures 18h after iron addition at 54h (sampled at 72h) vs the same
         -Fe cultures before rescue, sampled at 53h (nutrient_limited, iron-starved). Within-culture
         before/after comparison, no parallel untreated control at 72h.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     med4_iron_response_clusters:
       type: gene_clusters

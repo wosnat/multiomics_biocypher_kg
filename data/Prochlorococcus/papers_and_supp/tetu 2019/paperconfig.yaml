@@ -22,6 +22,8 @@ publication:
       design_notes: >-
         HDPE exposure: the paper gives 120 min, while the GEO GSE118155 protocol says the HDPE and
         control cultures were harvested after 180 min; the timepoint follows the paper.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     plastic_pvc_plastic_leachate_2_mit9312_rnaseq:
       name: MIT9312 PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus MIT9312
@@ -44,6 +46,8 @@ publication:
         Treated as matched: treatment and control are parallel exponential cultures and the exposure
         length is part of the treatment. The same three control libraries serve as control for the
         HDPE experiment of this strain.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     plastic_hdpe_plastic_leachate_50_natl2a_rnaseq:
       name: NATL2A HDPE plastic leachate (50% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -63,6 +67,8 @@ publication:
       design_notes: >-
         HDPE exposure: the paper gives 120 min, while the GEO GSE118155 protocol says the HDPE and
         control cultures were harvested after 180 min; the timepoint follows the paper.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     plastic_pvc_plastic_leachate_2_natl2a_rnaseq:
       name: NATL2A PVC plastic leachate (2% dilution) vs AMP1 media control (no leachate) (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -85,6 +91,8 @@ publication:
         Treated as matched: treatment and control are parallel exponential cultures and the exposure
         length is part of the treatment. The same three control libraries serve as control for the
         HDPE experiment of this strain.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     supp_dataset_3_mit9312:
       type: csv

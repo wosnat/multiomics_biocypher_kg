@@ -824,26 +824,50 @@ Experiment.data_caveats:
   closed: true
   values: [fold_change_inflated_at_low_counts, no_biological_replicates,
            conditions_not_normalized_to_each_other, comparison_direction_unclear,
-           table_may_be_a_different_comparison, significance_calls_differ_from_paper,
-           fold_change_computed_by_kg, fold_change_sign_reversed_by_kg]
+           table_may_be_a_different_comparison]
   description: >
-    Known limitations of the differential-expression table of this experiment that
-    change how its numbers should be read; the analysis decides what to do
-    with each. Dense on experiments with a differential-expression contrast.
-    An empty list together with data_caveats_reviewed_on means the experiment
-    was reviewed and no caveat applies; an empty list without it means it has
-    not been reviewed yet. data_caveat_note gives the evidence and names the
-    time points or tables affected when a caveat covers only part of the
-    experiment.
+    Known problems, visible in the published data, with the differential-expression
+    table of this experiment that change how its numbers should be read; the
+    analysis decides what to do with each. The KG presents the data and the
+    statistics as the paper reports them: a concern that rests only on the
+    Methods of the paper is written in data_notes, not tagged here, and
+    what the KG itself did to the table is in fold_change_provenance. Dense on
+    experiments with a differential-expression contrast. An empty list together
+    with data_caveats_reviewed_on means the experiment was reviewed and no
+    caveat applies; an empty list without it means it has not been reviewed yet.
+    data_notes gives the evidence and names the time points or tables
+    affected when a caveat covers only part of the experiment.
   value_descriptions:
     fold_change_inflated_at_low_counts: "Genes with zero or very few reads in one condition get extreme fold changes. Do not rank or filter these genes by fold-change size."
     no_biological_replicates: "Each condition was sequenced once, so the p-values and significance calls rest on a model, not on measured variation."
     conditions_not_normalized_to_each_other: "The two conditions differ in overall signal, which shifts most genes in one direction. Compare genes within this experiment, not across experiments."
     comparison_direction_unclear: "The source table does not make clear which condition is the numerator. The KG keeps the sign the paper states."
     table_may_be_a_different_comparison: "The published table probably reports a different comparison than its label says (see note)."
-    significance_calls_differ_from_paper: "The KG significant / not-significant call uses a different rule from the paper, so its counts differ from the paper (see note)."
-    fold_change_computed_by_kg: "The KG computed the stored fold change itself instead of taking one published value as is, for example recomputed from the expression columns of the paper or averaged over several published ratios (see note). Values will not match any single column of the paper table; the published values are only in the paper. A plain unit conversion, such as linear to log2, does not count."
-    fold_change_sign_reversed_by_kg: "The paper table reports the comparison the other way round (control vs treatment). The KG negated it so that positive means up in the treatment; signs are opposite to the paper table."
+
+Experiment.fold_change_provenance:
+  # provenance: curated per paperconfig (split out of data_caveats on 2026-11-19, before release).
+  #   computed_by_kg / sign_reversed_by_kg follow the _modified.csv builder of the table
+  #   (scripts/build_modified_csv/README.md); significance_rule_differs_from_paper compares the
+  #   KG call with the count the paper states. Dense on every Experiment with a DE contrast;
+  #   post-import re-materializes [] like data_caveats.
+  applies_to: Experiment
+  applies_to_kind: node
+  property: fold_change_provenance
+  value_type: string_array
+  closed: true
+  values: [computed_by_kg, sign_reversed_by_kg, significance_rule_differs_from_paper]
+  description: >
+    What the KG did to the published differential-expression table of this
+    experiment, so that its stored values or significance calls differ from the
+    paper table. Not a problem with the data. Dense on experiments with a
+    differential-expression contrast; an empty list means the stored fold
+    changes, signs and significance calls are the ones the paper reports, up
+    to a plain unit conversion such as linear to log2. data_notes says
+    what was done.
+  value_descriptions:
+    computed_by_kg: "The KG computed the stored fold change itself instead of taking one published value as is, for example recomputed from the expression columns of the paper or averaged over several published ratios (see note). Values will not match any single column of the paper table; the published values are only in the paper. A plain unit conversion, such as linear to log2, does not count."
+    sign_reversed_by_kg: "The paper table reports the comparison the other way round (control vs treatment). The KG negated it so that positive means up in the treatment; signs are opposite to the paper table."
+    significance_rule_differs_from_paper: "The KG significant / not-significant call uses a different rule from the paper, so its counts differ from the paper (see note)."
 
 Experiment.fold_change_type:
   # provenance: set by the omics adapter from the paperconfig fold_change_type of the experiment

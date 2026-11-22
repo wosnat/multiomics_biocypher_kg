@@ -459,10 +459,12 @@ class OMICSAdapter:
                         f"{experiment_id}: analyses declare different low-signal "
                         f"level_basis values {sorted(bases)}")
                 exp_props["data_caveats"] = self._normalize_list_field(exp, "data_caveats")
+                exp_props["fold_change_provenance"] = self._normalize_list_field(
+                    exp, "fold_change_provenance")
                 exp_props["fold_change_type"] = self.clean_text(fc_types.pop())
                 if bases:
                     exp_props["low_signal_basis"] = bases.pop()
-            for key in ("data_caveat_note", "data_caveats_reviewed_on"):
+            for key in ("data_notes", "data_caveats_reviewed_on"):
                 val = self.clean_text(str(exp.get(key) or ""))
                 if val:
                     exp_props[key] = val

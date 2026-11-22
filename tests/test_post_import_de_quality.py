@@ -16,7 +16,7 @@ PROPS = [
 
 
 def _code_lines(path):
-    keys = PROPS + ["data_caveats"]
+    keys = PROPS + ["data_caveats", "fold_change_provenance"]
     out = set()
     for line in path.read_text().splitlines():
         s = line.strip()
@@ -33,6 +33,7 @@ def test_post_import_sets_de_quality_arrays(path):
     for prop in PROPS:
         assert prop in text, prop
     assert "data_caveats = coalesce(e.data_caveats, [])" in text
+    assert "fold_change_provenance = coalesce(e.fold_change_provenance, [])" in text
 
 
 def test_post_import_files_agree_on_de_quality_lines():

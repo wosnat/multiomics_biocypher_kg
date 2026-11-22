@@ -26,6 +26,8 @@ publication:
         Each time point compares coculture and axenic bottles split from the same starter cultures
         and sampled at the same time. At -12h Alteromonas had not yet been added (added at 0 h), so
         that contrast is a pre-treatment baseline check between two axenic sets of bottles.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_24_hours_after_coculturing_mit1002_rnaseq:
       name: MIT1002 24 hours vs 12 hours after co-culturing with Prochlorococcus NATL2A (RNASEQ)
       organism: Alteromonas macleodii MIT1002
@@ -52,6 +54,8 @@ publication:
         growing (growth phase unknown, lag-like). coculture_48_hours_after_coculturing_mit1002_rnaseq
         uses the same 12 h reference samples. At 24 h (the treatment arm) the Alteromonas population was
         stable, not yet growing (p. 2833, Fig. 1a), so growth_phase is unknown rather than exponential.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_48_hours_after_coculturing_mit1002_rnaseq:
       name: MIT1002 48 hours vs 12 hours after co-culturing with Prochlorococcus NATL2A (RNASEQ)
       organism: Alteromonas macleodii MIT1002
@@ -79,6 +83,8 @@ publication:
         uses the same 12 h reference samples. At 48 h (the treatment arm) the Alteromonas population was
         only beginning to grow again after a decline and a stable day (p. 2833, p. 2837 and p. 2839, Fig. 1a),
         so growth_phase is unknown rather than exponential.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     supp_table_2:
       type: csv

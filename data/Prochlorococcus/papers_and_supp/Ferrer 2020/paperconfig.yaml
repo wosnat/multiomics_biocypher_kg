@@ -35,8 +35,9 @@ publication:
         includes the carbon-source difference (diatom exometabolites vs glucose); the authors chose
         it to give a baseline of actively growing cells. Table sign was control minus co-culture and
         is negated in the builder.
-      data_caveats: [fold_change_sign_reversed_by_kg]
-      data_caveat_note: >-
+      data_caveats: []
+      fold_change_provenance: [sign_reversed_by_kg]
+      data_notes: >-
         Table S5 (DESeq2) reports log2(glucose control / coculture): its legend says negative values are
         enriched in coculture. The KG negated it (build_ferrer2020_dss3_rnaseq.py) so positive means up in
         coculture.

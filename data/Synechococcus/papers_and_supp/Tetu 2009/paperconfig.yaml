@@ -27,6 +27,8 @@ publication:
         mid-log phase (exponential), not with a culture sampled alongside the stressed one.
         early P stress is the point where alkaline phosphatase activity is first detected and
         late P stress is when growth has largely ceased (late log), several days later.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     phob_synw0947_knockout_wh8102_microarray:
       name: "WH8102 phoB (SYNW0947) knockout vs wild type, P-replete (microarray)"
@@ -47,6 +49,8 @@ publication:
       design_notes: >-
         Matched by growth state: knockout and wild type were grown in parallel in the same
         P-replete medium and harvested at mid-log phase (exponential).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     phor_synw0948_knockout_wh8102_microarray:
       name: "WH8102 phoR (SYNW0948) knockout vs wild type, P-replete (microarray)"
@@ -67,6 +71,8 @@ publication:
       design_notes: >-
         Matched by growth state: knockout and wild type were grown in parallel in the same
         P-replete medium and harvested at mid-log phase (exponential).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # All four CSVs built by scripts/build_modified_csv/build_tetu2009_sam_tables.py

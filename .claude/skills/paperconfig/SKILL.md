@@ -77,7 +77,8 @@ The `experiments` block defines experiment-level metadata that is shared across 
       # design_notes: >-                # required when control_timing is baseline or mixed
       #   day 18: coculture sampled on day 18 vs axenic sampled on day 14 ...
       data_caveats: []                # REQUIRED on every DE experiment ([] = reviewed, none apply); values: see the QA step
-      # data_caveat_note: "why each caveat applies"   # required when data_caveats is non-empty; no | or apostrophes
+      # fold_change_provenance: [computed_by_kg]   # only when the KG computed/negated the FC or uses its own significance rule
+      # data_notes: "evidence, or a Methods concern"   # required when either list is non-empty; no | or apostrophes
       data_caveats_reviewed_on: "2026-11-19"          # REQUIRED on every DE experiment, YYYY-MM-DD
       # Optional fields:
       medium: "Pro99 natural seawater medium"
@@ -1213,7 +1214,7 @@ Before submitting a paperconfig:
 - [ ] `skip_rows` is set correctly if the CSV has extra header rows
 - [ ] Gene/protein identifiers in `name_col` use locus tags or IDs that can match existing gene nodes
 - [ ] `prefiltered` is set to `true` if the table only contains significant results
-- [ ] Every DE experiment has `data_caveats` (`[]` allowed), `data_caveat_note` when non-empty, and `data_caveats_reviewed_on`; level columns declared where the table has them (see QA step)
+- [ ] Every DE experiment has `data_caveats` (`[]` allowed), `data_notes` when it or `fold_change_provenance` is non-empty, and `data_caveats_reviewed_on`; level columns declared where the table has them (see QA step)
 - [ ] `logfc_threshold` is set (the paper's fold cutoff, `0` if none) unless `prefiltered` / asterisks decide significance; `pvalue_threshold` matches the paper
 - [ ] `fold_change_type` matches the table legend (log2 / linear / signed_linear); the significant count matches the paper's
 - [ ] For coculture/viral experiments: `treatment_organism` and `treatment_taxid` are set on the experiment
@@ -1337,8 +1338,8 @@ The validator prints a `QA <analysis id>` block per DE analysis (row count, nega
 
 1. Propose level columns from the report's `candidate level columns` and confirm them against the paper's Methods (declare `treatment_level_cols` + `control_level_cols`, or `mean_level_cols`).
 2. Run the validator and read the QA report.
-3. Go through the `data_caveats` vocabulary (`config/controlled_vocabularies.yaml`, `Experiment.data_caveats`) with the paper open, starting from the report's prompts. Set `data_caveats` (`[]` allowed), a `data_caveat_note` when non-empty, and `data_caveats_reviewed_on`.
-4. Do not add new experiments to `config/data_caveats_unreviewed.yaml`; it only lists the backlog.
+3. Go through the `data_caveats` vocabulary (`config/controlled_vocabularies.yaml`, `Experiment.data_caveats`) with the paper open, starting from the report's prompts. Tag only a problem you can see in the data (zero-count fold changes, a constant offset between conditions); the KG presents the data and statistics as the paper reports them, so a Methods choice that may not be sound goes in `data_notes` with no tag. Set `fold_change_provenance` when the KG computed or negated the fold change (the `_modified.csv` builder says) or applied a significance rule that differs from the paper. Set `data_caveats` (`[]` allowed), `data_notes` when either list is non-empty, and `data_caveats_reviewed_on`.
+4. The validator fails a DE experiment without `data_caveats` and `data_caveats_reviewed_on`. There is no unreviewed list any more (emptied and deleted 2026-11-19), so a new paper is curated before it validates.
 
 ### Gene ID Mapping
 

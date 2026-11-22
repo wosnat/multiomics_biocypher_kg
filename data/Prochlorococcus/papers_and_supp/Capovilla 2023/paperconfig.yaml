@@ -25,6 +25,13 @@ publication:
       light_condition: continuous light
       light_intensity: 11 umol photons m-2 s-1
       table_scope: significant_only
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_notes: >-
+        DESeq2, significant genes only (81 rows): the 18 largest abs log2FC (3.35 to 6.65) all have the control
+        at the zero-read floor (5.84 in the published transformed counts, sd04) in at least two of three
+        replicates, 13 of them (4.37 to 6.18) in all three, with low chitosan counts. Read them as on / off, not
+        as effect size. No raw counts are published to recompute from.
+      data_caveats_reviewed_on: "2026-11-19"
 
     chitosan_addition_mit9303_rnaseq:
       name: MIT9303 chitosan addition RNA-seq (primary degrader, full pathway)
@@ -48,7 +55,7 @@ publication:
       light_intensity: 11 umol photons m-2 s-1
       table_scope: significant_only
       data_caveats: [fold_change_inflated_at_low_counts]
-      data_caveat_note: >-
+      data_notes: >-
         DESeq2, significant genes only (36 rows): 4 genes have abs log2FC above 19 (MIT9303_01124,
         MIT9303_01941, MIT9303_02592, MIT9303_00676). In the published transformed counts (sd05) each sits
         at the floor value 9.85 in all three replicates of one condition and two of three of the other. No

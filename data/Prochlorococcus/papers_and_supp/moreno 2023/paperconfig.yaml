@@ -52,6 +52,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_med4_proteomics:
       name: "MED4 proteomics: light +5 mM glucose vs light (control)"
       organism: "Prochlorococcus MED4"
@@ -76,6 +78,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_med4_proteomics:
       name: "MED4 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Prochlorococcus MED4"
@@ -100,6 +104,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_med4_proteomics:
       name: "MED4 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Prochlorococcus MED4"
@@ -124,6 +130,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── SS120 ──
     light_low_glucose_ss120_proteomics:
@@ -150,6 +158,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_ss120_proteomics:
       name: "SS120 proteomics: light +5 mM glucose vs light (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
@@ -174,6 +184,12 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_notes: >-
+        8 proteins have abs log2FC above 5 (5 not significant, max 6.24); in 4 of them the lower arm
+        averages below 1% of the median protein abundance, often with replicate values of exactly 0 (no
+        imputation), e.g. proteins with 2 to 5 peptides near the detection limit.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_ss120_proteomics:
       name: "SS120 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
@@ -198,6 +214,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_ss120_proteomics:
       name: "SS120 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
@@ -222,6 +240,12 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_notes: >-
+        14 proteins have abs log2FC above 5 (10 not significant, max 9.98); in 9 of them the lower arm
+        averages below 1% of the median protein abundance, often with replicate values of exactly 0 (no
+        imputation), e.g. Q7VDZ7 about 1000-fold up from a control near 1e-7.
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── WH7803 ──
     light_low_glucose_wh7803_proteomics:
@@ -248,6 +272,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus WH7803"
@@ -272,6 +298,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus WH7803"
@@ -296,6 +324,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_wh7803_proteomics:
       name: "WH7803 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus WH7803"
@@ -320,6 +350,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── WH8102 ──
     light_low_glucose_wh8102_proteomics:
@@ -346,6 +378,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus WH8102"
@@ -370,6 +404,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus WH8102"
@@ -394,6 +430,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_wh8102_proteomics:
       name: "WH8102 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus WH8102"
@@ -418,6 +456,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── BL107 ──
     light_low_glucose_bl107_proteomics:
@@ -444,6 +484,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_bl107_proteomics:
       name: "BL107 proteomics: light +5 mM glucose vs light (control)"
       organism: "Synechococcus sp. BL107"
@@ -468,6 +510,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_bl107_proteomics:
       name: "BL107 proteomics: darkness +100 nM glucose vs darkness (control)"
       organism: "Synechococcus sp. BL107"
@@ -492,6 +536,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_bl107_proteomics:
       name: "BL107 proteomics: darkness +5 mM glucose vs darkness (control)"
       organism: "Synechococcus sp. BL107"
@@ -516,6 +562,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ─────────────────────────────────────────────────────────────────────
     # Marinobacter S4 — 5 cocultures × 4 comparisons (minus 1 missing col for SS120)
@@ -550,6 +598,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -576,6 +626,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -602,6 +654,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_marino_in_med4_proteomics:
       name: "Marinobacter in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -628,6 +682,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Marino in SS120 ──
     # NOTE: SS120 source CSV has the typo `FC GmM/L` (no space) instead of
@@ -660,6 +716,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -686,6 +744,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -712,6 +772,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_marino_in_ss120_proteomics:
       name: "Marinobacter in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -738,6 +800,12 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from an unpaired Student t-test.
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_notes: >-
+        19 proteins have abs log2FC above 5 (11 not significant, max 9.45); in 7 of them the lower arm
+        averages below 1% of the median protein abundance, often with replicate values of exactly 0 (no
+        imputation), e.g. low-abundance Marinobacter proteins with 2 to 3 peptides.
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Marino in WH7803 ──
     light_low_glucose_marino_in_wh7803_proteomics:
@@ -766,6 +834,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -792,6 +862,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -818,6 +890,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_marino_in_wh7803_proteomics:
       name: "Marinobacter in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -844,6 +918,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Marino in WH8102 ──
     light_low_glucose_marino_in_wh8102_proteomics:
@@ -872,6 +948,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -898,6 +976,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -924,6 +1004,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_marino_in_wh8102_proteomics:
       name: "Marinobacter in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -951,6 +1033,8 @@ publication:
         multiple-testing correction). The test behind these p-values could not be reproduced
         from the per-sample columns; the other three comparisons in this table are one-tailed
         paired t-tests (half the two-tailed value).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Marino in BL107 ──
     light_low_glucose_marino_in_bl107_proteomics:
@@ -979,6 +1063,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: light +5 mM glucose vs light (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -1005,6 +1091,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -1031,6 +1119,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_marino_in_bl107_proteomics:
       name: "Marinobacter in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Marinobacter (MarRef v6)"
@@ -1057,6 +1147,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ─────────────────────────────────────────────────────────────────────
     # Alteromonas S3 — 5 cocultures × 4 comparisons
@@ -1094,6 +1186,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1120,6 +1214,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1146,6 +1242,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_alt_in_med4_proteomics:
       name: "Alteromonas in MED4 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1172,6 +1270,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Alteromonas in SS120 ──
     light_low_glucose_alt_in_ss120_proteomics:
@@ -1200,6 +1300,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1226,6 +1328,12 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: [fold_change_inflated_at_low_counts]
+      data_notes: >-
+        8 proteins have abs log2FC above 5 (5 not significant, max 7.72); in 4 of them the lower arm
+        averages below 1% of the median protein abundance, often with replicate values of exactly 0 (no
+        imputation), e.g. low-abundance Alteromonas proteins absent from control replicates.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1252,6 +1360,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 2.0-fold higher in the glucose
+        arm, negative fraction 0.09, median log2FC +1.57; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_alt_in_ss120_proteomics:
       name: "Alteromonas in SS120 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1278,6 +1394,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 2.2-fold higher in the glucose
+        arm, negative fraction 0.09, median log2FC +2.19; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Alteromonas in WH7803 ──
     light_low_glucose_alt_in_wh7803_proteomics:
@@ -1306,6 +1430,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1332,6 +1458,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 3.2-fold higher in the glucose
+        arm, negative fraction 0.07, median log2FC +1.96; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1358,6 +1492,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_alt_in_wh7803_proteomics:
       name: "Alteromonas in WH7803 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1384,6 +1520,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 5.4-fold higher in the glucose
+        arm, negative fraction 0.00, median log2FC +3.00; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Alteromonas in WH8102 ──
     light_low_glucose_alt_in_wh8102_proteomics:
@@ -1412,6 +1556,8 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1438,6 +1584,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 2.1-fold higher in the glucose
+        arm, negative fraction 0.11, median log2FC +1.88; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1464,6 +1618,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 2.3-fold higher in the glucose
+        arm, negative fraction 0.14, median log2FC +1.72; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_alt_in_wh8102_proteomics:
       name: "Alteromonas in WH8102 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1490,6 +1652,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 3.0-fold higher in the glucose
+        arm, negative fraction 0.11, median log2FC +2.25; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Alteromonas in BL107 ──
     light_low_glucose_alt_in_bl107_proteomics:
@@ -1518,6 +1688,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 2.2-fold higher in the glucose
+        arm, negative fraction 0.12, median log2FC +2.00; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
     light_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: light +5 mM glucose vs light (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1544,6 +1722,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 2.9-fold higher in the glucose
+        arm, negative fraction 0.05, median log2FC +2.70; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_low_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +100 nM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1570,6 +1756,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 1.9-fold higher in the glucose
+        arm, negative fraction 0.17, median log2FC +1.80; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
     dark_high_glucose_alt_in_bl107_proteomics:
       name: "Alteromonas in BL107 coculture: darkness +5 mM glucose vs darkness (control)"
       organism: "Alteromonas (MarRef v6)"
@@ -1596,6 +1790,14 @@ publication:
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no
         multiple-testing correction). The p-values are one-tailed (half the two-tailed value)
         from a paired t-test.
+      data_caveats: []
+      data_notes: >-
+        Summed normalized abundance of the listed Alteromonas proteins is 2.2-fold higher in the glucose
+        arm, negative fraction 0.10, median log2FC +2.00; the shift covers abundant proteins too. The paper
+        normalizes each protein to total sample protein intensity and reports (Fig. 1) that Alteromonas
+        populations grew on glucose, so these fold changes mix population growth with per-cell protein
+        change.
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # ─────────────────────────────────────────────────────────────────────

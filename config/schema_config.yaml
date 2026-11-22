@@ -71,7 +71,8 @@ experiment:
     control_timing: str              # curated, sparse: matched | baseline | mixed — only on experiments with a DE contrast (plans/per_arm_sampling_and_shared_model.md)
     design_notes: str                # curated, sparse free text; required when control_timing is baseline | mixed; in experimentFullText
     data_caveats: str[]              # curated, dense on DE experiments ([] = none); closed vocab Experiment.data_caveats
-    data_caveat_note: str            # curated, sparse free text; evidence for data_caveats, names affected time points/tables
+    fold_change_provenance: str[]    # curated, dense on DE experiments ([] = as published); closed vocab Experiment.fold_change_provenance
+    data_notes: str            # curated, sparse free text; evidence for data_caveats / fold_change_provenance, or a Methods concern on its own
     data_caveats_reviewed_on: str    # curated, sparse ISO date; absent = not reviewed, [] caveats with a date = reviewed and clean
     fold_change_type: str            # adapter-set, sparse: log2 | linear | signed_linear - scale of the table the KG read
     low_signal_basis: str            # adapter-set, sparse: condition_at_column_minimum | mean_in_bottom_decile

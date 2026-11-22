@@ -289,6 +289,7 @@ CANONICAL_BACKGROUND_FACTORS = _load_condition_vocab("Experiment.background_fact
 CANONICAL_CONDITION_TYPES = CANONICAL_TREATMENT_TYPES | CANONICAL_BACKGROUND_FACTORS
 VALID_CONTROL_TIMINGS = _load_condition_vocab("Experiment.control_timing")
 VALID_DATA_CAVEATS = _load_condition_vocab("Experiment.data_caveats")
+VALID_FOLD_CHANGE_PROVENANCE = _load_condition_vocab("Experiment.fold_change_provenance")
 CAVEAT_ALLOWLIST_PATH = _PROJECT_ROOT / "config" / "data_caveats_unreviewed.yaml"
 
 
@@ -506,7 +507,8 @@ def validate_de_quality(pub: dict, supp: dict, config_path: str = "",
     """Data-caveat, level-column and scale rules (de-table-quality spec).
 
     DE experiment = referenced by >= 1 statistical_analyses entry. Errors: unknown
-    data_caveats value; caveats without a clean data_caveat_note; bad
+    data_caveats / fold_change_provenance value; caveats or provenance without a
+    clean data_notes; bad
     data_caveats_reviewed_on; a DE experiment outside the allowlist missing
     data_caveats / data_caveats_reviewed_on; a stale allowlist entry; one-arm or
     arms+mean level columns; a declared level column absent from the table; mixed
@@ -563,7 +565,7 @@ def validate_de_quality(pub: dict, supp: dict, config_path: str = "",
         ctx = f"{config_path} | experiments.{key}"
         is_de = key in scales
         caveats = exp.get("data_caveats")
-        note = exp.get("data_caveat_note")
+        note = exp.get("data_notes")
         reviewed = exp.get("data_caveats_reviewed_on")
         if isinstance(reviewed, datetime.date):  # unquoted YAML date
             reviewed = reviewed.isoformat()
@@ -577,10 +579,23 @@ def validate_de_quality(pub: dict, supp: dict, config_path: str = "",
             if value not in VALID_DATA_CAVEATS:
                 errors.append(_canonical_field_error(
                     config_path, f"experiments.{key}", "data_caveats", value, VALID_DATA_CAVEATS))
+        provenance = exp.get("fold_change_provenance")
+        if "fold_change_provenance" in exp and provenance is None:
+            errors.append(f"{ctx} | fold_change_provenance is empty-valued; omit it or write []")
+        if provenance is not None and not isinstance(provenance, list):
+            errors.append(f"{ctx} | fold_change_provenance must be a list")
+            provenance = []
+        for value in provenance or []:
+            if value not in VALID_FOLD_CHANGE_PROVENANCE:
+                errors.append(_canonical_field_error(
+                    config_path, f"experiments.{key}", "fold_change_provenance", value,
+                    VALID_FOLD_CHANGE_PROVENANCE))
         if caveats and not note:
-            errors.append(f"{ctx} | data_caveats set without data_caveat_note")
+            errors.append(f"{ctx} | data_caveats set without data_notes")
+        if provenance and not note:
+            errors.append(f"{ctx} | fold_change_provenance set without data_notes")
         if note and ("|" in str(note) or "'" in str(note)):
-            errors.append(f"{ctx} | data_caveat_note must not contain '|' or apostrophes")
+            errors.append(f"{ctx} | data_notes must not contain '|' or apostrophes")
         if reviewed is not None:
             ok = bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(reviewed)))
             if ok:
@@ -592,8 +607,9 @@ def validate_de_quality(pub: dict, supp: dict, config_path: str = "",
                 errors.append(f"{ctx} | data_caveats_reviewed_on '{reviewed}' is not a valid YYYY-MM-DD date")
 
         if not is_de:
-            if caveats or note or reviewed is not None:
-                warnings.append(f"{ctx} | data_caveats set on an experiment with no statistical_analyses")
+            if caveats or provenance or reviewed is not None:
+                warnings.append(f"{ctx} | data_caveats / fold_change_provenance set on an "
+                                f"experiment with no statistical_analyses")
             continue
 
         if key in unreviewed:
@@ -2420,8 +2436,8 @@ def de_quality_report(config: dict, config_path: str) -> str:
                     or abs(st.median_log2fc) > 0.5):
                 prompts.append("conditions_not_normalized_to_each_other")
             if str(table["filename"]).endswith("_modified.csv"):
-                prompts += ["fold_change_computed_by_kg (check the builder)",
-                            "fold_change_sign_reversed_by_kg (check the builder)"]
+                prompts += ["fold_change_provenance: computed_by_kg (check the builder)",
+                            "fold_change_provenance: sign_reversed_by_kg (check the builder)"]
             exp_sig[exp_key] = exp_sig.get(exp_key, 0) + n_sig
             lines.append(f"  caveats to consider: {prompts}")
             blocks.append("\n".join(lines))
@@ -2430,7 +2446,8 @@ def de_quality_report(config: dict, config_path: str) -> str:
         if n is not None and abs(n_sig - n) > 0.2 * n:
             blocks.append(
                 f"QA experiment {exp_key}\n  caveats to consider: "
-                f"['significance_calls_differ_from_paper (tables {n_sig} vs stated {n})']")
+                f"['fold_change_provenance: significance_rule_differs_from_paper "
+                f"(tables {n_sig} vs stated {n})']")
     blocks.append("This report is information for the curator; it never fails validation.")
     return "\n\n".join(blocks)
 

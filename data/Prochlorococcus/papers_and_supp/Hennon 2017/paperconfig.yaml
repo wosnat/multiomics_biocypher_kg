@@ -26,6 +26,8 @@ publication:
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing
         correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_coculture:
       name: EZ55 Elevated CO2 (800 ppm) vs Ambient CO2 (400 ppm) (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -49,6 +51,8 @@ publication:
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing
         correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     carbon_stress_elevated_co2_800_ppm_ez55_rnaseq_axenic:
       name: EZ55 Elevated CO2 (800 ppm) vs Ambient CO2 (400 ppm) (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -68,6 +72,8 @@ publication:
       design_notes: >-
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing
         correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     id_translation_mit9312_annot:
       type: id_translation

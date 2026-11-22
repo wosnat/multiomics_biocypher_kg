@@ -26,6 +26,8 @@ publication:
         Matched by growth state, not by sampling day: both pCO2 arms were acclimated for three transfer
         cycles and harvested in exponential growth in the final cycle (Methods p. 2). The MIT9312
         libraries are re-analysed from Hennon 2017. adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     carbon_stress_elevated_pco2_800_ppm_cc9311_rnaseq:
       name: CC9311 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Synechococcus CC9311
@@ -48,6 +50,8 @@ publication:
       design_notes: >-
         Matched by growth state, not by sampling day: both pCO2 arms were acclimated for three transfer
         cycles and harvested in exponential growth in the final cycle (Methods p. 2). adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     carbon_stress_elevated_pco2_800_ppm_wh8102_rnaseq:
       name: WH8102 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Synechococcus WH8102
@@ -70,6 +74,8 @@ publication:
       design_notes: >-
         Matched by growth state, not by sampling day: both pCO2 arms were acclimated for three transfer
         cycles and harvested in exponential growth in the final cycle (Methods p. 2). adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     carbon_stress_elevated_pco2_800_ppm_ez55_rnaseq:
       name: EZ55 Elevated pCO2 (800 ppm) vs Ambient pCO2 (400 ppm) (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -91,6 +97,8 @@ publication:
         conditions. Matched by growth state, not by sampling day: arms are acclimated cultures harvested
         in exponential growth; the axenic EZ55 and MIT9312 coculture libraries are from Hennon 2017, the
         Synechococcus cocultures were grown later. adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_prochlorococcus_mit9312_at_400_ez55_rnaseq:
       name: EZ55 Coculture with Prochlorococcus MIT9312 vs Mean Coculture Response across Three Partners at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -117,6 +125,8 @@ publication:
         sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
         MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_synechococcus_cc9311_at_400_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus CC9311 vs Mean Coculture Response across Three Partners at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -143,6 +153,8 @@ publication:
         sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
         MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_synechococcus_wh8102_at_400_ez55_rnaseq:
       name: EZ55 Coculture with Synechococcus WH8102 vs Mean Coculture Response across Three Partners at 400 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -169,6 +181,8 @@ publication:
         sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
         MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_prochlorococcus_mit9312_at_800_ez55_rnaseq:
       name: EZ55 Coculture with Prochlorococcus MIT9312 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
       organism: Alteromonas macleodii EZ55
@@ -201,7 +215,7 @@ publication:
         for MIT9312, CC9311, WH8102).
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
       data_caveats: [table_may_be_a_different_comparison]
-      data_caveat_note: >-
+      data_notes: >-
         Table S12 (MIT9312) is labelled as the partner deviation from the mean coculture response at 800
         ppm, but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
         anticorrelates with the matching 400 ppm table S9 on shared genes (r = -0.61; -0.61 / -0.83 / -0.97
@@ -239,7 +253,7 @@ publication:
         for MIT9312, CC9311, WH8102).
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
       data_caveats: [table_may_be_a_different_comparison]
-      data_caveat_note: >-
+      data_notes: >-
         Table S13 (CC9311) is labelled as the partner deviation from the mean coculture response at 800 ppm,
         but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
         anticorrelates with the matching 400 ppm table S10 on shared genes (r = -0.83; -0.61 / -0.83 / -0.97
@@ -277,7 +291,7 @@ publication:
         for MIT9312, CC9311, WH8102).
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
       data_caveats: [table_may_be_a_different_comparison]
-      data_caveat_note: >-
+      data_notes: >-
         Table S14 (WH8102) is labelled as the partner deviation from the mean coculture response at 800 ppm,
         but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
         anticorrelates with the matching 400 ppm table S11 on shared genes (r = -0.97; -0.61 / -0.83 / -0.97
@@ -320,6 +334,13 @@ publication:
         quantity the paper does not define; on the 115 genes shared with Table S2 the logFC is opposite in sign
         (r = -0.98).
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
+      data_caveats: [table_may_be_a_different_comparison]
+      data_notes: >-
+        Table S4 is labelled the pCO2 x coculture interaction, but the author script (contrast 6) computes the
+        mean of the three partner pCO2 interaction coefficients minus the axenic pCO2 coefficient, which is not
+        the interaction term. On the 115 genes shared with Table S2 (axenic pCO2 effect) the logFC has the
+        opposite sign on every gene (r = -0.98).
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     id_translation_pro_9312:
       type: id_translation

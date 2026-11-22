@@ -22,6 +22,14 @@ publication:
       treatment_organism: "Vibrio parahaemolyticus"
       treatment_taxid: 670
       table_scope: significant_only
+      data_caveats: []
+      data_notes: >-
+        The Methods state that coculture RNA (about 15 percent of cells were Vibrio) and monoculture RNA
+        were hybridized in equal total amounts, so less WH8102 RNA was assayed from the cocultures; the
+        authors note that up-regulation magnitudes are therefore underestimated and down-regulation
+        overstated, and that some of the 295 down-regulated genes may be false calls. Only significant genes
+        are listed (285 up, 295 down), so the shift cannot be measured from the table.
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     table_s1_upregulated:

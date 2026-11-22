@@ -36,6 +36,12 @@ publication:
         control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
         there is no axenic arm. In SW the coculture reaches its stable state at day 21. Each
         contrast is a separate two-sample t-test in Perseus.
+      data_caveats: []
+      data_notes: >-
+        Perseus imputed missing intensities with default parameters (Methods), so a protein absent from one arm
+        gets an arbitrary imputed value. Table S4a has 1 fold change with abs log2FC above 10 (day 21) and 3
+        above 8 (days 7, 21, 60).
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── Synechococcus WH7803 exoproteome in artificial seawater (ASW) ──
     syn_wh7803_exoproteome_asw:
@@ -64,6 +70,12 @@ publication:
         control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
         there is no axenic arm. In ASW day 21 marks the exponential to stable-state transition.
         Each contrast is a separate two-sample t-test in Perseus.
+      data_caveats: []
+      data_notes: >-
+        Perseus imputed missing intensities with default parameters (Methods), so a protein absent from one arm
+        gets an arbitrary imputed value. Table S4b has 1 fold change with abs log2FC above 10 (day 21) and 6
+        above 8 (days 21 and 32).
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── R. pomeroyi DSS-3 exoproteome in natural seawater (SW) ──
     rpom_dss3_exoproteome_sw:
@@ -92,6 +104,12 @@ publication:
         control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
         there is no axenic arm. In SW the coculture reaches its stable state at day 21. Each
         contrast is a separate two-sample t-test in Perseus.
+      data_caveats: []
+      data_notes: >-
+        Perseus imputed missing intensities with default parameters (Methods), so a protein absent from one arm
+        gets an arbitrary imputed value. Table S5a has 2 fold changes with abs log2FC above 10 (day 21, day 100)
+        and 5 above 8 (days 21, 60, 100).
+      data_caveats_reviewed_on: "2026-11-19"
 
     # ── R. pomeroyi DSS-3 exoproteome in artificial seawater (ASW) ──
     rpom_dss3_exoproteome_asw:
@@ -120,6 +138,12 @@ publication:
         control is the day 1 coculture exoproteome (exponential, one day after co-inoculation);
         there is no axenic arm. In ASW day 21 marks the exponential to stable-state transition.
         Each contrast is a separate two-sample t-test in Perseus.
+      data_caveats: []
+      data_notes: >-
+        Perseus imputed missing intensities with default parameters (Methods), so a protein absent from one arm
+        gets an arbitrary imputed value. Table S5b has 15 fold changes with abs log2FC above 10 and 42 above 8,
+        mostly at day 21 (7 above 10) and day 32 (6 above 10). Do not rank these by fold-change size.
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # ── Table S4a: Synechococcus WH7803 exoproteome in SW ──

@@ -22,6 +22,8 @@ publication:
       design_notes: >-
         Dark and light arms come from two experiments run on separate days, each split from its own
         mid-log (exponential) mother culture; arms are compared at the same hours post-inoculation.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     light_stress_constant_dark_med4_rnaseq_dark:
       name: MED4 Constant dark vs Constant light (90 µE m-2 s-1) in uninfected cultures (spent medium, no phage) (RNASEQ)
       organism: Prochlorococcus MED4
@@ -41,6 +43,8 @@ publication:
       design_notes: >-
         Dark and light arms come from two experiments run on separate days, each split from its own
         mid-log (exponential) mother culture; arms are compared at the same hours post-inoculation.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     viral_phage_phm2_lysate_med4_rnaseq_light:
       name: MED4 Phage (P-HM2) lysate vs Spent medium (uninfected) in light (RNASEQ)
       organism: Prochlorococcus MED4
@@ -59,6 +63,8 @@ publication:
       treatment_organism: Phage
       treatment_taxid: 10239
       table_scope: significant_only
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     viral_phage_phm2_lysate_med4_rnaseq_dark:
       name: MED4 Phage (P-HM2) lysate vs Spent medium (uninfected) in dark (RNASEQ)
       organism: Prochlorococcus MED4
@@ -77,6 +83,8 @@ publication:
       treatment_organism: Phage
       treatment_taxid: 10239
       table_scope: significant_only
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     dark_vs_light_infected_0.5h:
       type: csv

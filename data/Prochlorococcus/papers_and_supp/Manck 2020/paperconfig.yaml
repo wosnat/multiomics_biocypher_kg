@@ -30,6 +30,8 @@ publication:
       design_notes: >-
         Both arms were inoculated from the same iron-preconditioned culture and harvested together
         after 6.5 h, when the iron-replete cultures reached mid-exponential phase (OD600 0.68).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     carbon_limitation_atcc27126_rnaseq:
       name: "Alteromonas ATCC27126 carbon limitation vs carbon replete RNA-seq (Manck 2020)"
       organism: "Alteromonas macleodii ATCC27126"
@@ -49,6 +51,8 @@ publication:
       design_notes: >-
         Both arms were inoculated from the same carbon-limited preculture and harvested together
         when the carbon-replete cultures reached mid-exponential phase.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     tbdt_survey_atcc27126:
       name: "Alteromonas ATCC27126 TonB-dependent transporter inventory and substrate prediction (Manck 2020)"
       organism: "Alteromonas macleodii ATCC27126"

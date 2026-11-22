@@ -18,6 +18,8 @@ publication:
       light_condition: continuous light
       light_intensity: 50 umol quanta m-2 s-1
       table_scope: all_detected_genes
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     growth_medium_growth_on_cyanate_as_med4_microarray:
       name: MED4 Growth on cyanate as sole N source (MED4) vs N-replete Pro99 medium (MED4) (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -38,6 +40,8 @@ publication:
         steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
         ammonium (exponential). Methods do not state that both arms were harvested on the same day;
         matched by growth state, assumed from the acclimated parallel-culture design.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     growth_medium_growth_on_urea_as_med4_microarray:
       name: MED4 Growth on urea as sole N source (MED4) vs N-replete Pro99 medium (MED4) (MICROARRAY)
       organism: Prochlorococcus MED4
@@ -58,6 +62,8 @@ publication:
         steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
         ammonium (exponential). Methods do not state that both arms were harvested on the same day;
         matched by growth state, assumed from the acclimated parallel-culture design.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     nitrogen_nitrogen_deprivation_mit9313_mit9313_microarray:
       name: MIT9313 Nitrogen deprivation (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -78,6 +84,8 @@ publication:
         -N vs +NH4 cultures sampled in parallel after resuspension at t=0, matched at 6h, 12h and 48h.
         24h: -N sampled at 24h vs +NH4 sampled at 12h (exponential), because the 24h +NH4 arrays
         hybridized poorly. 0h: one of the +NH4 0h arrays was replaced by a +NH4 3h array; 3h is matched.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     growth_medium_growth_on_nitrite_as_mit9313_microarray:
       name: MIT9313 Growth on nitrite as sole N source (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -98,6 +106,8 @@ publication:
         steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
         ammonium (exponential). Methods do not state that both arms were harvested on the same day;
         matched by growth state, assumed from the acclimated parallel-culture design.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     growth_medium_growth_on_urea_as_mit9313_microarray:
       name: MIT9313 Growth on urea as sole N source (MIT9313) vs N-replete Pro99 medium (MIT9313) (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -118,6 +128,8 @@ publication:
         steady state: log-phase cultures acclimated to the alternative N source vs log-phase cultures on
         ammonium (exponential). Methods do not state that both arms were harvested on the same day;
         matched by growth state, assumed from the acclimated parallel-culture design.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     supp_table_med4:
       type: csv

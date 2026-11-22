@@ -32,6 +32,13 @@ publication:
         Cells were collected at 35 days (arrow in Fig. 1c), when both the
         co-culture and the axenic cultures were at maximal cell density after
         exponential growth, before the axenic cultures died (4-6 weeks).
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper calls 41 proteins differentially abundant (14 and 27, Table 2) using fold change above 2
+        and P 0.01 or below. The KG applies only P below 0.05 with no fold cutoff (the category-level rule
+        of the Fig. 2 legend), marking 214 of 564 proteins (78 up). Read Table 2 of the paper for its list.
+      data_caveats_reviewed_on: "2026-11-19"
 
     # Table S5A: Synechococcus WH7803 cellular proteome — coculture in natural seawater (10 days)
     # Axenic vs coculture with R. pomeroyi DSS-3
@@ -57,6 +64,13 @@ publication:
       treatment_assembly_accession: "GCF_000011965.2"
       table_scope: all_detected_genes
       table_scope_detail: "All 1050 Synechococcus proteins detected in seawater axenic and/or co-culture conditions"
+      data_caveats: [conditions_not_normalized_to_each_other]
+      data_notes: >-
+        Table S5A fold changes are 87 percent negative, median -1.20 (log2 -0.26), while the paper reports no
+        major protein category differences and only a small number of changed proteins. Every published fold
+        change sits a constant 0.115 log2 below the ratio of the tabulated mean peak areas (SD 0.01, 1050
+        proteins), so an unshown global scaling was applied. P below 0.05 marks 197 proteins, 178 of them down.
+      data_caveats_reviewed_on: "2026-11-19"
 
     # Table S7: R. pomeroyi DSS-3 cellular proteome — coculture in natural seawater (10 days)
     # Mono-culture vs coculture with Synechococcus WH7803
@@ -82,8 +96,9 @@ publication:
       treatment_assembly_accession: "GCF_000063505.1"
       table_scope: all_detected_genes
       table_scope_detail: "All 1724 R. pomeroyi proteins detected in seawater mono-culture and/or co-culture with Synechococcus"
-      data_caveats: [significance_calls_differ_from_paper]
-      data_caveat_note: >-
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
         Table S7 own Significant (+) column, the Perseus FDR plus fold (s0) call, marks 263 proteins. The KG
         call is q 0.05 or below from the Student t-test q-value column, 295 proteins: 32 more, all with abs
         fold change 3.8 or less.

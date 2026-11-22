@@ -130,7 +130,7 @@ Each DE experiment publishes what the KG read from its table, so a reader can ju
   - `mean_in_bottom_decile` (one or more mean columns, averaged per row): |log2FC| > 5 and the mean is in the table's bottom 10%.
   - Declaring both kinds on one experiment fails the build.
 - **Six per-time-point statistics**, computed post-import over all `Changes_expression_of` edges of the experiment and parallel to `time_point_orders`: `time_point_negative_fractions` (share with log2FC < 0), `time_point_median_log2fc`, `time_point_max_abs_log2fc`, `time_point_large_fc_not_significant` (|log2FC| > 5 and `not_significant`), `time_point_extreme_fc_count` (|log2FC| > 10), `time_point_low_signal_count` (edges with `low_signal_reason`). They describe the published rows: when `table_scope` is not `all_detected_genes` they describe that subset, not the genome.
-- **`data_caveats`**: curated, never computed. See the paperconfig fields `data_caveats`, `data_caveat_note`, `data_caveats_reviewed_on`.
+- **`data_caveats`** / **`fold_change_provenance`**: curated, never computed. See the paperconfig fields `data_caveats`, `fold_change_provenance`, `data_notes`, `data_caveats_reviewed_on`. `data_notes` is emitted on any experiment that has one.
 
 ## Pre-resolved CSV Integration
 

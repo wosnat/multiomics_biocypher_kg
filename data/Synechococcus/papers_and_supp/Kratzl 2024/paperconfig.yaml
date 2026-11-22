@@ -22,6 +22,14 @@ publication:
       treatment_taxid: 1140
       treatment_assembly_accession: "GCF_014698905.1"
       table_scope: all_detected_genes
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper reports 488 P. putida DEGs (303 up, 145 down) at abs log2FC above 1 and adjusted p below
+        0.05. The same rule on Data Set S1 sheet 1 (the table the KG loads) gives 274 (175 up, 99 down);
+        the unadjusted p_value column gives 435 (293 up, 142 down), much closer to the paper. Read the paper
+        for its own list.
+      data_caveats_reviewed_on: "2026-11-19"
 
     coculture_vs_selongatus_axenic_rnaseq:
       name: S. elongatus cscB coculture with P. putida cscRABY vs axenic S. elongatus cscB (RNA-seq)
@@ -41,6 +49,8 @@ publication:
       treatment_taxid: 160488
       treatment_assembly_accession: "GCF_024662315.1"
       table_scope: all_detected_genes
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     coculture_vs_pputida_axenic_proteomics:
       name: P. putida cscRABY coculture with S. elongatus cscB vs axenic P. putida cscRABY (proteomics)
@@ -60,6 +70,8 @@ publication:
       treatment_taxid: 1140
       treatment_assembly_accession: "GCF_014698905.1"
       table_scope: all_detected_genes
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     coculture_vs_selongatus_axenic_proteomics:
       name: S. elongatus cscB coculture with P. putida cscRABY vs axenic S. elongatus cscB (proteomics)
@@ -79,6 +91,14 @@ publication:
       treatment_taxid: 160488
       treatment_assembly_accession: "GCF_024662315.1"
       table_scope: all_detected_genes
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper reports 183 differentially abundant proteins (92 more, 91 less abundant), listed in Data Set S1
+        sheet 13_DAP. The KG applies the stated rule (abs log2FC above 1, adjusted p below 0.05) to sheet 13_all
+        and marks 166 (80 up, 86 down); the 17 other proteins on the paper list have adjusted p 0.059 to 0.31 in
+        that same sheet, so they fail the stated rule. Read the paper for its own list.
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # Sheet 1: RNA-seq coculture vs P. putida axenic (all P. putida genes)

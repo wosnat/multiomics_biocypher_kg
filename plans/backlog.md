@@ -502,12 +502,50 @@ was deferred out of it on 2026-11-19. The related KG-bug items stay where they a
 pointed to here: row collisions (P2, "Two table rows → one gene"), Aharonovich 2016 metadata (P2
 paperconfig items (b)), zero-count magnitudes (KG semantics).
 
-- [ ] **Backfill the caveat review on existing DE experiments.** Every DE experiment present
+- [x] **Backfill the caveat review on existing DE experiments.** *Done 2026-11-19: all 164 reviewed by paper (7 parallel agents), the file deleted; after the provenance split, 193 DE experiments carry 17 data caveats, 29 provenance values and 16 notes with no tag (Methods-only concerns went to the notes untagged, so some "borderline" items below are now moot); the validator check stays because a missing file is an empty list. Findings that fit no caveat are in the item below.* Every DE experiment present
       when the mechanism lands goes on the unreviewed allowlist (spec §7.4); the validator requires
       `data_caveats` + `data_caveats_reviewed_on` on everything else. Review in batches by paper:
       read the source, set `data_caveats` (`[]` allowed) + the date, remove the experiments from
       the list. Done when the list is empty; then delete the file and its validator check. Use the
       explorer's "stands out, not reviewed" list as the review queue. → spec §7.4
+- [ ] **Caveat backfill follow-ups (2026-11-19 curation).** Found while reviewing; nothing here
+      was changed. Agent reports: session scratchpad `curation/report_{A..G}.md` (not kept).
+      - *Problems no caveat value fits* (candidate new values, decide before minting):
+        Kratzl 2024 P. putida proteomics loads sheet 11 (232 proteins), whose values differ from the
+        paper DAP list (sheet 12, 96; 15 missing, KG significant overlaps paper on 79) — "table values
+        differ from the paper own DE list"; Hennon 2017 MIT9312 (26 vs 35) and Read 2017 down calls
+        (125/160 vs 86/107) do not reproduce the paper counts under its own rule — "table does not
+        reproduce paper counts"; Lindell 2007 stars increases only, so every decline reads not
+        significant — "significance tested in one direction only"; Moreno 2023 / WH8102 single
+        replicate spikes give large not-significant fold changes.
+      - *KG data loss*: Moreno 2023 proteins absent from every replicate of one arm have published FC
+        0, the builder turns log2(0) into NaN and the row is dropped (~8 rows, the strongest off
+        responses); Al-Hosani 2015 two significant `#NAME?` (-Inf) rows dropped.
+      - *Gene ID*: Domínguez 2017 — 5 locus tags got two UniProt accessions via a shared symbol
+        (Pro0086 sufB, Pro0313 hisB, Pro0405 metB, Pro1083 ompR, Pro1456 wecE with opposite signs);
+        `Accession` carries a "1::" prefix, 41 rows unresolved; resolve by accession first.
+        Thompson 2016 repeated rows (PMM0817, PMM1399 at 0.5 h; PMM0870 rpmG vs rpsR at 8.5 h);
+        Coe 2024 7 NATL2A genes on more than one row (see the row-collision item).
+      - *Paperconfig text to check*: Ma 2022 RNA-seq table_scope_detail says FC > 1.5 / padj 0.05
+        but the paper uses log2 > 1 / p 0.05; Ma 2022 proteomics table_scope significant_only →
+        filtered_subset (39 selected of 251); Lindell 2007 background_factors [light] vs cluster entry
+        [axenic, light]; Moreno 2023 design_notes say unpaired t-test (cyano) vs paired (heterotroph),
+        and the heterotroph blocks use 3 of up to 6 raw runs undocumented; Oleza 2017 s5a comment
+        says t-test but the column is Anova (p); Johnson 2026b threshold comment "(reproduces
+        897 / 121)" is true only for the intersection of the two time points; barreto 2022 analysis
+        ids say vs_axenic but the tables are partner minus mean of partners; Thompson 2016 key
+        `light_stress_constant_dark_med4_rnaseq_dark` is the uninfected experiment; He 2022 test is
+        edgeR (GEO) not DESeq; directory "Tal 2009" is Tai 2009. Stale READMEs: barreto 2022,
+        Al-Hosani 2015, Hennon 2017, Moreno 2023 (growth_phase), Read 2017 (adjusted p confirmed).
+      - *Borderline calls to revisit*: Moreno 2023 Alteromonas MED4 light/dark 5 mM and SS120 light
+        5 mM (shifted but summed signal < 1.9x, untagged); Kratzl S. elongatus proteomics tagged on a
+        9% gap; Tai 2009 tagged on the authors words only; He 2022 headline counts (525/277) are raw
+        p < 0.05 while the KG uses the paper "highly DE" rule (81/30), untagged; Biller 2018 NATL2A
+        axenic 48 h median -3.0 from library collapse, tagged only as low-count inflation;
+        Aharonovich `inoc_05e6` (median -0.36) untagged; Weissberg 2025 HOT1A3 day 89 vs 11
+        (median -0.36) untagged.
+      - *Validator QA prompt false positives*: the stated-count parser reads "MIT1002" as 1002 and
+        the 1 in "|log2FC| >= 1" as a count; extend the significance-word anchor.
 - [ ] **Declare level columns for the ~11 papers that publish them**, so
       `time_point_low_signal_count` / `low_signal_reason` are filled: Aharonovich 2016, Al-Hosani
       2015 (`baseMeanA`/`baseMeanB`), Hackl 2023 (`baseMean`), Thompson 2016 (RPKM, 18 tables),
@@ -540,13 +578,13 @@ paperconfig items (b)), zero-count magnitudes (KG semantics).
       as a possible later spec; F1 `fold_change_type`, F7 and F8 are done by this spec. Carry the
       explorer's shape requests into it (ask §6): F6 stores the control phase even when equal to
       the treatment's, `""` = unknown only; F3's `-1.0` sentinel is registered in the description;
-      once F3 exists, `significance_calls_differ_from_paper` is derived from it post-import, not
+      once F3 exists, `fold_change_provenance: significance_rule_differs_from_paper` is derived from it post-import, not
       curated. F5 (`paper_reported_significant_count`) would also replace the validator's parse of
       `table_scope_detail` free text for the "significant count far from the paper's" prompt
       (spec §11). → spec §2;
       explorer `docs/superpowers/specs/2026-11-18-kg-side-de-value-provenance-ask.md`
 - [ ] **Revisit the existing recomputations under line B** (Aharonovich HOT1A3 ×2, Beliaev 2014,
-      Fuszard 2012 NATL2A). Kept "for now" with `fold_change_computed_by_kg`; strict B would
+      Fuszard 2012 NATL2A). Kept "for now" with `fold_change_provenance: computed_by_kg`; strict B would
       load the published values instead. → spec §1
 
 ## Explorer / MCP coordination

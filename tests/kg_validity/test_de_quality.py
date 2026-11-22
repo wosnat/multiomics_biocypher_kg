@@ -28,7 +28,7 @@ def test_de_experiments_have_dense_caveats_and_scale(run_query):
     rows = run_query("""
         MATCH (e:Experiment)
         WHERE EXISTS { (e)-[:Changes_expression_of]->() }
-          AND (e.data_caveats IS NULL
+          AND (e.data_caveats IS NULL OR e.fold_change_provenance IS NULL
                OR NOT e.fold_change_type IN ['log2', 'linear', 'signed_linear'])
         RETURN e.id AS id, e.data_caveats AS caveats, e.fold_change_type AS fct
         LIMIT 10

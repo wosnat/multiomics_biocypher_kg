@@ -19,6 +19,8 @@ publication:
       light_intensity: 30 uE m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes with q < 0.05 at t=48h, all timepoints reported
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     phosphorus_phosphate_starvation_mit9313_microarray:
       name: MIT9313 Phosphate starvation vs P-replete Pro99 medium (MICROARRAY)
       organism: Prochlorococcus MIT9313
@@ -35,6 +37,8 @@ publication:
       light_intensity: 12 uE m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: Genes with q < 0.05 at t=24h, all timepoints reported
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     supp_table_1:
       type: csv

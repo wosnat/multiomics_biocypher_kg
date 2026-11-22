@@ -45,10 +45,12 @@ def _exp_props(adapter):
 def test_experiment_carries_caveats_and_fold_change_type(tmp_path):
     ad = _adapter(tmp_path, [{"fold_change_type": "linear"}], exp_extra={
         "data_caveats": ["fold_change_inflated_at_low_counts"],
-        "data_caveat_note": "x", "data_caveats_reviewed_on": "2026-11-19"})
+        "fold_change_provenance": ["computed_by_kg"],
+        "data_notes": "x", "data_caveats_reviewed_on": "2026-11-19"})
     p = _exp_props(ad)["e1"]
     assert p["data_caveats"] == ["fold_change_inflated_at_low_counts"]
-    assert p["data_caveat_note"] == "x"
+    assert p["fold_change_provenance"] == ["computed_by_kg"]
+    assert p["data_notes"] == "x"
     assert p["data_caveats_reviewed_on"] == "2026-11-19"
     assert p["fold_change_type"] == "linear"
 
@@ -56,6 +58,7 @@ def test_experiment_carries_caveats_and_fold_change_type(tmp_path):
 def test_de_experiment_defaults(tmp_path):
     p = _exp_props(_adapter(tmp_path, [{}]))["e1"]
     assert p["data_caveats"] == []
+    assert p["fold_change_provenance"] == []
     assert p["fold_change_type"] == "log2"
     assert "data_caveats_reviewed_on" not in p
     assert "low_signal_basis" not in p
@@ -64,6 +67,7 @@ def test_de_experiment_defaults(tmp_path):
 def test_non_de_experiment_has_no_de_quality_props(tmp_path):
     p = _exp_props(_adapter(tmp_path, [{}], with_exp2=True))["e2"]
     assert "data_caveats" not in p
+    assert "fold_change_provenance" not in p
     assert "fold_change_type" not in p
 
 

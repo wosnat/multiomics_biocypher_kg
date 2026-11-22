@@ -27,6 +27,8 @@ publication:
         nutrient-replete control sampled at the same hour (Table S1 lists replete libraries at 4, 24, 46
         and 59 h). 50h (P added): no replete library exists at 50 h, so the control was sampled at
         another time (46 h or 59 h, exponential, not stated) - not matched.
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     phosphorus_plimited_natl2a_rnaseq_infected:
       name: NATL2A P-limited vs P-replete control, phage-infected (RNASEQ)
       organism: Prochlorococcus NATL2A
@@ -43,6 +45,8 @@ publication:
       light_intensity: 30 umol photons m-2 s-1
       table_scope: filtered_subset
       table_scope_detail: "34 P-acquisition / P-related NATL2A genes (Fig. 2 set) at all time points, including non-significant rows"
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
     supp_table_s4a:
       type: csv

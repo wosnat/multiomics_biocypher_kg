@@ -22,7 +22,7 @@ publication:
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
       data_caveats: [fold_change_inflated_at_low_counts, conditions_not_normalized_to_each_other, comparison_direction_unclear]
-      data_caveat_note: >-
+      data_notes: >-
         Rockhopper expression with a 0.01 pseudocount, so 1 vs 0 reads gives log2 6.7: 562 of 1714 genes
         have a zero arm, 265 exceed abs log2FC 10 and 291 have abs log2FC above 5 but are not significant.
         The axenic and coculture expression columns sum to 156K vs 384K and 82% of values are negative
@@ -52,8 +52,9 @@ publication:
       design_notes: >-
         Both arms are 20 h HOT1A3 cocultures with MIT9313, differing only in the HOT1A3 inoculum (high
         vs 0.5x10^6 cells/ml).
-      data_caveats: [fold_change_computed_by_kg]
-      data_caveat_note: >-
+      data_caveats: []
+      fold_change_provenance: [computed_by_kg]
+      data_notes: >-
         The published fold change was (a+0.01)/(b+0.01) on Rockhopper expression, so 1 vs 0 reads read
         101-fold. The KG recomputed log2((a+1)/(b+1)) from the two expression columns
         (build_aharonovich2016_hot1a3_modified_csv.py) and dropped rows with both arms zero; q-values are as
@@ -80,8 +81,9 @@ publication:
       design_notes: >-
         Both arms are 20 h HOT1A3 cocultures: HOT1A3 with MIT9313 (treatment) vs HOT1A3 with MED4
         (control). MED4 is a partner of the control arm only and is not recorded as a coculture partner.
-      data_caveats: [fold_change_computed_by_kg]
-      data_caveat_note: >-
+      data_caveats: []
+      fold_change_provenance: [computed_by_kg]
+      data_notes: >-
         The published fold change was (a+0.01)/(b+0.01) on Rockhopper expression, so 1 vs 0 reads read
         101-fold. The KG recomputed log2((a+1)/(b+1)) from the two expression columns
         (build_aharonovich2016_hot1a3_modified_csv.py) and dropped rows with both arms zero; q-values are as
@@ -106,7 +108,7 @@ publication:
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
       data_caveats: [fold_change_inflated_at_low_counts]
-      data_caveat_note: >-
+      data_notes: >-
         Rockhopper expression with a 0.01 pseudocount, so 1 vs 0 reads gives log2 6.7: 104 of 2269 genes
         have a zero arm, 14 exceed abs log2FC 10 and 85 have abs log2FC above 5 but are not significant.
       data_caveats_reviewed_on: "2026-11-19"
@@ -129,7 +131,7 @@ publication:
       treatment_assembly_accession: GCF_001578515.1
       table_scope: all_detected_genes
       data_caveats: [fold_change_inflated_at_low_counts]
-      data_caveat_note: >-
+      data_notes: >-
         Rockhopper expression with a 0.01 pseudocount, so 1 vs 0 reads gives log2 6.7: 212 of 2268 genes
         have a zero arm, 104 exceed abs log2FC 10 and 178 have abs log2FC above 5 but are not significant.
       data_caveats_reviewed_on: "2026-11-19"

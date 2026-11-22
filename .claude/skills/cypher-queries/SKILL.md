@@ -42,7 +42,7 @@ docker exec -i deploy cypher-shell -a bolt://localhost:7687
 | `Gene` | `id` (ncbigene:locus_tag), `locus_tag`, `locus_tag_ncbi`, `locus_tag_cyanorak`, `product`, `gene_name`, `gene_synonyms[]`, `function_description`, `cog_category[]`, `go_terms[]`, `kegg_ko[]`, `kegg_pathway[]`, `ec_numbers[]`, `annotation_quality`, `old_locus_tags[]`, `alternative_locus_tags[]`, `protein_id`, `start`, `end`, `strand` |
 | `Protein` | `id` (uniprot:accession), `locus_tag`, `gene_names[]`, `is_reviewed`, `annotation_score`, `sequence_length`, `molecular_mass`, `refseq_ids[]`, `proteome_ids[]`, `protein_synonyms[]`, `string_ids[]` |
 | `OrganismTaxon` | `id` (insdc.gcf:accession or ncbitaxon:taxid), `organism_name`, `strain_name`, `clade`, `genus`, `species`, `ncbi_taxon_id`, `family`, `order`, `phylum`, `kingdom`, `superkingdom`, `lineage` |
-| `Experiment` | `id`, `name`, `organism_name`, `treatment_type`, `treatment`, `control`, `experimental_context`, `coculture_partner`, `omics_type`, `statistical_test`, `is_time_course`, `medium`, `temperature`, `light_condition`, `light_intensity`, `data_caveats[]` (+ `data_caveat_note`, `data_caveats_reviewed_on`), `fold_change_type` (log2/linear/signed_linear), `low_signal_basis`, `time_point_negative_fractions[]`, `time_point_median_log2fc[]`, `time_point_max_abs_log2fc[]`, `time_point_large_fc_not_significant[]`, `time_point_extreme_fc_count[]`, `time_point_low_signal_count[]` (last six parallel to `time_point_orders`) |
+| `Experiment` | `id`, `name`, `organism_name`, `treatment_type`, `treatment`, `control`, `experimental_context`, `coculture_partner`, `omics_type`, `statistical_test`, `is_time_course`, `medium`, `temperature`, `light_condition`, `light_intensity`, `data_caveats[]`, `fold_change_provenance[]` (+ `data_notes`, `data_caveats_reviewed_on`), `fold_change_type` (log2/linear/signed_linear), `low_signal_basis`, `time_point_negative_fractions[]`, `time_point_median_log2fc[]`, `time_point_max_abs_log2fc[]`, `time_point_large_fc_not_significant[]`, `time_point_extreme_fc_count[]`, `time_point_low_signal_count[]` (last six parallel to `time_point_orders`) |
 | `Publication` | `id` (DOI), `title`, `authors[]`, `journal`, `publication_year`, `abstract`, `doi`, `organism`, `study_type`, `description` |
 | `OrthologGroup` | `id` (cyanorak:CK_* or eggnog:COG*@*), `name` (raw OG ID), `source` (cyanorak/eggnog), `taxonomic_level` (curated/Prochloraceae/Bacteria/etc.), `taxon_id` |
 | `BiologicalProcess` | `id` (go:NNNNNNN), `name` |
@@ -748,7 +748,7 @@ ORDER BY pub.publication_year DESC
 ```cypher
 // Experiments with caveats, with their notes
 MATCH (e:Experiment) WHERE size(e.data_caveats) > 0
-RETURN e.id, e.data_caveats, e.data_caveat_note, e.data_caveats_reviewed_on
+RETURN e.id, e.data_caveats, e.fold_change_provenance, e.data_notes, e.data_caveats_reviewed_on
 ```
 
 `data_caveats = []` with `data_caveats_reviewed_on` = reviewed, none apply; without it, not reviewed yet. The `time_point_*` statistics cover the published rows, so read them with `table_scope`.

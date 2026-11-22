@@ -27,6 +27,8 @@ publication:
         Methods do not state the RNA sampling day; the axenic control was collected "meanwhile" in the
         same amount (5 OD750), so a matched harvest at 4 days is assumed from the parallel design (the
         proteomics methods state the same incubation time).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
     coculture_ecoli_vs_axenic_utex2973_proteomics:
       name: "S. elongatus UTEX 2973 cscB+ coculture with E. coli ABKm vs axenic (proteomics)"
       organism: "Synechococcus elongatus UTEX 2973"
@@ -45,6 +47,8 @@ publication:
       treatment_taxid: 562
       table_scope: significant_only
       table_scope_detail: "Table S4 lists selected DE proteins (fold change > 1.2, P < 0.05 by t-test of 9 pairwise comparisons)"
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # Table S1: Up-regulated transcripts only (significant_only, no p-values in table)

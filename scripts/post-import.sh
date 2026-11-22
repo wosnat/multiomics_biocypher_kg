@@ -188,7 +188,7 @@ CREATE INDEX experiment_omics_type_idx IF NOT EXISTS FOR (e:Experiment) ON (e.om
 // experimentFullText: same drop+recreate as publicationFullText.
 DROP INDEX experimentFullText IF EXISTS;
 CREATE FULLTEXT INDEX experimentFullText
-  FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition, e.compartment, e.derived_metric_search_text, e.design_notes]
+  FOR (e:Experiment) ON EACH [e.name, e.treatment, e.control, e.experimental_context, e.light_condition, e.compartment, e.derived_metric_search_text, e.design_notes, e.data_notes]
   OPTIONS {
     indexConfig: {
       `fulltext.analyzer`: 'standard-no-stop-words',
@@ -373,12 +373,13 @@ WHERE n:ClusteringAnalysis OR n:DerivedMetric OR n:MetaboliteAssay
 SET n.treatment_type = coalesce(n.treatment_type, []),
     n.background_factors = coalesce(n.background_factors, []);
 
-// data_caveats is dense on every DE experiment (fold_change_type marks those);
+// data_caveats / fold_change_provenance are dense on every DE experiment (fold_change_type marks those);
 // neo4j-admin import drops an empty list, so re-materialize [] (non-DE
 // experiments stay without the property).
 MATCH (e:Experiment)
 WHERE e.fold_change_type IS NOT NULL
-SET e.data_caveats = coalesce(e.data_caveats, []);
+SET e.data_caveats = coalesce(e.data_caveats, []),
+    e.fold_change_provenance = coalesce(e.fold_change_provenance, []);
 
 // Experiment growth_phases (must run before Publication rollup)
 MATCH (e:Experiment)

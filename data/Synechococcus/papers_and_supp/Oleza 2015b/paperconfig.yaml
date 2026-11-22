@@ -160,6 +160,8 @@ publication:
         Incubation time is the variable: the 10 h arm is compared with the standard 4-day
         cultures (the same samples as exoproteome_wh8102 in Table S4), sampled about 3.5 days
         later at ~1e8 cells/ml, still growing (exponential).
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     wh8102_exoproteome_coculture_dss3:
       name: "Synechococcus WH8102 exoproteome in coculture with Ruegeria pomeroyi DSS-3 vs axenic (4 days)"
@@ -181,6 +183,8 @@ publication:
       treatment_assembly_accession: GCF_000011965.2
       table_scope: all_detected_genes
       table_scope_detail: "Every WH8102 protein validated (>=2 unique peptides) in either arm, including p > 0.05"
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     wh8102_exoproteome_dark_10h:
       name: "Synechococcus WH8102 exoproteome after 10 h in the dark vs 10 h in the light"
@@ -199,6 +203,8 @@ publication:
       light_intensity: "0 vs 10 umol photons m-2 s-1"
       table_scope: all_detected_genes
       table_scope_detail: "Every protein validated (>=2 unique peptides) in either arm, including p > 0.05"
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
     wh8102_exoproteome_phage_srsm4_10h:
       name: "Synechococcus WH8102 exoproteome 10 h after cyanophage S-RSM4 infection vs uninfected"
@@ -219,6 +225,8 @@ publication:
       treatment_taxid: 10239
       table_scope: all_detected_genes
       table_scope_detail: "Every protein validated (>=2 unique peptides) in either arm, including p > 0.05"
+      data_caveats: []
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     id_translation_bl107:

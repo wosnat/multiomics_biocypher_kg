@@ -28,6 +28,14 @@ publication:
         triplicate, and the limma log-ratios are infected vs control at the same timepoint. For the
         2-5 min point the control column is labelled 0 and a figure legend calls it the control
         prior to infection, so that control may precede the infected sample by a few minutes.
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper calls a host gene changed at a time point when abs log2FC is above 0.5 and the per-time-point
+        BH q is below 0.05 (supplementary methods); those q-values are not in the GEO table. The KG calls 2-5 min
+        to 3 h on 2-fold change alone and 4 h on 2-fold change plus the limma omnibus series FDR. At 2-5 min the
+        KG marks 13 up and 0 down, where abs log2FC above 0.5 alone gives 75 up and 21 down.
+      data_caveats_reviewed_on: "2026-11-19"
 
     syn9_infection_wh8102:
       name: "WH8102 cyanophage Syn9 infection time course (microarray)"
@@ -52,6 +60,14 @@ publication:
         triplicate, and the limma log-ratios are infected vs control at the same timepoint. For the
         2-5 min point the control column is labelled 0 and a figure legend calls it the control
         prior to infection, so that control may precede the infected sample by a few minutes.
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper calls a host gene changed at a time point when abs log2FC is above 0.5 and the per-time-point
+        BH q is below 0.05 (supplementary methods); those q-values are not in the GEO table. The KG calls 2-5 min
+        to 3 h on 2-fold change alone and 4 h on 2-fold change plus the limma omnibus series FDR. At 2-5 min the
+        KG marks 12 up and 37 down, where abs log2FC above 0.5 alone gives 57 up and 89 down.
+      data_caveats_reviewed_on: "2026-11-19"
 
     syn9_infection_wh8109:
       name: "WH8109 cyanophage Syn9 infection time course (microarray)"
@@ -76,6 +92,14 @@ publication:
         triplicate, and the limma log-ratios are infected vs control at the same timepoint. For the
         2-5 min point the control column is labelled 0 and a figure legend calls it the control
         prior to infection, so that control may precede the infected sample by a few minutes.
+      data_caveats: []
+      fold_change_provenance: [significance_rule_differs_from_paper]
+      data_notes: >-
+        The paper calls a host gene changed at a time point when abs log2FC is above 0.5 and the per-time-point
+        BH q is below 0.05 (supplementary methods); those q-values are not in the GEO table. The KG calls 2-5 min
+        to 3 h on 2-fold change alone and 4 h on 2-fold change plus the limma omnibus series FDR. At 2-5 min the
+        KG marks 22 up and 18 down, where abs log2FC above 0.5 alone gives 59 up and 114 down.
+      data_caveats_reviewed_on: "2026-11-19"
 
   supplementary_materials:
     # Derived from GSE63690_Processed_data_WH7803.txt.gz by
