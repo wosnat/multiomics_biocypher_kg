@@ -24,8 +24,8 @@ publication:
       test_type: edgeR
       treatment_type: [viral]
       background_factors: [light]
-      treatment_organism: Phage
-      treatment_taxid: 10239
+      treatment_organism: "Synechococcus phage S-SBP1"
+      treatment_taxid: 2735125
       medium: "A+ artificial seawater medium"
       temperature: "22C"
       light_condition: "continuous light"

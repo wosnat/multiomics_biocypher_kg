@@ -370,6 +370,7 @@ def test_experiment_treatment_type_values_canonical(run_query):
         "temperature", "plastic", "darkness", "diel", "viral", "coculture",
         "growth_phase", "compartment", "chemical", "oxygen", "mutant",
         "rna_decay", "tss_mapping", "genomic_analysis", "essentiality",
+        "lifestyle",
     }
     actual = set(result[0]["all_types"])
     unknown = actual - known

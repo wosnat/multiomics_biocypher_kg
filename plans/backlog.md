@@ -293,19 +293,6 @@ the committed caches, not taken from the log. Ordered by proposed priority.
 
 **P2 — needs a design pass**
 
-- [ ] **Paperconfig items deferred from the control-timing review (2026-10-18).** Each needs
-      something not available in the review: (a) **Barreto 2022 S12–S14 (800 ppm partner tables)**
-      are probably the partner × pCO2 interaction deviations (author-script contrasts 7–9), not the
-      deviation-at-800-ppm the paper describes (logFC anticorrelates with the 400 ppm tables,
-      r = -0.61 / -0.83 / -0.97); settle with the authors or a GLM re-run from `ALL_EZ55_2.Rdata`
-      (needs R). The experiments carry a caveat in `design_notes`. (b) **Aharonovich 2016**
-      temperature / light (config 24 C, 10 uE vs Methods maintenance 20 C, 27 uE) — the
-      Supplementary information is not in the paper directory. (c) **Anjur 2026** (was Anjur 2025)
-      planktonic-vs-biofilm needs a new `treatment_type` value (e.g. `lifestyle`), a vocabulary
-      change; it stays `growth_phase`. (d) **Lindell 2007** phage is the generic `Phage` (taxid
-      10239); naming P-SSP7 needs a `treatment_organisms.csv` row and changes the OrganismTaxon
-      count pinned by `tests/kg_validity/test_organism.py`. → `plans/control_timing_curation.md`
-
 - [ ] **Two table rows → one gene: 14 edges left over 3 papers (2026-11-25).** Root-caused and
       fixed where the second row was a resolution error (85 → 14 colliding edges; step-4
       `enforce_one_row_per_gene` + Domínguez / Ferrer / Coe builder fixes, CHANGELOG `### Data`).
@@ -497,8 +484,7 @@ Smaller ID follow-ups from the same batch (not concepts, just mapping work):
 
 The first delivery is the mechanism plus the cases the spec names (spec §7.6). Everything below
 was deferred out of it on 2026-11-19. The related KG-bug items stay where they are and are only
-pointed to here: row collisions (P2, "Two table rows → one gene"), Aharonovich 2016 metadata (P2
-paperconfig items (b)), zero-count magnitudes (KG semantics).
+pointed to here: row collisions (P2, "Two table rows → one gene"), zero-count magnitudes (KG semantics).
 
 - [x] **Backfill the caveat review on existing DE experiments.** *Done 2026-11-19: all 164 reviewed by paper (7 parallel agents), the file deleted; after the provenance split, 193 DE experiments carry 17 data caveats, 29 provenance values and 16 notes with no tag (Methods-only concerns went to the notes untagged, so some "borderline" items below are now moot); the validator check stays because a missing file is an empty list. Findings that fit no caveat are in the item below.* Every DE experiment present
       when the mechanism lands goes on the unreviewed allowlist (spec §7.4); the validator requires
@@ -565,8 +551,6 @@ paperconfig items (b)), zero-count magnitudes (KG semantics).
       `nmicrobiol.2017.100` late coculture, Al-Hosani 2015, Kaur 2018 DSS-3 exoproteome (15 edges
       with |log2FC| > 10), Biller 2018 NATL2A extended darkness, Koch 2019 83-1 glucose.
       → spec §3.4, §4 item 1
-- [ ] **Aharonovich 2016: confirm caveats against the Supplementary information** once it is
-      obtained (not in the paper directory). Same blocker as the P2 metadata item (b). → spec §3.1
 - [ ] **Steglich 2006 publication title contains "/H17188"** (explorer E1). A Publication bug,
       outside this spec's experiment scope. → spec §3.1
 - [ ] **Microarray probe-level features** (removed from the DE-table-quality spec 2026-11-19,

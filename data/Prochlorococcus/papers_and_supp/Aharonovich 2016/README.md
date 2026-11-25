@@ -21,6 +21,9 @@ The five pairwise DE tables (MED4, MIT9313 high/low inoculum, HOT1A3 partner-vs-
 | `de_genes_9313_dilute_t20h.csv` | CSV | MIT9313 coculture-vs-axenic DE at 0.5e6 HOT1A3 inoculum | already in | — |
 | `HOT1A3 coculture with 9313 ver coculture with 9313 diluted.csv` | CSV | HOT1A3 DE: 9313 (high inoc) vs 9313 diluted | already in | — |
 | `HOT1A3 coculture with MED4 vs coculture with MIT9313.csv` | CSV | HOT1A3 DE: 9313 vs MED4 partner | already in | — |
+| `41396_2016_bfismej201670_moesm40_esm_supplementary_information.docx` | DOCX | Supplementary information (downloaded 2026-11-25): culture vessels (300 ml in 1 L bottles), sampling at 4 / 20 / 44 h; no experiment temperature or light | reference | Temperature / light in the paperconfig are the Methods maintenance values (20 C, 27 uE) |
+| `41396_2016_bfismej201670_moesm45_esm_table_s1_read_counts.docx` | DOCX | Table S1: raw and uniquely mapped reads per library | reference | — |
+| `41396_2016_bfismej201670_moesm47_esm_table_s2_legend.docx` | DOCX | Table S2 legend: 0.01 pseudocount, Rockhopper q-value, DE = FC > 2, q < 0.05, expression > 0 in both arms | reference | Confirms the low-count caveats |
 | `de genes 41396_2016_bfismej201670_moesm46_esm.xlsx` | XLSX | Published supplementary DE tables (likely origin of the CSVs above) | skip | Duplicate of already-integrated CSVs |
 | `1A3 view 2fold change new 10-12-14.xlsx` | XLSX | Author working file with 2-fold-change views (5.4 MB) | skip | Intermediate/working file; CSV versions are canonical |
 | `paperconfig.yaml` / `paperconfig_orig.yaml` | YAML | Integration config + original | reference | — |

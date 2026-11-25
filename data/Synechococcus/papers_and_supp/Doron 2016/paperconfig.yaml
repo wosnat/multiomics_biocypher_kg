@@ -14,8 +14,8 @@ publication:
       control_condition: "Uninfected parallel control cultures"
       treatment_type: [viral]
       background_factors: [diel]
-      treatment_organism: Phage
-      treatment_taxid: 10239
+      treatment_organism: "Synechococcus phage syn9"
+      treatment_taxid: 382359
       experimental_context: "Synechococcus WH7803 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (2-5 min, then 30-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
       medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
       temperature: "22C"
@@ -46,8 +46,8 @@ publication:
       control_condition: "Uninfected parallel control cultures"
       treatment_type: [viral]
       background_factors: [diel]
-      treatment_organism: Phage
-      treatment_taxid: 10239
+      treatment_organism: "Synechococcus phage syn9"
+      treatment_taxid: 382359
       experimental_context: "Synechococcus WH8102 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (2-5 min, then 30-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
       medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
       temperature: "22C"
@@ -78,8 +78,8 @@ publication:
       control_condition: "Uninfected parallel control cultures"
       treatment_type: [viral]
       background_factors: [diel]
-      treatment_organism: Phage
-      treatment_taxid: 10239
+      treatment_organism: "Synechococcus phage syn9"
+      treatment_taxid: 382359
       experimental_context: "Synechococcus WH8109 infected with cyanophage Syn9; whole-genome oligo microarray of infected vs uninfected cultures at 7 timepoints over 4 h (2-5 min, then 30-240 min); values are per-timepoint infected/control log-ratios (limma). The single F / P.Value / adj.P.Val triplet is limma's OMNIBUS series-level test."
       medium: "ASW (artificial seawater, Wyman et al. 1985 with Lindell et al. 1998 modifications)"
       temperature: "22C"

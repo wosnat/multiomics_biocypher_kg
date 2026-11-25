@@ -221,8 +221,8 @@ publication:
       temperature: "22C"
       light_condition: "continuous light"
       light_intensity: "10 umol photons m-2 s-1"
-      treatment_organism: Phage
-      treatment_taxid: 10239
+      treatment_organism: "Synechococcus phage S-RSM4"
+      treatment_taxid: 555387
       table_scope: all_detected_genes
       table_scope_detail: "Every protein validated (>=2 unique peptides) in either arm, including p > 0.05"
       data_caveats: []

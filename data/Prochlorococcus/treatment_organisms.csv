@@ -1,7 +1,14 @@
 # Treatment organisms without loaded genomes (genus-level or non-specific)
 # These are used as edge sources in changes_expression_of edges from paperconfigs
 ncbi_taxon_id,organism_name,name_synonyms,taxonomy_note
-10239,Phage
+# Cyanophages, one row per strain used in a paper (2026-11-25; replaces the generic 10239 "Phage" row).
+# preferred_name = NCBI scientific name; synonyms = the short strain name and the ICTV species binomial.
+2908095,Prochlorococcus phage P-SSP7,P-SSP7;Cyanophage P-SSP7;Tiamatvirus PSSP7,
+445696,Prochlorococcus phage P-HM2,P-HM2;Eurybiavirus PHM2,
+268746,Prochlorococcus phage P-SSM2,P-SSM2;Salacisavirus pssm2,
+555387,Synechococcus phage S-RSM4,S-RSM4;Gibbetvirus rsm4,
+2735125,Synechococcus phage S-SBP1,S-SBP1;Cyanopodovirus S-SBP1;Spiovirus sbp1,
+382359,Synechococcus phage syn9,Syn9;Ormenosvirus syn9,
 28108,Alteromonas
 # Synechococcus coculture partners (no DE data for these organisms)
 670,Vibrio parahaemolyticus

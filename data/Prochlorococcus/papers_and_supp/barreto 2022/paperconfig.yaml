@@ -184,16 +184,17 @@ publication:
       data_caveats: []
       data_caveats_reviewed_on: "2026-11-19"
     coculture_prochlorococcus_mit9312_at_800_ez55_rnaseq:
-      name: EZ55 Coculture with Prochlorococcus MIT9312 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
+      name: EZ55 pCO2 response in coculture with Prochlorococcus MIT9312 vs mean pCO2 response across three partners (partner x pCO2 interaction, RNASEQ)
       organism: Alteromonas macleodii EZ55
-      treatment_condition: Coculture with Prochlorococcus MIT9312 at 800 ppm pCO2
-      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 800 ppm pCO2
-      experimental_context: As presented by the paper (Fig. 2, Table S5), partner-specific deviation of EZ55 transcription
-        from the mean coculture response across the three partners at elevated pCO2 (800 ppm), not a comparison with
-        axenic EZ55; see the design_notes caveat. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      treatment_condition: pCO2 response (800 vs 400 ppm) in coculture with Prochlorococcus MIT9312
+      control_condition: Mean pCO2 response (800 vs 400 ppm) across cocultures with the three partners (MIT9312, CC9311, WH8102)
+      experimental_context: Contrast 7 of the shared EZ55 edgeR GLM (design ~0+cyano+treatment+cyano:treatment), the
+        MIT9312 cyano:treatment interaction coefficient minus the mean of the coefficients of the three partners. Positive logFC
+        means the EZ55 gene responds more to elevated pCO2 with MIT9312 than with the average partner. Not a comparison with
+        axenic EZ55. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: [coculture]
+      treatment_type: [carbon, coculture]
       background_factors: [diel]
       medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       temperature: 21C
@@ -204,34 +205,31 @@ publication:
       treatment_assembly_accession: GCF_000012645.1
       table_scope: significant_only
       design_notes: >-
-        The paper presents logFC as the partner deviation from the partner-averaged coculture response
-        at 800 ppm (Fig. 2, Table S5), not
-        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
-        the three partner tables at 800 ppm sum to zero per gene. Matched by growth state, not by
-        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
-        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later. Caveat: the author script has no contrast for that quantity; Tables S12 to S14 more likely are
-        its contrasts 7 to 9 (partner-specific pCO2 interaction minus the mean of the three, Methods item v).
-        Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
-        for MIT9312, CC9311, WH8102).
+        Partner x pCO2 interaction (author script contrast 7): (MIT9312 at 800 minus MIT9312 at 400 ppm) minus the
+        mean of that difference over the three partners; the three partner tables sum to zero per gene. Both pCO2
+        arms are acclimated cocultures harvested in exponential growth, matched by growth state, not by sampling
+        day; the MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
-      data_caveats: [table_may_be_a_different_comparison]
+      data_caveats: []
       data_notes: >-
-        Table S12 (MIT9312) is labelled as the partner deviation from the mean coculture response at 800
-        ppm, but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
-        anticorrelates with the matching 400 ppm table S9 on shared genes (r = -0.61; -0.61 / -0.83 / -0.97
-        over S12 / S13 / S14).
-      data_caveats_reviewed_on: "2026-11-19"
+        The paper labels Table S12 the partner deviation from the mean coculture response at 800 ppm, but the
+        published values are the author script contrast 7. Checked 2026-11-25 by recomputing every contrast from the
+        author count object (Alteromonas_analysis/ALL_EZ55_2.Rdata, TMM cell means of the saturated design):
+        Table S12 matches contrast 7 (r = 0.995, median abs difference 0.09 log2 over 195 genes) and not the
+        deviation at 800 ppm (r = 0.50). Tables S9 to S11 match contrasts 3 to 5 (r >= 0.997).
+      data_caveats_reviewed_on: "2026-11-25"
     coculture_synechococcus_cc9311_at_800_ez55_rnaseq:
-      name: EZ55 Coculture with Synechococcus CC9311 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
+      name: EZ55 pCO2 response in coculture with Synechococcus CC9311 vs mean pCO2 response across three partners (partner x pCO2 interaction, RNASEQ)
       organism: Alteromonas macleodii EZ55
-      treatment_condition: Coculture with Synechococcus CC9311 at 800 ppm pCO2
-      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 800 ppm pCO2
-      experimental_context: As presented by the paper (Fig. 2, Table S5), partner-specific deviation of EZ55 transcription
-        from the mean coculture response across the three partners at elevated pCO2 (800 ppm), not a comparison with
-        axenic EZ55; see the design_notes caveat. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      treatment_condition: pCO2 response (800 vs 400 ppm) in coculture with Synechococcus CC9311
+      control_condition: Mean pCO2 response (800 vs 400 ppm) across cocultures with the three partners (MIT9312, CC9311, WH8102)
+      experimental_context: Contrast 8 of the shared EZ55 edgeR GLM (design ~0+cyano+treatment+cyano:treatment), the
+        CC9311 cyano:treatment interaction coefficient minus the mean of the coefficients of the three partners. Positive logFC
+        means the EZ55 gene responds more to elevated pCO2 with CC9311 than with the average partner. Not a comparison with
+        axenic EZ55. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: [coculture]
+      treatment_type: [carbon, coculture]
       background_factors: [diel]
       medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       temperature: 21C
@@ -242,34 +240,31 @@ publication:
       treatment_assembly_accession: GCF_000014585.1
       table_scope: significant_only
       design_notes: >-
-        The paper presents logFC as the partner deviation from the partner-averaged coculture response
-        at 800 ppm (Fig. 2, Table S5), not
-        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
-        the three partner tables at 800 ppm sum to zero per gene. Matched by growth state, not by
-        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
-        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later. Caveat: the author script has no contrast for that quantity; Tables S12 to S14 more likely are
-        its contrasts 7 to 9 (partner-specific pCO2 interaction minus the mean of the three, Methods item v).
-        Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
-        for MIT9312, CC9311, WH8102).
+        Partner x pCO2 interaction (author script contrast 8): (CC9311 at 800 minus CC9311 at 400 ppm) minus the
+        mean of that difference over the three partners; the three partner tables sum to zero per gene. Both pCO2
+        arms are acclimated cocultures harvested in exponential growth, matched by growth state, not by sampling
+        day; the MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
-      data_caveats: [table_may_be_a_different_comparison]
+      data_caveats: []
       data_notes: >-
-        Table S13 (CC9311) is labelled as the partner deviation from the mean coculture response at 800 ppm,
-        but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
-        anticorrelates with the matching 400 ppm table S10 on shared genes (r = -0.83; -0.61 / -0.83 / -0.97
-        over S12 / S13 / S14).
-      data_caveats_reviewed_on: "2026-11-19"
+        The paper labels Table S13 the partner deviation from the mean coculture response at 800 ppm, but the
+        published values are the author script contrast 8. Checked 2026-11-25 by recomputing every contrast from the
+        author count object (Alteromonas_analysis/ALL_EZ55_2.Rdata, TMM cell means of the saturated design):
+        Table S13 matches contrast 8 (r = 0.998, median abs difference 0.05 log2 over 85 genes) and not the
+        deviation at 800 ppm (r = 0.68). Tables S9 to S11 match contrasts 3 to 5 (r >= 0.997).
+      data_caveats_reviewed_on: "2026-11-25"
     coculture_synechococcus_wh8102_at_800_ez55_rnaseq:
-      name: EZ55 Coculture with Synechococcus WH8102 vs Mean Coculture Response across Three Partners at 800 ppm pCO2 (RNASEQ)
+      name: EZ55 pCO2 response in coculture with Synechococcus WH8102 vs mean pCO2 response across three partners (partner x pCO2 interaction, RNASEQ)
       organism: Alteromonas macleodii EZ55
-      treatment_condition: Coculture with Synechococcus WH8102 at 800 ppm pCO2
-      control_condition: Mean coculture response across the three partners (MIT9312, CC9311, WH8102) at 800 ppm pCO2
-      experimental_context: As presented by the paper (Fig. 2, Table S5), partner-specific deviation of EZ55 transcription
-        from the mean coculture response across the three partners at elevated pCO2 (800 ppm), not a comparison with
-        axenic EZ55; see the design_notes caveat. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
+      treatment_condition: pCO2 response (800 vs 400 ppm) in coculture with Synechococcus WH8102
+      control_condition: Mean pCO2 response (800 vs 400 ppm) across cocultures with the three partners (MIT9312, CC9311, WH8102)
+      experimental_context: Contrast 9 of the shared EZ55 edgeR GLM (design ~0+cyano+treatment+cyano:treatment), the
+        WH8102 cyano:treatment interaction coefficient minus the mean of the coefficients of the three partners. Positive logFC
+        means the EZ55 gene responds more to elevated pCO2 with WH8102 than with the average partner. Not a comparison with
+        axenic EZ55. Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       omics_type: RNASEQ
       test_type: edgeR
-      treatment_type: [coculture]
+      treatment_type: [carbon, coculture]
       background_factors: [diel]
       medium: Artificial seawater with PEv nutrients for axenic EZ55 and MIT9312 cocultures, SEv nutrients for Synechococcus cocultures
       temperature: 21C
@@ -280,23 +275,19 @@ publication:
       treatment_assembly_accession: GCF_000195975.1
       table_scope: significant_only
       design_notes: >-
-        The paper presents logFC as the partner deviation from the partner-averaged coculture response
-        at 800 ppm (Fig. 2, Table S5), not
-        partner vs axenic (adding the general coculture logFC of Table S5 recovers the vs-axenic value);
-        the three partner tables at 800 ppm sum to zero per gene. Matched by growth state, not by
-        sampling day: arms are acclimated cultures harvested in exponential growth; the axenic EZ55 and
-        MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later. Caveat: the author script has no contrast for that quantity; Tables S12 to S14 more likely are
-        its contrasts 7 to 9 (partner-specific pCO2 interaction minus the mean of the three, Methods item v).
-        Their logFC runs opposite to the matching 400 ppm table on shared genes (r = -0.61, -0.83, -0.97
-        for MIT9312, CC9311, WH8102).
+        Partner x pCO2 interaction (author script contrast 9): (WH8102 at 800 minus WH8102 at 400 ppm) minus the
+        mean of that difference over the three partners; the three partner tables sum to zero per gene. Both pCO2
+        arms are acclimated cocultures harvested in exponential growth, matched by growth state, not by sampling
+        day; the MIT9312 coculture libraries are from Hennon 2017, the Synechococcus cocultures were grown later.
         adjusted_p_value on these edges is the unadjusted p-value reported by the paper (no multiple-testing correction).
-      data_caveats: [table_may_be_a_different_comparison]
+      data_caveats: []
       data_notes: >-
-        Table S14 (WH8102) is labelled as the partner deviation from the mean coculture response at 800 ppm,
-        but more likely is the partner x pCO2 interaction (author script contrasts 7 to 9): its logFC
-        anticorrelates with the matching 400 ppm table S11 on shared genes (r = -0.97; -0.61 / -0.83 / -0.97
-        over S12 / S13 / S14).
-      data_caveats_reviewed_on: "2026-11-19"
+        The paper labels Table S14 the partner deviation from the mean coculture response at 800 ppm, but the
+        published values are the author script contrast 9. Checked 2026-11-25 by recomputing every contrast from the
+        author count object (Alteromonas_analysis/ALL_EZ55_2.Rdata, TMM cell means of the saturated design):
+        Table S14 matches contrast 9 (r = 0.991, median abs difference 0.12 log2 over 59 genes) and not the
+        deviation at 800 ppm (r = 0.77). Tables S9 to S11 match contrasts 3 to 5 (r >= 0.997).
+      data_caveats_reviewed_on: "2026-11-25"
     interaction_pco2_coculture_ez55_rnaseq:
       name: EZ55 Table S4 contrast, labelled pCO2 x coculture interaction by the authors (RNASEQ)
       organism: Alteromonas macleodii EZ55

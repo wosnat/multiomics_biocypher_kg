@@ -27,7 +27,7 @@ below, `time_matched` reads `matched` and the model-id columns are historical.
 
 | Item | Outcome |
 |---|---|
-| Barreto 2022 S12–S14 (800 ppm partner tables likely interaction deviations) | **backlog** — needs the authors or an R re-run; caveat in `design_notes` |
+| Barreto 2022 S12–S14 (800 ppm partner tables likely interaction deviations) | **fixed 2026-11-25** — recomputed from `ALL_EZ55_2.Rdata`: S12–S14 are contrasts 7–9 (partner x pCO2 interaction, r ≥ 0.991); experiments relabelled (`check_partner_contrasts.py` in the paper dir) |
 | Barreto partner experiments: control arm contains all three partners | **kept** — `design_notes` says the control is the mean coculture response of the three partners |
 | Barreto cyanobacteria `[axenic, coculture]`; no `diel` on 5 experiments | **fixed** — `[coculture, diel]`, `diel` added, contexts say coculture-only |
 | Fang 2019 note wording (0.2 um does not remove virions) | **fixed** — note says virions were probably present but cannot infect MIT9313 |
@@ -44,13 +44,13 @@ below, `time_matched` reads `matched` and the model-id columns are historical.
 | Lin 2015 conditions (medium confidence) | **kept** — maintenance conditions are the only ones the paper gives |
 | Lin 2015 infected contrasts `nutrient_limited` | **fixed** — `infected` (6 analyses; P re-added stay `recovery`) |
 | Biller 2016 MIT1002 `unknown` | **kept** — no canonical value fits a stable, regrowing population |
-| Lindell 2007 generic `Phage` (P-SSP7) | **backlog** — needs a treatment-organism row; organism count is pinned |
+| Lindell 2007 generic `Phage` (P-SSP7) | **fixed 2026-11-25** — six named cyanophage rows replace generic `Phage` (Lindell, Thompson, Lin, Oleza 2015b, Huang 2020, Doron 2016); organism count 123 → 128 |
 | Weissberg 2025 axenic / coculture experiments share names | **fixed** — names say axenic / in coculture with … |
 | Aharonovich 2016 MED4 in the control arm only | **fixed** — note on the MIT9313-vs-MED4 and high-vs-low inoculum experiments |
-| Aharonovich 2016 temperature / light vs Methods maintenance values | **backlog** — Supplementary information not in the directory |
+| Aharonovich 2016 temperature / light vs Methods maintenance values | **fixed 2026-11-25** — SI downloaded: no experiment values stated; set to the Methods maintenance values 20 C / 27 uE with a note |
 | Tetu 2019 HDPE 120 min (paper) vs 180 min (GEO) | **kept** — timepoint follows the paper; note on both HDPE experiments |
 | Thompson 2016 infected experiment lacks `axenic` | **kept** — paper defers culture details to another reference |
-| Anjur 2026 `treatment_type: growth_phase` | **backlog** — needs a new vocabulary value |
+| Anjur 2026 `treatment_type: growth_phase` | **fixed 2026-11-25** — new `treatment_type` value `lifestyle` |
 | Bagby 2015 label "max across 3-24h" | **fixed** — "max across 70min-24h" |
 | Coe 2024 13h timepoint | **kept** — 42 GEO samples = 7 timepoints x 2 phenotypes x 3 replicates |
 | Explorer contract (time_matched, statistical_model_id) | **fixed** — KG update note appended to the explorer dialog |

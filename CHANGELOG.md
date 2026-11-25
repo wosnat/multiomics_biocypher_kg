@@ -65,6 +65,12 @@ tag with nothing logged.
 
 ### Breaking
 
+- Cyanophages are named. The generic `Phage` organism (`ncbitaxon:10239`) is retired; each phage
+  experiment now points at its own phage (P-SSP7, P-HM2, P-SSM2, S-RSM4, S-SBP1, syn9), so
+  `Experiment.coculture_partner`, `Publication.organisms` and `Tests_coculture_with` targets
+  read e.g. `Prochlorococcus phage P-SSP7` instead of `Phage`. Filter phages by
+  `o.lineage STARTS WITH 'Viruses'`.
+
 - A gene annotated with an EC number Expasy later split across several numbers now carries
   the successors' common parent class instead of every successor: `1.11.1.15` peroxiredoxin
   (501 genes) -> `1.11.1.-`, not all six peroxiredoxin types `1.11.1.24`-`29`; the
@@ -80,6 +86,23 @@ tag with nothing logged.
   clusters' `member_count`.
 
 ### Data
+
+- Barreto 2022 (10.1038/s43705-022-00197-2, EZ55 RNA-seq): the three 800 ppm partner experiments
+  (Tables S12–S14) were described as each partner's deviation from the mean coculture response at
+  800 ppm. They are the partner x pCO2 interaction: how much more (or less) an EZ55 gene responds
+  to elevated pCO2 with that partner than with the average partner. Recomputed from the authors'
+  count object, S12–S14 match the script's contrasts 7–9 (r = 0.991–0.998), not the 800 ppm
+  deviation (r = 0.50–0.77). Names, conditions and `treatment_type` (`[carbon, coculture]`)
+  changed; the `table_may_be_a_different_comparison` caveat is cleared. Values unchanged.
+- Aharonovich 2016 (10.1038/ismej.2016.70): temperature and light on all five experiments were
+  24 C / 10 µE with no source; now the Methods culture conditions, 20 C / 27 µE. The Supplementary
+  information (now in the paper directory) does not state experiment-specific values.
+- Anjur-Dietrich 2026 (10.1038/s41467-026-77598-7): the planktonic vs biofilm MIT9301 experiment
+  now has `treatment_type: [lifestyle]` (new value) instead of `growth_phase`; both arms were
+  sampled in mid-exponential growth.
+- Lin 2015 (P-limited, phage-infected NATL2A) and Thompson 2016 (dark vs light in P-HM2-infected
+  MED4) now name their phage as a background partner (P-SSM2, P-HM2); `validate_paperconfig.py`
+  now requires a named partner for a `viral` background, as it already did for `coculture`.
 
 - Pandhal 2007 (10.1021/pr060460c, MED4 iTRAQ proteomics, HL vs LL and ML vs LL): both
   experiments' `table_scope_detail` now says that the KG `significant` call does not reproduce

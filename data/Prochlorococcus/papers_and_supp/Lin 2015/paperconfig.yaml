@@ -39,6 +39,9 @@ publication:
       test_type: DESeq2
       treatment_type: [phosphorus]
       background_factors: [axenic, viral, light]
+      background_organisms:
+        - organism: "Prochlorococcus phage P-SSM2"
+          taxid: 268746
       medium: Pro99
       temperature: 21C
       light_condition: continuous light

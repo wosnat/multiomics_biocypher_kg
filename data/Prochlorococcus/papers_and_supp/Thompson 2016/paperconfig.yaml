@@ -14,6 +14,9 @@ publication:
       test_type: DESeq2
       treatment_type: [light]
       background_factors: [viral]
+      background_organisms:
+        - organism: "Prochlorococcus phage P-HM2"
+          taxid: 445696
       medium: Pro99 natural seawater medium
       temperature: 19-22C
       light_condition: constant darkness
@@ -60,8 +63,8 @@ publication:
       temperature: 19-22C
       light_condition: continuous light
       light_intensity: 90 uE m-2 s-1
-      treatment_organism: Phage
-      treatment_taxid: 10239
+      treatment_organism: "Prochlorococcus phage P-HM2"
+      treatment_taxid: 445696
       table_scope: significant_only
       data_caveats: []
       data_caveats_reviewed_on: "2026-11-19"
@@ -80,8 +83,8 @@ publication:
       temperature: 19-22C
       light_condition: constant darkness
       light_intensity: '0'
-      treatment_organism: Phage
-      treatment_taxid: 10239
+      treatment_organism: "Prochlorococcus phage P-HM2"
+      treatment_taxid: 445696
       table_scope: significant_only
       data_caveats: []
       data_caveats_reviewed_on: "2026-11-19"

@@ -788,19 +788,22 @@ def test_experiment_coculture_partner_empty_when_no_partner(run_query):
 
 def test_tests_coculture_with_partner_role(run_query):
     """Every Tests_coculture_with edge carries partner_role ∈ {treatment, background};
-    phage edges are treatment; no experiment mixes roles (post-Moreno correction)."""
+    a phage edge is treatment iff the experiment is viral (Lin 2015's P-limitation
+    experiment has its phage as background); no experiment mixes roles (post-Moreno correction)."""
     result = run_query("""
         MATCH (e:Experiment)-[r:Tests_coculture_with]->(o:OrganismTaxon)
         RETURN
           sum(CASE WHEN r.partner_role IS NULL THEN 1 ELSE 0 END) AS missing,
           collect(DISTINCT r.partner_role) AS roles,
-          sum(CASE WHEN o.preferred_name = 'Phage' AND r.partner_role <> 'treatment' THEN 1 ELSE 0 END) AS phage_not_treatment,
+          sum(CASE WHEN o.lineage STARTS WITH 'Viruses'
+                    AND (r.partner_role = 'treatment') <> ('viral' IN e.treatment_type)
+               THEN 1 ELSE 0 END) AS phage_role_mismatch,
           sum(CASE WHEN r.partner_role = 'background' THEN 1 ELSE 0 END) AS background_edges,
           count(r) AS edges
     """)[0]
     assert result["missing"] == 0, f"{result['missing']} partner edges lack partner_role"
     assert set(r for r in result["roles"] if r) <= {"treatment", "background"}, result["roles"]
-    assert result["phage_not_treatment"] == 0
+    assert result["phage_role_mismatch"] == 0
     assert result["background_edges"] > 0, "no background partner edges — the fill did not land"
     mixed = run_query("""
         MATCH (e:Experiment)-[r:Tests_coculture_with]->()

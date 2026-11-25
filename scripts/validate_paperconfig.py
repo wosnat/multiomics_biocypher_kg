@@ -255,7 +255,12 @@ CANONICAL_GENOMIC_ORGANISMS = {
 # (genus-level organisms used as coculture partners with no loaded genome).
 # These are loaded at runtime from the CSV; this set is the fallback default.
 _TREATMENT_ORGANISMS_CSV_DEFAULT = {
-    "Phage",
+    "Prochlorococcus phage P-SSP7",
+    "Prochlorococcus phage P-HM2",
+    "Prochlorococcus phage P-SSM2",
+    "Synechococcus phage S-RSM4",
+    "Synechococcus phage S-SBP1",
+    "Synechococcus phage syn9",
     "Alteromonas",
     "Vibrio parahaemolyticus",
     "Escherichia coli",
@@ -375,6 +380,7 @@ _CONDITION_TERM_NOTES = {
     # Growth / baseline
     "growth_phase",     # Growth state / multi-condition comparison
     "mutant",           # Knockout / mutant strain vs wild type (Tetu 2009, Ostrowski 2010)
+    "lifestyle",        # Planktonic vs biofilm / attached populations (Anjur-Dietrich 2026)
     # Subcellular fractionation comparisons (vesicle/exoproteome/secretome vs whole cell)
     "compartment",      # Subcellular fraction comparison; specific fraction lives in `compartment` field
     # Background-only (typically not used as treatment_type)
@@ -1093,12 +1099,13 @@ def _validate_experiments(experiments: dict, config_path: str,
                 )
             elif acc:
                 print(f"    background_organisms[{i}] '{name}' ({acc}): OK")
-        if "coculture" in bg_list and not t_org and not bg_orgs:
-            errors.append(
-                f"{config_path} | experiments.{exp_key} | "
-                f"background_factors includes 'coculture' but no partner is named — "
-                f"add background_organisms: [{{organism, taxid | assembly_accession}}]"
-            )
+        for _bg in ("coculture", "viral"):  # viral: name the phage (2026-11-25)
+            if _bg in bg_list and not t_org and not bg_orgs:
+                errors.append(
+                    f"{config_path} | experiments.{exp_key} | "
+                    f"background_factors includes '{_bg}' but no partner is named — "
+                    f"add background_organisms: [{{organism, taxid | assembly_accession}}]"
+                )
         if t_org and not ({"coculture", "viral"} & set(tt_list)):
             warnings.append(
                 f"{config_path} | experiments.{exp_key} | "
