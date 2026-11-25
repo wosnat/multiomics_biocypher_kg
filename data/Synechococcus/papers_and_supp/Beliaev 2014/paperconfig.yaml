@@ -230,6 +230,8 @@ publication:
           experiment: coculture_lactate_vs_axenic_syn7002_rnaseq
           name_col: " Locus tag"
           logfc_col: "log2_fold_change"   # recomputed from RPKM, one-read pseudocount (build_beliaev2014_modified_csv.py)
+          treatment_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture lactate"]
+          control_level_cols: ["RPKM1 ,             Syn 7002_ax   High light, high O2               (control)"]
           prefiltered: true   # tables list the paper's own >= 2-fold calls
           table_scope: significant_only
           timepoint: "steady state"
@@ -253,6 +255,8 @@ publication:
           experiment: coculture_lactate_vs_axenic_shew_w3181_rnaseq
           name_col: " Locus tag"
           logfc_col: "log2_fold_change"   # recomputed from RPKM, one-read pseudocount (build_beliaev2014_modified_csv.py)
+          treatment_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture lactate"]
+          control_level_cols: ["RPKM1 ,           Shew 3-18-1_ax   High light,      high O2               (control)"]
           prefiltered: true   # tables list the paper's own >= 2-fold calls
           table_scope: significant_only
           timepoint: "steady state"
@@ -277,6 +281,8 @@ publication:
           experiment: coculture_hco3_vs_axenic_syn7002_rnaseq
           name_col: " Locus tag"
           logfc_col: "log2_fold_change"   # recomputed from RPKM, one-read pseudocount (build_beliaev2014_modified_csv.py)
+          treatment_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture HCO3-"]
+          control_level_cols: ["RPKM1 ,             Syn 7002_ax   High light, high O2               (control)"]
           prefiltered: true   # tables list the paper's own >= 2-fold calls
           table_scope: significant_only
           timepoint: "steady state"
@@ -300,6 +306,8 @@ publication:
           experiment: coculture_hco3_vs_axenic_shew_w3181_rnaseq
           name_col: " Locus tag"
           logfc_col: "log2_fold_change"   # recomputed from RPKM, one-read pseudocount (build_beliaev2014_modified_csv.py)
+          treatment_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture HCO3-"]
+          control_level_cols: ["RPKM1 ,           Shew 3-18-1_ax   High light,      high O2               (control)"]
           prefiltered: true   # tables list the paper's own >= 2-fold calls
           table_scope: significant_only
           timepoint: "steady state"
@@ -324,6 +332,8 @@ publication:
           experiment: coculture_hco3_vs_lactate_syn7002_rnaseq
           name_col: " Locus tag"
           logfc_col: "log2_fold_change"   # recomputed from RPKM, one-read pseudocount (build_beliaev2014_modified_csv.py)
+          treatment_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture HCO3-"]
+          control_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture lactate"]
           prefiltered: true   # tables list the paper's own >= 2-fold calls
           table_scope: significant_only
           timepoint: "steady state"
@@ -347,6 +357,8 @@ publication:
           experiment: coculture_hco3_vs_lactate_shew_w3181_rnaseq
           name_col: " Locus tag"
           logfc_col: "log2_fold_change"   # recomputed from RPKM, one-read pseudocount (build_beliaev2014_modified_csv.py)
+          treatment_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture HCO3-"]
+          control_level_cols: ["RPKM1,             Syn 7002   Shew 3-18-1   co-culture lactate"]
           prefiltered: true   # tables list the paper's own >= 2-fold calls
           table_scope: significant_only
           timepoint: "steady state"

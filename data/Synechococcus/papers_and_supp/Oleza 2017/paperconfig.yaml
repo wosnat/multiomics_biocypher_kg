@@ -32,13 +32,16 @@ publication:
         Cells were collected at 35 days (arrow in Fig. 1c), when both the
         co-culture and the axenic cultures were at maximal cell density after
         exponential growth, before the axenic cultures died (4-6 weeks).
-      data_caveats: []
+      data_caveats: [fold_change_inflated_at_low_counts]
       fold_change_provenance: [significance_rule_differs_from_paper]
       data_notes: >-
         The paper calls 41 proteins differentially abundant (14 and 27, Table 2) using fold change above 2
         and P 0.01 or below. The KG applies only P below 0.05 with no fold cutoff (the category-level rule
         of the Fig. 2 legend), marking 214 of 564 proteins (78 up). Read Table 2 of the paper for its list.
-      data_caveats_reviewed_on: "2026-11-19"
+        25 proteins have no spectra in any replicate of one arm (20 absent in co-culture, 5 in axenic), so
+        their fold changes (1.5 to 7.9 in absolute log2) rest on presence or absence and are flagged as
+        low-signal on the edge.
+      data_caveats_reviewed_on: "2026-11-25"
 
     # Table S5A: Synechococcus WH7803 cellular proteome — coculture in natural seawater (10 days)
     # Axenic vs coculture with R. pomeroyi DSS-3
@@ -130,6 +133,8 @@ publication:
           fold_change_type: signed_linear   # +3 = 3-fold up, -3 = 3-fold down
           logfc_threshold: 0   # p/q only: t-test P<0.05 (Fig. 2 legend), no fold cutoff
           adjusted_p_value_col: "p-value"
+          treatment_level_cols: ["SC.3", "SC.4", "SC.5"]   # co-culture replicates A-C, spectral counts
+          control_level_cols: ["SC", "SC.1", "SC.2"]   # axenic replicates A-C, spectral counts
           pvalue_threshold: 0.05
           timepoint: "35 days"
           timepoint_hours: 840

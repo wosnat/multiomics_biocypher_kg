@@ -119,6 +119,7 @@ publication:
         name_col: locus_tag
         logfc_col: logFC
         adjusted_p_value_col: PValue
+        mean_level_cols: ["logCPM"]
         # The table is the 103 P < 0.05 rows, not the paper's DE set: "only 35 genes were
         # differentially expressed (P < 0.05, fold change > 2)" (p. 6). Applying both gives 26;
         # the paper's 35 is not reproducible from this table.
@@ -142,6 +143,7 @@ publication:
         name_col: locus tag
         logfc_col: logFC
         adjusted_p_value_col: PValue
+        mean_level_cols: ["logCPM"]
         prefiltered: true
     supp_table_4:
       type: csv
@@ -161,6 +163,7 @@ publication:
         name_col: locus tag
         logfc_col: logFC
         adjusted_p_value_col: PValue
+        mean_level_cols: ["logCPM"]
         prefiltered: true
     # supp_table_5 (S5) — KEGG/topic enrichment-set table for the EZ55 coculture
     # experiment. Built from S5 long-format CSV by
@@ -191,6 +194,7 @@ publication:
         logfc_col: logFC
         logfc_threshold: 1.0   # P < 0.05 and fold change > 2 (p. 6)
         adjusted_p_value_col: PValue
+        mean_level_cols: ["logCPM"]
         prefiltered: false
         pvalue_threshold: 0.05
     supp_table_5_categories:

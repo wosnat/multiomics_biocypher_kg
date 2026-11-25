@@ -87,6 +87,35 @@ tag with nothing logged.
   factor, peptide count and a final ProQuant re-analysis; the KG applies only absolute
   log2FC >= 0.322 and p < 0.05 to the collapsed values, and marks 6 (HL vs LL) and 10 (ML vs LL).
   No edge or call changes.
+- Low-signal level columns declared in ten papers, so `low_signal_reason` /
+  `low_signal_basis` / `time_point_low_signal_count` are filled there:
+  - Per-arm rule (`condition_at_column_minimum`, the arm has zero reads):
+    - Aharonovich 2016, Rockhopper expression, 5 tables. 562, 104 and 212
+      zero-arm genes in the three *Prochlorococcus* tables, 721 and 224 in the two HOT1A3 tables.
+    - Beliaev 2014, RPKM, 6 tables. 4–244 per table: genes with no reads in one arm (the 0.12 /
+      0 RPKM floor).
+    - Al-Hosani 2015, DESeq `baseMeanA` / `baseMeanB`. 0 rows: its zero-arm rows have no finite
+      fold change and are not loaded.
+    - Christie-Oleza 2017 (`Oleza 2017`) Table S2A, spectral counts per replicate (not NSAF,
+      which rounds detected proteins to 0.00): 25 proteins absent from every replicate of one arm.
+      The early-coculture experiment now carries `fold_change_inflated_at_low_counts` (was `[]`).
+  - Mean rule (`mean_in_bottom_decile`, |log2FC| > 5 with the mean in the bottom 10%):
+    - Hackl 2023, `baseMean`: 3 / 0 / 1 genes.
+    - Anjur 2026, `logCPM`: the two zero-count genes at +26.1 and +24.5.
+    - Weissberg 2025, `AveExpr` (34 tables): 0–2 per table.
+    - He 2022 and Hennon 2017 (`logCPM`), Doron 2016 (`AveExpr`): 0 rows. No fold change in these
+      tables exceeds 5 in log2. These experiments still read as assessed (`low_signal_basis` set).
+  - No edge or call changes.
+  - Not declared, because the rule would flag detected genes:
+    - Thompson 2016 and Domínguez 2017: significant-only tables, so the minimum is the weakest
+      significant gene.
+    - Fuszard 2012: iTRAQ ratios with no floor.
+    - Moreno 2023: normalised abundances with no zero floor in 115 of 120 columns.
+    - Koch 2019: the NSAF columns are proteomics, while the DE analyses are RNA-seq.
+    - Capovilla 2023: its counts are in separate files, not in the DE table.
+    - Christie-Oleza 2017 Tables S5A and S7: peak areas with no floor, and NAF values whose 0.00 is
+      display rounding of detected proteins.
+    - The other DE tables carry no level columns.
 
 - Reference refresh (2026-11-11, `prepare_data.sh --rebuild --refetch-raw` + MNX resolver rebuilt;
   MNXref 4.5 and GO 2026-07-26 unchanged): InterPro 110.0 → 111.0 (54,922 → 72,944 entries;
@@ -150,7 +179,10 @@ tag with nothing logged.
   (`time_point_negative_fractions`, `_median_log2fc`, `_max_abs_log2fc`,
   `_large_fc_not_significant`, `_extreme_fc_count`, `_low_signal_count`). The paperconfig validator
   gains a curator QA report and requires a caveat review per DE experiment. They describe the
-  published rows, so read them with `table_scope`.
+  published rows, so read them with `table_scope`. The low-signal fields, including
+  `time_point_low_signal_count`, are set only where a paperconfig declares level columns (see
+  `### Data`); elsewhere they are absent, never `[0, …]`, so 0 means "assessed, none found". The
+  six arrays are absent (not `[]`) on experiments with no DE edges.
 
 - KEGG modules (`docs/kg-changes/kegg-modules.md`): `KeggModule` nodes — 414 modules
   (`kegg.module:M…`) plus the `ko00002` type / class / subclass tree above them (57 nodes) — with

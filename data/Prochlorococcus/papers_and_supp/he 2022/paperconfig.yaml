@@ -74,6 +74,7 @@ publication:
         name_col: GeneID
         logfc_col: logFC
         adjusted_p_value_col: FDR
+        mean_level_cols: ["logCPM"]
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         prefiltered: false
@@ -96,6 +97,7 @@ publication:
         name_col: GeneID
         logfc_col: logFC
         adjusted_p_value_col: FDR
+        mean_level_cols: ["logCPM"]
         pvalue_threshold: 0.05
         logfc_threshold: 1.0
         prefiltered: false

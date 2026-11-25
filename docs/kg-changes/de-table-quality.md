@@ -25,7 +25,8 @@ The statistics are computed over the experiment's published rows on every scope;
 
 - `all_detected_genes`: they describe the measured genome. A negative fraction far from 0.5 or a large median suggests unnormalized conditions.
 - `significant_only`, `filtered_subset`, `top_n`: they describe the published subset. `time_point_large_fc_not_significant` is 0 by construction in a significant-only table. `time_point_extreme_fc_count` stays meaningful.
-- `time_point_low_signal_count` is 0 wherever no level columns are declared (all papers until the level-column backlog item is done; `plans/backlog.md`, section "DE table quality - follow-ups").
+- `time_point_low_signal_count` is **absent** wherever no level columns are declared, i.e. whenever `low_signal_basis` is absent (not assessed); a `0` means assessed, none found (2026-11-25, explorer ask). Declared in 10 papers (Aharonovich 2016, Al-Hosani 2015, Anjur 2026, Beliaev 2014, Doron 2016, Hackl 2023, He 2022, Hennon 2017, Christie-Oleza 2017 Table S2A, Weissberg 2025), after a survey of every DE table; see `CHANGELOG.md` for why the other level-bearing papers are not.
+- All six arrays are **absent** (not `[]`) on experiments with no `Changes_expression_of` edges (absent = not applicable, like `data_caveats`).
 
 ## Curation and the allowlist
 

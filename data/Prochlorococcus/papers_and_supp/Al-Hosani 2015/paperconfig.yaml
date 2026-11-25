@@ -46,5 +46,7 @@ publication:
         # p-value < 0.05 with no fold cutoff (627 genes); p is rounded to 2 decimals, so the
         # strict "< 0.05" is p <= 0.049. Raw p is stored in adjusted_p_value (Barreto 2022 precedent).
         adjusted_p_value_col: pval
+        treatment_level_cols: ["baseMeanB"]   # DESeq condition B = salt (foldChange = B/A)
+        control_level_cols: ["baseMeanA"]
         pvalue_threshold: 0.049
         logfc_threshold: 0

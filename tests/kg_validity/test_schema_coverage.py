@@ -41,10 +41,6 @@ OPTIONAL_PROPS = {
     ("Derived_metric_quantifies_gene", "p_value"),
     ("Derived_metric_quantifies_gene", "adjusted_p_value"),
     ("Derived_metric_quantifies_gene", "significant"),
-    # Only when a DE analysis sets treatment_level_cols / control_level_cols /
-    # mean_level_cols (the low-signal check); no paperconfig does yet.
-    ("Experiment", "low_signal_basis"),
-    ("Changes_expression_of", "low_signal_reason"),
     # Only when a gene_clusters entry sets p_value_col.
     ("Gene_in_gene_cluster", "p_value"),
     # Only when the source record carries one (PDF extraction / UniProt).

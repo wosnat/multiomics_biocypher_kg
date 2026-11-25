@@ -506,16 +506,12 @@ paperconfig items (b)), zero-count magnitudes (KG semantics).
       read the source, set `data_caveats` (`[]` allowed) + the date, remove the experiments from
       the list. Done when the list is empty; then delete the file and its validator check. Use the
       explorer's "stands out, not reviewed" list as the review queue. → spec §7.4
-- [ ] **Wire the low-signal level columns into paperconfigs.** Found on the 2026-11-25 rebuild:
-      no DE analysis declares `treatment_level_cols` / `control_level_cols` / `mean_level_cols`, so
-      `Experiment.low_signal_basis`, edge `low_signal_reason` and `time_point_low_signal_count`
-      (0 on all 193 experiments) are never computed; `test_schema_coverage.py` lists the two
-      properties in `OPTIONAL_PROPS` until a paper opts in. Until then the curated
-      `fold_change_inflated_at_low_counts` tag is the only low-count warning. Start with the tables
-      that carry expression levels and are already tagged: Aharonovich 2016 (Rockhopper columns),
-      Capovilla 2023 (transformed counts), Moreno 2023 (per-arm abundances), then any DESeq2
-      `baseMean` / edgeR `logCPM` tables (Anjur-Dietrich 2026). Remove the `OPTIONAL_PROPS` entries
-      once one paper sets them.
+- [x] **Wire the low-signal level columns into paperconfigs** (done 2026-11-25). Declared in
+      Aharonovich 2016 (5 tables), Beliaev 2014 (6), Al-Hosani 2015 (per-arm), Hackl 2023 (3) and
+      Anjur 2026 (`mean_level_cols`), then after a survey of all 63 paperconfigs also He 2022,
+      Hennon 2017, Weissberg 2025, Doron 2016 (`mean_level_cols`) and Christie-Oleza 2017 S2A
+      (spectral counts per replicate); `OPTIONAL_PROPS` entries removed from `test_schema_coverage.py`
+      (needs the Docker rebuild before `pytest -m kg` passes). Per-paper counts: CHANGELOG `### Data`.
 - [ ] **Caveat backfill follow-ups (2026-11-19 curation).** Found while reviewing; nothing here
       was changed. Agent reports: session scratchpad `curation/report_{A..G}.md` (not kept).
       - *Problems no caveat value fits* (candidate new values, decide before minting):
@@ -551,12 +547,20 @@ paperconfig items (b)), zero-count magnitudes (KG semantics).
         (median -0.36) untagged.
       - *Validator QA prompt false positives*: the stated-count parser reads "MIT1002" as 1002 and
         the 1 in "|log2FC| >= 1" as a count; extend the significance-word anchor.
-- [ ] **Declare level columns for the ~11 papers that publish them**, so
-      `time_point_low_signal_count` / `low_signal_reason` are filled: Aharonovich 2016, Al-Hosani
-      2015 (`baseMeanA`/`baseMeanB`), Hackl 2023 (`baseMean`), Thompson 2016 (RPKM, 18 tables),
-      Fuszard 2012, Moreno 2023, Domínguez 2017, Koch 2019 (NSAF; empty cells = no signal), Beliaev
-      2014, Anjur-Dietrich 2026 (logCPM). Deferred because it is per-paper reading, not code; until
-      then the count is empty everywhere. → spec §4 item 2, §4.4
+- [x] **Declare level columns for the ~11 papers that publish them** (done 2026-11-25; see the
+      item above). Not declared, by finding: Thompson 2016 and Domínguez 2017 (significant-only
+      tables, the column minimum is the weakest significant gene), Fuszard 2012 (iTRAQ ratios, no
+      floor; spec §4.4 is wrong to list it), Moreno 2023 (normalised abundances, no zero floor in
+      115 of 120 columns; would flag each arm's least-abundant protein), Koch 2019 (NSAF is
+      proteomics, the DE contrasts are RNA-seq), Capovilla 2023 (counts live in separate files).
+      The validator QA now prints `level columns with no floor` for this case.
+      - Christie-Oleza 2017 S2A tagged `fold_change_inflated_at_low_counts` (25 presence/absence
+        proteins); Weissberg 2025 `AveExpr` (mean over all samples of the model) accepted.
+      - *Follow-ups*: Capovilla 2023 would need a `_modified.csv` builder joining sd04 / sd05 VST
+        counts (floors 5.84 / 9.85) into the DE tables. Al-Hosani 2015 drops 26 zero-arm rows with
+        non-finite fold change (A9601_03971, A9601_15911 have p = 0: genes switched off in salt) —
+        same family as the `#NAME?` loss in the caveat follow-ups. Validator QA counts footnote /
+        blank rows as low-signal (Beliaev S5: 7 vs 5); the adapter does not.
 - [ ] **Check the §3.4 suspects and tag only if confirmed:** Moreno 2023 proteomics,
       `nmicrobiol.2017.100` late coculture, Al-Hosani 2015, Kaur 2018 DSS-3 exoproteome (15 edges
       with |log2FC| > 10), Biller 2018 NATL2A extended darkness, Koch 2019 83-1 glucose.

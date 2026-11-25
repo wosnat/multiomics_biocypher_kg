@@ -295,6 +295,7 @@ publication:
           logfc_col: "log2FoldChange (positive means more highly expressed in mitomycin C treatment)"
           logfc_threshold: 0   # DESeq2 padj < 0.1, no fold cutoff
           adjusted_p_value_col: "padj"
+          mean_level_cols: ["baseMean"]
           pvalue_threshold: 0.1
           prefiltered: false
 
@@ -315,6 +316,7 @@ publication:
           logfc_col: "log2FoldChange (positive means more highly expressed in UV treatment)"
           logfc_threshold: 0   # DESeq2 padj < 0.1, no fold cutoff
           adjusted_p_value_col: "padj"
+          mean_level_cols: ["baseMean"]
           pvalue_threshold: 0.1
           prefiltered: false
 
@@ -335,5 +337,6 @@ publication:
           logfc_col: "log2FoldChange (positive means more highly expressed in mitomycin C treatment)"
           logfc_threshold: 0   # DESeq2 padj < 0.1, no fold cutoff
           adjusted_p_value_col: "padj"
+          mean_level_cols: ["baseMean"]
           pvalue_threshold: 0.1
           prefiltered: false
