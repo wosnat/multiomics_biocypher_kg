@@ -306,20 +306,18 @@ the committed caches, not taken from the log. Ordered by proposed priority.
       10239); naming P-SSP7 needs a `treatment_organisms.csv` row and changes the OrganismTaxon
       count pinned by `tests/kg_validity/test_organism.py`. → `plans/control_timing_curation.md`
 
-- [ ] **Two table rows → one gene in one analysis: BioCypher silently keeps one (found 2026-10-31,
-      fold-change audit live check).** The omics adapter yields both edges with the same id
-      (`{doi}_{analysis_id}_{gene}`) and BioCypher dedups them, so the graph holds one of two
-      possibly different measurements, chosen by row order — and with it the edge's
-      `log2_fold_change` and `significant`. 85 edges over 10 papers on the 2026-10-31 build: Coe 2024
-      49 (39 of the dropped copies were significant; whether the pair disagrees is unchecked), Fang 2019 9, Biller 2018 6, Domínguez 2017 5, Ma 2022 5,
-      Ferrer 2020 4, Thompson 2016 3, Al-Hosani 2015 2, He 2022 1, Kratzl 2024 1. Pre-existing (same
-      counts in the 2026-10-28 snapshot). Detection DONE 2026-11-11: the adapter logs each
-      collision (analysis, gene, the rows' identifiers, log2FC, significance, how many disagree) and
-      `validate_paperconfig.py` warns on duplicate `resolved_locus_tag`s per table. Still open: decide
-      per paper — a real duplicate row, two paralogs one ID resolves to both, or two probes per gene
-      (needs an explicit rule, e.g. keep the larger |log2FC| or mark the edge).
-      → `multiomics_kg/adapters/omics_adapter.py`,
-      `<table>_resolved.csv` (`locus_tag`, `resolution_method`)
+- [ ] **Two table rows → one gene: 14 edges left over 3 papers (2026-11-25).** Root-caused and
+      fixed where the second row was a resolution error (85 → 14 colliding edges; step-4
+      `enforce_one_row_per_gene` + Domínguez / Ferrer / Coe builder fixes, CHANGELOG `### Data`).
+      Left, because nothing in the data says which row is right: **Biller 2018** nirA PMN2A_1298 —
+      two adjacent rows, identical in every id and annotation column, values differ (axenic 48 h
+      6.47 vs 0); probably the NCBI/RAST doubling seen in Coe 2024 (same lab), but the table lost
+      the model column; **Thompson 2016** — three rows whose locus tag is wrong in the source
+      (PMM0870 rpmG vs an rpsR/S18 row, PMM0817 / PMM1399 hli paralog rows); fix only from the
+      authors' feature ids. **Ma 2022** E. coli proteomics repeats are identical (INFO log only).
+      Also unchanged: Fang 2019 PMT2276 is now unresolved, but its values run opposite in sign to
+      PMT0173a (petL) at every time point, so it may be a different feature, not a second petL model.
+      → `multiomics_kg/utils/gene_id_utils.py` (`enforce_one_row_per_gene`)
 
 - [ ] **TCDB substrate plausibility per gene** (the one live part of the old "Deferred TCDB
       spec"; its `substrate_depth` / `substrate_breadth` / most-specific-reach / name-hygiene
@@ -508,6 +506,16 @@ paperconfig items (b)), zero-count magnitudes (KG semantics).
       read the source, set `data_caveats` (`[]` allowed) + the date, remove the experiments from
       the list. Done when the list is empty; then delete the file and its validator check. Use the
       explorer's "stands out, not reviewed" list as the review queue. → spec §7.4
+- [ ] **Wire the low-signal level columns into paperconfigs.** Found on the 2026-11-25 rebuild:
+      no DE analysis declares `treatment_level_cols` / `control_level_cols` / `mean_level_cols`, so
+      `Experiment.low_signal_basis`, edge `low_signal_reason` and `time_point_low_signal_count`
+      (0 on all 193 experiments) are never computed; `test_schema_coverage.py` lists the two
+      properties in `OPTIONAL_PROPS` until a paper opts in. Until then the curated
+      `fold_change_inflated_at_low_counts` tag is the only low-count warning. Start with the tables
+      that carry expression levels and are already tagged: Aharonovich 2016 (Rockhopper columns),
+      Capovilla 2023 (transformed counts), Moreno 2023 (per-arm abundances), then any DESeq2
+      `baseMean` / edgeR `logCPM` tables (Anjur-Dietrich 2026). Remove the `OPTIONAL_PROPS` entries
+      once one paper sets them.
 - [ ] **Caveat backfill follow-ups (2026-11-19 curation).** Found while reviewing; nothing here
       was changed. Agent reports: session scratchpad `curation/report_{A..G}.md` (not kept).
       - *Problems no caveat value fits* (candidate new values, decide before minting):
@@ -521,11 +529,8 @@ paperconfig items (b)), zero-count magnitudes (KG semantics).
       - *KG data loss*: Moreno 2023 proteins absent from every replicate of one arm have published FC
         0, the builder turns log2(0) into NaN and the row is dropped (~8 rows, the strongest off
         responses); Al-Hosani 2015 two significant `#NAME?` (-Inf) rows dropped.
-      - *Gene ID*: Domínguez 2017 — 5 locus tags got two UniProt accessions via a shared symbol
-        (Pro0086 sufB, Pro0313 hisB, Pro0405 metB, Pro1083 ompR, Pro1456 wecE with opposite signs);
-        `Accession` carries a "1::" prefix, 41 rows unresolved; resolve by accession first.
-        Thompson 2016 repeated rows (PMM0817, PMM1399 at 0.5 h; PMM0870 rpmG vs rpsR at 8.5 h);
-        Coe 2024 7 NATL2A genes on more than one row (see the row-collision item).
+      - *Gene ID*: Thompson 2016 repeated rows (PMM0817, PMM1399 at 0.5 h; PMM0870 rpmG vs rpsR
+        at 8.5 h) — see the row-collision item. (Domínguez 2017 / Coe 2024: fixed 2026-11-25.)
       - *Paperconfig text to check*: Ma 2022 RNA-seq table_scope_detail says FC > 1.5 / padj 0.05
         but the paper uses log2 > 1 / p 0.05; Ma 2022 proteomics table_scope significant_only →
         filtered_subset (39 selected of 251); Lindell 2007 background_factors [light] vs cluster entry
