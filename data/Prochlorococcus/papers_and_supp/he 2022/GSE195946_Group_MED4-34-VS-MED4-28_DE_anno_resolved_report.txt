@@ -4,15 +4,16 @@ name_col: GeneID
 id_columns: ['GeneID']
 
 Total rows with IDs: 2042
-Resolved: 1954 (95.7%)
-Unresolved: 88
+Resolved: 1953 (95.6%)
+Unresolved: 89
 
 Resolution method breakdown:
+  duplicate_claim:tier1:GeneID: 1
   heuristic:GeneID: 7
-  tier1:GeneID: 1947
+  tier1:GeneID: 1946
   unresolved: 88
 
-Unresolved rows (88):
+Unresolved rows (89):
   row 7: raw_id='gene-RNA_44'  reason=unresolved  [GeneID='gene-RNA_44']
   row 40: raw_id='gene-RNA_18'  reason=unresolved  [GeneID='gene-RNA_18']
   row 44: raw_id='gene-PMED4_ncRNA_Yfr11'  reason=unresolved  [GeneID='gene-PMED4_ncRNA_Yfr11']
@@ -33,4 +34,4 @@ Unresolved rows (88):
   row 419: raw_id='gene-PMM1916'  reason=unresolved  [GeneID='gene-PMM1916']
   row 485: raw_id='gene-PMED4_asRNA_07511'  reason=unresolved  [GeneID='gene-PMED4_asRNA_07511']
   row 493: raw_id='gene-PMM2017'  reason=unresolved  [GeneID='gene-PMM2017']
-  ... (68 more)
+  ... (69 more)

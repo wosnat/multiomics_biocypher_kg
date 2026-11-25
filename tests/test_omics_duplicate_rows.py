@@ -37,6 +37,16 @@ def test_duplicates_counted_and_disagreement_reported(caplog):
     assert "probe1" in caplog.text and "probe2" in caplog.text
 
 
+def test_identical_repeats_only_are_info_not_warning(caplog):
+    # Ma 2022: the same protein listed twice with the same values; nothing is lost.
+    rows = {"e1": [("ncbigene:A", "A", 0.39, "significant"),
+                   ("ncbigene:A", "A", 0.39, "significant")]}
+    with caplog.at_level(logging.INFO):
+        assert _log_duplicate_gene_rows(rows, "an1", "t.csv") == 1
+    assert not [r for r in caplog.records if r.levelno >= logging.WARNING]
+    assert "identical" in caplog.text
+
+
 def _resolved(tmp_path, tags, fc=None):
     src = tmp_path / "table.csv"
     src.write_text("x\n")

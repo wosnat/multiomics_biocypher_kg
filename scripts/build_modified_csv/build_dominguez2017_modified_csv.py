@@ -17,6 +17,22 @@ from pathlib import Path
 import pandas as pd
 
 GN_RE = re.compile(r"GN=(\S+)")
+# UniProt accession pattern (https://www.uniprot.org/help/accession_numbers)
+UNIPROT_ACC_RE = re.compile(
+    r"^(?:[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9](?:[A-Z][A-Z0-9]{2}[0-9]){1,2})$")
+
+
+def entry_name(accession_cell) -> str:
+    """'1::Q7VEC7_PROMA' -> 'Q7VEC7_PROMA' (the '<n>::' prefix is not part of the id)."""
+    if not isinstance(accession_cell, str):
+        return ""
+    return accession_cell.split("::", 1)[-1].strip()
+
+
+def accession_from_entry(accession_cell) -> str:
+    """'1::Q7VEC7_PROMA' -> 'Q7VEC7'; '' for reviewed entry names ('1::HIS7_PROMA')."""
+    stem = entry_name(accession_cell).rsplit("_", 1)[0]
+    return stem if UNIPROT_ACC_RE.match(stem) else ""
 
 PAPER_DIR = Path("data/Prochlorococcus/papers_and_supp/Domínguez 2017")
 UP_CSV = PAPER_DIR / "table s3 Upregulated prots rel quant sys003172107st8.csv"
@@ -55,6 +71,13 @@ def main() -> None:
             lambda s: (m := GN_RE.search(s)) and m.group(1) or ""
         )
     )
+
+    # `Accession` is "<n>::<UniProt entry name>" ("1::Q7VEC7_PROMA"); the prefix makes
+    # every lookup miss. For unreviewed entries the name is "<accession>_PROMA", so the
+    # accession can be recovered. Without it, rows fall back to the shared GN= symbol,
+    # and five protein pairs (sufB, hisB, metB, ompR, wecE) collapsed onto one gene each.
+    combined["uniprot_entry_name"] = combined["Accession"].map(entry_name)
+    combined["uniprot_accession"] = combined["Accession"].map(accession_from_entry)
 
     combined.to_csv(OUT_CSV, index=False)
     print(f"Wrote {len(combined)} rows to {OUT_CSV}")

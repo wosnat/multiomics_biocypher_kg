@@ -103,6 +103,13 @@ def _log_duplicate_gene_rows(rows_by_edge: dict[str, list[tuple]], analysis_id: 
     examples = "; ".join(
         f"{v[0][0]} <- {[str(r[1]) for r in v]} log2FC {[r[2] for r in v]} {[r[3] for r in v]}"
         for v in list(dupes.values())[:3])
+    if not disagree:
+        # Every repeat carries the same values: the kept edge is the same whichever row wins.
+        logger.info(
+            f"{analysis_id}: {len(dupes)} genes have more than one row in {source}, all with "
+            f"identical log2FC and significance; one edge per gene is kept. E.g. {examples}"
+        )
+        return len(dupes)
     logger.warning(
         f"{analysis_id}: {len(dupes)} genes have more than one row in {source} "
         f"({disagree} with differing log2FC or significance); the graph keeps one edge per "

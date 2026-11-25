@@ -50,23 +50,29 @@ publication:
     # (>2K alt_ids mapping to `Pro1395` alone), collapsing ~400 Dominguez
     # edges to 1 after dedup. `extracted_gn` is declared as `gene_name`
     # (Tier 3 multi_lookup) because values are a mix of locus tags
-    # (`Pro_1040`) and gene symbols (`atpB`). `Accession` provides a fallback
-    # via UniProt entry names like `Q7VDF9_PROMA`.
+    # (`Pro_1040`) and gene symbols (`atpB`). `Accession` ("1::Q7VDF9_PROMA")
+    # never matches anything because of its "1::" prefix; the builder writes
+    # `uniprot_accession` (Q7VDF9) from unreviewed entry names, and resolution
+    # tries that Tier-2 token before any symbol; `uniprot_entry_name` is the
+    # same cell without the prefix (2026-11-25: five pairs such as
+    # Q7VEC7/Q7VEC9, both GN=sufB, had collapsed onto one gene).
     supp_table_s3_combined:
       type: csv
       filename: "data/Prochlorococcus/papers_and_supp/Domínguez 2017/table s3 Combined_modified.csv"
       organism: "Prochlorococcus marinus subsp. marinus CCMP1375 (SS120)"
       id_columns:
+        - column: "uniprot_accession"
+          id_type: uniprot_accession
         - column: "extracted_gn"
           id_type: gene_name
-        - column: "Accession"
+        - column: "uniprot_entry_name"
           id_type: uniprot_entry_name
       product_columns:
         - column: "Description"
       statistical_analyses:
         - id: "ss120_azaserine_vs_control"
           experiment: azaserine_ss120_proteomics
-          name_col: "Accession"
+          name_col: "uniprot_entry_name"
           logfc_col: "log2_fold_change"
           prefiltered: true   # all 408 rows are the paper's DE set (P and q < 0.05, no fold cutoff)
           adjusted_p_value_col: "Anova (p)"

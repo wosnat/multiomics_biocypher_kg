@@ -4,15 +4,14 @@ name_col: locus_tag
 id_columns: ['locus_tag', 'new_locus_tag', 'protein_id', 'gene_symbol']
 
 Total rows with IDs: 4277
-Resolved: 4229 (98.9%)
-Unresolved: 48
+Resolved: 4225 (98.8%)
+Unresolved: 52
 
 Resolution method breakdown:
   locus_tag:locus_tag: 4225
-  tier1:locus_tag: 4
-  unresolved: 48
+  unresolved: 52
 
-Unresolved rows (48):
+Unresolved rows (52):
   row 257: raw_id='SPO0268'  reason=unresolved  [locus_tag='SPO0268', gene_symbol='ribH-1']
   row 263: raw_id='SPO0274'  reason=unresolved  [locus_tag='SPO0274', gene_symbol='SPO0274']
   row 268: raw_id='SPO0280'  reason=unresolved  [locus_tag='SPO0280', gene_symbol='SPO0280']
@@ -33,4 +32,4 @@ Unresolved rows (48):
   row 1632: raw_id='SPO1650'  reason=unresolved  [locus_tag='SPO1650', gene_symbol='SPO1650']
   row 1635: raw_id='SPO1655'  reason=unresolved  [locus_tag='SPO1655', gene_symbol='SPO1655']
   row 1735: raw_id='SPO1758'  reason=unresolved  [locus_tag='SPO1758', gene_symbol='SPO1758']
-  ... (28 more)
+  ... (32 more)

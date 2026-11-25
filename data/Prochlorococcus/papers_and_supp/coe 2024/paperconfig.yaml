@@ -51,9 +51,23 @@ publication:
       data_caveats: []
       data_caveats_reviewed_on: "2026-11-19"
   supplementary_materials:
+    # RAST id -> locus tag for every RAST row of Table 2 (same builder). The
+    # Table 3 cluster rows are keyed by RAST ids only; Table 2's dropped RAST
+    # duplicates were where step 3 learned six of them.
+    rast_id_translation:
+      type: id_translation
+      filename: data/Prochlorococcus/papers_and_supp/coe 2024/coe2024_rast_id_translation.csv
+      organism: Prochlorococcus NATL2A
+      id_columns:
+      - column: NCBI ID_3
+        id_type: old_locus_tag
+      - column: Gene ID
+        id_type: annotation_specific
     supp_table_2:
       type: csv
-      filename: data/Prochlorococcus/papers_and_supp/coe 2024/Supplemental Table 2.csv
+      # Built by scripts/build_modified_csv/build_coe2024_modified_csv.py: drops the RAST
+      # (fig|) rows that repeat an NCBI-model gene, and an exact repeated row.
+      filename: data/Prochlorococcus/papers_and_supp/coe 2024/Supplemental Table 2_modified.csv
       id_columns:
       - column: NCBI ID_3
         id_type: old_locus_tag

@@ -41,18 +41,41 @@ def clean(s: pd.Series) -> pd.Series:
     return s.fillna("").astype(str).str.strip().str.replace("|", ",", regex=False).str.replace("'", "^", regex=False)
 
 
-def blank_contradicting_ids(out: pd.DataFrame) -> pd.DataFrame:
-    """Blank new tags / protein ids that NCBI pairs with a different original tag."""
-    gm = pd.read_csv(GENE_MAPPING)
+def blank_contradicting_ids(out: pd.DataFrame, gm: pd.DataFrame | None = None) -> pd.DataFrame:
+    """Blank new tags / protein ids that NCBI pairs with a different original tag.
+
+    Checked both ways: the row's original tag has another NCBI new tag, or the row's
+    new tag (or protein) is NCBI's pairing of another original tag. The second case
+    is the ORFs RefSeq dropped (SPOA0351, SPOA0394, SPOA0411, SPOA0442): their
+    original tag has no NCBI pairing, and the xlsx gives them the next gene's new tag.
+    """
+    if gm is None:
+        gm = pd.read_csv(GENE_MAPPING)
     old2new, new2pid = {}, dict(zip(gm["locus_tag_ncbi"], gm["protein_id"]))
+    new2olds: dict[str, set[str]] = {}
     for new, olds in zip(gm["locus_tag_ncbi"], gm["old_locus_tags"].fillna("")):
         for old in olds.split(","):
             if old.strip():
                 old2new[old.strip()] = new
+                new2olds.setdefault(new, set()).add(old.strip())
+    # A WP_ accession is non-redundant: identical paralogs (tuf-1 / tuf-2) share one.
+    pid2olds: dict[str, set[str]] = {}
+    for new, pid in zip(gm["locus_tag_ncbi"], gm["protein_id"]):
+        if isinstance(pid, str) and new in new2olds:
+            pid2olds.setdefault(pid, set()).update(new2olds[new])
+
+    def paired_elsewhere(ids: pd.Series, owners: dict[str, set[str]]) -> pd.Series:
+        return pd.Series([
+            bool(i) and i in owners and lt not in owners[i]
+            for i, lt in zip(ids, out["locus_tag"])
+        ], index=out.index)
+
     expected = out["locus_tag"].map(old2new)
-    bad_new = expected.notna() & (out["new_locus_tag"] != "") & (out["new_locus_tag"] != expected)
+    bad_new = (expected.notna() & (out["new_locus_tag"] != "") & (out["new_locus_tag"] != expected)
+               | paired_elsewhere(out["new_locus_tag"], new2olds))
     expected_pid = expected.map(new2pid)
-    bad_pid = expected_pid.notna() & (out["protein_id"] != "") & (out["protein_id"] != expected_pid)
+    bad_pid = (expected_pid.notna() & (out["protein_id"] != "") & (out["protein_id"] != expected_pid)
+               | paired_elsewhere(out["protein_id"], pid2olds))
     out.loc[bad_new, "new_locus_tag"] = ""
     out.loc[bad_pid, "protein_id"] = ""
     print(f"blanked {bad_new.sum()} new_locus_tag and {bad_pid.sum()} protein_id cells that contradict NCBI")

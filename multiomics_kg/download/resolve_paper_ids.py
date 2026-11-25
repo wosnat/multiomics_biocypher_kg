@@ -42,6 +42,7 @@ from multiomics_kg.utils.paperconfig_utils import (
     load_all_paperconfigs,
 )
 from multiomics_kg.utils.gene_id_utils import (
+    enforce_one_row_per_gene,
     get_genome_dir,
     load_mapping_v2,
     resolve_row,
@@ -543,6 +544,23 @@ def resolve_table(
     total = 0
     n_resolved = 0
 
+    # Resolve every row first, then settle rows that landed on one gene: the
+    # table lists each gene once (enforce_one_row_per_gene).
+    pending: list[tuple[int, dict]] = []
+    pending_results: list[tuple[str | None, str]] = []
+    for row_idx, row in df.iterrows():
+        name_val = row.get(name_col)
+        if pd.isna(name_val) or str(name_val).strip() == "" or is_note_row(row, name_col):
+            continue
+        row_dict = row.to_dict()
+        pending.append((row_idx, row_dict))
+        pending_results.append(resolve_row(row_dict, name_col, id_columns, mapping_data))
+    settled = dict(zip(
+        (i for i, _ in pending),
+        enforce_one_row_per_gene(
+            [r for _, r in pending], pending_results, name_col, id_columns, mapping_data),
+    ))
+
     for row_idx, row in df.iterrows():
         name_val = row.get(name_col)
         if pd.isna(name_val) or str(name_val).strip() == "":
@@ -557,7 +575,7 @@ def resolve_table(
             continue
 
         total += 1
-        lt, method = resolve_row(row.to_dict(), name_col, id_columns, mapping_data)
+        lt, method = settled[row_idx]
 
         locus_tag_col.append(lt)
         method_col.append(method)

@@ -908,6 +908,21 @@ def _heuristic_candidates(raw_val: str) -> list[str]:
     return candidates
 
 
+def _cell_values(raw, id_type: Optional[str]) -> list[str]:
+    """Candidate string values of one cell, applying any id_type-specific
+    extraction. Default: expand_list on the raw cell."""
+    if raw is None or (isinstance(raw, float) and pd.isna(raw)):
+        return []
+    s = str(raw)
+    if id_type == "uniprot_annotation_string":
+        return [tok for tok, _ in extract_uniprot_annotation_tokens(s)]
+    if id_type == "ncbi_protein_defline":
+        return [tok for tok, _ in extract_ncbi_defline_tokens(s)]
+    if id_type == "uniprot_defline":
+        return [tok for tok, _ in extract_uniprot_defline_tokens(s)]
+    return expand_list(s)
+
+
 def resolve_row(
     row: dict,
     name_col: str,
@@ -959,20 +974,7 @@ def resolve_row(
             id_type_by_col[col_name] = c.get("id_type", "other")
 
     def _candidate_values(col: str, raw) -> list[str]:
-        """Return candidate string values for a column, applying any
-        id_type-specific extraction. Default: expand_list on the raw cell."""
-        if isinstance(raw, float) and pd.isna(raw):
-            return []
-        if raw is None:
-            return []
-        s = str(raw)
-        if id_type_by_col.get(col) == "uniprot_annotation_string":
-            return [tok for tok, _ in extract_uniprot_annotation_tokens(s)]
-        if id_type_by_col.get(col) == "ncbi_protein_defline":
-            return [tok for tok, _ in extract_ncbi_defline_tokens(s)]
-        if id_type_by_col.get(col) == "uniprot_defline":
-            return [tok for tok, _ in extract_uniprot_defline_tokens(s)]
-        return expand_list(s)
+        return _cell_values(raw, id_type_by_col.get(col))
 
     # ── Pass 1: specific_lookup with list expansion (+ direct locus_tag check) ──
     for col in all_cols:
@@ -1088,6 +1090,98 @@ def resolve_row(
         reason = "unresolved"
 
     return None, reason
+
+
+# How directly a row names the gene it resolved to (lower = more direct).
+_CLAIM_DIRECT = 0       # some cell is the gene's own locus tag (after heuristics)
+_CLAIM_ALIAS = 1        # a Tier-1 alias (old tag, JGI id, ...)
+_CLAIM_ACCESSION = 2    # a protein-level (Tier-2) singleton
+_CLAIM_SYMBOL = 3       # a symbol that only this gene carries
+_CLAIM_NAMED = 4        # an ambiguous symbol, settled by gene_name over gene_synonym
+
+
+def _row_claim(row: dict, lt: str, method: str, name_col: str, id_columns: list[dict],
+               md: "MappingData") -> tuple[int, list[str]]:
+    """Return (claim rank, candidate genes of the resolving column) for one row."""
+    id_type_by_col = {c.get("column", ""): c.get("id_type", "other") for c in id_columns}
+    cols = [name_col] + [c.get("column", "") for c in id_columns if c.get("column")]
+
+    def variants(col: str) -> list[str]:
+        out = []
+        for v in _cell_values(row.get(col), id_type_by_col.get(col)):
+            if v:
+                out.append(v)
+                out.extend(_heuristic_candidates(v))
+        return out
+
+    kind, _, col = method.partition(":")
+    col_values = variants(col) if col else []
+    candidates: list[str] = []
+    for v in col_values:
+        hits = list(md.multi_lookup.get(v, []))
+        if v in md.specific_lookup:
+            hits.append(md.specific_lookup[v])
+        if v in md.locus_tags:
+            hits.append(v)
+        for h in hits:
+            if h not in candidates:
+                candidates.append(h)
+
+    if any(lt in variants(c) for c in cols):
+        return _CLAIM_DIRECT, candidates
+    if kind in ("tier1", "tier1_ci", "heuristic", "locus_tag", "locus_tag_ci"):
+        return _CLAIM_ALIAS, candidates
+    if kind == "multi_named":
+        return _CLAIM_NAMED, candidates
+    if any(v in md.tier2_tokens and lt in md.multi_lookup.get(v, []) for v in col_values):
+        return _CLAIM_ACCESSION, candidates
+    return _CLAIM_SYMBOL, candidates
+
+
+def enforce_one_row_per_gene(
+    rows: list[dict],
+    results: list[tuple[Optional[str], str]],
+    name_col: str,
+    id_columns: list[dict],
+    mapping_data: "MappingData",
+) -> list[tuple[Optional[str], str]]:
+    """A table lists each gene once: settle rows that resolved to the same gene.
+
+    When several rows resolve to one gene and one of them names it more directly
+    (its own locus tag > a Tier-1 alias > an accession > a unique symbol > an
+    ambiguous symbol settled by gene_name), each weaker row is moved to its one
+    remaining candidate gene that no other row claims (method ``reassigned:<m>``),
+    or left unresolved (``duplicate_claim:<m>``). Rows that name the gene equally
+    directly are left as they are: two measurements of one gene (two gene models,
+    a repeated row) are a per-paper decision, not a resolution error.
+    """
+    by_lt: dict[str, list[int]] = {}
+    for i, (lt, _m) in enumerate(results):
+        if lt:
+            by_lt.setdefault(lt, []).append(i)
+    claims: dict[int, tuple[int, list[str]]] = {}
+    losers: list[int] = []
+    for lt, idxs in by_lt.items():
+        if len(idxs) < 2:
+            continue
+        for i in idxs:
+            claims[i] = _row_claim(rows[i], lt, results[i][1], name_col, id_columns, mapping_data)
+        best = min(claims[i][0] for i in idxs)
+        losers.extend(i for i in idxs if claims[i][0] > best)
+    if not losers:
+        return list(results)
+
+    out = list(results)
+    claimed = set(by_lt)
+    for i in sorted(losers, key=lambda i: claims[i][0]):
+        method = results[i][1]
+        alt = [c for c in claims[i][1] if c not in claimed]
+        if len(alt) == 1:
+            out[i] = (alt[0], f"reassigned:{method}")
+            claimed.add(alt[0])
+        else:
+            out[i] = (None, f"duplicate_claim:{method}")
+    return out
 
 
 def build_id_lookup_from_mapping(gene_id_mapping):

@@ -124,6 +124,21 @@ tag with nothing logged.
   that differs from the paper (12). A concern that rests only on the Methods of a paper goes in
   `data_notes` with no tag (16 experiments). The rest are reviewed and clean (`[]` with a date). No
   edge or call changes.
+- Two table rows that resolved to one gene (85 expression edges over 10 papers, where the graph
+  kept whichever row came last) are corrected where the duplicate was a resolution error, 85 → 14.
+  Domínguez 2017 (SS120 proteomics): rows now resolve by their UniProt accession instead of the
+  shared `GN=` symbol, so five protein pairs (sufB, hisB, metB, ompR, wecE) are no longer one gene
+  each, 9 proteins move to the gene their accession names and ~30 unresolved proteins gain an edge.
+  Ferrer 2020 (DSS-3 RNA-seq): the four ORFs RefSeq dropped (SPOA0351, SPOA0394, SPOA0411,
+  SPOA0442) no longer land on the next gene through the xlsx's shifted new-tag column; they are
+  unresolved. Al-Hosani 2015 (AS9601): `ispA` moves to crtE A9601_11751 (Cyanorak names the
+  signal-peptidase gene `ispA`); `atpC`, a second row for A9601_16521, is unresolved. Coe 2024
+  (NATL2A): the 6 RAST-model rows that repeat an NCBI-model gene and one repeated nirA row are
+  dropped, so those genes carry the NCBI-model value. He 2022 (MED4 `gene-PMM1806`, an old tag of
+  crtR), Fang 2019 (MIT9313 `PMT2276`, Cyanorak's tag for petL) and Kratzl 2024 (PCC7942 `proA`,
+  falling back to the gene `proA.1` already claims) leave the weaker row unresolved. Still
+  doubled: Biller 2018 nirA (two indistinguishable rows), Thompson 2016 (3 rows with the wrong
+  locus tag in the source), Ma 2022 (exact repeats, nothing lost).
 
 ### Added
 
@@ -191,6 +206,12 @@ tag with nothing logged.
 
 ### Fixed
 
+- Step 4 enforces one row per gene in a DE table (`enforce_one_row_per_gene`). When two rows
+  resolve to one gene and one names it more directly (its own locus tag > a Tier-1 alias > an
+  accession > a unique symbol > an ambiguous symbol settled by `gene_name`), the weaker row moves
+  to its one remaining candidate (`reassigned:<method>`) or stays unresolved
+  (`duplicate_claim:<method>`); equally direct rows are left as they are. The adapter now logs
+  repeats with identical values at INFO, not WARNING.
 - KEGG KOs and reactions KEGG has deleted are dropped instead of shipped as nodes named by
   their own id (34 KOs, 817 gene edges) or with a blank name (35 reactions). eggNOG still
   assigns them; KEGG returns nothing for them and publishes no successor. Step 6 leaves them out

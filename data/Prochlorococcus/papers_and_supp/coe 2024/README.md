@@ -18,7 +18,7 @@ All three machine-readable supplementary tables are wired: S2 (NATL2A DE x 7 tim
 |------|------|---------|-----------|--------------------|
 | `coe_isme_ycae131.pdf` | PDF | Main paper | reference | — |
 | `coe_isme_supp_final_rev_final_ycae131.pdf` | PDF | Supplementary PDF (referenced in `extraction.additional_pdfs`) | reference | — |
-| `Supplemental Table 2.csv` | CSV | NATL2A DE genes, dark-tolerant vs parental at 7 timepoints; asterisk-encoded significance (DESeq2 P<0.1) | already in | — |
+| `Supplemental Table 2.csv` | CSV | NATL2A DE genes, dark-tolerant vs parental at 7 timepoints; asterisk-encoded significance (DESeq2 P<0.1); loaded via `Supplemental Table 2_modified.csv` (`build_coe2024_modified_csv.py` drops RAST rows repeating an NCBI-model gene) | already in | — |
 | `Supplemental Table 3.csv` | CSV | NATL2A diel expression clusters (2081 genes, 15 clusters x 2 clusterings: dark-tolerant and parental, plus `same_periodicity_pattern` flag) | already in | — |
 | `Supplemental Table 4.csv` | CSV | MIT1002 DE genes, dark-tolerant vs parental co-culture at 7 timepoints | already in | — |
 | `Supplemental Tables.xlsx` | XLSX | Combined Excel with all supplemental tables | skip | Duplicate of CSVs already in |

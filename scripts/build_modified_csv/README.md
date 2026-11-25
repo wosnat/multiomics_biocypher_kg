@@ -19,7 +19,8 @@ The transformation is reproducible from a single script, so a fresh checkout of 
 
 | Paper | Builder | Notes |
 |---|---|---|
-| Domínguez 2017 | `build_dominguez2017_modified_csv.py` | merges S3 up + S3 down → signed `log2_fold_change` |
+| Domínguez 2017 | `build_dominguez2017_modified_csv.py` | merges S3 up + S3 down → signed `log2_fold_change`; adds `uniprot_entry_name` (Accession without its `1::` prefix) and `uniprot_accession` |
+| Coe 2024 | `build_coe2024_modified_csv.py` | Table 2: drops RAST rows that repeat an NCBI-model gene + an exact repeated row; writes the RAST id -> locus tag `id_translation` |
 | Fuszard 2012 | `build_fuszard2012_modified_csv.py` | adds `log2_fold_change = log2(Deplete Mean / Control Mean)` per strain CSV (the published NATL2A ratio divides by `# peptides`) |
 | Moreno 2023 (cyano S2 + Marinobacter S4) | `build_moreno2023_modified_csv.py` | adds `log2FC.*` columns; per-strain override for SS120 `FC GmM/L` typo |
 | Moreno 2023 (Alteromonas S3) | `build_moreno2023_s3_modified_csv.py` | extracts `DEH24_*` from `Description`, normalizes per-strain column quirks |
