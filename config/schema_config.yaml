@@ -92,7 +92,7 @@ experiment:
     time_point_max_abs_log2fc: float[]           # post-import: max |log2FC| per time point; in a significant-only, filtered or top-n table this describes the published subset
     time_point_large_fc_not_significant: int[]   # post-import: edges with a large |log2FC| that are not significant, per time point; in a significant-only, filtered or top-n table this describes the published subset
     time_point_extreme_fc_count: int[]           # post-import: edges with an extreme |log2FC|, per time point; in a significant-only, filtered or top-n table this describes the published subset
-    time_point_low_signal_count: int[]           # post-import: edges carrying low_signal_reason, per time point; in a significant-only, filtered or top-n table this describes the published subset
+    time_point_low_signal_count: int[]           # post-import: edges carrying low_signal_reason, per time point; absent when low_signal_basis is absent (not assessed), so 0 means assessed with none found
     time_point_growth_phases: str[]  # post-import: per-timepoint growth_phase (parallel array; "" = unknown)
     growth_phases: str[]          # post-import: distinct growth_phase values from edges
     reports_fold_change: str         # post-import (Plan 3): fold_change | no_fold_change

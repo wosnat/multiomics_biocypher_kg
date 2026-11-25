@@ -351,13 +351,15 @@ SET e.gene_count = 0,
     e.time_point_totals = [],
     e.time_point_significant_up = [],
     e.time_point_significant_down = [],
-    e.time_point_growth_phases = [],
-    e.time_point_negative_fractions = [],
-    e.time_point_median_log2fc = [],
-    e.time_point_max_abs_log2fc = [],
-    e.time_point_large_fc_not_significant = [],
-    e.time_point_extreme_fc_count = [],
-    e.time_point_low_signal_count = [];
+    e.time_point_growth_phases = []
+// The six DE table-quality statistics are absent (not []) on experiments with no DE edges
+// (absent = not applicable); REMOVE so a re-run on an existing graph clears stale values.
+REMOVE e.time_point_negative_fractions,
+       e.time_point_median_log2fc,
+       e.time_point_max_abs_log2fc,
+       e.time_point_large_fc_not_significant,
+       e.time_point_extreme_fc_count,
+       e.time_point_low_signal_count;
 
 // Pass 2: compute actual stats for experiments with expression edges
 // Neo4j cannot store nulls in arrays, so we COALESCE:
@@ -412,7 +414,10 @@ SET e.gene_count = gene_count,
     e.time_point_max_abs_log2fc = tp_max_abs,
     e.time_point_large_fc_not_significant = tp_large_ns,
     e.time_point_extreme_fc_count = tp_extreme,
-    e.time_point_low_signal_count = tp_low_sig;
+    // absent when no level columns were declared (low_signal_basis absent = not assessed),
+    // so a zero means "assessed, none found"; SET to null removes the property.
+    e.time_point_low_signal_count = CASE WHEN e.low_signal_basis IS NOT NULL
+                                         THEN tp_low_sig END;
 
 // Pass 3: distinct gene count per experiment (union across timepoints).
 // gene_count above is cumulative (sums per-timepoint counts), so for a

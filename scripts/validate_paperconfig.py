@@ -482,6 +482,29 @@ def _declared_level_cols(analysis: dict) -> list[str]:
     return cols
 
 
+def _level_columns_without_floor(df: pd.DataFrame, analysis: dict) -> list[str]:
+    """Per-arm level columns whose minimum is one non-zero row.
+
+    The condition_at_column_minimum rule reads a column's minimum as "no signal". That holds
+    when the minimum is a floor shared by the zero-signal rows (0, a pseudocount, an RPKM
+    floor). On tables with no floor (significant-only tables, ratios, normalised
+    abundances with no zeros) the minimum is just the least-expressed gene, and the rule
+    flags it wrongly (Thompson 2016, Fuszard 2012, Moreno 2023; 2026-11-25).
+    """
+    from multiomics_kg.utils.de_calls import _as_list
+    out = []
+    for key in ("treatment_level_cols", "control_level_cols"):
+        for col in _as_list(analysis.get(key)):
+            if col not in df.columns:
+                continue
+            s = pd.to_numeric(df[col], errors="coerce")
+            if s.notna().any():
+                m = s.min()
+                if m != 0 and int((s == m).sum()) == 1:
+                    out.append(col)
+    return out
+
+
 def _table_header(table: dict) -> list[str] | None:
     """Column names of a table (resolved CSV when present), None when unreadable."""
     fn = table.get("filename")
@@ -2427,6 +2450,12 @@ def de_quality_report(config: dict, config_path: str) -> str:
                 lines.append(f"  candidate level columns: {cands}")
             else:
                 lines.append(f"  low_signal_count: {st.low_signal_count}")
+                if basis == "condition_at_column_minimum":
+                    no_floor = _level_columns_without_floor(df, a)
+                    if no_floor:
+                        lines.append(
+                            "  level columns with no floor (minimum held by one non-zero row, "
+                            f"so the rule flags a detected gene, not a zero): {no_floor}")
 
             prompts = []
             if st.extreme_fc_count > 0 or st.low_signal_count > 0:

@@ -36,10 +36,14 @@ def test_de_experiments_have_dense_caveats_and_scale(run_query):
     assert rows == []
 
 
+# time_point_low_signal_count is present only where level columns were declared.
+DENSE_STAT_ARRAYS = [a for a in STAT_ARRAYS if a != "time_point_low_signal_count"]
+
+
 def test_statistics_arrays_parallel(run_query):
     conds = " OR ".join(
         f"e.{a} IS NULL OR size(e.{a}) <> size(e.time_point_orders)"
-        for a in STAT_ARRAYS)
+        for a in DENSE_STAT_ARRAYS)
     rows = run_query(f"""
         MATCH (e:Experiment)
         WHERE EXISTS {{ (e)-[:Changes_expression_of]->() }}
@@ -72,7 +76,10 @@ def _live_vs_stored(run_query, exp_id):
         assert exp["time_point_max_abs_log2fc"][i] == pytest.approx(s.max_abs_log2fc, abs=1e-9)
         assert exp["time_point_large_fc_not_significant"][i] == s.large_fc_not_significant
         assert exp["time_point_extreme_fc_count"][i] == s.extreme_fc_count
-        assert exp["time_point_low_signal_count"][i] == s.low_signal_count
+        if exp.get("low_signal_basis") is None:
+            assert exp.get("time_point_low_signal_count") is None
+        else:
+            assert exp["time_point_low_signal_count"][i] == s.low_signal_count
 
 
 def _sample_ids(run_query):
@@ -111,8 +118,39 @@ def test_low_signal_count_is_edge_rollup(run_query):
         OPTIONAL MATCH (e)-[r:Changes_expression_of]->()
           WHERE r.low_signal_reason IS NOT NULL
         WITH e, count(r) AS n_edges
-        WHERE e.time_point_low_signal_count IS NULL
-           OR reduce(s = 0, x IN e.time_point_low_signal_count | s + x) <> n_edges
+        WHERE e.low_signal_basis IS NOT NULL
+          AND (e.time_point_low_signal_count IS NULL
+               OR size(e.time_point_low_signal_count) <> size(e.time_point_orders)
+               OR reduce(s = 0, x IN e.time_point_low_signal_count | s + x) <> n_edges)
+        RETURN e.id AS id LIMIT 10
+    """)
+    assert rows == []
+
+
+def test_low_signal_count_absent_when_not_assessed(run_query):
+    """No low_signal_basis = not assessed: the count is absent, never [0, ...]."""
+    rows = run_query("""
+        MATCH (e:Experiment)
+        WHERE e.low_signal_basis IS NULL AND e.time_point_low_signal_count IS NOT NULL
+        RETURN e.id AS id LIMIT 10
+    """)
+    assert rows == []
+
+
+def test_low_signal_assessed_somewhere(run_query):
+    rows = run_query("""
+        MATCH (e:Experiment) WHERE e.low_signal_basis IS NOT NULL
+        RETURN count(e) AS n
+    """)
+    assert rows[0]["n"] > 0
+
+
+def test_statistics_absent_without_de(run_query):
+    """The six statistics are absent (not []) on experiments with no DE edges."""
+    conds = " OR ".join(f"e.{a} IS NOT NULL" for a in STAT_ARRAYS)
+    rows = run_query(f"""
+        MATCH (e:Experiment)
+        WHERE NOT EXISTS {{ (e)-[:Changes_expression_of]->() }} AND ({conds})
         RETURN e.id AS id LIMIT 10
     """)
     assert rows == []

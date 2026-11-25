@@ -226,3 +226,16 @@ def test_data_notes_alone_is_clean():
 def test_provenance_on_non_de_experiment_warns():
     _, warns = _run({"fold_change_provenance": ["computed_by_kg"], "data_notes": "n"}, de=False)
     assert any("fold_change_provenance" in w for w in warns), warns
+
+
+def test_level_columns_without_floor():
+    from validate_paperconfig import _level_columns_without_floor
+    df = pd.DataFrame({
+        "zero_floor": [0, 0, 5, 9],         # real zeros: fine
+        "pseudocount": [0.01, 0.01, 3, 4],  # shared non-zero floor: fine
+        "no_floor": [0.4, 1.2, 1.9, 0.8],   # minimum is one detected row: reported
+        "single_zero": [0, 2, 3, 4],        # a single zero is still a zero: fine
+    })
+    a = {"treatment_level_cols": ["zero_floor", "no_floor"],
+         "control_level_cols": ["pseudocount", "single_zero"]}
+    assert _level_columns_without_floor(df, a) == ["no_floor"]
